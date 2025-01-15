@@ -1,36 +1,41 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { SessionProvider } from "next-auth/react";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+import { auth } from "@/auth";
+import { Toaster } from "@/components/ui/toaster";
+
+const inter = localFont({
+  src: "./fonts/InterVF.ttf",
+  variable: "--font-inter",
+  weight: "100 200 300 400 500 700 800 900",
 });
 
 export const metadata: Metadata = {
   title: "Fyndr",
   description:
     "Fyndr is a marketplace platform that offers realtime promotions deals and discounts to help people discover and find experiences in their city. If youre seeking convenience and savings then Fyndr has the right deal for you.",
+  icons: {
+    icon: "/icons/favicon.ico",
+  },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <SessionProvider session={session}>
+        <body className={`${inter.className} antialiased`}>
+          {children}
+          <Toaster />
+        </body>
+      </SessionProvider>
     </html>
   );
 }

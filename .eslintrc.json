@@ -43,7 +43,8 @@
     ]
   },
   "ignorePatterns": [
-    "components/ui/**"
+    "src/components/ui/**",
+    "src/hooks/use-toast.ts"
   ],
   "overrides": [
     {
