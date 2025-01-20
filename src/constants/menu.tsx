@@ -278,6 +278,11 @@ export const NAVBAR_MENU: MenuProps[] = [
     route: ROUTES.ABOUT_US,
     label: "About Us",
   },
+  {
+    imgURL: "/icons/users.svg",
+    route: ROUTES.OFFERS,
+    label: "Offers & Events",
+  },
 ];
 
 export const FOOTER_MENU: FooterMenuProps[] = [

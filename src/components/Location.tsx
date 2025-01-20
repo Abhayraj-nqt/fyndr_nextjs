@@ -1,7 +1,8 @@
 "use client";
 
-import { Check, LocateFixed, MapPin } from "lucide-react";
-import * as React from "react";
+import { PlaceAutocompleteResult } from "@googlemaps/google-maps-services-js";
+import { MapPin } from "lucide-react";
+import { useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,34 +18,53 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-
-const frameworks = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-];
+import { placeAutocomplete, placeDetails } from "@/lib/actions/google.actions";
+import { Coordinates } from "@/types/global";
 
 const Location = () => {
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
+  const [open, setOpen] = useState<boolean>(false);
+  const [value, setValue] = useState<string>("");
+  const [predictions, setPredictions] = useState<PlaceAutocompleteResult[]>([]);
+  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
+  const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      const fetchPredictions = async () => {
+        if (value.length > 0) {
+          const predictions = await placeAutocomplete(value);
+          setPredictions(predictions ?? []);
+        } else {
+          setPredictions([]);
+        }
+      };
+      fetchPredictions();
+    }, 300);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [value]);
+
+  const handleLocationSelect = async (placeId: string, description: string) => {
+    try {
+      setSelectedLocation(description);
+      setValue(description);
+
+      // Get place details including coordinates
+      const details = await placeDetails(placeId);
+
+      if (details?.geometry?.location) {
+        setCoordinates({
+          lat: details.geometry.location.lat,
+          lng: details.geometry.location.lng,
+        });
+        console.log("Location coordinates:", details.geometry.location);
+      }
+
+      setOpen(false);
+    } catch (error) {
+      console.error("Error fetching place details:", error);
+    }
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -53,36 +73,34 @@ const Location = () => {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="min-h-[45px] w-[200px] justify-between"
+          className="no-scrollbar min-h-[45px] w-[200px] justify-between overflow-x-auto"
         >
-          {value
-            ? frameworks.find((framework) => framework.value === value)?.label
-            : "Select Location..."}
+          {value || "Select Location..."}
           <MapPin className="opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." className="h-9" />
-          <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
-            <CommandGroup>
-              {frameworks.map((framework) => (
+          <CommandInput
+            placeholder="Search location..."
+            value={value}
+            onValueChange={setValue}
+            className="h-9"
+          />
+          <CommandList className="custom-scrollbar ">
+            <CommandEmpty>No location found...</CommandEmpty>
+            <CommandGroup heading="Suggestions">
+              {predictions.map((prediction) => (
                 <CommandItem
-                  key={framework.value}
-                  value={framework.value}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
-                    setOpen(false);
-                  }}
+                  key={prediction.place_id}
+                  onSelect={() =>
+                    handleLocationSelect(
+                      prediction.place_id,
+                      prediction.description
+                    )
+                  }
                 >
-                  {framework.label}
-                  <Check
-                    className={cn(
-                      "ml-auto",
-                      value === framework.value ? "opacity-100" : "opacity-0"
-                    )}
-                  />
+                  {prediction.description}
                 </CommandItem>
               ))}
             </CommandGroup>

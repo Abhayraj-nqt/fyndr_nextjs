@@ -61,3 +61,8 @@ interface CompanyProps {
   name: string;
   socialLinks: SocialLinksProps[];
 }
+
+interface Coordinates {
+  lat: number;
+  lng: number;
+}

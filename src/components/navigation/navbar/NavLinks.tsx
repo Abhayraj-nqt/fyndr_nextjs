@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
+import { Button } from "@/components/ui/button";
 import { SheetClose } from "@/components/ui/sheet";
 import { NAVBAR_MENU } from "@/constants/menu";
 import { cn } from "@/lib/utils";
@@ -59,7 +60,24 @@ const NavLinks = ({ isMobileNav = false, userId, className }: Props) => {
             {LinkComponent}
           </SheetClose>
         ) : (
-          <React.Fragment key={item.route}>{LinkComponent}</React.Fragment>
+          <React.Fragment key={item.route}>
+            {item.label !== "Offers & Events" ? (
+              LinkComponent
+            ) : (
+              <Button
+                variant={"outline"}
+                className={cn(
+                  isActive ? "" : "",
+                  "",
+                  className,
+                  "body-medium self-center rounded-lg border-2 border-light-900 bg-transparent px-3 py-4 text-light-900 hover:bg-transparent hover:text-light-900"
+                )}
+                asChild
+              >
+                <Link href={item.route}>{item.label}</Link>
+              </Button>
+            )}
+          </React.Fragment>
         );
       })}
     </>
