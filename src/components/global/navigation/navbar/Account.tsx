@@ -9,7 +9,7 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import UserAvatar from "@/components/UserAvatar";
+import UserAvatar from "@/components/global/UserAvatar";
 
 interface Props {
   className: string;

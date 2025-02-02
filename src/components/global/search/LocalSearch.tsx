@@ -4,7 +4,7 @@ import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 
-import { Input } from "../ui/input";
+import { Input } from "@/components/ui/input";
 
 interface Props {
   route: string;

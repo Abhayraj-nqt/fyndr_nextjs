@@ -1,7 +1,7 @@
 import React from "react";
 
-import Location from "@/components/Location";
-import GlobalSearch from "@/components/search/GlobalSearch";
+import Location from "@/components/global/Location";
+import GlobalSearch from "@/components/global/search/GlobalSearch";
 
 import Account from "./Account";
 import Logo from "./Logo";

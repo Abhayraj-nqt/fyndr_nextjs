@@ -1,12 +1,27 @@
+import { Phone, Globe, Share2, Heart } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
-import { Card } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 const SeeCampaignCard = () => {
   return (
     <Card>
-      <Image src={"/img/offer"} alt={"/img/offer"} />
+      <Image
+        src={
+          "https://s3.us-west-1.amazonaws.com/dev.fyndr.us/public/biz-campaign/us/images/main/1000123-1e618c51-d76d-41d8-9c2f-8c84538f90c3-0.png"
+        }
+        alt={"/img/offer"}
+        height={50}
+        width={100}
+      />
       <h3>Test offer </h3>
       <div className="">
         <span className="line-through">$234.00</span>
@@ -18,65 +33,49 @@ const SeeCampaignCard = () => {
 
 const CampaignCard = () => {
   return (
-    <Card className="">
-      <div className="flex-between">
-        <h1>Baby Food</h1>
+    <Card className="max-w-xl space-y-4 rounded-lg border-none p-4 shadow-none">
+      <CardHeader className="flex-between flex-row space-y-0 p-0">
+        <CardTitle>Baby Food</CardTitle>
         <Image
-          src={"/icons/featured"}
+          src={"/images/featured.png"}
           alt="featured"
-          width={50}
+          width={120}
           height={50}
           className=""
         />
-      </div>
-
-      <div className="">
-        <Image src={"img/src"} alt="img/alt" width={100} height={50} />
-        <div className="">
-          <h2>All The Best</h2>
-          <p>2060, phoenix, phoenix, Phoenix, AZ 85001 (0 miles)</p>
-          <div className="">
-            <Image
-              src={"/icons/phone"}
-              alt="/icons/phone"
-              width={50}
-              height={50}
-              className=""
-            />
-            <Image
-              src={"/icons/website"}
-              alt="/icons/website"
-              width={50}
-              height={50}
-              className=""
-            />
-            <Image
-              src={"/icons/share"}
-              alt="/icons/share"
-              width={50}
-              height={50}
-              className=""
-            />
-            <div className="">
-              <Image
-                src={"/icons/wishlist"}
-                alt="/icons/wishlist"
-                width={50}
-                height={50}
-                className=""
-              />
-              <p>count 1</p>
+      </CardHeader>
+      <CardContent className="flex gap-4 p-0">
+        <Image
+          src={
+            "https://s3.us-west-1.amazonaws.com/dev.fyndr.us/public/biz-campaign/us/images/main/1000123-1e618c51-d76d-41d8-9c2f-8c84538f90c3-0.png"
+          }
+          alt="img/alt"
+          width={200}
+          height={100}
+          className="aspect-video rounded-md"
+        />
+        <div className="space-y-4">
+          <CardTitle>All The Best</CardTitle>
+          <CardDescription className="body-regular text-light-300">
+            2060, phoenix, phoenix, Phoenix, AZ 85001 (0 miles)
+          </CardDescription>
+          <div className="flex items-center gap-4">
+            <Phone size={20} />
+            <Globe size={20} />
+            <Share2 size={20} />
+            <div className="flex items-center justify-center gap-2">
+              <Heart size={20} />
+              <p>1</p>
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="flex-between">
+      </CardContent>
+      <CardFooter className="flex-between p-0">
         <div className="">Coupons: 1</div>
         <div className="">See more</div>
-      </div>
+      </CardFooter>
 
-      <SeeCampaignCard />
+      {/* <SeeCampaignCard /> */}
     </Card>
   );
 };

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-import DefaultCard from "@/components/cards/DefaultCard";
+import DefaultCard from "@/components/global/cards/DefaultCard";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { HOW_DOES_WALLET_WORK } from "@/constants";

@@ -1,3 +1,5 @@
+import { Coordinates } from "@/types/global";
+
 import { fetchHandler } from "./handlers/fetch";
 
 const API_BASE_URL =
@@ -17,7 +19,7 @@ export const api = {
   },
   categories: {
     getAll: () =>
-      fetchHandler<category[]>(`${API_BASE_URL}/campaign/public/categories`),
+      fetchHandler<Category[]>(`${API_BASE_URL}/campaign/public/categories`),
   },
   business: {
     getBusinessCampaigns: () =>
@@ -27,5 +29,79 @@ export const api = {
           requireAuth: true,
         }
       ),
+  },
+  location: {
+    getBackgroundImage: (params: Coordinates) =>
+      fetchHandler<{ backgroundImageUrl: string }>(
+        `${API_BASE_URL}/identity/background-image?lat=${params.lat}&lng=${params.lng}`,
+        {
+          cache: "force-cache",
+        }
+      ),
+  },
+  campaigns: {
+    getCampaigns: (
+      params: {
+        search?: string;
+        page: number;
+        pageSize: number;
+        orderBy?: string;
+      },
+      payload: {
+        indvId: number;
+        distance: number;
+        location: Coordinates;
+        categories: string[];
+        fetchById: string;
+        fetchByGoal: string;
+      }
+    ) => {
+      let endpoint = `${API_BASE_URL}/campaign/v2/public/search?pgStart=${params.page}&pgSize=${params.pageSize}`;
+      if (params.search) {
+        endpoint = `${endpoint}&text=${params.search}`;
+      }
+      if (params.orderBy) {
+        endpoint = `${endpoint}&orderBy=${params.orderBy}`;
+      }
+
+      return fetchHandler<{
+        campaigns: Campaign[];
+        count: number;
+        last: boolean;
+        resultFromCampaignTag: boolean;
+        resultFromTextExactMatch: null | boolean;
+      }>(endpoint, {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
+    },
+    getCatalogue: (
+      params: {
+        search?: string;
+        page: number;
+        pageSize: number;
+      },
+      payload: {
+        indvId: number | null;
+        distance: number;
+        location: Coordinates;
+        isCategory: boolean;
+      }
+    ) => {
+      let endpoint = `${API_BASE_URL}/catalogue/v2/search?pgStart=${params.page}&pgSize=${params.pageSize}`;
+      if (params.search) {
+        endpoint = `${endpoint}&text=${params.search.replace("&", "%26")}`;
+      }
+
+      return fetchHandler<{
+        bizdir: BizDir[];
+        count: number;
+        last: boolean;
+        resultFromTextExactMatch: null | boolean;
+      }>(endpoint, {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
+    },
   },
 };

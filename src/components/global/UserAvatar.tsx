@@ -1,7 +1,6 @@
-import { AvatarFallback } from "@radix-ui/react-avatar";
 import Image from "next/image";
 
-import { Avatar } from "./ui/avatar";
+import { Avatar, AvatarFallback } from "../ui/avatar";
 
 interface Props {
   name: string;

@@ -1,6 +1,6 @@
 import React from "react";
 
-import DefaultCard from "@/components/cards/DefaultCard";
+import DefaultCard from "@/components/global/cards/DefaultCard";
 
 const Offer = () => {
   return (
@@ -17,15 +17,13 @@ const Offer = () => {
           <DefaultCard>
             <h2>Details</h2>
             <p>
-              is a long established fact that a reader will be distracted
-              by the readable content of a page when looking at its layout.
-              The point of using Lorem Ipsum is that it has a more-or-less
-              normal distribution of letters, as opposed to using 'Content here,
+              is a long established fact that a reader will be distracted by the
+              readable content of a page when looking at its layout. The point
+              of using Lorem Ipsum is that it has a more-or-less normal
+              distribution of letters, as opposed to using 'Content here,
             </p>
           </DefaultCard>
-          <DefaultCard>
-            Map
-          </DefaultCard>
+          <DefaultCard>Map</DefaultCard>
         </div>
       </div>
     </main>

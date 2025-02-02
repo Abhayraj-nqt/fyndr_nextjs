@@ -4,16 +4,16 @@ import React, { useState } from "react";
 
 import { cn } from "@/lib/utils";
 
-import { Button } from "../ui/button";
+import { Button } from "../../../components/ui/button";
 
 type Props = {
-  categories: category[];
+  categories: Category[];
 };
 
 const HomeFilter = ({ categories }: Props) => {
   const [clickedMore, setClickedMore] = useState<boolean>(false);
 
-  const handleClick = (category: category) => {
+  const handleClick = (category: Category) => {
     console.log({ category }, "clicked");
   };
 

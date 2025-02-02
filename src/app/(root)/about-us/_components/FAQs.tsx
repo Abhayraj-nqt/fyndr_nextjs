@@ -1,7 +1,7 @@
 import React from "react";
 
-import DefaultCard from "@/components/cards/DefaultCard";
-import LocalSearch from "@/components/search/LocalSearch";
+import DefaultCard from "@/components/global/cards/DefaultCard";
+import LocalSearch from "@/components/global/search/LocalSearch";
 
 const FAQs = () => {
   return (

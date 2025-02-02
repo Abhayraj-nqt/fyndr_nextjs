@@ -35,3 +35,29 @@ export const encryptPassword = async ({
   const pwd = md5.str_md5(email.toLowerCase().substring(0, 5) + password);
   return pwd;
 };
+
+export const parseAddress = (addr: CampaignLocation) => {
+  return addr
+    ? `${addr?.addressLine1 !== null ? addr?.addressLine1 : ""}${
+        addr?.addressLine2 !== null &&
+        addr?.addressLine2 !== undefined &&
+        addr?.addressLine2 !== ""
+          ? ", " + addr?.addressLine2
+          : ""
+      }${addr?.city !== null ? ", " + addr?.city + ", " : ""} ${addr?.state} ${
+        addr?.postalCode
+      }`
+    : "";
+};
+
+export const getLowestPriceOffer = (offers: CampaignOffer[]) => {
+  const lowestPrice = offers?.reduce(
+    (prev, current) =>
+      prev?.offerPrice < current?.offerPrice ? prev : current,
+    offers[0] // Initial value
+  );
+
+  return lowestPrice;
+};
+
+// export const

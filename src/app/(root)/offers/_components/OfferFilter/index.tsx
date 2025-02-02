@@ -17,96 +17,119 @@ import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 
 interface Props {
-  categories: category[];
+  categories: Category[];
 }
 
 const OfferFilter = async ({ categories }: Props) => {
   return (
-    <Sidebar side="left" className="top-16">
+    <Sidebar
+      side="left"
+      className="top-16 border-none bg-light-900 shadow-none"
+    >
       <SidebarHeader>
-        <SidebarMenu>
+        <SidebarMenu className="px-2">
           <SidebarMenuItem>Filters</SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent className="no-scrollbar">
         <SidebarGroup>
-          <SidebarGroupLabel>Deals on map</SidebarGroupLabel>
+          <SidebarGroupLabel className="paragraph-semibold mb-2 text-primary-900">
+            Deals on map
+          </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <Checkbox id="terms" />
-                <label
-                  htmlFor="terms"
-                  className="leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  Accept terms and conditions
-                </label>
-              </SidebarMenuItem>
-              <SidebarMenuItem>Offline</SidebarMenuItem>
+            <SidebarMenu className="px-2">
+              <SidebarMenuItem></SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup>
-          <SidebarGroupLabel>Range (50 miles)</SidebarGroupLabel>
+          <SidebarGroupLabel className="paragraph-semibold mb-2 text-primary-900">
+            Range (50 miles)
+          </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="px-2">
               <Slider defaultValue={[50]} max={100} step={1} className={cn()} />
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup>
-          <SidebarGroupLabel>Mode</SidebarGroupLabel>
+          <SidebarGroupLabel className="paragraph-semibold mb-2 text-primary-900">
+            Mode
+          </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu className="space-y-4">
-              {/* <RadioGroup defaultValue="comfortable">
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="default" id="r1" />
-                  <Label htmlFor="r1">Default</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="comfortable" id="r2" />
-                  <Label htmlFor="r2">Comfortable</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="compact" id="r3" />
-                  <Label htmlFor="r3">Compact</Label>
-                </div>
-              </RadioGroup> */}
-
-              <SidebarMenuItem className="paragraph-regular flex items-center gap-2">
-                Online
-              </SidebarMenuItem>
-              <SidebarMenuItem className="paragraph-regular flex items-center gap-2">
-                Offline
-              </SidebarMenuItem>
+            <SidebarMenu className="px-2">
+              <RadioGroup defaultValue="online" className="space-y-2">
+                <SidebarMenuItem className="body-medium flex items-center gap-2">
+                  <RadioGroupItem
+                    value="online"
+                    id="online"
+                    className="data-[state=checked]:bg-primary-900"
+                  />
+                  <Label htmlFor="online">Online</Label>
+                </SidebarMenuItem>
+                <SidebarMenuItem className="body-medium flex items-center gap-2">
+                  <RadioGroupItem
+                    value="offline"
+                    id="offline"
+                    className="data-[state=checked]:bg-primary-900"
+                  />
+                  <Label htmlFor="offline">Offline</Label>
+                </SidebarMenuItem>
+              </RadioGroup>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup>
-          <SidebarGroupLabel>Sort</SidebarGroupLabel>
+          <SidebarGroupLabel className="paragraph-semibold mb-2 text-primary-900">
+            Sort
+          </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu className="space-y-4">
-              <SidebarMenuItem className="paragraph-regular flex items-center gap-2">
-                Distance: Closest First
-              </SidebarMenuItem>
-              <SidebarMenuItem className="paragraph-regular flex items-center gap-2">
-                Distance: Farthest First
-              </SidebarMenuItem>
+            <SidebarMenu className="space-y-4 px-2">
+              <RadioGroup
+                defaultValue="Distance: Closest First"
+                className="space-y-2"
+              >
+                <SidebarMenuItem className="body-medium flex items-center gap-2">
+                  <RadioGroupItem
+                    value="Distance: Closest First"
+                    id="Distance: Closest First"
+                    className="data-[state=checked]:bg-primary-900"
+                  />
+                  <Label htmlFor="Distance: Closest First">
+                    Distance: Closest First
+                  </Label>
+                </SidebarMenuItem>
+                <SidebarMenuItem className="body-medium flex items-center gap-2">
+                  <RadioGroupItem
+                    value="Distance: Farthest First"
+                    id="Distance: Farthest First"
+                    className="data-[state=checked]:bg-primary-900"
+                  />
+                  <Label htmlFor="Distance: Farthest First">
+                    Distance: Farthest First
+                  </Label>
+                </SidebarMenuItem>
+              </RadioGroup>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup>
-          <SidebarGroupLabel>Type of deals</SidebarGroupLabel>
+          <SidebarGroupLabel className="paragraph-semibold mb-2 text-primary-900">
+            Type of deals
+          </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu className="space-y-4">
-              {/* <SidebarMenuItem className="paragraph-regular flex items-center gap-2">
-                <Checkbox id={`ALL`} />
+            <SidebarMenu className="space-y-4 px-2">
+              {/* <SidebarMenuItem className="body-medium flex items-center gap-2">
+                <Checkbox id={`ALL`} className="data-[state=checked]:bg-primary-900" />
                 <label htmlFor={`ALL`} className="cursor-pointer leading-none">
                   ALL
                 </label>
               </SidebarMenuItem> */}
-              <SidebarMenuItem className="paragraph-regular flex items-center gap-2">
-                <Checkbox id={`COUPONS`} />
+              <SidebarMenuItem className="body-medium flex items-center gap-2">
+                <Checkbox
+                  id={`COUPONS`}
+                  className="data-[state=checked]:bg-primary-900"
+                />
                 <label
                   htmlFor={`COUPONS`}
                   className="cursor-pointer leading-none"
@@ -114,8 +137,11 @@ const OfferFilter = async ({ categories }: Props) => {
                   Coupons
                 </label>
               </SidebarMenuItem>
-              <SidebarMenuItem className="paragraph-regular flex items-center gap-2">
-                <Checkbox id={`OFFERS`} />
+              <SidebarMenuItem className="body-medium flex items-center gap-2">
+                <Checkbox
+                  id={`OFFERS`}
+                  className="data-[state=checked]:bg-primary-900"
+                />
                 <label
                   htmlFor={`OFFERS`}
                   className="cursor-pointer leading-none"
@@ -123,8 +149,11 @@ const OfferFilter = async ({ categories }: Props) => {
                   Offers
                 </label>
               </SidebarMenuItem>
-              <SidebarMenuItem className="paragraph-regular flex items-center gap-2">
-                <Checkbox id={`EVENTS`} />
+              <SidebarMenuItem className="body-medium flex items-center gap-2">
+                <Checkbox
+                  id={`EVENTS`}
+                  className="data-[state=checked]:bg-primary-900"
+                />
                 <label
                   htmlFor={`EVENTS`}
                   className="cursor-pointer leading-none"
@@ -136,17 +165,22 @@ const OfferFilter = async ({ categories }: Props) => {
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup>
-          <SidebarGroupLabel>Category</SidebarGroupLabel>
+          <SidebarGroupLabel className="paragraph-semibold mb-2 text-primary-900">
+            Category
+          </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu className="space-y-4">
+            <SidebarMenu className="space-y-4 px-2">
               {categories &&
                 categories?.length > 0 &&
                 categories?.map((category) => (
                   <SidebarMenuItem
                     key={category.objid}
-                    className="paragraph-regular flex items-center gap-2"
+                    className="body-medium flex items-center gap-2"
                   >
-                    <Checkbox id={`${category.objid}`} />
+                    <Checkbox
+                      id={`${category.objid}`}
+                      className="data-[state=checked]:bg-primary-900"
+                    />
                     <label
                       htmlFor={`${category.objid}`}
                       className="cursor-pointer leading-none"

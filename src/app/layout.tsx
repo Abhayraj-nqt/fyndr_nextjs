@@ -5,6 +5,8 @@ import { SessionProvider } from "next-auth/react";
 
 import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/toaster";
+import { LocationProvider } from "@/context/LocationContext";
+import { LocationService } from "@/lib/location-service";
 
 const inter = localFont({
   src: "./fonts/InterVF.ttf",
@@ -27,14 +29,23 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await auth();
+  const initialLocation = await LocationService.getLocation();
+
+  // If user is logged in, use their saved location.
+  const userLocation = session?.user?.location;
 
   return (
     <html lang="en">
       <SessionProvider session={session}>
-        <body className={`${inter.className} antialiased`}>
-          {children}
-          <Toaster />
-        </body>
+        <LocationProvider
+          initialLocation={initialLocation}
+          userLocation={userLocation}
+        >
+          <body className={`${inter.className} antialiased`}>
+            {children}
+            <Toaster />
+          </body>
+        </LocationProvider>
       </SessionProvider>
     </html>
   );

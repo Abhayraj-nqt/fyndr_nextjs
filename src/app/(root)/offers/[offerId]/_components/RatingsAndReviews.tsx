@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-import DefaultCard from "@/components/cards/DefaultCard";
+import DefaultCard from "@/components/global/cards/DefaultCard";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";

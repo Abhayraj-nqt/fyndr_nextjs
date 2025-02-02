@@ -66,3 +66,7 @@ interface Coordinates {
   lat: number;
   lng: number;
 }
+
+interface Location extends Coordinates {
+  isTemp?: boolean;
+}

@@ -177,3 +177,12 @@ export const COMPANY: CompanyProps = {
     },
   ],
 };
+
+export const CAT_LIST_HOME = [
+  { keyword: "Entertainment", title: "Explore Exciting Activities Nearby" },
+  {
+    keyword: "Food & Beverages",
+    title: "Discover Dining Experiences Near You",
+  },
+  { keyword: "Beauty & Wellness", title: "Nearby Beauty Finds" },
+];
