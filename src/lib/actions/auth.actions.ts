@@ -4,6 +4,7 @@ import { signIn } from "@/auth";
 import { ActionResponse, ErrorResponse } from "@/types/global";
 
 import handleError from "../handlers/error";
+import { createSession, SessionPayload } from "../sessions";
 import { encryptPassword } from "../utils";
 
 const API_TOKEN =
@@ -54,7 +55,7 @@ export async function signInWithCredentials(params: {
       expiry: response.headers.get("x-auth-fyndr-expiry"),
     };
 
-    console.log("auth.actions.ts -> ", { tokens });
+    // console.log("auth.actions.ts -> ", { tokens });
 
     // Get account details
     const accountResponse = await fetch(
@@ -209,6 +210,43 @@ export async function signInWithCredentials(params: {
     };
 
     await signIn("credentials", { ...credData, redirect: false });
+
+    // Create session
+
+    const sessionPayload: SessionPayload = {
+      user: {
+        id: accountData.indvid,
+        name: accountData.displayName,
+        email: accountData.email,
+        phone: accountData.address.phone,
+        accountStatus: accountData.accountStatus.toLowerCase(),
+        role: accountData.entityType.toLowerCase(),
+        identity: accountData.identity,
+        qrid: accountData.qrid,
+        fyndrHandle: accountData.fyndrHandle,
+        location: {
+          addressLine1: accountData.address.addressLine1,
+          addressLine2: accountData.address.addressLine2,
+          lat: accountData.address.lat,
+          lng: accountData.address.lng,
+          city: accountData.address.city,
+          state: accountData.address.state,
+          country: accountData.address.country,
+          countryCode: accountData.address.countryCode,
+          postalCode: accountData.address.postalCode,
+          countryId: accountData.countryId,
+          currency: accountData.currency,
+          currencySymbol: accountData.currencySymbol,
+        },
+      },
+      tokens: {
+        accessToken: tokens.accessToken!,
+        refreshToken: tokens.refreshToken!,
+      },
+    };
+
+    await createSession(sessionPayload);
+
     return { success: true };
   } catch (error) {
     return handleError(error) as ErrorResponse;

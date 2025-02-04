@@ -74,8 +74,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             expiry: credentials.expiry,
           };
 
-          console.log("auth.js -> ", { tokens });
-          console.log("auth.js -> accessToken -> ", tokens.accessToken);
+          // console.log("auth.js -> ", { tokens });
+          // console.log("auth.js -> accessToken -> ", tokens.accessToken);
 
           return {
             id,
@@ -89,29 +89,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           console.error("Authentication error:", error);
           return null;
         }
-
-        //   return {
-        //     id: accountData.identity,
-        //     email: credentials.email,
-        //     tokens,
-        //     entityType: accountData.entityType,
-        //     isBusiness: accountData.isBusiness,
-        //     payoutsEnabled: accountData.payoutsEnabled,
-        //     isSubscribedToFyndrPromoEmails:
-        //       accountData.isSubscribedToFyndrPromoEmails,
-        //   };
-        // } catch (error) {
-        //   console.error("Authentication error:", error);
-        //   return null;
-        // }
-
-        // return null;
       },
     }),
   ],
   callbacks: {
-    async session({ session, token }) {
-      // session.user.id = token.sub as string;
+    async session({ session, token, user }) {
+      console.log("INSIDE SESSION CALLBACK -> ", { session, token, user });
 
       session.user = {
         id: token.id,
@@ -123,36 +106,23 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       session.tokens = token.tokens;
 
-      console.log(token.tokens.accessToken);
-
       if (token.error) {
         session.error = token.error;
       }
 
-      // session.user.entityType = token.entityType;
-      // session.user.isBusiness = token.isBusiness;
-      // session.accessToken = token.accessToken;
-      // session.refreshToken = token.refreshToken;
-      // session.secureToken = token.secureToken;
-
       return session;
     },
 
-    async jwt({ token, user }) {
-      // if (user) {
-      //   token.accessToken = user.tokens.accessToken;
-      //   token.refreshToken = user.tokens.refreshToken;
-      //   token.secureToken = user.tokens.secureToken;
-      //   token.entityType = user.entityType;
-      //   token.isBusiness = user.isBusiness;
-      // }
-
-      console.log({ token, user });
-      // console.log(token.tokens.accessToken);
-      // console.log({ user });
+    async jwt({ token, user, account, profile, session }) {
+      console.log("INSIDE JWT CALLBACK -> ", {
+        token,
+        user,
+        account,
+        profile,
+        session,
+      });
 
       if (user) {
-        console.log("JWT callback user tokens:", user.tokens);
         token.id = user.id!;
         token.email = user.email!;
         token.name = user.name!;
