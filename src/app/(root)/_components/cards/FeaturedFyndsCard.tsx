@@ -1,7 +1,6 @@
 import Image from "next/image";
 import React from "react";
 
-import { AspectRatio } from "../ui/aspect-ratio";
 import {
   Card,
   CardContent,
@@ -9,7 +8,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../ui/card";
+} from "@/components/ui/card";
 
 interface Props {
   bizName: string;
@@ -50,17 +49,13 @@ const FeatureFyndsCard = ({
       </CardHeader>
       <CardContent className="space-y-6 p-0">
         <div className="relative w-full ">
-          <AspectRatio ratio={16 / 9}>
-            <Image
-              src={imageURL}
-              alt={`${title}: Book now on Fyndr`}
-              // width={500}
-              // height={500}
-              fill
-              sizes="(max-width: 320px) 100vw"
-              className="rounded-md object-cover"
-            />
-          </AspectRatio>
+          <Image
+            src={imageURL}
+            alt={`${title}: Book now on Fyndr`}
+            width={600}
+            height={300}
+            className="aspect-[2/1] rounded-md object-cover"
+          />
         </div>
         <div className="flex-between h-11 gap-2">
           <h4 className="paragraph-regular line-clamp-2">{title}</h4>

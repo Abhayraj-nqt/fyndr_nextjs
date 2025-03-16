@@ -2,6 +2,7 @@
 
 import { PlaceAutocompleteResult } from "@googlemaps/google-maps-services-js";
 import { MapPin } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -25,8 +26,11 @@ const Location = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [value, setValue] = useState<string>("");
   const [predictions, setPredictions] = useState<PlaceAutocompleteResult[]>([]);
-  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
-  const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
+  const [, setSelectedLocation] = useState<string | null>(null);
+  const [, setCoordinates] = useState<Coordinates | null>(null);
+
+  const router = useRouter();
+  // const searchParams = useSearchParams();
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -58,6 +62,10 @@ const Location = () => {
           lng: details.geometry.location.lng,
         });
         console.log("Location coordinates:", details.geometry.location);
+
+        const newUrl = `/?lat=${details.geometry.location.lat}&lng=${details.geometry.location.lng}`;
+
+        router.push(newUrl, { scroll: false });
       }
 
       setOpen(false);

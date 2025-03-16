@@ -8,6 +8,7 @@ type ActionResponse<T = null> = {
     details?: Record<string, string[]>;
   };
   status?: number;
+  headers?: Headers;
 };
 
 type SuccessResponse<T = null> = ActionResponse<T> & { success: true };
@@ -16,10 +17,10 @@ type ErrorResponse = ActionResponse<undefined> & { success: false };
 type APIErrorResponse = NextResponse<ErrorResponse>;
 type APIResponse<T = null> = NextResponse<SuccessResponse<T> | ErrorResponse>;
 
-interface RouteParams {
+type RouteParams = {
   params?: Promise<Record<string, string>>;
   searchParams: Promise<Record<string, string>>;
-}
+};
 
 interface PaginatedSearchParams {
   page?: number;
@@ -70,3 +71,20 @@ interface Coordinates {
 interface Location extends Coordinates {
   isTemp?: boolean;
 }
+
+type CurrencySymbol = "$" | "₹";
+type Currency = "USD" | "INR";
+type DiscountType = "%" | "flat";
+type OfferStatus = "active" | "inactive";
+type AddressProps = {
+  addressLine1: string;
+  addressLine2: string;
+  city: string;
+  country: string;
+  ctryCode: string;
+  lat: number;
+  lng: number;
+  phone: string;
+  postalCode: string;
+  state: string;
+};

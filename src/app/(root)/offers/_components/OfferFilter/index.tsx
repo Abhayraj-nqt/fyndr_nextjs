@@ -17,7 +17,7 @@ import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 
 interface Props {
-  categories: Category[];
+  categories: CategoryProps[];
 }
 
 const OfferFilter = async ({ categories }: Props) => {

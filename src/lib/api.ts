@@ -17,25 +17,12 @@ export const api = {
         }),
       }),
   },
-  categories: {
-    getAll: () =>
-      fetchHandler<Category[]>(`${API_BASE_URL}/campaign/public/categories`),
-  },
   business: {
     getBusinessCampaigns: () =>
       fetchHandler(
         `${API_BASE_URL}/campaign/fetch/business/1000139?pgStart=0&pgSize=100&status=ALL`,
         {
           requireAuth: true,
-        }
-      ),
-  },
-  location: {
-    getBackgroundImage: (params: Coordinates) =>
-      fetchHandler<{ backgroundImageUrl: string }>(
-        `${API_BASE_URL}/identity/background-image?lat=${params.lat}&lng=${params.lng}`,
-        {
-          cache: "force-cache",
         }
       ),
   },
@@ -73,6 +60,7 @@ export const api = {
       }>(endpoint, {
         method: "POST",
         body: JSON.stringify(payload),
+        timeout: 10000,
       });
     },
     getCatalogue: (

@@ -118,6 +118,10 @@ body {
   .invert-colors {
     @apply invert dark:invert-0;
   }
+
+  .hide-input-arrow {
+    @apply [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none;
+  }
 }
 
 .custom-scrollbar::-webkit-scrollbar {

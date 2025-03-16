@@ -1,12 +1,10 @@
 import { auth } from "@/auth";
+import { API_TOKEN } from "@/environment";
 import { ActionResponse } from "@/types/global";
 
 import logger from "../logger";
 import handleError from "./error";
 import { RequestError } from "../http-errors";
-
-const API_TOKEN =
-  "xS*KkawsJ36ADKpwbba^Z6g!_f2eanPfz@pKT_2C85Z3q8-#$5Kw@y=#cA%AmR+t";
 
 interface FetchOptions extends RequestInit {
   timeout?: number;
@@ -35,14 +33,13 @@ export async function fetchHandler<T>(
     let authHeaders = {};
     if (requireAuth) {
       const session = await auth();
-      if (!session?.tokens?.accessToken) {
+
+      if (!session?.user?.accessToken) {
         throw new Error("Authentication required");
       }
 
-      console.log(session);
-
       authHeaders = {
-        Authorization: `Bearer ${session.tokens.accessToken}`,
+        Authorization: `Bearer ${session.user.accessToken}`,
       };
     }
 
@@ -89,6 +86,7 @@ export async function fetchHandler<T>(
       success: true,
       data: responseData,
       status: response.status,
+      headers: response.headers,
     };
   } catch (err) {
     const error = isError(err) ? err : new Error("Unknown error");
@@ -101,4 +99,62 @@ export async function fetchHandler<T>(
 
     return handleError(error) as ActionResponse<T>;
   }
+}
+
+export async function _get<T>(
+  url: string,
+  options: Omit<FetchOptions, "method" | "body"> = {}
+): Promise<ActionResponse<T>> {
+  return fetchHandler<T>(url, {
+    ...options,
+    method: "GET",
+  });
+}
+
+export async function _post<T, P extends object = Record<string, unknown>>(
+  url: string,
+  payload: P = {} as P,
+  options: Omit<FetchOptions, "method" | "body"> = {}
+): Promise<ActionResponse<T>> {
+  return fetchHandler<T>(url, {
+    ...options,
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function _put<T, P extends object = Record<string, unknown>>(
+  url: string,
+  payload: P = {} as P,
+  options: Omit<FetchOptions, "method" | "body"> = {}
+): Promise<ActionResponse<T>> {
+  return fetchHandler<T>(url, {
+    ...options,
+    method: "PUT",
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function _delete<T, P extends object = Record<string, unknown>>(
+  url: string,
+  payload: P = {} as P,
+  options: Omit<FetchOptions, "method" | "body"> = {}
+): Promise<ActionResponse<T>> {
+  return fetchHandler<T>(url, {
+    ...options,
+    method: "DELETE",
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function _patch<T, P extends object = Record<string, unknown>>(
+  url: string,
+  payload: P = {} as P,
+  options: Omit<FetchOptions, "method" | "body"> = {}
+): Promise<ActionResponse<T>> {
+  return fetchHandler<T>(url, {
+    ...options,
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
 }

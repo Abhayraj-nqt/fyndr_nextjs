@@ -32,19 +32,35 @@ const NonFeaturedFyndsCard = ({
   discountType,
 }: Props) => {
   return (
-    <Card className="max-w-80 cursor-pointer rounded-md p-0 transition duration-500 hover:scale-105">
+    <Card className="relative w-full cursor-pointer rounded-md p-0 transition duration-500 hover:scale-105 sm:max-w-80">
+      {/* <Card className="relative min-h-[25rem] w-full cursor-pointer space-y-4 p-4 transition duration-500 hover:scale-105 sm:max-w-80"> */}
       <Image
         src={imageURL || "/images/grayPlaceholderFyn.png"}
         alt={`${title}: Book on Fyndr now!`}
-        width={500}
-        height={500}
-        className="rounded-t-md object-cover"
+        width={600}
+        height={300}
+        className="aspect-[2/1] rounded-t-md object-cover"
       />
-      <div className="space-y-4 bg-primary-100 p-4">
+      {/* <div className="relative w-full ">
+        <AspectRatio ratio={16 / 9}>
+          <Image
+            src={imageURL || "/images/grayPlaceholderFyn.png"}
+            alt={`${title}: Book now on Fyndr`}
+            // width={500}
+            // height={500}
+            fill
+            sizes="(max-width: 320px) 100vw"
+            className="rounded-t-md object-cover"
+          />
+        </AspectRatio>
+      </div> */}
+      <div className="min-h-48 space-y-4 bg-primary-100 p-4">
         <CardTitle>{bizName}</CardTitle>
-        <CardDescription className="body-regular text-light-300">
-          <p>{title}</p>
-          <p>{address}</p>
+        <CardDescription className="body-regular">
+          <h4 className="paragraph-regular line-clamp-2 h-11 text-dark-100">
+            {title}
+          </h4>
+          <p className="line-clamp-2 h-10 text-light-300">{address}</p>
         </CardDescription>
         <CardFooter className="flex-between flex p-0">
           <div className="flex gap-1">

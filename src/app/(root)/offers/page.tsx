@@ -1,13 +1,16 @@
 import React from "react";
 
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { api } from "@/lib/api";
+import {
+  SidebarProvider,
+  // SidebarTrigger
+} from "@/components/ui/sidebar";
+import { getCategories } from "@/lib/actions/category.action";
 
 import CampaignCard from "./_components/CampaignCard";
 import OfferFilter from "./_components/OfferFilter";
 
 const Offers = async () => {
-  const { data: categories } = await api.categories.getAll();
+  const { data: categories } = await getCategories();
 
   return (
     <main className="relative">
@@ -18,7 +21,8 @@ const Offers = async () => {
           "--sidebar-background": "#FFFFFF",
         }}
       >
-        <OfferFilter categories={categories!} />
+        <OfferFilter categories={categories || []} />
+
         <main className="relative w-full p-4">
           {/* <SidebarTrigger /> */}
 

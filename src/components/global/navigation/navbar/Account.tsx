@@ -2,6 +2,8 @@ import Link from "next/link";
 import React from "react";
 
 import { auth } from "@/auth";
+import UserAvatar from "@/components/global/UserAvatar";
+import { Button } from "@/components/ui/button";
 import {
   Menubar,
   MenubarContent,
@@ -9,7 +11,7 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import UserAvatar from "@/components/global/UserAvatar";
+import { signOut } from "@/lib/actions/auth.actions";
 
 interface Props {
   className: string;
@@ -73,7 +75,14 @@ const Account = async ({ className }: Props) => {
                 My Offers
               </Link>
             </MenubarItem>
-            <MenubarItem>Logout</MenubarItem>
+            <form action={signOut}>
+              <Button
+                type="submit"
+                className="m-0 w-full bg-transparent p-0 font-normal text-dark-100 shadow-none hover:bg-transparent"
+              >
+                <MenubarItem className="w-full">Logout</MenubarItem>
+              </Button>
+            </form>
           </MenubarContent>
         ) : (
           <MenubarContent className="absolute -right-12 mt-3 min-w-[120px] rounded border bg-white py-2">

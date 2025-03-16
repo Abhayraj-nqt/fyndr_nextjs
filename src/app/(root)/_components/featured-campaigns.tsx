@@ -4,22 +4,16 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
 import { parseAddress } from "@/lib/utils";
+import { CampaignProps } from "@/types/campaign";
 
-import NonFeaturedFyndsCard from "./cards/NonFeaturedFyndsCard";
+import FeaturedFyndsCard from "./cards/FeaturedFyndsCard";
 
 type Props = {
-  campaigns: Campaign[];
+  onGetFeaturedCampaigns: () => CampaignProps[];
 };
 
-const FeaturedFynds = ({ campaigns }: Props) => {
-  if (!campaigns) return null;
-
-  const featured = false;
-
-  const featuredCampaigns =
-    campaigns
-      ?.filter((item) => item.isFeatured && item.cmpnType !== "brochure")
-      .slice(0, featured ? undefined : 15) || [];
+const FeaturedCampaigns = ({ onGetFeaturedCampaigns }: Props) => {
+  const featuredCampaigns = onGetFeaturedCampaigns();
 
   return (
     <section className="mt-10 flex flex-col rounded-lg bg-primary-100 p-4">
@@ -29,12 +23,12 @@ const FeaturedFynds = ({ campaigns }: Props) => {
           {featuredCampaigns.map((campaign) => (
             <Link
               key={campaign.objid}
-              href={`/offer-details/${campaign?.biz?.bizName?.replace(
+              href={`/offers/${campaign?.biz?.bizName?.replace(
                 /[.\W]+/g,
                 "-"
-              )}/${campaign?.qrCode}`}
+              )}/${campaign?.qrCode}`.toLowerCase()}
             >
-              <NonFeaturedFyndsCard
+              <FeaturedFyndsCard
                 bizName={campaign.biz.bizName}
                 currencySymbol={campaign.cmpnOffers[0]?.currencySymbol}
                 title={campaign.title}
@@ -52,6 +46,7 @@ const FeaturedFynds = ({ campaigns }: Props) => {
                 discount={campaign.cmpnOffers[0]?.amount}
                 offerPrice={campaign.cmpnOffers[0]?.offerPrice}
                 retailPrice={campaign.cmpnOffers[0]?.retailPrice}
+                cmpnType={campaign.cmpnType}
               />
             </Link>
           ))}
@@ -70,4 +65,4 @@ const FeaturedFynds = ({ campaigns }: Props) => {
   );
 };
 
-export default FeaturedFynds;
+export default FeaturedCampaigns;

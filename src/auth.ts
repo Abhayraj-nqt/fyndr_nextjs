@@ -1,56 +1,54 @@
-import NextAuth from "next-auth";
-import { JWT } from "next-auth/jwt";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { jwtDecode } from "jwt-decode";
+import NextAuth, { User } from "next-auth";
+import type { AdapterUser } from "next-auth/adapters";
+import type { JWT } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
 
-const API_TOKEN =
-  "xS*KkawsJ36ADKpwbba^Z6g!_f2eanPfz@pKT_2C85Z3q8-#$5Kw@y=#cA%AmR+t";
+import { API_TOKEN } from "./environment";
+import { getAccountAPI, signInAPI } from "./lib/actions/auth.actions";
+import { SignInSchema } from "./lib/validations";
+import { Coordinates } from "./types/global";
 
-interface AuthTokens {
+interface UserSession {
   accessToken: string;
   refreshToken: string;
-  secureToken: string;
-  expiry: string;
-}
 
-interface UserData {
   id: string;
-  email: string;
   name: string;
-  // Flatten the token structure
-  accessToken: string;
-  refreshToken: string;
-  secureToken: string;
-  expiry: string;
-  entityRole: string;
-  entityType: string;
+  email: string;
+  role: string;
+  accountStatus: string;
+
+  phone?: string;
+  image?: string;
+
+  location: {
+    lat: number;
+    lng: number;
+  };
 }
 
-// Extend the built-in session type
 declare module "next-auth" {
   interface Session {
-    user: {
-      id: string;
-      name: string;
-      image?: string;
-      email: string;
-      entityType: string;
-      entityRole: string;
-    };
-    tokens: AuthTokens;
-    error?: string;
+    user: UserSession;
+    accessToken?: string;
+  }
+
+  interface User {
+    accessToken?: string | null | any;
+    refreshToken?: string | null | any;
+    role?: string | null | any;
+    accountStatus?: string | null | any;
+    phone?: string | null | any;
+    location?: Coordinates | null | any;
   }
 }
 
-// Extend the built-in JWT type
 declare module "next-auth/jwt" {
   interface JWT {
-    id: string;
-    email: string;
-    name: string;
-    tokens: AuthTokens;
-    entityRole: string;
-    entityType: string;
-    error?: string;
+    accessToken?: string;
+    accessTokenExpires?: number;
   }
 }
 
@@ -59,91 +57,146 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     strategy: "jwt",
     maxAge: 24 * 60 * 60, // 24 hours
   },
+
   providers: [
     Credentials({
-      async authorize(credentials: UserData) {
-        if (!credentials) return null;
+      async authorize(credentials) {
+        const validatedFields = SignInSchema.safeParse(credentials);
 
-        try {
-          const { id, name, email, entityRole, entityType } = credentials;
+        if (validatedFields.success) {
+          const { email, password } = validatedFields.data;
 
-          const tokens = {
-            accessToken: credentials.accessToken,
-            refreshToken: credentials.refreshToken,
-            secureToken: credentials.secureToken,
-            expiry: credentials.expiry,
-          };
+          try {
+            const {
+              headers: signInHeaders,
+              success: signInSuccess,
+              data: signInData,
+            } = await signInAPI({
+              email,
+              password,
+              mode: "classic",
+            });
 
-          // console.log("auth.js -> ", { tokens });
-          // console.log("auth.js -> accessToken -> ", tokens.accessToken);
+            if (!signInSuccess || !signInHeaders || !signInData) return null;
 
-          return {
-            id,
-            name,
-            email,
-            tokens,
-            entityRole,
-            entityType,
-          };
-        } catch (error) {
-          console.error("Authentication error:", error);
-          return null;
+            const accessToken = signInHeaders.get("x-auth-fyndr-code");
+            const refreshToken = signInHeaders.get("x-auth-fyndr-refresh-code");
+
+            if (!accessToken) return null;
+
+            const { success, data: parsedAccountResponse } =
+              await getAccountAPI({
+                email,
+                regMode: "facebook",
+                accessToken,
+              });
+
+            if (!success || !parsedAccountResponse) return null;
+
+            if (parsedAccountResponse.accountStatus === "DELETED") {
+              return null;
+            }
+
+            const {
+              indvid,
+              firstName,
+              lastName,
+              email: userEmail,
+              // entityRole,
+              entityType,
+              address,
+              accountStatus,
+            } = parsedAccountResponse;
+
+            const id = indvid.toString();
+            const name = `${firstName} ${lastName}`;
+            const role = entityType?.toLowerCase();
+
+            return {
+              accessToken,
+              refreshToken,
+              id,
+              name,
+              email: userEmail,
+
+              role,
+              accountStatus,
+              location: {
+                lat: address.lat,
+                lng: address.lng,
+              },
+              phone: address.phone,
+            } as User;
+          } catch (error) {
+            console.log(error);
+            return null;
+          }
         }
+
+        return null;
       },
     }),
   ],
+
   callbacks: {
-    async session({ session, token, user }) {
-      console.log("INSIDE SESSION CALLBACK -> ", { session, token, user });
+    jwt: async ({ token, account, user }) => {
+      // user is only available the first time a user signs in authorized
+      // console.log(`In jwt callback - Token is ${JSON.stringify(token)}`);
 
-      session.user = {
-        id: token.id,
-        name: token.name,
-        email: token.email,
-        entityType: token.entityType,
-        entityRole: token.entityRole,
-      };
-
-      session.tokens = token.tokens;
-
-      if (token.error) {
-        session.error = token.error;
+      if (token.accessToken) {
+        const decodedToken = jwtDecode(token.accessToken);
+        // console.log(decodedToken);
+        token.accessTokenExpires = decodedToken?.exp
+          ? decodedToken?.exp * 1000
+          : undefined;
       }
 
-      return session;
+      if (account && user) {
+        // console.log(`In jwt callback - User is ${JSON.stringify(user)}`);
+        // console.log(`In jwt callback - account is ${JSON.stringify(account)}`);
+
+        return {
+          ...token,
+          accessToken: user.accessToken,
+          refreshToken: user.refreshToken,
+          user,
+        };
+      }
+
+      // Return previous token if the access token has not expired yet
+      // console.log(
+      //   "**** Access token expires on *****",
+      //   token.accessTokenExpires,
+      //   new Date(token.accessTokenExpires)
+      // );
+      if (Date.now() < (token?.accessTokenExpires || 0)) {
+        // console.log("**** returning previous token ******");
+        return token;
+      }
+
+      // Access token has expired, try to update it
+      // console.log("**** Update Refresh token ******");
+      return refreshAccessToken(token);
     },
 
-    async jwt({ token, user, account, profile, session }) {
-      console.log("INSIDE JWT CALLBACK -> ", {
-        token,
-        user,
-        account,
-        profile,
-        session,
-      });
-
-      if (user) {
-        token.id = user.id!;
-        token.email = user.email!;
-        token.name = user.name!;
-        token.tokens = user.tokens;
-        token.entityRole = user.entityRole;
-        token.entityType = user.entityType;
+    session: async ({ session, token }) => {
+      // console.log(`In session callback - Token is ${JSON.stringify(token)}`);
+      if (token) {
+        session.accessToken = token.accessToken;
+        session.user = token.user as AdapterUser & UserSession;
       }
-
-      // Handle token refresh
-      if (shouldRefreshToken(token)) {
-        return await refreshToken(token);
-      }
-
-      return token;
+      return session;
     },
   },
 });
 
-// 2. Create token refresh utilities
-// lib/auth/token.ts
-export async function refreshToken(token: JWT): Promise<JWT> {
+/**
+ * Takes a token, and returns a new token with updated
+ * `accessToken` and `accessTokenExpires`. If an error occurs,
+ * returns the old token and an error property
+ */
+async function refreshAccessToken(token: JWT) {
+  console.log("Refreshing access token", token);
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_AUTH_URL}/v1/token/generateFromRefreshToken`,
@@ -154,62 +207,33 @@ export async function refreshToken(token: JWT): Promise<JWT> {
           "x-fyndr-auth-token": API_TOKEN,
         },
         body: JSON.stringify({
-          refreshToken: token.tokens.refreshToken,
+          refreshToken: token.refreshToken,
         }),
       }
     );
 
-    if (!response.ok) {
-      throw new Error("Failed to refresh token");
-    }
+    // console.log(response);
 
-    const data = await response.json();
-    console.log("refresh token", data);
+    const newTokens = await response.json();
+
+    // console.log(newTokens);
+
+    if (!response.ok) {
+      throw newTokens;
+    }
 
     return {
       ...token,
-      tokens: {
-        accessToken: data?.accessCode,
-        refreshToken: data?.refreshToken,
-        secureToken: data?.tokenHeader,
-        expiry: data?.expiry,
-      },
+      accessToken: newTokens.accessCode,
+      refreshToken: newTokens.refreshToken ?? token.refreshToken, // Fall back to old refresh token
     };
-
-    // const newTokens = {
-    //   accessToken: response.headers.get("x-auth-fyndr-code") as string,
-    //   refreshToken: response.headers.get("x-auth-fyndr-refresh-code") as string,
-    //   secureToken: response.headers.get("tokenheader") as string,
-    //   expiry: response.headers.get("x-auth-fyndr-expiry") as string,
-    // };
+  } catch (error) {
+    console.log(error);
 
     // return {
     //   ...token,
-    //   tokens: newTokens,
+    //   error: "RefreshAccessTokenError",
     // };
-  } catch (error) {
-    console.error("Error refreshing token:", error);
-    return {
-      ...token,
-      error: "RefreshAccessTokenError",
-    };
-  }
-}
-
-export function shouldRefreshToken(token: JWT) {
-  try {
-    if (!token.tokens?.accessToken) return false;
-
-    // Get expiry from token header
-    const expiry = token.tokens.expiry;
-    if (!expiry) return false;
-
-    // Convert expiry to timestamp and add buffer time (5 minutes)
-    const expiryDate = new Date(expiry).getTime();
-    const shouldRefresh = Date.now() + 5 * 60 * 1000 >= expiryDate;
-
-    return shouldRefresh;
-  } catch {
-    return false;
+    return null;
   }
 }

@@ -4,6 +4,8 @@ import { Client } from "@googlemaps/google-maps-services-js";
 
 import handleError from "../handlers/error";
 
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY!;
+
 const client = new Client();
 
 export const placeAutocomplete = async (input: string) => {
@@ -13,7 +15,7 @@ export const placeAutocomplete = async (input: string) => {
     const response = await client.placeAutocomplete({
       params: {
         input,
-        key: process.env.GOOGLE_API_KEY!,
+        key: GOOGLE_API_KEY,
       },
     });
 
@@ -30,7 +32,7 @@ export const placeDetails = async (placeId: string) => {
     }
     const response = await client.placeDetails({
       params: {
-        key: process.env.GOOGLE_API_KEY!,
+        key: GOOGLE_API_KEY,
         place_id: placeId,
       },
     });

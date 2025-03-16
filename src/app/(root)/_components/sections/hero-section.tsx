@@ -1,17 +1,36 @@
 import Image from "next/image";
 import React from "react";
 
+import { auth } from "@/auth";
 import LocalSearch from "@/components/global/search/LocalSearch";
-import { api } from "@/lib/api";
-import { LocationService } from "@/lib/location-service";
+import { DEFAULT_LOCATION } from "@/constants";
+import { getBackgroundImage } from "@/lib/actions/others.action";
 
-const HeroSection = async () => {
-  const location = await LocationService.getLocation();
+type Props = {
+  location: {
+    lat: string;
+    lng: string;
+  };
+};
+
+const HeroSection = async ({ location: { lat, lng } }: Props) => {
+  const locationPayload = DEFAULT_LOCATION;
+
+  const session = await auth();
+  const user = session?.user;
+
+  if (user && user.location) {
+    locationPayload.lat = user?.location.lat;
+    locationPayload.lng = user?.location.lng;
+  }
+
+  if (lat && lng) {
+    locationPayload.lat = Number(lat);
+    locationPayload.lng = Number(lng);
+  }
+
   const { success: bgSuccess, data: bgImage } =
-    await api.location.getBackgroundImage({
-      lat: location.lat,
-      lng: location.lng,
-    });
+    await getBackgroundImage(locationPayload);
 
   return (
     <section
@@ -29,6 +48,8 @@ const HeroSection = async () => {
           fill
           className="object-cover"
           priority
+          fetchPriority="high"
+          loading="eager"
         />
       </div>
       <LocalSearch

@@ -11,25 +11,25 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-const SeeCampaignCard = () => {
-  return (
-    <Card>
-      <Image
-        src={
-          "https://s3.us-west-1.amazonaws.com/dev.fyndr.us/public/biz-campaign/us/images/main/1000123-1e618c51-d76d-41d8-9c2f-8c84538f90c3-0.png"
-        }
-        alt={"/img/offer"}
-        height={50}
-        width={100}
-      />
-      <h3>Test offer </h3>
-      <div className="">
-        <span className="line-through">$234.00</span>
-        <span className="text-primary-500">$227.00</span>
-      </div>
-    </Card>
-  );
-};
+// const SeeCampaignCard = () => {
+//   return (
+//     <Card>
+//       <Image
+//         src={
+//           "https://s3.us-west-1.amazonaws.com/dev.fyndr.us/public/biz-campaign/us/images/main/1000123-1e618c51-d76d-41d8-9c2f-8c84538f90c3-0.png"
+//         }
+//         alt={"/img/offer"}
+//         height={50}
+//         width={100}
+//       />
+//       <h3>Test offer </h3>
+//       <div className="">
+//         <span className="line-through">$234.00</span>
+//         <span className="text-primary-500">$227.00</span>
+//       </div>
+//     </Card>
+//   );
+// };
 
 const CampaignCard = () => {
   return (

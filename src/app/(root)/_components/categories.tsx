@@ -7,13 +7,13 @@ import { cn } from "@/lib/utils";
 import { Button } from "../../../components/ui/button";
 
 type Props = {
-  categories: Category[];
+  categories: CategoryProps[];
 };
 
-const HomeFilter = ({ categories }: Props) => {
+const Categories = ({ categories }: Props) => {
   const [clickedMore, setClickedMore] = useState<boolean>(false);
 
-  const handleClick = (category: Category) => {
+  const handleClick = (category: CategoryProps) => {
     console.log({ category }, "clicked");
   };
 
@@ -61,4 +61,4 @@ const HomeFilter = ({ categories }: Props) => {
   );
 };
 
-export default HomeFilter;
+export default Categories;

@@ -11,4 +11,12 @@ const ROUTES = {
   PROFILE_EDIT: (id: string) => `/profile/${id}/edit`,
 };
 
+export const PUBLIC_ROUTES = [
+  "/",
+  "/about-us",
+  "/sign-in",
+  "/sign-up",
+  "/offers",
+];
+
 export default ROUTES;

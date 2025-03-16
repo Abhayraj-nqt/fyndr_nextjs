@@ -2,6 +2,7 @@ import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 
 import {
   CompanyProps,
+  Coordinates,
   FyndrAboutFeatureProps,
   FyndrAboutProps,
   FyndrWalletStepsProps,
@@ -186,3 +187,8 @@ export const CAT_LIST_HOME = [
   },
   { keyword: "Beauty & Wellness", title: "Nearby Beauty Finds" },
 ];
+
+export const DEFAULT_LOCATION: Coordinates = {
+  lat: 33.6629442, // Default to Phenix, AZ
+  lng: -112.0182329,
+};
