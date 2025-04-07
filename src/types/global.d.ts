@@ -72,6 +72,9 @@ interface Location extends Coordinates {
   isTemp?: boolean;
 }
 
+type CountryCode = "+1" | "+91" | "+61" | "+44";
+type country = "US" | "IN" | "AU" | "GB" | "CA" | "NZ";
+
 type CurrencySymbol = "$" | "₹";
 type Currency = "USD" | "INR";
 type DiscountType = "%" | "flat";

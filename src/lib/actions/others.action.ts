@@ -1,19 +1,16 @@
 "use server";
 
 import { API_BASE_URL } from "@/environment";
-import { Coordinates } from "@/types/global";
+import { GetBackgroundImageProps } from "@/types/api-params/others.params";
+import { BackgroundImageResponse } from "@/types/api-response/others.response";
 
 import { _get } from "../handlers/fetch";
 
-export async function getBackgroundImage(params: Coordinates) {
+export const getBackgroundImage: GetBackgroundImageProps = async (params) => {
   const endpoint = `${API_BASE_URL}/identity/background-image?lat=${params.lat}&lng=${params.lng}`;
 
-  type Response = {
-    backgroundImageUrl: string;
-  };
-
-  return _get<Response>(endpoint, {
+  return _get<BackgroundImageResponse>(endpoint, {
     cache: "force-cache",
     timeout: 10000,
   });
-}
+};

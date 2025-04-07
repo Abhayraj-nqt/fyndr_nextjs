@@ -14,17 +14,16 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Slider } from "@/components/ui/slider";
+import { onGetCategories } from "@/lib/actions/category.action";
 import { cn } from "@/lib/utils";
 
-interface Props {
-  categories: CategoryProps[];
-}
+const OfferFilter = async () => {
+  const { data: categories } = await onGetCategories();
 
-const OfferFilter = async ({ categories }: Props) => {
   return (
     <Sidebar
       side="left"
-      className="top-16 border-none bg-light-900 shadow-none"
+      className="sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto border-none bg-light-900 shadow-none"
     >
       <SidebarHeader>
         <SidebarMenu className="px-2">
@@ -120,11 +119,11 @@ const OfferFilter = async ({ categories }: Props) => {
           <SidebarGroupContent>
             <SidebarMenu className="space-y-4 px-2">
               {/* <SidebarMenuItem className="body-medium flex items-center gap-2">
-                <Checkbox id={`ALL`} className="data-[state=checked]:bg-primary-900" />
-                <label htmlFor={`ALL`} className="cursor-pointer leading-none">
-                  ALL
-                </label>
-              </SidebarMenuItem> */}
+                  <Checkbox id={`ALL`} className="data-[state=checked]:bg-primary-900" />
+                  <label htmlFor={`ALL`} className="cursor-pointer leading-none">
+                    ALL
+                  </label>
+                </SidebarMenuItem> */}
               <SidebarMenuItem className="body-medium flex items-center gap-2">
                 <Checkbox
                   id={`COUPONS`}

@@ -26,7 +26,11 @@ interface Props {
 
 const DashboardSidebar = ({ sidebarLinks, header }: Props) => {
   return (
-    <Sidebar collapsible="icon" side="left" className="top-16">
+    <Sidebar
+      collapsible="icon"
+      side="left"
+      className="sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto border-none bg-light-900 shadow-none"
+    >
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>{header}</SidebarMenuItem>

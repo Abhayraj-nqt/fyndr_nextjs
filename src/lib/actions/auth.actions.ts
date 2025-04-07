@@ -3,18 +3,25 @@
 import { redirect } from "next/navigation";
 
 import { signIn } from "@/auth";
-import { API_BASE_URL } from "@/environment";
-import { AccountResponse } from "@/types/account";
-import { ActionResponse, ErrorResponse } from "@/types/global";
+import { API_BASE_URL, API_GATEWAY_URL } from "@/environment";
+import {
+  GetAccountAPIProps,
+  RefreshAccessTokenAPIProps,
+  SignInAPIProps,
+  SignInWithCredentials,
+  SignOutProps,
+} from "@/types/api-params/auth.params";
+import {
+  AccountResponse,
+  RefreshTokenResponse,
+} from "@/types/api-response/auth.response";
+import { ErrorResponse } from "@/types/global";
 
 import handleError from "../handlers/error";
 import { _post } from "../handlers/fetch";
 import { encryptPassword } from "../utils";
 
-export async function signInWithCredentials(params: {
-  email: string;
-  password: string;
-}): Promise<ActionResponse> {
+export const signInWithCredentials: SignInWithCredentials = async (params) => {
   const { email, password } = params;
 
   try {
@@ -28,24 +35,20 @@ export async function signInWithCredentials(params: {
   } catch (error) {
     return handleError(error) as ErrorResponse;
   }
-}
+};
 
-export async function signOut() {
+export const signOut: SignOutProps = async () => {
   try {
     await signOut();
     redirect("/");
   } catch (error) {
     handleError(error);
   }
-}
+};
 
 // !Don't use these functions other than auth.ts file
 
-export async function signInAPI(payload: {
-  email: string;
-  password: string;
-  mode: "classic";
-}) {
+export const signInAPI: SignInAPIProps = async (payload) => {
   const { email, password, mode } = payload;
   const endpoint = `${API_BASE_URL}/identity/signin`;
 
@@ -60,13 +63,9 @@ export async function signInAPI(payload: {
   };
 
   return _post(endpoint, newPayload);
-}
+};
 
-export async function getAccountAPI(payload: {
-  email: string;
-  regMode: "facebook";
-  accessToken: string;
-}) {
+export const getAccountAPI: GetAccountAPIProps = async (payload) => {
   const endpoint = `${API_BASE_URL}/identity/account`;
 
   const newPayload = {
@@ -79,4 +78,11 @@ export async function getAccountAPI(payload: {
       Authorization: `Bearer ${payload.accessToken}`,
     },
   });
-}
+};
+
+export const refreshAccessTokenAPI: RefreshAccessTokenAPIProps = async (
+  payload
+) => {
+  const endpoint = `${API_GATEWAY_URL}/v1/token/generateFromRefreshToken`;
+  return _post<RefreshTokenResponse>(endpoint, payload);
+};

@@ -1,0 +1,65 @@
+"use client";
+
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+
+import { Slider } from "@/components/ui/slider";
+import { formUrlQuery } from "@/lib/url";
+
+const DEFAULT_RANGE = 50;
+const MIN = 20;
+const MAX = 100;
+
+const DealsMap = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const filterParams = searchParams.get("dist") || DEFAULT_RANGE;
+
+  const initialRange: number = Math.max(Number(filterParams), MIN);
+
+  const [range, setRange] = useState<number>(initialRange);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (range) {
+        const newUrl = formUrlQuery({
+          params: searchParams.toString(),
+          key: "dist",
+          value: range.toString(),
+        });
+        router.push(newUrl, { scroll: false });
+      }
+    }, 300);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [range, router, searchParams]);
+
+  const handleChange = (value: number[]) => {
+    if (value.length > 0) {
+      setRange(value[0]);
+    }
+  };
+
+  return (
+    <section>
+      <h4 className="paragraph-semibold mb-4 text-primary-900">Deals on map</h4>
+      <div className="">
+        <p className="paragraph-semibold mb-2 flex flex-col gap-4 text-primary-900">
+          Range ({range} miles)
+        </p>
+        <div>
+          <Slider
+            defaultValue={[50]}
+            max={MAX}
+            min={MIN}
+            step={1}
+            className={``}
+            onValueChange={handleChange}
+          />
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default DealsMap;

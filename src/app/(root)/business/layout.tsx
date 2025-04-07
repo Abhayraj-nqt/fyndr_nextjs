@@ -8,7 +8,7 @@ const BusinessLayout = ({ children }: { children: ReactNode }) => {
   const SidebarHeader = <>Prachi</>;
 
   return (
-    <main className="relative">
+    <div className="flex min-h-0 flex-col">
       <SidebarProvider>
         <DashboardSidebar header={SidebarHeader} sidebarLinks={BUSINESS_MENU} />
         <main>
@@ -16,7 +16,7 @@ const BusinessLayout = ({ children }: { children: ReactNode }) => {
           {children}
         </main>
       </SidebarProvider>
-    </main>
+    </div>
   );
 };
 

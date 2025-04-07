@@ -5,8 +5,11 @@ import type { AdapterUser } from "next-auth/adapters";
 import type { JWT } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
 
-import { API_TOKEN } from "./environment";
-import { getAccountAPI, signInAPI } from "./lib/actions/auth.actions";
+import {
+  getAccountAPI,
+  refreshAccessTokenAPI,
+  signInAPI,
+} from "./lib/actions/auth.actions";
 import { SignInSchema } from "./lib/validations";
 import { Coordinates } from "./types/global";
 
@@ -48,6 +51,7 @@ declare module "next-auth" {
 declare module "next-auth/jwt" {
   interface JWT {
     accessToken?: string;
+    refreshToken?: string;
     accessTokenExpires?: number;
   }
 }
@@ -55,7 +59,7 @@ declare module "next-auth/jwt" {
 export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
     strategy: "jwt",
-    maxAge: 24 * 60 * 60, // 24 hours
+    maxAge: 72 * 60 * 60, // 72 hours // 3 days
   },
 
   providers: [
@@ -176,7 +180,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       // Access token has expired, try to update it
       // console.log("**** Update Refresh token ******");
-      return refreshAccessToken(token);
+      // return refreshAccessToken(token);
+      return refreshToken(token);
     },
 
     session: async ({ session, token }) => {
@@ -195,45 +200,68 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
  * `accessToken` and `accessTokenExpires`. If an error occurs,
  * returns the old token and an error property
  */
-async function refreshAccessToken(token: JWT) {
+
+// async function refreshAccessToken(token: JWT) {
+//   console.log("Refreshing access token", token);
+//   try {
+//     const response = await fetch(
+//       `${process.env.NEXT_PUBLIC_API_GATEWAY_URL}/v1/token/generateFromRefreshToken`,
+//       {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           "x-fyndr-auth-token": API_TOKEN,
+//         },
+//         body: JSON.stringify({
+//           refreshToken: token.refreshToken,
+//         }),
+//       }
+//     );
+
+//     // console.log(response);
+
+//     const newTokens = await response.json();
+
+//     // console.log(newTokens);
+
+//     if (!response.ok) {
+//       throw newTokens;
+//     }
+
+//     return {
+//       ...token,
+//       accessToken: newTokens.accessCode,
+//       refreshToken: newTokens.refreshToken ?? token.refreshToken, // Fall back to old refresh token
+//     };
+//   } catch (error) {
+//     console.log(error);
+
+//     // return {
+//     //   ...token,
+//     //   error: "RefreshAccessTokenError",
+//     // };
+//     return null;
+//   }
+// }
+
+async function refreshToken(token: JWT) {
   console.log("Refreshing access token", token);
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_AUTH_URL}/v1/token/generateFromRefreshToken`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-fyndr-auth-token": API_TOKEN,
-        },
-        body: JSON.stringify({
-          refreshToken: token.refreshToken,
-        }),
-      }
-    );
+  const { refreshToken } = token;
 
-    // console.log(response);
+  if (!refreshToken) {
+    return token;
+  }
 
-    const newTokens = await response.json();
+  const { success, data } = await refreshAccessTokenAPI({ refreshToken });
 
-    // console.log(newTokens);
-
-    if (!response.ok) {
-      throw newTokens;
-    }
-
-    return {
-      ...token,
-      accessToken: newTokens.accessCode,
-      refreshToken: newTokens.refreshToken ?? token.refreshToken, // Fall back to old refresh token
-    };
-  } catch (error) {
-    console.log(error);
-
-    // return {
-    //   ...token,
-    //   error: "RefreshAccessTokenError",
-    // };
+  if (!success || !data) {
+    // return token;
     return null;
   }
+
+  return {
+    ...token,
+    accessToken: data.accessCode,
+    refreshToken: data.refreshToken ?? token.refreshToken, // Fall back to old refresh token
+  };
 }

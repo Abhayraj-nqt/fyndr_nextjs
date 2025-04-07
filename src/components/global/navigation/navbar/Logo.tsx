@@ -10,14 +10,14 @@ const Logo = () => {
         width={100}
         height={100}
         alt="Fyndr Logo"
-        className="hidden md:flex"
+        className="hidden w-28 md:flex"
       />
       <Image
         src={"/images/site-logo-small.svg"}
         width={23}
         height={23}
         alt="Fyndr Logo"
-        className="flex md:hidden"
+        className="flex w-6 md:hidden"
       />
     </Link>
   );

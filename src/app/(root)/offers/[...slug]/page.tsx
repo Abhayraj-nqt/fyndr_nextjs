@@ -1,10 +1,13 @@
 import { notFound } from "next/navigation";
 import React from "react";
 
+import { auth } from "@/auth";
 import DefaultCard from "@/components/global/cards/DefaultCard";
 import Stars from "@/components/global/ratings/stars";
 import { Separator } from "@/components/ui/separator";
+import { DEFAULT_LOCATION } from "@/constants";
 import { onGetCampaignByQr } from "@/lib/actions/campaign.action";
+import { RouteParams } from "@/types/global";
 
 import CampaignCarousel from "./_components/CampaignCarousel";
 import Description from "./_components/description";
@@ -18,8 +21,24 @@ type Props = {
   params: Promise<{ slug: string[] }>;
 };
 
-const Offer = async ({ params }: Props) => {
+const Offer = async ({ params, searchParams }: RouteParams & Props) => {
   const { slug } = await params;
+  const { lat, lng } = await searchParams;
+
+  const locationPayload = DEFAULT_LOCATION;
+
+  const session = await auth();
+  const user = session?.user;
+
+  if (user && user.location) {
+    locationPayload.lat = user?.location.lat;
+    locationPayload.lng = user?.location.lng;
+  }
+
+  if (lat && lng) {
+    locationPayload.lat = Number(lat);
+    locationPayload.lng = Number(lng);
+  }
 
   if (slug.length !== 2) {
     return notFound();
@@ -27,7 +46,10 @@ const Offer = async ({ params }: Props) => {
 
   const [, qrCode] = slug;
 
-  const { success, data } = await onGetCampaignByQr({ qrCode });
+  const { success, data } = await onGetCampaignByQr(
+    { qrCode },
+    locationPayload
+  );
 
   if (!success || !data) return null;
 

@@ -21,63 +21,39 @@ const NavLinks = ({ isMobileNav = false, userId, className }: Props) => {
 
   return (
     <>
-      {NAVBAR_MENU.map((item) => {
+      {NAVBAR_MENU.map(({ label, route, icon: Icon, imgURL }) => {
         const isActive =
-          (pathname.includes(item.route) && item.route.length > 1) ||
-          pathname === item.route;
+          (pathname.includes(route) && route.length > 1) || pathname === route;
 
-        if (item.route === "/account") {
-          if (userId) item.route = `${item.route}/${userId}`;
+        if (route === "/account") {
+          if (userId) route = `${route}/${userId}`;
           else return null;
         }
 
         const LinkComponent = (
           <Link
-            href={item.route}
-            key={item.label}
+            href={route}
+            key={label}
             className={cn(isActive ? "" : "", "", className)}
           >
-            <Image
+            {/* <Image
               src={item.imgURL!}
               alt={item.label}
               width={20}
               height={20}
               className={cn("")}
-            />
-            <p
-              className={cn(
-                isActive ? "" : "",
-                !isMobileNav && "max-lg:hidden"
-              )}
-            >
-              {item.label}
-            </p>
+            /> */}
+            {Icon && <Icon size={20} />}
+            <p className={cn(isActive ? "" : "")}>{label}</p>
           </Link>
         );
 
         return isMobileNav ? (
-          <SheetClose asChild key={item.route}>
+          <SheetClose asChild key={route}>
             {LinkComponent}
           </SheetClose>
         ) : (
-          <React.Fragment key={item.route}>
-            {item.label !== "Offers & Events" ? (
-              LinkComponent
-            ) : (
-              <Button
-                variant={"outline"}
-                className={cn(
-                  isActive ? "" : "",
-                  "",
-                  className,
-                  "body-medium self-center rounded-lg border-2 border-light-900 bg-transparent px-3 py-4 text-light-900 hover:bg-transparent hover:text-light-900"
-                )}
-                asChild
-              >
-                <Link href={item.route}>{item.label}</Link>
-              </Button>
-            )}
-          </React.Fragment>
+          <React.Fragment key={route}>{LinkComponent}</React.Fragment>
         );
       })}
     </>

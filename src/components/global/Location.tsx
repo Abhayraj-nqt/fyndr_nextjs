@@ -3,6 +3,7 @@
 import { PlaceAutocompleteResult } from "@googlemaps/google-maps-services-js";
 import { MapPin } from "lucide-react";
 import { useRouter } from "next/navigation";
+// import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -30,6 +31,12 @@ const Location = () => {
   const [, setCoordinates] = useState<Coordinates | null>(null);
 
   const router = useRouter();
+  // const session = useSession();
+
+  // if (session) {
+
+  // }
+
   // const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -63,7 +70,7 @@ const Location = () => {
         });
         console.log("Location coordinates:", details.geometry.location);
 
-        const newUrl = `/?lat=${details.geometry.location.lat}&lng=${details.geometry.location.lng}`;
+        const newUrl = `?lat=${details.geometry.location.lat}&lng=${details.geometry.location.lng}`;
 
         router.push(newUrl, { scroll: false });
       }

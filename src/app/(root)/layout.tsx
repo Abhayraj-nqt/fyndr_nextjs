@@ -5,15 +5,15 @@ import Navbar from "@/components/global/navigation/navbar";
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <main>
+    <div className="flex min-h-screen flex-col">
       <Navbar />
-      <div className="flex">
-        <section className="flex min-h-screen flex-1 flex-col bg-light-800 pt-16">
-          <div className="">{children}</div>
-        </section>
-      </div>
+      {/* <div className="flex"> */}
+      <section className="flex min-h-screen flex-1 flex-col bg-light-800">
+        <div className="">{children}</div>
+      </section>
+      {/* </div> */}
       <Footer />
-    </main>
+    </div>
   );
 };
 

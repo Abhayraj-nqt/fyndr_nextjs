@@ -121,7 +121,7 @@ type CampaignProps = {
   stdTax: null | unknown;
   taxPercent: null | number;
 
-  images: CampaignImageProps[];
+  images: CampaignImageProps[] | null;
   cmpnLocs: CampaignLocationProps[];
   cmpnOffers: CampaignOfferProps[];
   category: CampaignCategoryProps;
@@ -137,4 +137,32 @@ type CampaignProps = {
 
   likedCount: number;
   campaignLiked: boolean;
+};
+
+type CampaignsResponseProps = {
+  campaigns: CampaignProps[];
+  last: boolean;
+  resultFromCampaignTag: boolean;
+  resultFromTextExactMatch: null | boolean;
+};
+
+type CampaignTypeFilterProps = "COUPONS" | "OFFERS" | "EVENTS";
+type FetchGoalProps = "INSTORE" | "ONLINE";
+
+type CampaignQueryParams = {
+  search?: string;
+  page: number;
+  pageSize: number;
+  orderBy?: string;
+};
+
+type CampaignQueryPayload = {
+  indvId: number | null;
+  locQRId?: number | null;
+  distance: number;
+  location: Coordinates;
+  categories: number[];
+  fetchById: string;
+  fetchByGoal: FetchGoalProps;
+  campaignType: CampaignTypeProps[];
 };

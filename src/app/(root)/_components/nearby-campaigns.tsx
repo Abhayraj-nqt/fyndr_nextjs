@@ -29,7 +29,7 @@ const NearbyCampaigns = ({ campaigns, title }: Props) => {
               title={item.title}
               address={`${item?.cmpnLocs[0]?.distance ? item?.cmpnLocs[0]?.distance.toFixed(1) : "0"} miles, ${parseAddress(item?.cmpnLocs[0])}`}
               imageURL={
-                (item.images.length > 0 && item?.images[0]?.img_url) ||
+                (item.images?.length > 0 && item?.images[0]?.img_url) ||
                 "/images/grayPlaceholderFyn.png"
               }
               discountType={item.cmpnOffers[0]?.discountType}
@@ -43,7 +43,7 @@ const NearbyCampaigns = ({ campaigns, title }: Props) => {
       {
         <Button
           variant={"outline"}
-          className="body-medium self-center rounded-lg border-2 border-primary-500 px-6 py-3 text-primary-500 hover:bg-light-900 hover:text-primary-500"
+          className="body-medium border-primary-500 text-primary-500 hover:bg-light-900 hover:text-primary-500 self-center rounded-lg border-2 px-6 py-3"
           asChild
         >
           <Link href={ROUTES.OFFERS}>See all offers</Link>

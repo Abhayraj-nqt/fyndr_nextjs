@@ -267,21 +267,19 @@ export const NAVBAR_MENU: MenuProps[] = [
     imgURL: "/icons/home.svg",
     route: ROUTES.HOME,
     label: "Home",
+    icon: Store,
   },
   {
     imgURL: "/icons/wallet.svg",
     route: ROUTES.WALLET,
     label: "Wallet",
+    icon: Wallet,
   },
   {
     imgURL: "/icons/users.svg",
     route: ROUTES.ABOUT_US,
     label: "About Us",
-  },
-  {
-    imgURL: "/icons/users.svg",
-    route: ROUTES.OFFERS,
-    label: "Offers & Events",
+    icon: Users,
   },
 ];
 
