@@ -6,7 +6,6 @@ import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/toaster";
 import { ReactQueryProvider } from "@/react-query/provider";
-import { ReduxProvider } from "@/redux/provider";
 
 const inter = localFont({
   src: "./fonts/InterVF.ttf",
@@ -34,9 +33,7 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <SessionProvider session={session}>
         <body className={`${inter.className} antialiased`}>
-          {/* <ReduxProvider> */}
           <ReactQueryProvider>{children}</ReactQueryProvider>
-          {/* </ReduxProvider> */}
           <Toaster />
         </body>
       </SessionProvider>

@@ -1,8 +1,8 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
+import { onGetCampaigns } from "@/actions/campaign.action";
 import { CAT_LIST_HOME } from "@/constants";
 import { API_BASE_URL } from "@/environment";
-import { onGetCampaigns } from "@/lib/actions/campaign.action";
 import { _post } from "@/lib/handlers/fetch";
 import { CampaignProps } from "@/types/campaign";
 import { Coordinates } from "@/types/global";

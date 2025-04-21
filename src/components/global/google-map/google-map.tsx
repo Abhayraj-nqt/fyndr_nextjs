@@ -7,7 +7,7 @@ import { createPortal } from "react-dom";
 import {
   useGoogleMaps,
   GoogleMapsProvider,
-} from "@/context/GoogleMapsProvider";
+} from "@/context/google-maps-provider";
 import { MarkerData, MapConfig } from "@/types/google/google-maps";
 
 // Component to render custom marker tooltip

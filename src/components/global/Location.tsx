@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 // import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 
+import { placeAutocomplete, placeDetails } from "@/actions/maps.actions";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -20,7 +21,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { placeAutocomplete, placeDetails } from "@/lib/actions/google.actions";
 import { Coordinates } from "@/types/global";
 
 const Location = () => {

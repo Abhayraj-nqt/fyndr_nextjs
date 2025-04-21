@@ -9,7 +9,8 @@ import {
   getAccountAPI,
   refreshAccessTokenAPI,
   signInAPI,
-} from "./lib/actions/auth.actions";
+} from "@/actions/auth.actions";
+
 import { SignInSchema } from "./lib/validations";
 import { Coordinates } from "./types/global";
 

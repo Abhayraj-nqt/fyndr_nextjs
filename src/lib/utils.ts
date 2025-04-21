@@ -201,3 +201,32 @@ export const getCategoryIcon = (category: string) => {
     CATEGORY_ICON.get(category.toLowerCase()) || "/icons/category/other.svg"
   );
 };
+
+const _slugify = (str: string): string => {
+  return str
+    .toString() // Convert to string in case of number input
+    .normalize("NFD") // Normalize to decomposed form for handling accents
+    .replace(/[\u0300-\u036f]/g, "") // Remove accent marks
+    .toLowerCase() // Convert to lowercase
+    .trim() // Remove whitespace from both ends
+    .replace(/\s+/g, "-") // Replace spaces with hyphens
+    .replace(/[^\w\-\/]+/g, "") // Remove all non-word chars (except hyphens and slashes)
+    .replace(/--+/g, "-") // Replace multiple hyphens with single hyphen
+    .replace(/-+\//g, "/") // Clean up hyphens before slashes
+    .replace(/\/-+/g, "/") // Clean up hyphens after slashes
+    .replace(/^-+/, "") // Remove leading hyphens
+    .replace(/-+$/, ""); // Remove trailing hyphens
+};
+
+// For your specific case, you might want to slugify only parts of the path:
+export const slugify = (path: string): string => {
+  // Split the path by slashes
+  const parts = path.split("/");
+  // Slugify each part individually
+  const slugifiedParts = parts.map((part) => {
+    if (part === "") return part; // Keep empty parts (consecutive slashes)
+    return _slugify(part);
+  });
+  // Join back with slashes
+  return slugifiedParts.join("/");
+};

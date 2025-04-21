@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
+import { signOut } from "@/actions/auth.actions";
 import { auth } from "@/auth";
 import UserAvatar from "@/components/global/UserAvatar";
 import { Button } from "@/components/ui/button";
@@ -11,7 +12,6 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import { signOut } from "@/lib/actions/auth.actions";
 
 interface Props {
   className: string;
