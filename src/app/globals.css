@@ -122,6 +122,18 @@ body {
   .hide-input-arrow {
     @apply [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none;
   }
+
+  .btn {
+    @apply body-medium self-center rounded-lg px-6 py-3;
+  }
+
+  .btn-primary {
+    @apply btn text-light-900 hover:bg-primary-400 hover:text-light-900 bg-primary-500 shadow-none  !important;
+  }
+
+  .btn-primary-outlined {
+    @apply btn border-primary-500 text-primary-500 hover:bg-light-900 hover:text-primary-500 bg-light-900 shadow-none border-2 !important;
+  }
 }
 
 .custom-scrollbar::-webkit-scrollbar {

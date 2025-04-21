@@ -1,12 +1,9 @@
 import React, { Suspense } from "react";
 
-import {} from // SidebarProvider,
-// SidebarTrigger
-"@/components/ui/sidebar";
-import { TYPES_OF_DEALS } from "@/constants";
+import { auth } from "@/auth";
+import { DEFAULT_LOCATION, TYPES_OF_DEALS } from "@/constants";
 import { RouteParams } from "@/types/global";
 
-// import OfferFilter from "./_components/OfferFilter";
 import OfferFilters from "./_components/offer-filters";
 import MobileFilters from "./_components/offer-filters/mobile-filters";
 import CampaignsSection from "./_components/sections/campaigns-section";
@@ -19,6 +16,21 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
     categories = "",
     dist = 50,
   } = await searchParams;
+
+  const location = DEFAULT_LOCATION;
+
+  const session = await auth();
+  const user = session?.user;
+
+  if (user && user.location) {
+    location.lat = user?.location.lat;
+    location.lng = user?.location.lng;
+  }
+
+  if (lat && lng) {
+    location.lat = Number(lat);
+    location.lng = Number(lng);
+  }
 
   const dealTypes: string[] = types.split(",") || ["ALL"];
   if (dealTypes.length > 0 && dealTypes[0] === "") {
@@ -48,19 +60,22 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
         <section className="hidden h-fit w-80 min-w-80 rounded-lg bg-light-900 md:flex">
           <OfferFilters />
         </section>
-        <section className="flex md:hidden">
+        <section className="z-20 flex md:hidden">
           <MobileFilters />
         </section>
 
-        <section className="pt-4 md:pt-0">
-          <h1 className="h3-semibold mb-4">Offers and Events on Fyndr</h1>
+        <section className="mt-5 w-full rounded-lg bg-light-900 p-4 md:mt-0">
+          <h1 className="base-semibold mb-4 text-primary-900">
+            Offers and Events on Fyndr
+          </h1>
 
           <Suspense fallback={<div>Loading...</div>}>
             <CampaignsSection
-              location={{ lat, lng }}
+              location={location}
               dealTypes={dealTypes}
               categories={categoryIds}
               distance={Math.max(Number(dist), 20)}
+              indvId={user?.id || null}
             />
           </Suspense>
         </section>

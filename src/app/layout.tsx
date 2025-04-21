@@ -34,9 +34,9 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <SessionProvider session={session}>
         <body className={`${inter.className} antialiased`}>
-          <ReduxProvider>
-            <ReactQueryProvider>{children}</ReactQueryProvider>
-          </ReduxProvider>
+          {/* <ReduxProvider> */}
+          <ReactQueryProvider>{children}</ReactQueryProvider>
+          {/* </ReduxProvider> */}
           <Toaster />
         </body>
       </SessionProvider>

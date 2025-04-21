@@ -12,10 +12,7 @@ interface Props {
 const DefaultCard = ({ className, children }: Props) => {
   return (
     <Card
-      className={cn(
-        `p-4 rounded-lg border border-light-700 bg-light-900`,
-        `${className}`
-      )}
+      className={cn(`p-4 rounded-lg  border-none shadow-none`, `${className}`)}
     >
       {children}
     </Card>

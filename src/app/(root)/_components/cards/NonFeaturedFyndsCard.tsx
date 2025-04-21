@@ -32,8 +32,7 @@ const NonFeaturedFyndsCard = ({
   discountType,
 }: Props) => {
   return (
-    <Card className="relative w-full cursor-pointer rounded-md p-0 transition duration-500 hover:scale-105 sm:max-w-80">
-      {/* <Card className="relative min-h-[25rem] w-full cursor-pointer space-y-4 p-4 transition duration-500 hover:scale-105 sm:max-w-80"> */}
+    <Card className="relative w-full cursor-pointer rounded-md border-light-800 p-0 shadow-none transition duration-500 hover:scale-105 sm:max-w-80">
       <Image
         src={imageURL || "/images/grayPlaceholderFyn.png"}
         alt={`${title}: Book on Fyndr now!`}
@@ -41,20 +40,7 @@ const NonFeaturedFyndsCard = ({
         height={300}
         className="aspect-[2/1] rounded-t-md object-cover"
       />
-      {/* <div className="relative w-full ">
-        <AspectRatio ratio={16 / 9}>
-          <Image
-            src={imageURL || "/images/grayPlaceholderFyn.png"}
-            alt={`${title}: Book now on Fyndr`}
-            // width={500}
-            // height={500}
-            fill
-            sizes="(max-width: 320px) 100vw"
-            className="rounded-t-md object-cover"
-          />
-        </AspectRatio>
-      </div> */}
-      <div className="min-h-48 space-y-4 bg-primary-100 p-4">
+      <div className="min-h-48 space-y-4 rounded-b-md bg-primary-100 p-4">
         <CardTitle>{bizName}</CardTitle>
         <CardDescription className="body-regular">
           <h4 className="paragraph-regular line-clamp-2 h-11 text-dark-100">

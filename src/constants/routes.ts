@@ -7,6 +7,7 @@ const ROUTES = {
   ABOUT_US: "/about-us",
   MY_OFFERS: "/my-offers",
   OFFERS: "/offers",
+  OFFER_LISTING: "/offer-listing",
   PROFILE: (id: string) => `/profile/${id}`,
   PROFILE_EDIT: (id: string) => `/profile/${id}/edit`,
 };

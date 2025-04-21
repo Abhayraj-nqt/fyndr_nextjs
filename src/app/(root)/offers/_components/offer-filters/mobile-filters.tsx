@@ -34,7 +34,6 @@ const MobileFilters = () => {
         <SheetTitle className="hidden">Filters</SheetTitle>
         <div className="no-scrollbar flex h-[calc(100vh-80px)] flex-col justify-between overflow-y-auto">
           <OfferFilters />
-          {/* Hello */}
         </div>
       </SheetContent>
     </Sheet>

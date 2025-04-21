@@ -6,7 +6,7 @@ import { BackgroundImageResponse } from "@/types/api-response/others.response";
 
 import { _get } from "../handlers/fetch";
 
-export const getBackgroundImage: GetBackgroundImageProps = async (params) => {
+export const onGetBackgroundImage: GetBackgroundImageProps = async (params) => {
   const endpoint = `${API_BASE_URL}/identity/background-image?lat=${params.lat}&lng=${params.lng}`;
 
   return _get<BackgroundImageResponse>(endpoint, {

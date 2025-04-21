@@ -1,6 +1,6 @@
 import React from "react";
 
-import DefaultCard from "@/components/global/cards/DefaultCard";
+import DefaultCard from "@/components/global/cards/default-card";
 import HtmlContent from "@/components/global/html-content";
 
 type Props = {

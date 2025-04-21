@@ -10,7 +10,7 @@ const DEFAULT_RANGE = 50;
 const MIN = 20;
 const MAX = 100;
 
-const DealsMap = () => {
+const DistanceSlider = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const filterParams = searchParams.get("dist") || DEFAULT_RANGE;
@@ -41,25 +41,22 @@ const DealsMap = () => {
   };
 
   return (
-    <section>
-      <h4 className="paragraph-semibold mb-4 text-primary-900">Deals on map</h4>
-      <div className="">
-        <p className="paragraph-semibold mb-2 flex flex-col gap-4 text-primary-900">
-          Range ({range} miles)
-        </p>
-        <div>
-          <Slider
-            defaultValue={[50]}
-            max={MAX}
-            min={MIN}
-            step={1}
-            className={``}
-            onValueChange={handleChange}
-          />
-        </div>
+    <div className="">
+      <p className="paragraph-semibold mb-4 flex flex-col gap-4 text-primary-900">
+        Range ({range} miles)
+      </p>
+      <div>
+        <Slider
+          defaultValue={[50]}
+          max={MAX}
+          min={MIN}
+          step={1}
+          className={``}
+          onValueChange={handleChange}
+        />
       </div>
-    </section>
+    </div>
   );
 };
 
-export default DealsMap;
+export default DistanceSlider;

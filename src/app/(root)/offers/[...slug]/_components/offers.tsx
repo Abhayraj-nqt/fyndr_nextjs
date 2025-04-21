@@ -1,6 +1,6 @@
 import React from "react";
 
-import DefaultCard from "@/components/global/cards/DefaultCard";
+import DefaultCard from "@/components/global/cards/default-card";
 import { CampaignOfferProps } from "@/types/campaign";
 
 import OfferCard from "./offer-card";

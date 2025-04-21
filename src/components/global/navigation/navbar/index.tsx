@@ -5,7 +5,6 @@ import Location from "@/components/global/Location";
 import GlobalSearch from "@/components/global/search/GlobalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
-import { cn } from "@/lib/utils";
 
 import Account from "./Account";
 import Logo from "./Logo";

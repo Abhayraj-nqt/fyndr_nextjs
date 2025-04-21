@@ -24,25 +24,27 @@ type SeeCampaignProps = {
 
 const SeeCampaignCard = ({ className, href, offers }: SeeCampaignProps) => {
   return (
-    <div className="no-scrollbar flex gap-4 overflow-y-scroll">
+    <>
       {offers.map((offer) => (
         <Link key={offer.objid} href={href}>
           <Card className={`${className} flex flex-col shadow-none`}>
-            <Image
-              src={offer?.imageFilePath || "/fyndr-placeholder-gray.svg"}
-              alt="img/alt"
-              width={200}
-              height={100}
-              className="aspect-[2/1] rounded-t-md object-cover"
-            />
-            <div className="flex flex-col gap-2 p-2">
-              <h3 className="paragraph-regular">{offer.title}</h3>
+            <div className="relative w-48 rounded-t-md">
+              <Image
+                src={offer?.imageFilePath || "/fyndr-placeholder-gray.svg"}
+                alt="img/alt"
+                width={200}
+                height={100}
+                className="aspect-[2/1] size-full rounded-t-md object-cover"
+              />
+            </div>
+            <div className="flex w-48 flex-col gap-2 p-2">
+              <h3 className="body-regular line-clamp-1">{offer.title}</h3>
               <div className="flex gap-2">
                 <span className="small-regular text-light-400 line-through">
                   {offer.currencySymbol}
                   {offer.retailPrice.toFixed(2)}
                 </span>
-                <span className="paragraph-semibold text-primary-500">
+                <span className="body-regular text-primary-500">
                   {offer.currencySymbol}
                   {offer.offerPrice.toFixed(2)}
                 </span>
@@ -51,7 +53,7 @@ const SeeCampaignCard = ({ className, href, offers }: SeeCampaignProps) => {
           </Card>
         </Link>
       ))}
-    </div>
+    </>
   );
 };
 
@@ -65,7 +67,7 @@ const CampaignCard = ({ campaign }: Props) => {
   const toggleSeeMore = () => setSeeMore((prev) => !prev);
 
   return (
-    <Card className="flex max-h-fit max-w-xl flex-col gap-4 rounded-lg border-none p-4 shadow-none duration-100">
+    <Card className="relative flex max-h-fit max-w-xl flex-col gap-4 rounded-lg border-light-700 p-4 shadow-none duration-100">
       <Link
         href={`/offers/${campaign?.biz?.bizName?.replace(
           /[.\W]+/g,
@@ -74,7 +76,9 @@ const CampaignCard = ({ campaign }: Props) => {
         className="flex flex-col gap-4"
       >
         <CardHeader className="flex-between flex-row items-center gap-2 p-0">
-          <CardTitle>{campaign.title}</CardTitle>
+          <CardTitle className="paragraph-semibold text-dark-200">
+            {campaign.title}
+          </CardTitle>
           {campaign.isFeatured && (
             <Image
               src={"/images/featured.png"}
@@ -85,7 +89,16 @@ const CampaignCard = ({ campaign }: Props) => {
             />
           )}
         </CardHeader>
-        <CardContent className="flex flex-col gap-4 p-0 xl:flex-row">
+      </Link>
+
+      <CardContent className="flex flex-col gap-4 p-0 xl:flex-row">
+        <Link
+          href={`/offers/${campaign?.biz?.bizName?.replace(
+            /[.\W]+/g,
+            "-"
+          )}/${campaign?.qrCode}`.toLowerCase()}
+          className="relative w-full xl:max-w-56"
+        >
           <Image
             src={
               campaign?.images && campaign?.images.length > 0
@@ -95,30 +108,42 @@ const CampaignCard = ({ campaign }: Props) => {
             alt="img/alt"
             width={200}
             height={100}
-            className="aspect-[2/1] size-full rounded-md object-cover xl:max-w-60"
+            className="aspect-[2/1] size-full rounded-md object-cover xl:max-w-56"
           />
-          <div className="space-y-4">
-            <CardTitle>{campaign.biz.bizName}</CardTitle>
-            <CardDescription className="body-regular text-light-300">
+        </Link>
+        <div className="space-y-4">
+          <Link
+            href={`/offers/${campaign?.biz?.bizName?.replace(
+              /[.\W]+/g,
+              "-"
+            )}/${campaign?.qrCode}`.toLowerCase()}
+            className="space-y-4"
+          >
+            <CardTitle className="paragraph-semibold line-clamp-1 text-dark-200">
+              {campaign.biz.bizName}
+            </CardTitle>
+            <CardDescription className="body-regular line-clamp-2 h-11 text-light-300">
               {`${
                 campaign?.cmpnLocs[0]?.distance
                   ? campaign?.cmpnLocs[0]?.distance.toFixed(1)
                   : "0"
               } miles, ${parseAddress(campaign?.cmpnLocs[0])}`}
             </CardDescription>
-            <div className="flex items-center gap-4">
-              <Phone size={20} />
-              <Globe size={20} />
-              <Share2 size={20} />
-              <div className="flex items-center justify-center gap-2">
-                <Heart size={20} />
-                <p>1</p>
-              </div>
+          </Link>
+
+          <div className="flex items-center gap-4 text-dark-300">
+            <Phone size={20} />
+            <Globe size={20} />
+            <Share2 size={20} />
+            <div className="flex items-center justify-center gap-2">
+              <Heart size={20} />
+              <p>1</p>
             </div>
           </div>
-        </CardContent>
-      </Link>
-      <CardFooter className="flex-between p-0">
+        </div>
+      </CardContent>
+
+      <CardFooter className="flex-between body-regular p-0 text-dark-300">
         <div className="capitalize">
           {campaign.cmpnType}: {campaign.cmpnOffers.length}
         </div>
@@ -134,14 +159,16 @@ const CampaignCard = ({ campaign }: Props) => {
       </CardFooter>
 
       {seeMore && (
-        <SeeCampaignCard
-          className={`${seeMore ? "flex" : "hidden"} duration-100`}
-          href={`/offers/${campaign?.biz?.bizName?.replace(
-            /[.\W]+/g,
-            "-"
-          )}/${campaign?.qrCode}`.toLowerCase()}
-          offers={campaign.cmpnOffers}
-        />
+        <div className="no-scrollbar relative flex flex-row gap-4 overflow-y-scroll">
+          <SeeCampaignCard
+            className={`${seeMore ? "flex" : "hidden"} duration-100`}
+            href={`/offers/${campaign?.biz?.bizName?.replace(
+              /[.\W]+/g,
+              "-"
+            )}/${campaign?.qrCode}`.toLowerCase()}
+            offers={campaign.cmpnOffers}
+          />
+        </div>
       )}
     </Card>
   );

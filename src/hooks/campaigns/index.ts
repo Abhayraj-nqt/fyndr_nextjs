@@ -2,13 +2,9 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 import { CAT_LIST_HOME } from "@/constants";
 import { API_BASE_URL } from "@/environment";
+import { onGetCampaigns } from "@/lib/actions/campaign.action";
 import { _post } from "@/lib/handlers/fetch";
-import {
-  CampaignProps,
-  CampaignQueryParams,
-  CampaignQueryPayload,
-  CampaignsResponseProps,
-} from "@/types/campaign";
+import { CampaignProps } from "@/types/campaign";
 import { Coordinates } from "@/types/global";
 
 export const useGetCampaigns = (
@@ -141,112 +137,54 @@ export const useGetCampaigns = (
   };
 };
 
-// export const useGetCampaignsInfinite = (
-//   params: {
-//     search?: string;
-//     page: number;
-//     pageSize: number;
-//     orderBy?: string;
-//   },
-//   payload: {
-//     indvId: number | null;
-//     locQRId: number | null;
-//     distance: number;
-//     location: Coordinates;
-//     categories: number[];
-//     fetchById: string;
-//     fetchByGoal: FetchGoalProps;
-//     campaignType: CampaignTypeProps[];
-//   }
-// ) => {
-//   const {
-//     data,
-//     isLoading,
-//     isError,
-//     error,
-//     fetchNextPage,
-//     hasNextPage,
-//     isFetchingNextPage,
-//   } = useInfiniteQuery({
-//     queryKey: ["campaigns"],
-//     queryFn: () => fetch(""),
-//     initialPageParam: undefined as number | undefined,
-//     getNextPageParam: (lastPage) => lastPage.text,
-//   });
-// };
+type CampaignQueryParams = {
+  search?: string;
+  page: number;
+  pageSize: number;
+  orderBy?: "ASC" | "DESC";
+};
+type CampaignQueryPayload = {
+  indvId: number | null;
+  distance: number;
+  location: Coordinates;
+  categories: number[];
+  campaignType?: string[];
+  fetchById: string;
+  fetchByGoal: string;
+  locQRId?: null;
+};
 
-export const useGetCampaignsInfinite = (
+export function useInfiniteCampaigns(
   params: CampaignQueryParams,
   payload: CampaignQueryPayload
-) => {
-  const fetchCampaigns = async ({
-    pageParam = params.page,
-  }): Promise<CampaignsResponseProps> => {
-    // Build query parameters string
-    const queryParams = new URLSearchParams();
-
-    // Add all params to query string
-    if (params.search) queryParams.append("search", params.search);
-    queryParams.append("page", pageParam.toString());
-    queryParams.append("pageSize", params.pageSize.toString());
-    if (params.orderBy) queryParams.append("orderBy", params.orderBy);
-
-    // Create a copy of the payload with the updated page if needed
-    const currentPagePayload = {
-      ...payload,
-      // You can add any page-specific modifications to the payload here if needed
-    };
-
-    const response = await _post<CampaignsResponseProps>(
-      `/api/campaigns?${queryParams.toString()}`,
-      currentPagePayload,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    const endpoint = `${API_BASE_URL}/campaign/v2/public/search?pgStart=${params.page}&pgSize=${params.pageSize}`;
-
-    const {} = await _post();
-
-    return response.data;
-  };
-
+) {
   return useInfiniteQuery({
-    // Include both params and payload in the queryKey for proper cache invalidation
-    queryKey: [
-      "campaigns",
-      // Include specific params that affect results
-      params.search,
-      params.pageSize,
-      params.orderBy,
-      // Include critical payload fields that affect results
-      payload.indvId,
-      payload.locQRId,
-      payload.distance,
-      payload.location,
-      payload.categories,
-      payload.fetchById,
-      payload.fetchByGoal,
-      payload.campaignType,
-    ],
-    queryFn: fetchCampaigns,
-    getNextPageParam: (lastPage, allPages) => {
-      // Return undefined if we've reached the last page
-      if (lastPage.last) return undefined;
+    queryKey: ["campaigns", params, payload],
+    queryFn: async ({ pageParam = params.page }) => {
+      const response = await onGetCampaigns(
+        {
+          page: pageParam,
+          pageSize: params.pageSize,
+          orderBy: params.orderBy || "ASC",
+        },
+        payload
+      );
 
-      // Calculate the next page number
-      return params.page + allPages.length;
+      if (!response.success || !response.data) {
+        throw new Error(response.error?.message || "Failed to fetch campaigns");
+      }
+
+      return {
+        ...response.data,
+        pageParam,
+      };
     },
-    // Refetch when window regains focus - disabled to prevent unnecessary fetches
-    refetchOnWindowFocus: false,
-    // Keep data fresh for 5 minutes
-    staleTime: 5 * 60 * 1000,
-    // Cache data for 10 minutes
-    gcTime: 10 * 60 * 1000,
-    // Retry failed requests 3 times before erroring
-    retry: 3,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      return lastPage.last ? undefined : lastPage.pageParam + 1;
+    },
+
+    // Reset the query cache when the query params change
+    // refetchOnMount: true,
   });
-};
+}

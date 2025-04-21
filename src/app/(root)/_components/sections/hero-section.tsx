@@ -4,7 +4,7 @@ import React from "react";
 import { auth } from "@/auth";
 import LocalSearch from "@/components/global/search/LocalSearch";
 import { DEFAULT_LOCATION } from "@/constants";
-import { getBackgroundImage } from "@/lib/actions/others.action";
+import { onGetBackgroundImage } from "@/lib/actions/others.action";
 
 type Props = {
   location: {
@@ -30,7 +30,7 @@ const HeroSection = async ({ location: { lat, lng } }: Props) => {
   }
 
   const { success: bgSuccess, data: bgImage } =
-    await getBackgroundImage(locationPayload);
+    await onGetBackgroundImage(locationPayload);
 
   return (
     <section

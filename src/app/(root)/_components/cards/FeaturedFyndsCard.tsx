@@ -36,7 +36,7 @@ const FeatureFyndsCard = ({
   title,
 }: Props) => {
   return (
-    <Card className="relative min-h-[25rem] w-full cursor-pointer space-y-4 p-4 transition duration-500 hover:scale-105 sm:max-w-80">
+    <Card className="relative min-h-[25rem] w-full cursor-pointer space-y-4 border-none p-4 shadow-none transition duration-500 hover:scale-105 sm:max-w-80">
       <CardHeader className="flex-between flex-row gap-2 space-y-0 p-0">
         <CardTitle>{bizName}</CardTitle>
         <Image

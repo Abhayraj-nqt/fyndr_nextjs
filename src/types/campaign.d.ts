@@ -153,7 +153,7 @@ type CampaignQueryParams = {
   search?: string;
   page: number;
   pageSize: number;
-  orderBy?: string;
+  orderBy?: "ASC" | "DESC";
 };
 
 type CampaignQueryPayload = {

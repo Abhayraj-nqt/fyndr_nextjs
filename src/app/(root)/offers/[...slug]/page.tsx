@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import React from "react";
 
 import { auth } from "@/auth";
-import DefaultCard from "@/components/global/cards/DefaultCard";
+import DefaultCard from "@/components/global/cards/default-card";
 import Stars from "@/components/global/ratings/stars";
 import { Separator } from "@/components/ui/separator";
 import { DEFAULT_LOCATION } from "@/constants";

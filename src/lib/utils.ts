@@ -3,7 +3,7 @@ import { clsx, type ClassValue } from "clsx";
 import md5 from "react-native-md5";
 import { twMerge } from "tailwind-merge";
 
-import { CAT_LIST_HOME } from "@/constants";
+import { CAT_LIST_HOME, CATEGORY_ICON } from "@/constants";
 import { CampaignOfferProps, CampaignProps } from "@/types/campaign";
 import { CurrencySymbol, DiscountType } from "@/types/global";
 
@@ -194,4 +194,10 @@ export const getNearbyBeautyFinds = (campaigns: CampaignProps[]) => {
   );
 
   return nearbyBeautyFinds;
+};
+
+export const getCategoryIcon = (category: string) => {
+  return (
+    CATEGORY_ICON.get(category.toLowerCase()) || "/icons/category/other.svg"
+  );
 };

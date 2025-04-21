@@ -1,3 +1,4 @@
+import { LucideIcon } from "lucide-react";
 import { NextResponse } from "next/server";
 
 type ActionResponse<T = null> = {
@@ -42,9 +43,10 @@ interface FyndrAboutFeatureProps {
 
 interface FyndrWalletStepsProps {
   id: number;
-  imgURL: string;
-  alt: string;
+  imgURL?: string;
+  alt?: string;
   title: string;
+  icon?: LucideIcon;
 }
 
 interface ValueLabelProps {

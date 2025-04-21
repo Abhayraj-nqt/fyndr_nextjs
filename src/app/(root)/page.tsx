@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 
 import GoTopButton from "@/components/global/buttons/GoTopButton";
-import DefaultCard from "@/components/global/cards/DefaultCard";
+import DefaultCard from "@/components/global/cards/default-card";
 import { RouteParams } from "@/types/global";
 
 import CampaignsSection from "./_components/sections/campaigns-section";
