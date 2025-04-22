@@ -1,7 +1,16 @@
-import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
+import {
+  Facebook,
+  Instagram,
+  Linkedin,
+  Twitter,
+  Navigation,
+  Wallet,
+  Crown,
+} from "lucide-react";
 
 import {
   CompanyProps,
+  Coordinates,
   FyndrAboutFeatureProps,
   FyndrAboutProps,
   FyndrWalletStepsProps,
@@ -129,12 +138,14 @@ export const HOW_DOES_WALLET_WORK: FyndrWalletStepsProps[] = [
     imgURL: "/icons/paper-plane.svg",
     alt: "plane",
     title: "Refer a friend or business with your unique referral link.",
+    icon: Navigation,
   },
   {
     id: 2,
     imgURL: "/icons/crown-outlined.svg",
     alt: "crown",
     title: "The friend/Business signs up.",
+    icon: Crown,
   },
   {
     id: 3,
@@ -142,6 +153,7 @@ export const HOW_DOES_WALLET_WORK: FyndrWalletStepsProps[] = [
     alt: "wallet",
     title:
       "You both receive $5 worth of Fyndr cash in your wallets instantly when an individual is referred.",
+    icon: Wallet,
   },
   {
     id: 4,
@@ -149,6 +161,7 @@ export const HOW_DOES_WALLET_WORK: FyndrWalletStepsProps[] = [
     alt: "wallet",
     title:
       "If a business is referred, you both receive $20 worth of Fyndr cash once the referred business completes their Stripe Integration.",
+    icon: Wallet,
   },
 ];
 
@@ -177,3 +190,60 @@ export const COMPANY: CompanyProps = {
     },
   ],
 };
+
+export const CAT_LIST_HOME = [
+  { keyword: "Entertainment", title: "Explore Exciting Activities Nearby" },
+  {
+    keyword: "Food & Beverages",
+    title: "Discover Dining Experiences Near You",
+  },
+  { keyword: "Beauty & Wellness", title: "Nearby Beauty Finds" },
+];
+
+export const DEFAULT_LOCATION: Coordinates = {
+  lat: 33.6629442, // Default to Phenix, AZ
+  lng: -112.0182329,
+};
+
+// export const CATEGORY_ICON = {
+//   auto: "/icons/category/auto.svg",
+//   "baby & kids": "/icons/category/baby-and-kids.svg",
+//   "beauty & wellness": "/icons/category/beauty-and-wellness.svg",
+//   "cleaning services": "/icons/category/cleaning-services.svg",
+//   "education & learning": "/icons/category/education-and-learning.svg",
+//   electronics: "/icons/category/electronics.svg",
+//   entertainment: "/icons/category/entertainment.svg",
+//   fashion: "/icons/category/fashion.svg",
+//   "food & beverages": "/icons/category/food-and-beverages.svg",
+//   "fyndr exclusives": "/icons/category/fyndr-exclusives.svg",
+//   "health & fitness": "/icons/category/health-and-fitness.svg",
+//   "home services": "/icons/category/home-services.svg",
+//   photography: "/icons/category/photography.svg",
+//   pets: "/icons/category/pets.svg",
+//   "personal care": "/icons/category/personal-care.svg",
+//   "professional services": "/icons/category/professional-services.svg",
+//   "sports & outdoors": "/icons/category/sports-and-outdoors.svg",
+//   travel: "/icons/category/travel.svg",
+// };
+
+export const CATEGORY_ICON = new Map<string, string>([
+  ["auto", "/icons/category/auto.svg"],
+  ["baby & kids", "/icons/category/baby-and-kids.svg"],
+  ["beauty & wellness", "/icons/category/beauty-and-wellness.svg"],
+  ["cleaning services", "/icons/category/cleaning-services.svg"],
+  ["education & learning", "/icons/category/education-and-learning.svg"],
+  ["electronics", "/icons/category/electronics.svg"],
+  ["entertainment", "/icons/category/entertainment.svg"],
+  ["fashion", "/icons/category/fashion.svg"],
+  ["food & beverages", "/icons/category/food-and-beverages.svg"],
+  ["fyndr exclusives", "/icons/category/fyndr-exclusives.svg"],
+  ["health & fitness", "/icons/category/health-and-fitness.svg"],
+  ["home services", "/icons/category/home-services.svg"],
+  ["photography", "/icons/category/photography.svg"],
+  ["pets", "/icons/category/pets.svg"],
+  ["personal care", "/icons/category/personal-care.svg"],
+  ["professional services", "/icons/category/professional-services.svg"],
+  ["sports & outdoors", "/icons/category/sports-and-outdoors.svg"],
+  ["travel", "/icons/category/travel.svg"],
+  ["other", "/icons/category/other.svg"],
+]);
