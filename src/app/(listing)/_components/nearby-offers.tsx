@@ -6,7 +6,7 @@ import ROUTES from "@/constants/routes";
 import { getLowestPriceOffer, parseAddress } from "@/lib/utils";
 import { CampaignProps } from "@/types/campaign";
 
-import NonFeaturedFyndsCard from "./cards/NonFeaturedFyndsCard";
+import NonFeaturedFyndsCard from "./cards/non-featured-fynds-card";
 
 type Props = {
   campaigns: CampaignProps[];
@@ -28,7 +28,9 @@ const NearbyOffers = ({ campaigns: nearbyOffers }: Props) => {
               title={item.title}
               address={`${item?.cmpnLocs[0]?.distance ? item?.cmpnLocs[0]?.distance.toFixed(1) : "0"} miles, ${parseAddress(item?.cmpnLocs[0])}`}
               imageURL={
-                (item.images.length > 0 && item?.images[0]?.img_url) ||
+                (item.images &&
+                  item.images.length > 0 &&
+                  item?.images[0]?.img_url) ||
                 "/images/grayPlaceholderFyn.png"
               }
               discountType={item.cmpnOffers[0]?.discountType}

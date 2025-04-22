@@ -6,7 +6,7 @@ import ROUTES from "@/constants/routes";
 import { parseAddress } from "@/lib/utils";
 import { CampaignProps } from "@/types/campaign";
 
-import FeaturedFyndsCard from "./cards/FeaturedFyndsCard";
+import FeaturedFyndsCard from "../app/(listing)/_components/cards/featured-fynds-card";
 
 type Props = {
   onGetFeaturedCampaigns: () => CampaignProps[];
@@ -35,7 +35,8 @@ const FeaturedCampaigns = ({ onGetFeaturedCampaigns }: Props) => {
                     : "0"
                 } miles, ${parseAddress(campaign?.cmpnLocs[0])}`}
                 imageURL={
-                  (campaign.images.length > 0 &&
+                  (campaign.images &&
+                    campaign.images.length > 0 &&
                     campaign?.images[0]?.img_url) ||
                   "/images/grayPlaceholderFyn.png"
                 }

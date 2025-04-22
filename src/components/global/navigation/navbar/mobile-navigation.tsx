@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/sheet";
 import ROUTES from "@/constants/routes";
 
-import NavLinks from "./NavLinks";
+import NavLinks from "./nav-links";
 
 const MobileNavigation = async () => {
   const session = await auth();

@@ -3,7 +3,7 @@ import React from "react";
 
 import { onGetBackgroundImage } from "@/actions/others.action";
 import { auth } from "@/auth";
-import LocalSearch from "@/components/global/search/LocalSearch";
+import LocalSearch from "@/components/global/search/local-search";
 import { DEFAULT_LOCATION } from "@/constants";
 
 type Props = {
@@ -53,10 +53,10 @@ const HeroSection = async ({ location: { lat, lng } }: Props) => {
         />
       </div>
       <LocalSearch
-        imgSrc="/icons/search.svg"
+        icon="/icons/search.svg"
         placeholder="Search Offers, Events & Businesses"
         route="/"
-        otherClasses="flex-1 absolute w-11/12 sm:w-full max-w-lg m-2"
+        otherClasses="flex-1 absolute w-11/12 sm:w-full max-w-lg m-2 min-h-[56px]"
       />
     </section>
   );

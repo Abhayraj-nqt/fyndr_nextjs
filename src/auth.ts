@@ -11,7 +11,7 @@ import {
   signInAPI,
 } from "@/actions/auth.actions";
 
-import { SignInSchema } from "./lib/validations";
+import { SignInSchema } from "./components/forms/auth/schema";
 import { Coordinates } from "./types/global";
 
 interface UserSession {
