@@ -12,7 +12,7 @@ export type SignInAPIProps = (payload: {
 
 export type GetAccountAPIProps = (payload: {
   email: string;
-  regMode: "facebook";
+  regMode: "facebook" | "classic";
   accessToken: string;
 }) => Promise<ActionResponse<AccountResponse>>;
 

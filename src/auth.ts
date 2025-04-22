@@ -92,7 +92,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             const { success, data: parsedAccountResponse } =
               await getAccountAPI({
                 email,
-                regMode: "facebook",
+                regMode: "classic",
                 accessToken,
               });
 
