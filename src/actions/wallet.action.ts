@@ -12,5 +12,9 @@ export const onGetWalletTransactions: GetWalletTransactions = async (
 
   return _get(endpoint, {
     requireAuth: true,
+    cache: "force-cache",
+    next: {
+      revalidate: 60000,
+    },
   });
 };

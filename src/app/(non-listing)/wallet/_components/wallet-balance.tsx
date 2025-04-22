@@ -1,13 +1,34 @@
 import Image from "next/image";
 import React from "react";
 
+import { onGetWalletTransactions } from "@/actions/wallet.action";
+import { auth } from "@/auth";
 import { Button } from "@/components/ui/button";
 
 type Props = {
   className?: string;
 };
 
-const WalletBalance = ({ className }: Props) => {
+const WalletBalance = async ({ className }: Props) => {
+  const session = await auth();
+  const user = session?.user;
+
+  if (!user) {
+    return null;
+  }
+
+  const { success, data } = await onGetWalletTransactions({
+    userId: Number(session.user.id),
+    pgStart: 1,
+    pgSize: 10,
+  });
+
+  if (!success || !data) {
+    return <div>Something went wrong</div>;
+  }
+
+  console.log(data);
+
   return (
     <div
       className={`flex flex-col gap-4 rounded-lg bg-primary-900 p-6 text-light-900 ${className}`}
