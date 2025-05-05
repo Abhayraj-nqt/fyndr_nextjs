@@ -12,6 +12,7 @@ import {
 } from "@/actions/auth.actions";
 
 import { SignInSchema } from "./components/forms/auth/schema";
+import { authConfig } from "./config/auth.config";
 import { Coordinates } from "./types/global";
 
 interface UserSession {
@@ -21,7 +22,8 @@ interface UserSession {
   id: string;
   name: string;
   email: string;
-  role: string;
+  entityType: EntityType;
+  entityRole: EntityRole;
   accountStatus: string;
 
   phone?: string;
@@ -58,11 +60,12 @@ declare module "next-auth/jwt" {
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  session: {
-    strategy: "jwt",
-    maxAge: 72 * 60 * 60, // 72 hours // 3 days
-  },
+  // session: {
+  //   strategy: "jwt",
+  //   maxAge: 72 * 60 * 60, // 72 hours // 3 days
+  // },
 
+  ...authConfig,
   providers: [
     Credentials({
       async authorize(credentials) {
@@ -107,7 +110,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               firstName,
               lastName,
               email: userEmail,
-              // entityRole,
+              entityRole,
               entityType,
               address,
               accountStatus,
@@ -115,7 +118,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
             const id = indvid.toString();
             const name = `${firstName} ${lastName}`;
-            const role = entityType?.toLowerCase();
 
             return {
               accessToken,
@@ -123,8 +125,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               id,
               name,
               email: userEmail,
-
-              role,
+              entityRole,
+              entityType,
               accountStatus,
               location: {
                 lat: address.lat,

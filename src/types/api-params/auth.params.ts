@@ -25,4 +25,4 @@ export type SignInWithCredentials = (params: {
   password: string;
 }) => Promise<ActionResponse>;
 
-export type SignOutProps = () => void;
+export type SignOutProps = () => Promise<void>;

@@ -37,7 +37,7 @@ const HeroSection = async ({ location: { lat, lng } }: Props) => {
       id="hero"
       className="relative flex h-80 w-full items-center justify-center overflow-hidden"
     >
-      <div className="size-full">
+      <div className="relative size-full">
         <Image
           src={
             bgSuccess && bgImage?.backgroundImageUrl
