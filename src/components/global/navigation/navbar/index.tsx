@@ -4,11 +4,12 @@ import React from "react";
 import LocationSelector from "@/components/global/location-selector";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
+
+import Account from "./account";
+import Logo from "./logo";
 import MobileNavigation from "./mobile-navigation";
 import NavLinks from "./nav-links";
 import LocalSearch from "../../search/local-search";
-import Account from "./Account";
-import Logo from "./Logo";
 
 type Props = {
   searchbar?: boolean;

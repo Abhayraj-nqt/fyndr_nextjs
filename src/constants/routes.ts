@@ -15,7 +15,7 @@ const ROUTES = {
   PROFILE: (id: string) => `/profile/${id}`,
   PROFILE_EDIT: (id: string) => `/profile/${id}/edit`,
 
-  BUSINESS_DASHBOARD: "/billing/transactions",
+  BUSINESS_DASHBOARD: "/business/billing/transaction",
   ADMIN_DASHBOARD: "/admin/dashboard",
   SUPPORT_DASHBOARD: "/support/dashboard",
 
