@@ -20,10 +20,8 @@ const BusinessLayout = ({ children }: { children: ReactNode }) => {
                 header={SidebarHeader}
                 sidebarLinks={BUSINESS_MENU}
               />
-              <main>
-                <SidebarTrigger />
-                {children}
-              </main>
+              <SidebarTrigger />
+              {children}
             </SidebarProvider>
           </div>
         </div>

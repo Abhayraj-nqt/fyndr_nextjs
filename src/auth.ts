@@ -23,6 +23,7 @@ interface UserSession {
   email: string;
   role: string;
   accountStatus: string;
+  bizid: number;
 
   phone?: string;
   image?: string;
@@ -111,7 +112,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               entityType,
               address,
               accountStatus,
+              bizid,
             } = parsedAccountResponse;
+
+            console.log("ppp", parsedAccountResponse.bizid);
 
             const id = indvid.toString();
             const name = `${firstName} ${lastName}`;
@@ -131,6 +135,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 lng: address.lng,
               },
               phone: address.phone,
+              bizid: bizid,
             } as User;
           } catch (error) {
             console.log(error);
