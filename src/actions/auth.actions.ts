@@ -73,6 +73,10 @@ export const getAccountAPI: GetAccountAPIProps = async (payload) => {
     headers: {
       Authorization: `Bearer ${payload.accessToken}`,
     },
+    cache: "force-cache",
+    next: {
+      revalidate: 500000,
+    },
   });
 };
 

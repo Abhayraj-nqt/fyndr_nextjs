@@ -1,4 +1,5 @@
 import {
+  CampaignListResponse,
   CampaignResponse,
   CampaignsResponse,
 } from "../api-response/campaign.response";
@@ -34,3 +35,7 @@ export type GetCampaignsProps = (
     locQRId?: null;
   }
 ) => Promise<ActionResponse<CampaignsResponse>>;
+
+export type GetCampaignListProps = (params: {
+  bizid: number;
+}) => Promise<ActionResponse<CampaignListResponse>>;
