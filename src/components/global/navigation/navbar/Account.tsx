@@ -55,7 +55,7 @@ const Account = async ({ className }: Props) => {
         <MenubarTrigger className="cursor-pointer bg-transparent p-0 focus:bg-transparent data-[state=open]:bg-transparent">
           {session?.user?.email ? (
             <UserAvatar
-              name={session.user.name!}
+              name={session.user?.name!}
               // imageUrl={"https://github.com/shadcn.png"}
             />
           ) : (
@@ -65,10 +65,10 @@ const Account = async ({ className }: Props) => {
             />
           )}
         </MenubarTrigger>
-        {session?.user.email ? (
+        {session?.user?.email ? (
           <MenubarContent className="absolute -right-12 mt-3 min-w-[120px] rounded border bg-white py-2">
             <MenubarItem asChild>
-              <Link href={`/account/${session.user.id}`}>Account</Link>
+              <Link href={"/business/billing/transaction"}>Account</Link>
             </MenubarItem>
             <MenubarItem asChild>
               <Link href={`/account/${session.user.id}/my-offers`}>
