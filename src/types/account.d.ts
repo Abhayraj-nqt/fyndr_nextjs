@@ -16,3 +16,17 @@ type EntityRole =
   | "INDIVIDUAL_ADMIN";
 
 type EntityType = string;
+
+type RouteAccess = {
+  path: string;
+  roles: EntityRole[];
+};
+
+type WalletTransactionsProps = {
+  amount: number;
+  businessName: string;
+  fyndrCashStatus: string | "UNUSED" | "USED";
+  invoiceId?: number;
+  reason: string | "CASHBACK" | "REDEEM_PROMOCODE";
+  transactionDt: string;
+};

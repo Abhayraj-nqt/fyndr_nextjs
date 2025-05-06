@@ -44,4 +44,19 @@ export const PUBLIC_ROUTES = [
   "/offer-details/",
 ];
 
+export const ROLE_BASED_ROUTES: RouteAccess[] = [
+  {
+    path: ROUTES.BUSINESS_DASHBOARD,
+    roles: ["BIZ_ADMIN", "SUPER_ADMIN"],
+  },
+  {
+    path: "/admin",
+    roles: ["SUPER_ADMIN"],
+  },
+  {
+    path: ROUTES.SUPPORT_DASHBOARD,
+    roles: ["FYNDR_SUPPORT", "SUPER_ADMIN"],
+  },
+];
+
 export default ROUTES;

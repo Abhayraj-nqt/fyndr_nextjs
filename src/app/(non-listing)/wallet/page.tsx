@@ -1,4 +1,3 @@
-import { onGetWalletTransactions } from "@/actions/wallet.action";
 import { auth } from "@/auth";
 import DefaultCard from "@/components/global/cards/default-card";
 import { Separator } from "@/components/ui/separator";
