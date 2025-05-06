@@ -1,5 +1,4 @@
 import { clsx, type ClassValue } from "clsx";
-// import { MD5 } from "crypto-js";
 import md5 from "react-native-md5";
 import { twMerge } from "tailwind-merge";
 
@@ -11,8 +10,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const truncateString = (string: string) => {
-  return string.slice(0, 60) + "...";
+export const truncateString = (string: string, charCount: number = 60) => {
+  return string.slice(0, charCount) + "...";
 };
 
 export const encryptPassword = async ({
@@ -202,31 +201,32 @@ export const getCategoryIcon = (category: string) => {
   );
 };
 
-const _slugify = (str: string): string => {
-  return str
-    .toString() // Convert to string in case of number input
-    .normalize("NFD") // Normalize to decomposed form for handling accents
-    .replace(/[\u0300-\u036f]/g, "") // Remove accent marks
-    .toLowerCase() // Convert to lowercase
-    .trim() // Remove whitespace from both ends
-    .replace(/\s+/g, "-") // Replace spaces with hyphens
-    .replace(/[^\w\-\/]+/g, "") // Remove all non-word chars (except hyphens and slashes)
-    .replace(/--+/g, "-") // Replace multiple hyphens with single hyphen
-    .replace(/-+\//g, "/") // Clean up hyphens before slashes
-    .replace(/\/-+/g, "/") // Clean up hyphens after slashes
-    .replace(/^-+/, "") // Remove leading hyphens
-    .replace(/-+$/, ""); // Remove trailing hyphens
-};
-
-// For your specific case, you might want to slugify only parts of the path:
 export const slugify = (path: string): string => {
-  // Split the path by slashes
   const parts = path.split("/");
-  // Slugify each part individually
   const slugifiedParts = parts.map((part) => {
-    if (part === "") return part; // Keep empty parts (consecutive slashes)
+    if (part === "") return part;
     return _slugify(part);
   });
-  // Join back with slashes
   return slugifiedParts.join("/");
+};
+
+//* It will only used for internal functions - No need to export ----------------------------------------------------------
+
+const _slugify = (str: string | number): string => {
+  return (
+    str
+      .toString()
+      .normalize("NFD") // Normalize to decomposed form for handling accents
+      .replace(/[\u0300-\u036f]/g, "") // Remove accent marks
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, "-") // Replace spaces with hyphens
+      // eslint-disable-next-line no-useless-escape
+      .replace(/[^\w\-\/]+/g, "") // Remove all non-word chars (except hyphens and slashes)
+      .replace(/--+/g, "-") // Replace multiple hyphens with single hyphen
+      .replace(/-+\//g, "/") // Clean up hyphens before slashes
+      .replace(/\/-+/g, "/") // Clean up hyphens after slashes
+      .replace(/^-+/, "") // Remove leading hyphens
+      .replace(/-+$/, "")
+  ); // Remove trailing hyphens
 };

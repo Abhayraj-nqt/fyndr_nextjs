@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
+import { LucideIcon } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
@@ -10,12 +11,18 @@ import { Input } from "@/components/ui/input";
 
 interface Props {
   route: string;
-  imgSrc: string;
   placeholder: string;
+  // icon?: string | React.ReactElement | LucideIcon;
+  icon?: string;
   otherClasses?: string;
 }
 
-const LocalSearch = ({ route, imgSrc, placeholder, otherClasses }: Props) => {
+const LocalSearch = ({
+  route,
+  placeholder,
+  otherClasses,
+  icon: Icon,
+}: Props) => {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -23,17 +30,22 @@ const LocalSearch = ({ route, imgSrc, placeholder, otherClasses }: Props) => {
 
   const [searchQuery, setSearchQuery] = useState(query);
 
+  const getIcon = () => {
+    if (!Icon) return null;
+    if (typeof Icon === "string") {
+      return <Image src={Icon} alt={"search"} height={25} width={25} />;
+    } else if (Icon && React.isValidElement(Icon)) {
+      return <>{Icon}</>;
+    } else if (Icon && typeof Icon === "function") {
+      // return <Icon />;
+    }
+  };
+
   return (
     <div
-      className={`flex min-h-[56px] grow items-center gap-4 rounded-lg border border-light-700 bg-light-900 px-4 ${otherClasses}`}
+      className={`flex min-h-[45px] grow items-center gap-4 rounded-lg border border-light-700 bg-light-900 px-4 ${otherClasses}`}
     >
-      <Image
-        src={imgSrc}
-        width={24}
-        height={24}
-        alt="search"
-        className="cursor-pointer"
-      />
+      {getIcon()}
       <Input
         type="text"
         placeholder={placeholder}

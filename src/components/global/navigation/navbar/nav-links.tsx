@@ -1,11 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-import { Button } from "@/components/ui/button";
 import { SheetClose } from "@/components/ui/sheet";
 import { NAVBAR_MENU } from "@/constants/menu";
 import { cn } from "@/lib/utils";
@@ -21,7 +19,7 @@ const NavLinks = ({ isMobileNav = false, userId, className }: Props) => {
 
   return (
     <>
-      {NAVBAR_MENU.map(({ label, route, icon: Icon, imgURL }) => {
+      {NAVBAR_MENU.map(({ label, route, icon: Icon }) => {
         const isActive =
           (pathname.includes(route) && route.length > 1) || pathname === route;
 
@@ -36,13 +34,6 @@ const NavLinks = ({ isMobileNav = false, userId, className }: Props) => {
             key={label}
             className={cn(isActive ? "" : "", "", className)}
           >
-            {/* <Image
-              src={item.imgURL!}
-              alt={item.label}
-              width={20}
-              height={20}
-              className={cn("")}
-            /> */}
             {Icon && <Icon size={20} />}
             <p className={cn(isActive ? "" : "")}>{label}</p>
           </Link>

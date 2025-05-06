@@ -20,7 +20,7 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
                 header={SidebarHeader}
                 sidebarLinks={ADMIN_MENU}
               />
-              <main>
+              <main className="w-full">
                 <SidebarTrigger />
                 {children}
               </main>

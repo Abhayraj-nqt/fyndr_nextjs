@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 
 import { useGetCampaigns } from "@/hooks/campaigns";
 
-import FeaturedCampaigns from "../featured-campaigns";
+import FeaturedCampaigns from "./featured-campaigns";
 
 const CampaignsSection = () => {
   const session = useSession();

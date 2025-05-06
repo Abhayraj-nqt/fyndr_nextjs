@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { COMPANY } from "@/constants";
 import { FOOTER_MENU } from "@/constants/menu";
 
-import SocialLinks from "./SocialLinks";
+import SocialLinks from "./social-links";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();

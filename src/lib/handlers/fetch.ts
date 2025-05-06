@@ -73,15 +73,6 @@ export async function fetchHandler<T>(
 
     const responseData = await response.json();
 
-    // const finalResponse: ActionResponse<T> = {
-    //   success: true,
-    //   data: responseData,
-    //   status: response.status,
-    // };
-
-    // // return new Promise<ActionResponse<T>>((resolve) => resolve(finalResponse));
-    // return finalResponse;
-
     return {
       success: true,
       data: responseData,

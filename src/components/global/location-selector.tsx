@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/popover";
 import { Coordinates } from "@/types/global";
 
-const Location = () => {
+const LocationSelector = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [value, setValue] = useState<string>("");
   const [predictions, setPredictions] = useState<PlaceAutocompleteResult[]>([]);
@@ -126,4 +126,4 @@ const Location = () => {
   );
 };
 
-export default Location;
+export default LocationSelector;
