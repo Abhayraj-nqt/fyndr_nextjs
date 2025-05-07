@@ -58,7 +58,7 @@ export const INDIVIDUAL_MENU: MenuProps[] = [];
 export const BUSINESS_MENU: SubMenuProps[] = [
   {
     icon: Logs,
-    route: "",
+    route: "/business/billing/transaction",
     label: "My Orders",
     hasSubMenu: false,
   },
@@ -75,7 +75,7 @@ export const BUSINESS_MENU: SubMenuProps[] = [
       },
       {
         icon: Shapes,
-        route: "",
+        route: "/business/campaign",
         label: "Campaigns",
       },
     ],
@@ -94,7 +94,7 @@ export const BUSINESS_MENU: SubMenuProps[] = [
     subMenu: [
       {
         icon: Wallet,
-        route: "",
+        route: "/business/merchant/stripe_connect",
         label: "Collect Payment",
       },
       {
