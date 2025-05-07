@@ -65,7 +65,7 @@ const Account = async ({ className }: Props) => {
             />
           )}
         </MenubarTrigger>
-        {session?.user.email ? (
+        {session?.user?.email ? (
           <MenubarContent className="absolute -right-12 mt-3 min-w-[120px] rounded border bg-white py-2">
             <MenubarItem asChild>
               <Link href={`/account/${session.user.id}`}>Account</Link>
