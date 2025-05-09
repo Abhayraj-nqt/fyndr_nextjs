@@ -6,7 +6,7 @@ import ROUTES from "@/constants/routes";
 import { parseAddress } from "@/lib/utils";
 import { CampaignProps } from "@/types/campaign";
 
-import FeaturedFyndsCard from "../app/(listing)/_components/cards/featured-fynds-card";
+import FeaturedFyndsCard from "../app/(landing)/_components/cards/featured-fynds-card";
 
 type Props = {
   onGetFeaturedCampaigns: () => CampaignProps[];

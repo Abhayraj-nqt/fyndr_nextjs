@@ -1,8 +1,11 @@
+import Link from "next/link";
 import React from "react";
 
 import { onGetCampaigns } from "@/actions/campaign.action";
 import { auth } from "@/auth";
+import { Button } from "@/components/ui/button";
 import { DEFAULT_LOCATION } from "@/constants";
+import ROUTES from "@/constants/routes";
 import {
   getFeaturedCampaigns,
   getNearbyActivities,
@@ -70,16 +73,38 @@ const CampaignsSection = async ({ location: { lat, lng } }: Props) => {
         campaigns={nearbyActivities}
         title="Explore Exciting Activities Nearby"
       />
+
       <NearbyCampaigns
         campaigns={nearbyDiningExperiences}
         title="Discover Dining Experiences Near You"
       />
+
       <NearbyCampaigns
         campaigns={nearbyBeautyFinds}
         title="Nearby Beauty Finds"
       />
+
       <NearbyCampaigns campaigns={nearbyOffers} title="Offers Near You" />
+
+      {nearbyOffers.length >= 32 && (
+        <Link
+          href={`${ROUTES.OFFERS_AND_EVENTS}?types=OFFERS`}
+          className="flex w-full justify-center"
+        >
+          <Button className="btn-primary-outlined">See all offers</Button>
+        </Link>
+      )}
+
       <NearbyCampaigns campaigns={nearbyEvents} title="Events Near You" />
+
+      {nearbyEvents.length >= 32 && (
+        <Link
+          href={`${ROUTES.OFFERS_AND_EVENTS}?types=EVENTS`}
+          className="flex w-full justify-center"
+        >
+          <Button className="btn-primary-outlined">See all events</Button>
+        </Link>
+      )}
     </>
   );
 };
