@@ -35,6 +35,7 @@ const Navbar = async ({
           className="h-full w-11/12 max-w-lg flex-1 sm:w-full"
           navigateTo={searchNavigateTo}
           navigateParam={searchParam}
+          isOnNavbar
         />
       )}
       {location && <LocationSelector />}
