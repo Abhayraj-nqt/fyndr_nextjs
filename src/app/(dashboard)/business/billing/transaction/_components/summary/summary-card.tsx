@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import { InvoiceSummary } from "@/types/api-response/transaction.response";
 const offerIcon = "/icons/offerIcon.svg";
 const paidInvoiceIcon = "/icons/paidInvoice.svg";
@@ -23,19 +25,20 @@ const SummaryCard = ({ summarydata }: Props) => {
   return (
     <>
       {summarydata?.totalAmountByInvoiceStatuses.paid !== 0 ? (
-        <div className="flex space-x-4 mt-4">
+        <div className="mt-4 flex space-x-4">
           {summarydata &&
             Number(summarydata.totalAmountByInvoiceStatuses.paid) > 0 && (
               <div
-                className="bg-white p-4 shadow-md rounded-lg cursor-pointer w-1/4 h-[190px]"
+                className="h-[190px] w-1/4 cursor-pointer rounded-lg bg-white p-4 shadow-md"
                 onClick={() => {}}
               >
                 <div className="flex-between">
                   <div>
-                    <img
+                    <Image
                       src={paidInvoiceIcon}
                       alt="Paid"
-                      className="w-12 h-12"
+                      height={48}
+                      width={48}
                     />
                   </div>
                   <div className="text-right">
@@ -45,7 +48,7 @@ const SummaryCard = ({ summarydata }: Props) => {
                     </span>
                   </div>
                 </div>
-                <div className="text-xl font-medium mt-10">
+                <div className="mt-10 text-xl font-medium">
                   {summarydata.currencySymbol}
                   {getDecimalNum(summarydata.totalAmountByInvoiceStatuses.paid)}
                 </div>
@@ -56,15 +59,16 @@ const SummaryCard = ({ summarydata }: Props) => {
           {summarydata &&
             Number(summarydata.totalAmountByInvoiceStatuses.pending) > 0 && (
               <div
-                className="bg-white p-4 shadow-md rounded-lg cursor-pointer w-1/4 h-[190px]"
+                className="h-[190px] w-1/4 cursor-pointer rounded-lg bg-white p-4 shadow-md"
                 onClick={() => {}}
               >
                 <div className="flex-between">
                   <div>
-                    <img
+                    <Image
                       src={pendingInvoiceIcon}
                       alt="Pending"
-                      className="w-12 h-12"
+                      height={48}
+                      width={48}
                     />
                   </div>
                   <div className="text-right">
@@ -74,7 +78,7 @@ const SummaryCard = ({ summarydata }: Props) => {
                     </span>
                   </div>
                 </div>
-                <div className="text-xl font-medium mt-10">
+                <div className="mt-10 text-xl font-medium">
                   {summarydata.currencySymbol}
                   {getDecimalNum(
                     summarydata.totalAmountByInvoiceStatuses.pending
@@ -90,12 +94,12 @@ const SummaryCard = ({ summarydata }: Props) => {
                 summarydata.totalAmountByInvoiceChannels.events
             ) > 0 && (
               <div
-                className="bg-white p-4 shadow-md rounded-lg cursor-pointer w-1/4 h-[190px]"
+                className="h-[190px] w-1/4 cursor-pointer rounded-lg bg-white p-4 shadow-md"
                 onClick={() => {}}
               >
                 <div className="flex-between">
                   <div>
-                    <img src={offerIcon} alt="Offer" className="w-12 h-12" />
+                    <Image src={offerIcon} alt="Offer" height={48} width={48} />
                   </div>
                   <div className="text-right">
                     <span className="block text-sm text-gray-500">
@@ -104,7 +108,7 @@ const SummaryCard = ({ summarydata }: Props) => {
                     </span>
                   </div>
                 </div>
-                <div className="text-xl font-medium mt-10">
+                <div className="mt-10 text-xl font-medium">
                   {summarydata.currencySymbol}
                   {getDecimalNum(
                     summarydata.totalAmountByInvoiceChannels.offers +
@@ -120,12 +124,17 @@ const SummaryCard = ({ summarydata }: Props) => {
           {summarydata &&
             Number(summarydata.totalAmountByInvoiceChannels.catalog) > 0 && (
               <div
-                className="bg-white p-4 shadow-md rounded-lg cursor-pointer w-1/4 h-[190px]"
+                className="h-[190px] w-1/4 cursor-pointer rounded-lg bg-white p-4 shadow-md"
                 onClick={() => {}}
               >
                 <div className="flex-between">
                   <div>
-                    <img src={storeIcon} alt="Catalog" className="w-12 h-12" />
+                    <Image
+                      src={storeIcon}
+                      alt="Catalog"
+                      height={48}
+                      width={48}
+                    />
                   </div>
                   <div className="text-right">
                     <span className="block text-sm text-gray-500">
@@ -134,7 +143,7 @@ const SummaryCard = ({ summarydata }: Props) => {
                     </span>
                   </div>
                 </div>
-                <div className="text-xl font-medium mt-10">
+                <div className="mt-10 text-xl font-medium">
                   {summarydata.currencySymbol}
                   {getDecimalNum(
                     summarydata.totalAmountByInvoiceChannels.catalog
@@ -145,7 +154,7 @@ const SummaryCard = ({ summarydata }: Props) => {
             )}
         </div>
       ) : (
-        <div className="h-12 flex items-center justify-center">
+        <div className="flex h-12 items-center justify-center">
           <span>{`No data available for the Past Months"}.`}</span>
         </div>
       )}

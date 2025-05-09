@@ -1,8 +1,12 @@
+/* eslint-disable camelcase */
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@radix-ui/react-tabs";
+import Image from "next/image";
 import React from "react";
-import CommonHeader from "./common-header";
+
 import { fetchPayables, fetchReceivables } from "@/actions/transaction.action";
 import { fetchInvoice } from "@/types/api-response/transaction.response";
+
+import CommonHeader from "./common-header";
 type Props = {
   bizid: number;
   months: string;
@@ -85,7 +89,7 @@ const Transaction = async ({
               body = invoiceDetails.title;
             }
           }
-          let totalAmount = baseAmount + taxAmount + tipAmount - fyndrCash;
+          const totalAmount = baseAmount + taxAmount + tipAmount - fyndrCash;
           const formattedDate = new Date(invoiceDt).toLocaleDateString(
             "en-US",
             {
@@ -163,26 +167,22 @@ const Transaction = async ({
           return (
             <div
               key={item.objid}
-              className="border border-gray-200 rounded-lg p-4 shadow hover:shadow-md cursor-pointer transition"
+              className="cursor-pointer rounded-lg border border-gray-200 p-4 shadow transition hover:shadow-md"
             >
               <div className="flex items-center justify-between gap-4">
-                <div className="flex items-center gap-2 min-w-50 w-72 flex-shrink-1">
-                  <img
-                    src={statusIcon}
-                    alt="offer"
-                    className="transaction_image_icon flex-shrink-0"
-                  />
+                <div className="flex w-72 min-w-12 items-center gap-2">
+                  <Image src={statusIcon} alt="offer" height={48} width={48} />
                   <div className="min-w-0">
-                    <p className="text-sm font-semibold text-gray-800 truncate">
+                    <p className="truncate text-sm font-semibold text-gray-800">
                       {rowTitle}
                     </p>
-                    <p className="text-xs text-gray-500 truncate">{body}</p>
+                    <p className="truncate text-xs text-gray-500">{body}</p>
                   </div>
                 </div>
-                <div className="text-sm text-gray-800 whitespace-nowrap flex-shrink-0 w-40 text-center">
+                <div className="w-40 shrink-0 whitespace-nowrap text-center text-sm text-gray-800">
                   {formattedDate}
                 </div>
-                <div className="text-right whitespace-nowrap flex-shrink-0 w-36">
+                <div className="w-36 shrink-0 whitespace-nowrap text-right">
                   <p className="text-sm font-medium text-gray-800">
                     {currencySymbol}
                     {totalAmount.toFixed(2)}
@@ -224,7 +224,7 @@ const Transaction = async ({
           {recvSuccess && recvData.invoices.length > 0 ? (
             <InvoiceList rcptlist={recvData?.invoices} type="receivable" />
           ) : (
-            <p className="text-center text-gray-500 py-4">
+            <p className="py-4 text-center text-gray-500">
               No purchases found.
             </p>
           )}
@@ -235,7 +235,7 @@ const Transaction = async ({
           {success && data.invoices.length > 0 ? (
             <InvoiceList rcptlist={data?.invoices} type="payable" />
           ) : (
-            <p className="text-center text-gray-500 py-4">
+            <p className="py-4 text-center text-gray-500">
               No purchases found.
             </p>
           )}

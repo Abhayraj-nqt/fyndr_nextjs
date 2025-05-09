@@ -112,7 +112,7 @@ export const BUSINESS_MENU: SubMenuProps[] = [
     subMenu: [
       {
         icon: ArchiveRestore,
-        route: "",
+        route: "/business/catalogue/list",
         label: "Create Store",
       },
       {
