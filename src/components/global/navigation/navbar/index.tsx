@@ -4,18 +4,26 @@ import React from "react";
 import LocationSelector from "@/components/global/location-selector";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
+
+import Account from "./account";
+import Logo from "./logo";
 import MobileNavigation from "./mobile-navigation";
 import NavLinks from "./nav-links";
 import LocalSearch from "../../search/local-search";
-import Account from "./Account";
-import Logo from "./Logo";
 
 type Props = {
   searchbar?: boolean;
   location?: boolean;
+  searchNavigateTo?: string;
+  searchParam?: string;
 };
 
-const Navbar = async ({ location, searchbar }: Props) => {
+const Navbar = async ({
+  location,
+  searchbar,
+  searchNavigateTo,
+  searchParam = "query",
+}: Props) => {
   return (
     <nav className="flex-between sticky top-0 z-50 min-h-16 w-full gap-5 bg-primary-500 px-8 py-2">
       <Logo />
@@ -24,7 +32,9 @@ const Navbar = async ({ location, searchbar }: Props) => {
           icon="/icons/search.svg"
           placeholder="Search Offers, Events & Businesses"
           route="/"
-          otherClasses="flex-1 w-11/12 sm:w-full max-w-lg h-full"
+          className="h-full w-11/12 max-w-lg flex-1 sm:w-full"
+          navigateTo={searchNavigateTo}
+          navigateParam={searchParam}
         />
       )}
       {location && <LocationSelector />}
