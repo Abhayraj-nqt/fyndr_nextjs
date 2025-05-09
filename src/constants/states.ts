@@ -25,6 +25,11 @@ export const EMPTY_CATEGORY = {
     "The category board is empty. Maybe it’s waiting for your brilliant question to get things rolling",
 };
 
+export const EMPTY_WALLET_TRANSACTIONS = {
+  title: "No activity yet!",
+  message: "You haven",
+};
+
 // export const EMPTY_TAGS = {
 //   title: "No Tags Found",
 //   message: "The tag cloud is empty. Add some keywords to make it rain.",

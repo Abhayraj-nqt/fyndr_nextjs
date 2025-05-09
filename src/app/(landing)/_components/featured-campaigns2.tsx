@@ -3,7 +3,6 @@ import React from "react";
 
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
-import { parseAddress } from "@/lib/utils";
 import { CampaignProps } from "@/types/campaign";
 
 import FeaturedFyndsCard from "./cards/featured-fynds-card";
@@ -25,32 +24,12 @@ const FeaturedCampaigns = async ({ campaigns: featuredCampaigns }: Props) => {
               key={campaign.objid}
               href={ROUTES.OFFER_DETAILS(campaign.biz.bizName, campaign.qrCode)}
             >
-              <FeaturedFyndsCard
-                bizName={campaign.biz.bizName}
-                currencySymbol={campaign.cmpnOffers[0]?.currencySymbol}
-                title={campaign.title}
-                address={`${
-                  campaign?.cmpnLocs[0]?.distance
-                    ? campaign?.cmpnLocs[0]?.distance.toFixed(1)
-                    : "0"
-                } miles, ${parseAddress(campaign?.cmpnLocs[0])}`}
-                imageURL={
-                  (campaign.images &&
-                    campaign.images.length > 0 &&
-                    campaign?.images[0]?.img_url) ||
-                  "/images/grayPlaceholderFyn.png"
-                }
-                discountType={campaign.cmpnOffers[0]?.discountType}
-                discount={campaign.cmpnOffers[0]?.amount}
-                offerPrice={campaign.cmpnOffers[0]?.offerPrice}
-                retailPrice={campaign.cmpnOffers[0]?.retailPrice}
-                cmpnType={campaign.cmpnType}
-              />
+              <FeaturedFyndsCard campaign={campaign} />
             </Link>
           ))}
         </div>
       )}
-      {featuredCampaigns.length > 14 && (
+      {featuredCampaigns.length >= 12 && (
         <Button
           variant={"outline"}
           className="body-medium self-center rounded-lg border-2 border-primary-500 px-6 py-3 text-primary-500 hover:bg-light-900 hover:text-primary-500"

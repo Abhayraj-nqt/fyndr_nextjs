@@ -24,9 +24,17 @@ type RouteAccess = {
 
 type WalletTransactionsProps = {
   amount: number;
-  businessName: string;
+  businessName?: string;
   fyndrCashStatus: string | "UNUSED" | "USED";
   invoiceId?: number;
-  reason: string | "CASHBACK" | "REDEEM_PROMOCODE";
+  promoCode?: string;
+  reason:
+    | "CASHBACK"
+    | "PROMOCODE"
+    | "REFERRAL"
+    | "REDEEMED"
+    | "FYNDR_CASH_EXPIRED"
+    | "REDEEM_PROMOCODE"
+    | "REGISTRATION_PROMOCODE";
   transactionDt: string;
 };
