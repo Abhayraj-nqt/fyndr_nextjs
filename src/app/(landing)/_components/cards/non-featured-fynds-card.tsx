@@ -33,7 +33,7 @@ const NonFeaturedFyndsCard = ({ campaign }: Props) => {
         className={`aspect-[2/1] rounded-md object-cover`}
       />
       <div className="min-h-48 space-y-4 rounded-b-md bg-primary-100 p-4">
-        <CardTitle>{campaign.biz.bizName}</CardTitle>
+        <CardTitle className="h-6">{campaign.biz.bizName}</CardTitle>
         <CardDescription className="body-regular">
           <h4 className="paragraph-regular line-clamp-2 h-11 text-dark-100">
             {campaign.title}

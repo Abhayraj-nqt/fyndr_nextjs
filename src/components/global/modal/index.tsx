@@ -1,4 +1,3 @@
-// src/components/ui/modal/modal.tsx
 "use client";
 
 import { X } from "lucide-react";

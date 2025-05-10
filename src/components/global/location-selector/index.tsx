@@ -3,7 +3,6 @@
 import { PlaceAutocompleteResult } from "@googlemaps/google-maps-services-js";
 import { MapPin } from "lucide-react";
 import { useRouter } from "next/navigation";
-// import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 
 import { placeAutocomplete, placeDetails } from "@/actions/maps.actions";
@@ -23,7 +22,12 @@ import {
 } from "@/components/ui/popover";
 import { Coordinates } from "@/types/global";
 
-const LocationSelector = () => {
+type Props = {
+  className?: string;
+  popoverClassName?: string;
+};
+
+const LocationSelector = ({ className }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [value, setValue] = useState<string>("");
   const [predictions, setPredictions] = useState<PlaceAutocompleteResult[]>([]);
@@ -31,13 +35,6 @@ const LocationSelector = () => {
   const [, setCoordinates] = useState<Coordinates | null>(null);
 
   const router = useRouter();
-  // const session = useSession();
-
-  // if (session) {
-
-  // }
-
-  // const searchParams = useSearchParams();
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -88,13 +85,13 @@ const LocationSelector = () => {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="no-scrollbar min-h-[45px] w-[200px] justify-between overflow-x-auto"
+          className={`no-scrollbar min-h-[45px] w-[200px] justify-between overflow-x-auto ${className}`}
         >
           {value || "Select Location..."}
           <MapPin className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className={`w-[200px] p-0 ${className}`}>
         <Command>
           <CommandInput
             placeholder="Search location..."
