@@ -65,6 +65,7 @@ const LocalSearch = ({
     }, 300);
 
     return () => clearTimeout(delayDebounceFn);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, pathname, route, router, searchParams, param, navigateTo]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

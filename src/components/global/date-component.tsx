@@ -18,7 +18,7 @@ const DateComponent = ({
   date,
   className = "",
   format = "MM-dd-yyyy",
-  timeZone,
+  // timeZone,
 }: DateProps) => {
   const parsedDate = date instanceof Date ? date : parseISO(date);
 

@@ -73,18 +73,14 @@ export function useLocationSelector() {
     }
 
     if (locationPayload.lat && locationPayload.lng) {
-      //   const lat = user.address.lat;
-      //   const lng = user.address.lng;
-
-      //   getUserAccountLocation({ lat, lng });
       getUserAccountLocation(locationPayload);
     } else {
       // Mark initial load as complete if there's no user or address
       setIsInitialLoad(false);
     }
-  }, [user, userError, isUserLoading]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, userError, isUserLoading, searchParams]);
 
-  // Only fetch predictions when shouldFetchPredictions is true
   useEffect(() => {
     if (!shouldFetchPredictions) return;
 
@@ -112,7 +108,6 @@ export function useLocationSelector() {
     return () => clearTimeout(delayDebounceFn);
   }, [input, shouldFetchPredictions]);
 
-  // Handle user typing in the input field
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
     setShouldFetchPredictions(true);
@@ -175,7 +170,6 @@ export function useLocationSelector() {
           navigator.geolocation.getCurrentPosition(
             resolve,
             (error) => {
-              // Silently handle permission denied errors
               reject(error);
             },
             {
@@ -192,7 +186,6 @@ export function useLocationSelector() {
         lng: position.coords.longitude,
       };
 
-      // Fetch location details
       const locationDetails =
         await placeDetailsByCoordinates(currentCoordinates);
 
@@ -205,7 +198,6 @@ export function useLocationSelector() {
         setSelectedLocation(formattedAddress);
         setCoordinates(currentCoordinates);
 
-        // Update URL with new coordinates
         const newUrl = `?lat=${currentCoordinates.lat}&lng=${currentCoordinates.lng}`;
         router.push(newUrl, { scroll: false });
       } else {
@@ -213,12 +205,10 @@ export function useLocationSelector() {
         setInputWithoutFetch("Current Location");
         setCoordinates(currentCoordinates);
 
-        // Update URL with new coordinates
         const newUrl = `?lat=${currentCoordinates.lat}&lng=${currentCoordinates.lng}`;
         router.push(newUrl, { scroll: false });
       }
     } catch (error) {
-      // Silently handle permission errors
       if (
         error instanceof GeolocationPositionError &&
         error.code === error.PERMISSION_DENIED
@@ -251,7 +241,6 @@ export function useLocationSelector() {
       setSelectedLocation(description);
       onCloseDropdown();
 
-      // Get place details including coordinates
       const details = await placeDetails(placeId);
 
       if (details?.geometry?.location) {
@@ -262,7 +251,6 @@ export function useLocationSelector() {
 
         setCoordinates(newCoordinates);
 
-        // Update URL with new coordinates
         const newUrl = `?lat=${newCoordinates.lat}&lng=${newCoordinates.lng}`;
         router.push(newUrl, { scroll: false });
       }
