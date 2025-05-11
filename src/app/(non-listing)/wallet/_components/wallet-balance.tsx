@@ -48,7 +48,7 @@ const WalletBalance = async ({ className }: Props) => {
             </h3>
           </div>
           <div className="text-4xl font-semibold">${data.balance}</div>
-          <ReferralCode referralCode="Hello copied" />
+          <ReferralCode />
         </div>
         <div className="flex flex-col items-center md:items-end">
           <Image

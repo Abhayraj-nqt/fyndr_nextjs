@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Modal } from "@/components/global/modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useUser } from "@/hooks/auth";
 
 type Props = {
   children?: React.ReactNode;
@@ -12,6 +13,11 @@ type Props = {
 
 const RedeemPromocodeDialog = ({ children }: Props) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const { user, isLoading, error } = useUser();
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading profile</div>;
+  if (!user) return <div>Please sign in</div>;
 
   const handleModalOpen = () => setModalOpen(true);
   const handleModalClose = () => setModalOpen(false);

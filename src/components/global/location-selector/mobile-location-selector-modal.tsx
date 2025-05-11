@@ -27,7 +27,7 @@ const MobileLocationSelectorModal = () => {
           if (!open) handleModalClose();
         }}
       >
-        <LocationSelector className="w-full" popoverClassName="w-full" />
+        <LocationSelector className="w-full" />
       </Modal>
     </>
   );

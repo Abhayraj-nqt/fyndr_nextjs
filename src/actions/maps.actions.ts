@@ -3,6 +3,7 @@
 import { Client } from "@googlemaps/google-maps-services-js";
 
 import handleError from "@/lib/handlers/error";
+import { Coordinates } from "@/types/global";
 
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!;
 
@@ -38,6 +39,26 @@ export const placeDetails = async (placeId: string) => {
     });
 
     return response.data.result;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const placeDetailsByCoordinates = async (location: Coordinates) => {
+  const { lat, lng } = location;
+  try {
+    if (!lat || !lng) {
+      throw new Error("Coordinated are required");
+    }
+
+    const response = await client.reverseGeocode({
+      params: {
+        key: GOOGLE_MAPS_API_KEY,
+        latlng: `${lat},${lng}`,
+      },
+    });
+
+    return response.data.results[0];
   } catch (error) {
     handleError(error);
   }

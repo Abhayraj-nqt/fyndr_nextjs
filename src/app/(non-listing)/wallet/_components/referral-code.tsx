@@ -10,16 +10,23 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-
-type Props = {
-  referralCode: string;
-};
+import { useUser } from "@/hooks/auth";
 
 const TOOLTIP_MSG = "Copy referral code";
 
-const ReferralCode = ({ referralCode }: Props) => {
+const ReferralCode = () => {
   const [tooltipText, setTooltipText] = useState<string>(TOOLTIP_MSG);
   const [isTooltipOpen, setIsTooltipOpen] = useState<boolean>(false);
+
+  const { user, isLoading, error } = useUser();
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading profile</div>;
+  if (!user) return <div>Please sign in</div>;
+
+  const referralCode = user?.referralCode || "";
+
+  console.log(user);
 
   const handleClick = () => {
     setIsTooltipOpen(true);
@@ -32,13 +39,13 @@ const ReferralCode = ({ referralCode }: Props) => {
 
   return (
     <div className="flex gap-2 self-start rounded-full bg-primary-600 p-4">
-      <p className="body-regular">Your referral code : Book</p>
+      <p className="body-regular">Your referral code : {`${referralCode}`}</p>
       <TooltipProvider>
         <Tooltip open={isTooltipOpen} onOpenChange={setIsTooltipOpen}>
           <TooltipTrigger asChild>
             <div>
               <CopyToClipboard
-                text={referralCode}
+                text={`${referralCode}`}
                 className="flex items-center justify-center"
               >
                 <Clipboard
