@@ -1,7 +1,6 @@
 import Link from "next/link";
 import React from "react";
 
-import LocationSelector from "@/components/global/location-selector";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
 
@@ -9,6 +8,7 @@ import Account from "./account";
 import Logo from "./logo";
 import MobileNavigation from "./mobile-navigation";
 import NavLinks from "./nav-links";
+import LocationSelector from "../../location-selector";
 import MobileLocationSelectorModal from "../../location-selector/mobile-location-selector-modal";
 import LocalSearch from "../../search/local-search";
 import VisibilityWrapper from "../../visibility-wrapper";
