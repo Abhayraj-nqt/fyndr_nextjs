@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+// import { onRedeemPromoCode } from "@/actions/promocode.action";
 import { Modal } from "@/components/global/modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,10 +33,11 @@ const RedeemPromocodeDialog = ({ children }: Props) => {
           if (!open) handleModalClose();
         }}
       >
-        <Input placeholder="Enter Promo Code" />
-
         <div className="mt-4 flex gap-2">
+          {/* <form action={onRedeemPromoCode}> */}
+          <Input placeholder="Enter Promo Code" />
           <Button className="btn-primary">Verify</Button>
+          {/* </form> */}
           <Button className="btn-primary-outlined" onClick={handleModalClose}>
             Cancel
           </Button>
