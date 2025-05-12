@@ -45,7 +45,8 @@ declare module "next-auth" {
   interface User {
     accessToken?: string | null | any;
     refreshToken?: string | null | any;
-    role?: string | null | any;
+    entityRole?: EntityRole | null | any;
+    entityType?: EntityType | null | any;
     accountStatus?: string | null | any;
     phone?: string | null | any;
     location?: Coordinates | null | any;

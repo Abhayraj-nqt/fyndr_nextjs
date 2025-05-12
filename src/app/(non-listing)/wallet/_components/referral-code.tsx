@@ -43,7 +43,7 @@ const ReferralCode = () => {
       <TooltipProvider>
         <Tooltip open={isTooltipOpen} onOpenChange={setIsTooltipOpen}>
           <TooltipTrigger asChild>
-            <div>
+            <div className="flex-center">
               <CopyToClipboard
                 text={`${referralCode}`}
                 className="flex items-center justify-center"

@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
@@ -13,12 +12,9 @@ type Props = {
 };
 
 const SignOutButton = ({ children, className }: Props) => {
-  const router = useRouter();
-
   const handleLogout = async () => {
     try {
-      await signOut();
-      router.replace(ROUTES.SIGN_IN);
+      await signOut({ redirectTo: ROUTES.HOME });
     } catch {
       toast({
         title: "Error signing out",

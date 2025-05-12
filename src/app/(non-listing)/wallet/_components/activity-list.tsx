@@ -33,7 +33,7 @@ const ActivityList = async ({ page = 1 }: Props) => {
   if (!success || !data) return null;
 
   return (
-    <div>
+    <div className="rounded-lg bg-white">
       <DataRenderer
         success={success}
         error={error}
@@ -50,27 +50,31 @@ const ActivityList = async ({ page = 1 }: Props) => {
           </div>
         )}
       />
-      <Pagination className="mt-4">
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              scroll={false}
-              href={`${ROUTES.WALLET}?page=${page - 1 > 0 ? page - 1 : 1}`}
-            />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink scroll={false} href="#">
-              {page}
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext
-              scroll={false}
-              href={`${ROUTES.WALLET}?page=${data.last ? page : page + 1}`}
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+      {data.walletTransactionsList.length > 0 ? (
+        <Pagination className="mt-4">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                scroll={false}
+                href={`${ROUTES.WALLET}?page=${page - 1 > 0 ? page - 1 : 1}`}
+              />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink scroll={false} href="#">
+                {page}
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext
+                scroll={false}
+                href={`${ROUTES.WALLET}?page=${data.last ? page : page + 1}`}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      ) : (
+        <div className="py-8"></div>
+      )}
     </div>
   );
 };
