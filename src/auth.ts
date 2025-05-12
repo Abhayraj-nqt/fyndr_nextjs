@@ -137,7 +137,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 lng: address.lng,
               },
               phone: address.phone,
-              bizid: bizid,
+              bizid,
             } as User;
           } catch (error) {
             console.log(error);
