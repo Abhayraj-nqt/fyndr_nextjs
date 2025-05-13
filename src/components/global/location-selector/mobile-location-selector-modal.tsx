@@ -15,7 +15,7 @@ const MobileLocationSelectorModal = () => {
   const handleModalClose = () => setModalOpen(false);
 
   return (
-    <>
+    <div className="flex sm:hidden">
       <MapPin
         onClick={handleModalOpen}
         size={25}
@@ -30,7 +30,7 @@ const MobileLocationSelectorModal = () => {
       >
         <LocationSelector className="w-full" />
       </Modal>
-    </>
+    </div>
   );
 };
 

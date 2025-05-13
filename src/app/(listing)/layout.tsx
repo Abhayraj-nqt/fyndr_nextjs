@@ -10,7 +10,8 @@ type Props = {
 const ListingLayout = ({ children }: Props) => {
   return (
     <div className="flex min-h-screen flex-col">
-      <Navbar searchbar location />
+      {/* <Navbar searchbar location /> */}
+      <Navbar searchbar />
       <section className="flex min-h-screen flex-1 flex-col bg-light-800">
         <div>{children}</div>
       </section>
