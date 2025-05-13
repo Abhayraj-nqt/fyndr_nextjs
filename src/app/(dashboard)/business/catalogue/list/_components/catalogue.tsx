@@ -14,15 +14,7 @@ const Catalogue = ({ data }: Props) => {
       <List
         dataSource={data}
         renderItem={(item, index) => (
-          <ListItem
-            key={index}
-            item={item}
-            deletePress={() => console.log("delete", item.name)}
-            onClick={() => console.log("click", item.name)}
-            onEditClick={() => console.log("edit", item.name)}
-            onStoreUrlClick={() => console.log("url click", item.url)}
-            hideDelete={index === 0}
-          />
+          <ListItem key={index} item={item} hideDelete={index === 0} />
         )}
       />
     </>
