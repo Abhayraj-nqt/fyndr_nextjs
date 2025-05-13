@@ -84,7 +84,7 @@ const LocalSearch = ({
   const getIcon = () => {
     if (!Icon) return null;
     if (typeof Icon === "string") {
-      return <Image src={Icon} alt={"search"} height={25} width={25} />;
+      return <Image src={Icon} alt={"search"} height={20} width={20} />;
     } else if (Icon && React.isValidElement(Icon)) {
       return <>{Icon}</>;
     }
