@@ -17,6 +17,7 @@ type Props = {
   navigateTo?: string;
   navigateParam?: string;
   onSearch?: (query: string) => void;
+  isOnNavbar?: boolean;
 };
 
 const LocalSearch = ({
@@ -29,6 +30,7 @@ const LocalSearch = ({
   navigateTo,
   navigateParam = "query",
   onSearch,
+  isOnNavbar,
 }: Props) => {
   const pathname = usePathname();
   const router = useRouter();
@@ -48,11 +50,11 @@ const LocalSearch = ({
           value: searchQuery,
         });
 
-        if (pathname === route) {
+        if (pathname === route || isOnNavbar) {
           router.push(newUrl, { scroll: false });
         }
       } else {
-        if (pathname === route) {
+        if (pathname === route || isOnNavbar) {
           const newUrl = removeKeysFromUrlQuery({
             params: searchParams.toString(),
             keysToRemove: [param],
@@ -63,6 +65,7 @@ const LocalSearch = ({
     }, 300);
 
     return () => clearTimeout(delayDebounceFn);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, pathname, route, router, searchParams, param, navigateTo]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -90,7 +93,7 @@ const LocalSearch = ({
 
   return (
     <div
-      className={`flex min-h-[45px] grow items-center gap-4 rounded-lg border border-light-700 bg-light-900 px-4 ${className}`}
+      className={`flex min-h-[45px] grow items-center gap-1 rounded-lg border border-light-700 bg-light-900 px-4 ${className}`}
     >
       {getIcon()}
       <Input

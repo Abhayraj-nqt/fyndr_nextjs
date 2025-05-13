@@ -14,7 +14,6 @@ const GoTopButton = ({ visibleHeight = 400 }: Props) => {
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > visibleHeight) {
-        // Show button after scrolling down 200px
         setIsVisible(true);
       } else {
         setIsVisible(false);

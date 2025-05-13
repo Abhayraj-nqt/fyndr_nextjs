@@ -23,7 +23,7 @@ const MobileNavigation = async () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Menu size={36} className="text-light-900 md:hidden" />
+        <Menu size={30} className="text-light-900 lg:hidden" />
       </SheetTrigger>
       <SheetContent side={"right"} className="border-none bg-dark-200">
         <SheetTitle className="hidden">Navigation</SheetTitle>

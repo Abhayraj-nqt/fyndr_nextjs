@@ -1,4 +1,3 @@
-// src/components/ui/modal/modal.tsx
 "use client";
 
 import { X } from "lucide-react";
@@ -13,7 +12,6 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 
@@ -47,6 +45,11 @@ type BaseModalProps = {
    * Custom width for the modal (e.g. "500px", "30rem", "50%")
    */
   width?: string;
+  /**
+   * Whether to allow closing the modal when clicking outside
+   * @default true
+   */
+  closeOnOutsideClick?: boolean;
 };
 
 type TriggeredModalProps = BaseModalProps & {
@@ -134,6 +137,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
       closeIcon,
       contentClassName,
       width,
+      closeOnOutsideClick = true,
     },
     ref
   ) => {
@@ -141,15 +145,36 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 
     // Determine if we're using internal or external state
     const isOpen = open !== undefined ? open : isControlledOpen;
-    const setIsOpen = useCallback(
+
+    // Handle state changes in a centralized way
+    const handleOpenChange = useCallback(
       (newOpen: boolean) => {
         if (open === undefined) {
           setIsControlledOpen(newOpen);
         }
-        onOpenChange?.(newOpen);
+        if (onOpenChange) {
+          onOpenChange(newOpen);
+        }
       },
       [open, onOpenChange]
     );
+
+    // Handle outside clicks
+    const handleOutsideClick = useCallback(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (event: any) => {
+        // If we're not allowing outside clicks or if loading, prevent closing
+        if (!closeOnOutsideClick || primaryAction?.loading) {
+          event.preventDefault();
+        }
+      },
+      [closeOnOutsideClick, primaryAction?.loading]
+    );
+
+    // Close the modal explicitly (for close button)
+    const handleClose = useCallback(() => {
+      handleOpenChange(false);
+    }, [handleOpenChange]);
 
     // Determine whether to show header based on props
     const shouldShowHeader =
@@ -165,17 +190,13 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
     const customStyles = width ? { style: { width, maxWidth: "100vw" } } : {};
 
     return (
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <Dialog open={isOpen} onOpenChange={handleOpenChange}>
         {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
         <DialogContent
           ref={ref}
           className={cn("p-0 gap-0 rounded-10", contentClassName)}
-          onInteractOutside={(e) => {
-            // Prevent closing on outside click during loading state
-            if (primaryAction?.loading) {
-              e.preventDefault();
-            }
-          }}
+          onPointerDownOutside={handleOutsideClick}
+          onEscapeKeyDown={handleOutsideClick}
           {...customStyles}
         >
           <div className="flex items-start justify-between">
@@ -192,10 +213,14 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
               </DialogHeader>
             )}
             {showCloseButton && (
-              <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none">
+              <button
+                type="button"
+                onClick={handleClose}
+                className="absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none"
+                aria-label="Close"
+              >
                 {closeIcon || <X className="size-4" />}
-                <span className="sr-only">Close</span>
-              </DialogClose>
+              </button>
             )}
           </div>
           <div className="p-4">{children}</div>
