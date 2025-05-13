@@ -4,8 +4,8 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
 
-import Account from "./account";
-import Logo from "./logo";
+import Account from "./Account";
+import Logo from "./Logo";
 import MobileNavigation from "./mobile-navigation";
 import NavLinks from "./nav-links";
 import LocationSelector from "../../location-selector";
