@@ -1,5 +1,8 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+
+import ROUTES from "@/constants/routes";
 import { API_BASE_URL } from "@/environment";
 import { _get, _post } from "@/lib/handlers/fetch";
 import {
@@ -18,6 +21,9 @@ export const onRedeemPromocode: RedeemPromocode = async (params, payload) => {
   console.log({ params, payload });
 
   const endpoint = `${API_BASE_URL}/identity/redeem_promocode/${indvId}`;
+
+  revalidatePath(ROUTES.WALLET);
+
   return _post(endpoint, payload, {
     requireAuth: true,
   });

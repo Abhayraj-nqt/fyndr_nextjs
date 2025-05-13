@@ -61,9 +61,11 @@ const AuthForm = <T extends FieldValues>({
 
       router.replace(ROUTES.CALLBACK_SIGN_IN);
     } else {
+      console.log(result);
+
       toast({
         title: `Error ${result?.status}`,
-        description: result?.error?.message,
+        description: result.error?.details?.message || "Something went wrong",
         variant: "destructive",
       });
     }

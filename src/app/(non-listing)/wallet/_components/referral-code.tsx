@@ -26,8 +26,6 @@ const ReferralCode = () => {
 
   const referralCode = user?.referralCode || "";
 
-  console.log(user);
-
   const handleClick = () => {
     setIsTooltipOpen(true);
     setTooltipText("Copied!");

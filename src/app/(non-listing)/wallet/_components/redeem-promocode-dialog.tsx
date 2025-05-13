@@ -38,7 +38,10 @@ const RedeemPromocodeDialog = ({ children }: Props) => {
   }
 
   const handleModalOpen = () => setModalOpen(true);
-  const handleModalClose = () => setModalOpen(false);
+  const handleModalClose = () => {
+    setModalOpen(false);
+    resetStates();
+  };
 
   const resetStates = () => {
     setModalOpen(false);
@@ -101,12 +104,6 @@ const RedeemPromocodeDialog = ({ children }: Props) => {
     }
 
     if (data) {
-      // toast({
-      //   title: data.message,
-      // });
-
-      // setModalOpen(false);
-
       resetStates();
       setSuccessModalOpen(true);
       setTimeout(() => {
@@ -124,13 +121,17 @@ const RedeemPromocodeDialog = ({ children }: Props) => {
         onOpenChange={(open) => {
           if (!open) handleModalClose();
         }}
+        closeOnOutsideClick={false}
       >
         <div className="flex flex-col gap-4">
-          <Input
-            placeholder="Enter Promo Code"
-            value={promoCode}
-            onChange={handleChange}
-          />
+          <div className="flex min-h-[45px] grow items-center gap-1 rounded-lg border border-light-700 bg-light-900 px-2">
+            <Input
+              placeholder="Enter Promo Code"
+              value={promoCode}
+              onChange={handleChange}
+              className="no-focus paragraph-regular placeholder border-none text-dark-400 shadow-none outline-none"
+            />
+          </div>
 
           <div className="flex flex-row gap-2">
             <Button className="btn-primary" onClick={handleVerify}>
