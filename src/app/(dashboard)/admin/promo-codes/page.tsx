@@ -1,5 +1,5 @@
 import { getActivePromos, getExpiredPromos } from "@/actions/admin.actions";
-import ContainerWrapper from "@/components/ContainerWrapper";
+import ContainerWrapper from "@/components/global/ContainerWrapper";
 import LocalSearch from "@/components/global/search/local-search";
 
 import { Input } from "@/components/ui/input";
@@ -13,7 +13,7 @@ const PromoCodes = async ({
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   const search =
-    typeof searchParams?.search === "string" ? searchParams.search : "";
+    typeof searchParams?.query === "string" ? searchParams.query : "";
   const { success: activeSuccess, data: activeData } = await getActivePromos({
     search,
   });

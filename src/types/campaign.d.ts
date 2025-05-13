@@ -2,7 +2,7 @@ import { Currency, CurrencySymbol, DiscountType, OfferStatus } from "./global";
 
 type CampaignTypeProps = "offers" | "events" | "coupons" | "brochure";
 type CampaignStatusProps = "ACTIVE";
-type CampaignStatusProps2 = "active";
+type CampaignStatusProps2 = "active" | "inactive";
 
 type CampaignImageProps = {
   img_url: string;
@@ -96,6 +96,16 @@ type CampaignLocationProps = {
   status: string;
 };
 
+type PaymentSubscriptionProps = {
+  id: number;
+  defaultPaymentId: string;
+  createdDt: string;
+  updatedDt: string;
+  status: "ACTIVE" | "INACTIVE" | string;
+  lastInvoiceId: number;
+  updatedDuration: number;
+};
+
 type CampaignProps = {
   qrCode: string;
   startDt: string;
@@ -133,7 +143,7 @@ type CampaignProps = {
 
   videos: null | unknown;
   campaignLocationCount: null | number;
-  paymentSubscription: null | unknown;
+  paymentSubscription: PaymentSubscriptionProps | null;
 
   likedCount: number;
   campaignLiked: boolean;

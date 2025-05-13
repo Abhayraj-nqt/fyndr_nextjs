@@ -166,6 +166,7 @@ export function useInfiniteCampaigns(
           page: pageParam,
           pageSize: params.pageSize,
           orderBy: params.orderBy || "ASC",
+          search: params.search,
         },
         payload
       );

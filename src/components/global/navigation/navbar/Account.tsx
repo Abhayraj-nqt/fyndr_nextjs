@@ -1,10 +1,7 @@
 import Link from "next/link";
-import React from "react";
 
-import { signOut } from "@/actions/auth.actions";
 import { auth } from "@/auth";
-import UserAvatar from "@/components/global/UserAvatar";
-import { Button } from "@/components/ui/button";
+import UserAvatar from "@/components/global/user-avatar";
 import {
   Menubar,
   MenubarContent,
@@ -13,39 +10,14 @@ import {
   MenubarTrigger,
 } from "@/components/ui/menubar";
 
+import SignOutButton from "../../buttons/sign-out-button";
+
 interface Props {
   className: string;
 }
 
 const Account = async ({ className }: Props) => {
   const session = await auth();
-
-  // const NAV_MENU_ACCOUNT_DROPDOWN: {
-  //   login: boolean;
-  //   route: string;
-  //   label: string;
-  // }[] = [
-  //   {
-  //     login: false,
-  //     route: "/sign-in",
-  //     label: "Login",
-  //   },
-  //   {
-  //     login: false,
-  //     route: "/sign-up",
-  //     label: "Register",
-  //   },
-  //   {
-  //     login: true,
-  //     route: "",
-  //     label: "Account",
-  //   },
-  //   {
-  //     login: true,
-  //     route: "",
-  //     label: "My Offers",
-  //   },
-  // ];
 
   return (
     <Menubar
@@ -55,7 +27,7 @@ const Account = async ({ className }: Props) => {
         <MenubarTrigger className="cursor-pointer bg-transparent p-0 focus:bg-transparent data-[state=open]:bg-transparent">
           {session?.user?.email ? (
             <UserAvatar
-              name={session.user.name!}
+              name={session.user?.name}
               // imageUrl={"https://github.com/shadcn.png"}
             />
           ) : (
@@ -65,24 +37,21 @@ const Account = async ({ className }: Props) => {
             />
           )}
         </MenubarTrigger>
-        {session?.user.email ? (
+        {session?.user?.email ? (
           <MenubarContent className="absolute -right-12 mt-3 min-w-[120px] rounded border bg-white py-2">
             <MenubarItem asChild>
-              <Link href={`/account/${session.user.id}`}>Account</Link>
+              <Link href={"/business/billing/transaction"}>Account</Link>
             </MenubarItem>
             <MenubarItem asChild>
               <Link href={`/account/${session.user.id}/my-offers`}>
                 My Offers
               </Link>
             </MenubarItem>
-            <form action={signOut}>
-              <Button
-                type="submit"
-                className="m-0 w-full bg-transparent p-0 font-normal text-dark-100 shadow-none hover:bg-transparent"
-              >
-                <MenubarItem className="w-full">Logout</MenubarItem>
-              </Button>
-            </form>
+            <MenubarItem className="w-full">
+              <SignOutButton className="m-0 size-fit w-full justify-start bg-transparent p-0 font-normal text-dark-100 shadow-none hover:bg-transparent">
+                Logout
+              </SignOutButton>
+            </MenubarItem>
           </MenubarContent>
         ) : (
           <MenubarContent className="absolute -right-12 mt-3 min-w-[120px] rounded border bg-white py-2">

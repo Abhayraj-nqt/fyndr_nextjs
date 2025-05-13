@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import {
   DefaultValues,
@@ -39,6 +40,8 @@ const AuthForm = <T extends FieldValues>({
   onSubmit,
   formType,
 }: AuthFormProps<T>) => {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: defaultValues as DefaultValues<T>,
@@ -55,6 +58,8 @@ const AuthForm = <T extends FieldValues>({
             ? "Signed in successfully"
             : "Signed up successfully",
       });
+
+      router.replace(ROUTES.CALLBACK_SIGN_IN);
     } else {
       toast({
         title: `Error ${result?.status}`,

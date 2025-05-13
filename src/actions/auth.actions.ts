@@ -1,8 +1,6 @@
 "use server";
 
-import { redirect } from "next/navigation";
-
-import { signIn } from "@/auth";
+import { signIn, signOut as authSignOut } from "@/auth";
 import { API_BASE_URL, API_GATEWAY_URL } from "@/environment";
 import handleError from "@/lib/handlers/error";
 import { _post } from "@/lib/handlers/fetch";
@@ -38,8 +36,7 @@ export const signInWithCredentials: SignInWithCredentials = async (params) => {
 
 export const signOut: SignOutProps = async () => {
   try {
-    await signOut();
-    redirect("/");
+    await authSignOut({ redirectTo: "/" });
   } catch (error) {
     handleError(error);
   }
@@ -75,6 +72,10 @@ export const getAccountAPI: GetAccountAPIProps = async (payload) => {
   return _post<AccountResponse>(endpoint, newPayload, {
     headers: {
       Authorization: `Bearer ${payload.accessToken}`,
+    },
+    cache: "force-cache",
+    next: {
+      revalidate: 500000,
     },
   });
 };

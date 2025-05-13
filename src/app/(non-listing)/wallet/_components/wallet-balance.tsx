@@ -5,6 +5,9 @@ import { onGetWalletTransactions } from "@/actions/wallet.action";
 import { auth } from "@/auth";
 import { Button } from "@/components/ui/button";
 
+import RedeemPromocodeDialog from "./redeem-promocode-dialog";
+import ReferralCode from "./referral-code";
+
 type Props = {
   className?: string;
 };
@@ -24,10 +27,8 @@ const WalletBalance = async ({ className }: Props) => {
   });
 
   if (!success || !data) {
-    return <div>Something went wrong</div>;
+    return null;
   }
-
-  console.log(data);
 
   return (
     <div
@@ -46,10 +47,8 @@ const WalletBalance = async ({ className }: Props) => {
               Total Wallet Balance
             </h3>
           </div>
-          <div className="flex gap-2 self-start rounded-full bg-primary-600 p-4">
-            <p className="body-regular">Your referral code : Book</p>
-            <Image src={"/icons/copy.svg"} alt="copy" height={20} width={20} />
-          </div>
+          <div className="text-4xl font-semibold">${data.balance}</div>
+          <ReferralCode />
         </div>
         <div className="flex flex-col items-center md:items-end">
           <Image
@@ -66,9 +65,12 @@ const WalletBalance = async ({ className }: Props) => {
         Refer an individual and receive $5, or refer a business and receive $20
         once they complete their Stripe integration!
       </p>
-      <Button className="self-start bg-light-900 text-dark-100 hover:bg-light-900">
-        Redeem Promo Code
-      </Button>
+
+      <RedeemPromocodeDialog>
+        <Button className="self-start bg-light-900 text-dark-100 hover:bg-light-900">
+          Redeem Promo Code
+        </Button>
+      </RedeemPromocodeDialog>
     </div>
   );
 };

@@ -40,4 +40,12 @@ export type ExpiredList = {
   last: boolean;
   promocodesList: ExpiredPromo[] | undefined;
   count: number;
+}
+export type VerifyPromocodeResponse = {
+  message: string;
+  promoCodeDetails: {
+    currencySymbol: string;
+    amount: number;
+  };
+  promocode: boolean;
 };
