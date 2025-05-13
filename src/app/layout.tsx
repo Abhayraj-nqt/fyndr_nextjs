@@ -31,8 +31,8 @@ export default async function RootLayout({
   const session = await auth();
 
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} antialiased`}>
+    <html lang="en" suppressHydrationWarning className="no-scrollbar">
+      <body className={`${inter.className} no-scrollbar antialiased`}>
         <SessionProvider session={session}>
           <ReactQueryProvider>
             <UserProvider>{children}</UserProvider>
