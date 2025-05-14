@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 
 import { Separator } from "@/components/ui/separator";
 
@@ -14,7 +14,9 @@ const ActivitySection = ({ page, size }: Props) => {
     <div>
       <h2 className="base-medium my-4 px-4">Activity</h2>
       <Separator />
-      <ActivityList size={size} page={page} />
+      <Suspense fallback={<p>Loading...</p>}>
+        <ActivityList size={size} page={page} />
+      </Suspense>
     </div>
   );
 };

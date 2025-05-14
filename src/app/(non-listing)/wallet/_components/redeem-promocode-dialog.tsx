@@ -9,10 +9,10 @@ import {
   onVerifyPromocode,
 } from "@/actions/promocode.action";
 import { Modal } from "@/components/global/modal";
+import { toast } from "@/components/global/toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useUser } from "@/hooks/auth";
-import { toast } from "@/hooks/use-toast";
 import { VerifyPromocodeResponse } from "@/types/api-response/promocode.response";
 
 type Props = {
@@ -55,9 +55,8 @@ const RedeemPromocodeDialog = ({ children }: Props) => {
 
   const handleVerify = async () => {
     if (promoCode.length < 1) {
-      return toast({
-        title: "Promocode is required",
-        variant: "destructive",
+      return toast.error({
+        message: "Promocode is required",
       });
     }
 
@@ -69,15 +68,14 @@ const RedeemPromocodeDialog = ({ children }: Props) => {
     });
 
     if (!success && error) {
-      return toast({
-        title: `${error.details?.message || "Something went wrong!"}`,
-        variant: "destructive",
+      return toast.error({
+        message: `${error.details?.message || "Something went wrong!"}`,
       });
     }
 
     if (success && data) {
-      toast({
-        title: data.message,
+      toast.success({
+        message: data.message,
       });
 
       setPromocodeDetails(data);
@@ -97,9 +95,8 @@ const RedeemPromocodeDialog = ({ children }: Props) => {
     );
 
     if (!success && error) {
-      return toast({
-        title: error.details?.message || "Someting went wrong!",
-        variant: "destructive",
+      return toast.error({
+        message: error.details?.message || "Someting went wrong!",
       });
     }
 

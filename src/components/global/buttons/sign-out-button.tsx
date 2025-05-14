@@ -2,9 +2,9 @@
 
 import { signOut } from "next-auth/react";
 
+import { toast } from "@/components/global/toast";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
-import { toast } from "@/hooks/use-toast";
 
 type Props = {
   className?: string;
@@ -16,9 +16,8 @@ const SignOutButton = ({ children, className }: Props) => {
     try {
       await signOut({ redirectTo: ROUTES.HOME });
     } catch {
-      toast({
-        title: "Error signing out",
-        variant: "destructive",
+      toast.error({
+        message: "Error signing out",
       });
     }
   };
