@@ -134,6 +134,10 @@ body {
   .btn-primary-outlined {
     @apply btn border-primary-500 text-primary-500 hover:bg-light-900 hover:text-primary-500 bg-light-900 shadow-none border-2 !important;
   }
+
+  .rounded-10 {
+    @apply rounded-[10px] !important;
+  }
 }
 
 .custom-scrollbar::-webkit-scrollbar {

@@ -15,6 +15,7 @@ type Props = {
   dealTypes: string[];
   categories: number[];
   distance: number;
+  query?: string;
 };
 
 const CampaignsSection = ({
@@ -23,9 +24,10 @@ const CampaignsSection = ({
   categories = [],
   distance = 50,
   indvId,
+  query,
 }: Props) => {
   const params = {
-    // search?: string;
+    search: query,
     page: 0,
     pageSize: 20,
     orderBy: "ASC" as "ASC" | "DESC",

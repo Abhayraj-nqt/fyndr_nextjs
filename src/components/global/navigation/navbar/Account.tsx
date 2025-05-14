@@ -27,7 +27,7 @@ const Account = async ({ className }: Props) => {
         <MenubarTrigger className="cursor-pointer bg-transparent p-0 focus:bg-transparent data-[state=open]:bg-transparent">
           {session?.user?.email ? (
             <UserAvatar
-              name={session.user?.name!}
+              name={session.user?.name}
               // imageUrl={"https://github.com/shadcn.png"}
             />
           ) : (

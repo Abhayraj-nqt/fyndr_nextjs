@@ -1,5 +1,6 @@
 import React from "react";
 
+import Footer from "@/components/global/navigation/footer";
 import Navbar from "@/components/global/navigation/navbar";
 
 type Props = {
@@ -13,6 +14,7 @@ const ListingLayout = ({ children }: Props) => {
       <section className="flex min-h-screen flex-1 flex-col bg-light-800">
         <div>{children}</div>
       </section>
+      <Footer />
     </div>
   );
 };
