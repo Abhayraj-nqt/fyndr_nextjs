@@ -6,14 +6,15 @@ import ActivityList from "../activity-list";
 
 type Props = {
   page: number;
+  size: number;
 };
 
-const ActivitySection = ({ page }: Props) => {
+const ActivitySection = ({ page, size }: Props) => {
   return (
     <div>
-      <h2 className="base-medium my-4">Activity</h2>
+      <h2 className="base-medium my-4 px-4">Activity</h2>
       <Separator />
-      <ActivityList page={page} />
+      <ActivityList size={size} page={page} />
     </div>
   );
 };

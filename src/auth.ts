@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { jwtDecode } from "jwt-decode";
-import NextAuth, { User } from "next-auth";
+import NextAuth, { AuthError, User } from "next-auth";
 import type { AdapterUser } from "next-auth/adapters";
 import type { JWT } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
@@ -14,6 +14,14 @@ import {
 import { SignInSchema } from "./components/forms/auth/schema";
 import { authConfig } from "./config/auth.config";
 import { Coordinates } from "./types/global";
+
+class InvalidLoginError extends AuthError {
+  code = "custom";
+  constructor(message?: any, errorOptions?: any) {
+    super(message, errorOptions);
+    this.message = message;
+  }
+}
 
 interface UserSession {
   accessToken: string;
@@ -81,13 +89,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               headers: signInHeaders,
               success: signInSuccess,
               data: signInData,
+              error,
             } = await signInAPI({
               email,
               password,
               mode: "classic",
             });
 
-            if (!signInSuccess || !signInHeaders || !signInData) return null;
+            if (!signInSuccess || !signInHeaders || !signInData) {
+              throw new InvalidLoginError(
+                error?.details?.message || "Something went wrong"
+              );
+            }
 
             const accessToken = signInHeaders.get("x-auth-fyndr-code");
             const refreshToken = signInHeaders.get("x-auth-fyndr-refresh-code");
@@ -119,8 +132,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               bizid,
             } = parsedAccountResponse;
 
-            console.log("ppp", parsedAccountResponse.bizid);
-
             const id = indvid.toString();
             const name = `${firstName} ${lastName}`;
 
@@ -140,9 +151,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               phone: address.phone,
               bizid,
             } as User;
-          } catch (error) {
-            console.log(error);
-            return null;
+          } catch (error: any) {
+            throw new InvalidLoginError(
+              error?.message || "Something went wrong"
+            );
           }
         }
 

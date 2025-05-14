@@ -13,6 +13,7 @@ import {
 } from "react-hook-form";
 import { z, ZodType } from "zod";
 
+import { toast } from "@/components/global/toast";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -24,7 +25,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import ROUTES from "@/constants/routes";
-import { toast } from "@/hooks/use-toast";
 import { ActionResponse } from "@/types/global";
 
 interface AuthFormProps<T extends FieldValues> {
@@ -51,9 +51,8 @@ const AuthForm = <T extends FieldValues>({
     const result = (await onSubmit(data)) as ActionResponse;
 
     if (result?.success) {
-      toast({
-        title: "Success",
-        description:
+      toast.success({
+        message:
           formType === "SIGN_IN"
             ? "Signed in successfully"
             : "Signed up successfully",
@@ -61,12 +60,8 @@ const AuthForm = <T extends FieldValues>({
 
       router.replace(ROUTES.CALLBACK_SIGN_IN);
     } else {
-      console.log(result);
-
-      toast({
-        title: `Error ${result?.status}`,
-        description: result.error?.details?.message || "Something went wrong",
-        variant: "destructive",
+      toast.error({
+        message: result.error?.message || "Something went wrong form",
       });
     }
   };

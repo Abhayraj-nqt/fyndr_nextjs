@@ -4,7 +4,7 @@ import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 
 import { auth } from "@/auth";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/global/toast";
 import UserProvider from "@/provider/user-provider";
 import { ReactQueryProvider } from "@/react-query/provider";
 
@@ -37,7 +37,7 @@ export default async function RootLayout({
           <ReactQueryProvider>
             <UserProvider>{children}</UserProvider>
           </ReactQueryProvider>
-          <Toaster />
+          <Toaster position="top-center" closeButton duration={3000} />
         </SessionProvider>
       </body>
     </html>
