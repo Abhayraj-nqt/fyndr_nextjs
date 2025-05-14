@@ -26,6 +26,7 @@ const Categories = ({ categories }: Props) => {
           key={category.objid}
           categoryName={category.name}
           icon={getCategoryIcon(category.name)}
+          alt={category.name}
         />
       ))}
       {clickedMore &&

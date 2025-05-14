@@ -15,6 +15,7 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
     types = "",
     categories = "",
     dist = 50,
+    query,
   } = await searchParams;
 
   const location = DEFAULT_LOCATION;
@@ -76,6 +77,7 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
               categories={categoryIds}
               distance={Math.max(Number(dist), 20)}
               indvId={user?.id || null}
+              query={query}
             />
           </Suspense>
         </section>

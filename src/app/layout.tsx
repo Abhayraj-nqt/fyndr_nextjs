@@ -5,6 +5,7 @@ import { SessionProvider } from "next-auth/react";
 
 import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/toaster";
+import UserProvider from "@/provider/user-provider";
 import { ReactQueryProvider } from "@/react-query/provider";
 
 const inter = localFont({
@@ -31,12 +32,14 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <SessionProvider session={session}>
-        <body className={`${inter.className} antialiased`}>
-          <ReactQueryProvider>{children}</ReactQueryProvider>
+      <body className={`${inter.className} antialiased`}>
+        <SessionProvider session={session}>
+          <ReactQueryProvider>
+            <UserProvider>{children}</UserProvider>
+          </ReactQueryProvider>
           <Toaster />
-        </body>
-      </SessionProvider>
+        </SessionProvider>
+      </body>
     </html>
   );
 }

@@ -50,7 +50,7 @@ export const getLowestPriceOffer = (offers: CampaignOfferProps[]) => {
 };
 
 export const toTwoDecimalPlaces = (number: number) => {
-  return parseFloat(number.toFixed(2));
+  return number.toFixed(2);
 };
 
 export const parseDiscount = (
@@ -85,7 +85,7 @@ export const getFeaturedCampaigns = (campaigns: CampaignProps[]) => {
   const featuredCampaigns =
     campaigns
       ?.filter((item) => item.isFeatured && item.cmpnType !== "brochure")
-      .slice(0, featured ? undefined : 15) || [];
+      .slice(0, featured ? undefined : 12) || [];
 
   return featuredCampaigns;
 };
