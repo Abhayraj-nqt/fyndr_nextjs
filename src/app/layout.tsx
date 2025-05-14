@@ -37,7 +37,7 @@ export default async function RootLayout({
           <ReactQueryProvider>
             <UserProvider>{children}</UserProvider>
           </ReactQueryProvider>
-          <Toaster position="top-center" closeButton duration={3000} />
+          <Toaster position="top-center" closeButton={false} duration={3000} />
         </SessionProvider>
       </body>
     </html>
