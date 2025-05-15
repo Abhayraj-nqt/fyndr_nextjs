@@ -117,17 +117,17 @@ export const BUSINESS_MENU: SubMenuProps[] = [
       },
       {
         icon: Shapes,
-        route: "",
+        route: "/business/catalogue/categories",
         label: "Categories",
       },
       {
         icon: Blocks,
-        route: "",
+        route: "/business/catalogue/items",
         label: "Items",
       },
       {
         icon: PackagePlus,
-        route: "",
+        route: "/business/catalogue/modifiers",
         label: "Modifiers",
       },
     ],

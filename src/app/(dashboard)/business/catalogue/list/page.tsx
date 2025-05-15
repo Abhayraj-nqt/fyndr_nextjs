@@ -14,7 +14,6 @@ const CatalogList = async () => {
 
   const { success, data } = await onGetCatalogueList({ bizid });
   if (!success || !data) return null;
-  console.log("popo", data);
 
   return (
     <>

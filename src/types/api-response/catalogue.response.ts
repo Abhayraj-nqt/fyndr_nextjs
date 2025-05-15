@@ -80,3 +80,55 @@ export type fetchLocationResponse = {
   biz: storeBiz;
   locations: storeLocations[];
 };
+
+export type images = {
+  img_url: string;
+  index: number;
+};
+
+export type StoreCategory = {
+  objid: number;
+  images: images[];
+  name: string;
+  description: string;
+  createDt: string;
+  updateDt: string;
+};
+
+export type StoreCategoryResponse = {
+  categories: StoreCategory[];
+  last: boolean;
+};
+
+export type StoreItem = {
+  objid: number;
+  images: images[];
+  sku: string;
+  name: string;
+  unit: string;
+  description: string;
+  stdTax: boolean;
+  taxPercent: number;
+  createDt: string;
+  updateDt: string;
+};
+
+export type StoreItemResponse = {
+  items: StoreItem[];
+  last: boolean;
+};
+
+export type StoreModifier = {
+  objid: number;
+  images: images[];
+  modType: string;
+  modName: string;
+  description: string;
+  createDt: string;
+  updateDt: string;
+};
+
+export type StoreModifierResponse = {
+  modifiers: StoreModifier[];
+  last: boolean;
+};
