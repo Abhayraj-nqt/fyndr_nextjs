@@ -1,6 +1,3 @@
-"use client";
-
-import { useIsMobile } from "@/hooks/use-mobile";
 import React, { ReactNode } from "react";
 
 interface ContainerWrapperProps {
@@ -21,16 +18,15 @@ const ContainerWrapper: React.FC<ContainerWrapperProps> = ({
   const paddingX = "px-8";
   const paddingTop = "pt-4";
   const paddingBottom = "pb-4";
-  const isMobile = useIsMobile();
   return (
     <div
-      className={`w-full mx-auto ${paddingX} ${paddingTop} ${paddingBottom} max-w-screen-xl bg-gray-100`}
+      className={`mx-auto w-full ${paddingX} ${paddingTop} ${paddingBottom} max-w-screen-xl bg-gray-100`}
     >
       <article>
         <div
           className={`flex-between ${
             headerOption ? "mb-8" : ""
-          } ${isMobile ? "h-[45px]" : headerOption ? "h-[32px]" : ""}`}
+          } ${headerOption ? "h-[32px]" : ""}`}
         >
           {title && (
             <h2
@@ -43,10 +39,10 @@ const ContainerWrapper: React.FC<ContainerWrapperProps> = ({
         </div>
 
         <div
-          className={`${noPadding ? "" : "p-10"} bg-white rounded-[10px] shadow-sm`}
+          className={`${noPadding ? "" : "p-10"} rounded-[10px] bg-white shadow-sm`}
         >
-          <div className="bg-white rounded-lg shadow-sm">
-            <div className={`"p-5"} ${!featured ? "" : ""}`}>{children}</div>
+          <div className="rounded-lg bg-white shadow-sm">
+            <div className={`${!featured ? "" : ""}`}>{children}</div>
           </div>
         </div>
       </article>

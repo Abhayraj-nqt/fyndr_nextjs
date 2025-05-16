@@ -1,9 +1,9 @@
-"use server";
-
-import ContainerWrapper from "@/components/global/ContainerWrapper";
 import React from "react";
-import { auth } from "@/auth";
+
 import { onGetCampaignList } from "@/actions/campaign.action";
+import { auth } from "@/auth";
+import ContainerWrapper from "@/components/global/ContainerWrapper";
+
 import Campaigns from "./_components";
 
 const CampaignCenter = async () => {

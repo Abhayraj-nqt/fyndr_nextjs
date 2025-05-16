@@ -112,22 +112,22 @@ export const BUSINESS_MENU: SubMenuProps[] = [
     subMenu: [
       {
         icon: ArchiveRestore,
-        route: "",
+        route: "/business/catalogue/list",
         label: "Create Store",
       },
       {
         icon: Shapes,
-        route: "",
+        route: "/business/catalogue/categories",
         label: "Categories",
       },
       {
         icon: Blocks,
-        route: "",
+        route: "/business/catalogue/items",
         label: "Items",
       },
       {
         icon: PackagePlus,
-        route: "",
+        route: "/business/catalogue/modifiers",
         label: "Modifiers",
       },
     ],
