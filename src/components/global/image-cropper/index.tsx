@@ -1,10 +1,18 @@
 "use client";
 
-import { Rotate3D, ZoomIn } from "lucide-react";
+import {
+  Minus,
+  Plus,
+  Rotate3D,
+  ZoomIn,
+  RotateCcw,
+  RotateCw,
+} from "lucide-react";
 import React, { useState, useCallback } from "react";
 import Cropper, { Area } from "react-easy-crop";
 
 import { Modal } from "@/components/global/modal";
+import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { createCropPreview, dataURLtoFile } from "@/lib/file-utils/crop.utils";
 import {
@@ -177,6 +185,8 @@ const ImageCropper = ({
   /**
    * Handler for when cropping is cancelled
    */
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   const handleCropCancel = useCallback(() => {
     setIsCropModalOpen(false);
     setSelectedFile(null);
@@ -194,6 +204,22 @@ const ImageCropper = ({
     return child;
   });
 
+  const handleZoomIn = () => {
+    setZoom((prevZoom) => Math.min(prevZoom + 0.1, 3));
+  };
+
+  const handleZoomOut = () => {
+    setZoom((prevZoom) => Math.max(prevZoom - 0.1, 1));
+  };
+
+  const handleRotateCW = () => {
+    setRotation((rotateValue) => Math.min(rotateValue + 2, 360));
+  };
+
+  const handleRotateCCW = () => {
+    setRotation((rotateValue) => Math.max(rotateValue - 2, 0));
+  };
+
   return (
     <>
       {modifiedChildren}
@@ -208,14 +234,15 @@ const ImageCropper = ({
           disabled: isCropping || !croppedAreaPixels,
           loading: isCropping,
         }}
-        secondaryAction={{
-          label: "Cancel",
-          onClick: handleCropCancel,
-          disabled: isCropping,
-        }}
+        // secondaryAction={{
+        //   label: "Cancel",
+        //   onClick: handleCropCancel,
+        //   disabled: isCropping,
+        // }}
         showCloseButton={!isCropping}
         closeOnOutsideClick={false}
         contentClassName="max-w-lg w-full"
+        footerClassName="justify-center sm:justify-center"
       >
         <div className="flex flex-col gap-6">
           <div className="relative h-64 w-full overflow-hidden rounded-md">
@@ -244,14 +271,32 @@ const ImageCropper = ({
                 <ZoomIn className="size-4" />
                 <span className="text-sm font-medium">Zoom</span>
               </div>
-              <Slider
-                value={[zoom]}
-                min={minZoom}
-                max={maxZoom}
-                step={0.1}
-                onValueChange={(value) => setZoom(value[0])}
-                disabled={isCropping}
-              />
+              <div className="flex-center gap-4">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="size-8 rounded-full bg-light-800 p-4 text-dark-300 hover:bg-light-800"
+                  onClick={handleZoomOut}
+                >
+                  <Minus />
+                </Button>
+                <Slider
+                  value={[zoom]}
+                  min={minZoom}
+                  max={maxZoom}
+                  step={0.1}
+                  onValueChange={(value) => setZoom(value[0])}
+                  disabled={isCropping}
+                />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="size-8 rounded-full bg-light-800 p-4 text-dark-300 hover:bg-light-800"
+                  onClick={handleZoomIn}
+                >
+                  <Plus />
+                </Button>
+              </div>
             </div>
           )}
 
@@ -261,14 +306,32 @@ const ImageCropper = ({
                 <Rotate3D className="size-4" />
                 <span className="text-sm font-medium">Rotation</span>
               </div>
-              <Slider
-                value={[rotation]}
-                min={0}
-                max={360}
-                step={1}
-                onValueChange={(value) => setRotation(value[0])}
-                disabled={isCropping}
-              />
+              <div className="flex-center gap-4">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="size-8 rounded-full bg-light-800 p-4 text-dark-300 hover:bg-light-800"
+                  onClick={handleRotateCCW}
+                >
+                  <RotateCcw />
+                </Button>
+                <Slider
+                  value={[rotation]}
+                  min={0}
+                  max={360}
+                  step={1}
+                  onValueChange={(value) => setRotation(value[0])}
+                  disabled={isCropping}
+                />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="size-8 rounded-full bg-light-800 p-4 text-dark-300 hover:bg-light-800"
+                  onClick={handleRotateCW}
+                >
+                  <RotateCw />
+                </Button>
+              </div>
             </div>
           )}
         </div>

@@ -1,7 +1,4 @@
-/**
- * Utility functions for file uploading and processing
- */
-import { toast } from "@/hooks/use-toast";
+import toast from "@/components/global/toast";
 
 export type AllowedFileType =
   | "image/jpeg"
@@ -55,10 +52,8 @@ export const validateFiles = (
 
   // Check if files were selected
   if (filesToValidate.length === 0) {
-    toast({
-      variant: "destructive",
-      title: "Error",
-      description: "No files selected",
+    toast.error({
+      message: "No files selected",
     });
     onError?.("No files selected");
     return [];
@@ -66,20 +61,16 @@ export const validateFiles = (
 
   // Check min/max file count
   if (filesToValidate.length < min) {
-    toast({
-      variant: "destructive",
-      title: "Error",
-      description: `Please select at least ${min} file${min !== 1 ? "s" : ""}`,
+    toast.error({
+      message: `Please select at least ${min} file${min !== 1 ? "s" : ""}`,
     });
     onError?.(`Please select at least ${min} file${min !== 1 ? "s" : ""}`);
     return [];
   }
 
   if (filesToValidate.length > max) {
-    toast({
-      variant: "destructive",
-      title: "Error",
-      description: `You can only upload up to ${max} file${max !== 1 ? "s" : ""}`,
+    toast.error({
+      message: `You can only upload up to ${max} file${max !== 1 ? "s" : ""}`,
     });
     onError?.(`You can only upload up to ${max} file${max !== 1 ? "s" : ""}`);
     return [];
@@ -89,10 +80,8 @@ export const validateFiles = (
   for (const file of filesToValidate) {
     // Check file type
     if (!allowedFileTypes.includes(file.type as AllowedFileType)) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: `File type '${file.type}' is not allowed. Allowed types: ${allowedFileTypes.join(
+      toast.error({
+        message: `File type '${file.type}' is not allowed. Allowed types: ${allowedFileTypes.join(
           ", "
         )}`,
       });
@@ -107,10 +96,8 @@ export const validateFiles = (
     // Check file size
     const fileSizeMB = file.size / (1024 * 1024);
     if (fileSizeMB > maxFileSizeMB) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: `File '${file.name}' exceeds the maximum size of ${maxFileSizeMB}MB`,
+      toast.error({
+        message: `File '${file.name}' exceeds the maximum size of ${maxFileSizeMB}MB`,
       });
       onError?.(
         `File '${file.name}' exceeds the maximum size of ${maxFileSizeMB}MB`
@@ -158,9 +145,8 @@ export const processFiles = async (
   for (const file of files) {
     try {
       // Show toast for uploading
-      toast({
-        title: "Uploading...",
-        description: `Processing ${file.name}`,
+      toast.info({
+        message: `Processing ${file.name}`,
       });
 
       // Compress image if needed and it's an image type
@@ -186,10 +172,8 @@ export const processFiles = async (
       });
     } catch (error) {
       console.error(`Error processing file ${file.name}:`, error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: `Failed to process ${file.name}`,
+      toast.error({
+        message: `Failed to process ${file.name}`,
       });
     }
   }

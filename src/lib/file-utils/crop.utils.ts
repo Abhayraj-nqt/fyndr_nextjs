@@ -1,6 +1,3 @@
-/**
- * Utility functions for image cropping
- */
 import { Area } from "react-easy-crop";
 
 /**

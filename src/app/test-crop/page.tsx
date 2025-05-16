@@ -1,6 +1,7 @@
 "use client";
 
 import { Upload, Image as ImageIcon, File, X } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 
 import ImageCropper from "@/components/global/image-cropper";
@@ -91,10 +92,12 @@ export default function ImageUploaderPage() {
                       <div className="flex items-center space-x-3">
                         {file.type.startsWith("image/") ? (
                           <div className="size-12 overflow-hidden rounded bg-gray-100">
-                            <img
+                            <Image
                               src={file.base64Url}
                               alt={file.name}
                               className="size-full object-cover"
+                              height={100}
+                              width={200}
                             />
                           </div>
                         ) : (
@@ -164,10 +167,12 @@ export default function ImageUploaderPage() {
                 {uploadedCroppedImages.map((file, index) => (
                   <Card key={index} className="overflow-hidden">
                     <div className="aspect-square w-full overflow-hidden bg-gray-100">
-                      <img
+                      <Image
                         src={file.base64Url}
                         alt={file.name}
                         className="size-full object-cover"
+                        height={100}
+                        width={200}
                       />
                     </div>
                     <CardContent className="flex items-center justify-between p-3">
