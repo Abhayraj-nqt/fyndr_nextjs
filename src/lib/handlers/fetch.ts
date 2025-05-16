@@ -20,7 +20,7 @@ export async function fetchHandler<T>(
   options: FetchOptions = {}
 ): Promise<ActionResponse<T>> {
   const {
-    timeout = 5000,
+    timeout = 10000,
     headers: customHeaders = {},
     requireAuth = false,
     ...restOptions
@@ -72,15 +72,6 @@ export async function fetchHandler<T>(
     }
 
     const responseData = await response.json();
-
-    // const finalResponse: ActionResponse<T> = {
-    //   success: true,
-    //   data: responseData,
-    //   status: response.status,
-    // };
-
-    // // return new Promise<ActionResponse<T>>((resolve) => resolve(finalResponse));
-    // return finalResponse;
 
     return {
       success: true,

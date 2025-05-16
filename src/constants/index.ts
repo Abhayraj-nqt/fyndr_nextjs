@@ -205,27 +205,6 @@ export const DEFAULT_LOCATION: Coordinates = {
   lng: -112.0182329,
 };
 
-// export const CATEGORY_ICON = {
-//   auto: "/icons/category/auto.svg",
-//   "baby & kids": "/icons/category/baby-and-kids.svg",
-//   "beauty & wellness": "/icons/category/beauty-and-wellness.svg",
-//   "cleaning services": "/icons/category/cleaning-services.svg",
-//   "education & learning": "/icons/category/education-and-learning.svg",
-//   electronics: "/icons/category/electronics.svg",
-//   entertainment: "/icons/category/entertainment.svg",
-//   fashion: "/icons/category/fashion.svg",
-//   "food & beverages": "/icons/category/food-and-beverages.svg",
-//   "fyndr exclusives": "/icons/category/fyndr-exclusives.svg",
-//   "health & fitness": "/icons/category/health-and-fitness.svg",
-//   "home services": "/icons/category/home-services.svg",
-//   photography: "/icons/category/photography.svg",
-//   pets: "/icons/category/pets.svg",
-//   "personal care": "/icons/category/personal-care.svg",
-//   "professional services": "/icons/category/professional-services.svg",
-//   "sports & outdoors": "/icons/category/sports-and-outdoors.svg",
-//   travel: "/icons/category/travel.svg",
-// };
-
 export const CATEGORY_ICON = new Map<string, string>([
   ["auto", "/icons/category/auto.svg"],
   ["baby & kids", "/icons/category/baby-and-kids.svg"],
@@ -246,4 +225,66 @@ export const CATEGORY_ICON = new Map<string, string>([
   ["sports & outdoors", "/icons/category/sports-and-outdoors.svg"],
   ["travel", "/icons/category/travel.svg"],
   ["other", "/icons/category/other.svg"],
+]);
+
+export const WALET_TRANSACTION_DATA = new Map<
+  string,
+  { icon: string; text: string; amountColor: string }
+>([
+  [
+    "CASHBACK",
+    {
+      icon: "/icons/wallet/promo-code.svg",
+      text: "Cashback Reward Received",
+      amountColor: "text-green-700",
+    },
+  ],
+  [
+    "PROMOCODE",
+    {
+      icon: "/icons/wallet/type-orange.svg",
+      text: "Referral reward received by using code",
+      amountColor: "text-green-700",
+    },
+  ],
+  [
+    "REFERRAL",
+    {
+      icon: "/icons/wallet/type-green.svg",
+      text: "Referral reward received by using code",
+      amountColor: "text-green-700",
+    },
+  ],
+  [
+    "REDEEMED",
+    {
+      icon: "/icons/wallet/redeemed.svg",
+      text: "Fyndr Cash Redeemed",
+      amountColor: "text-red-700",
+    },
+  ],
+  [
+    "FYNDR_CASH_EXPIRED",
+    {
+      icon: "/icons/wallet/fyndr-cash-expired.svg",
+      text: "Fyndr Cash Expired",
+      amountColor: "text-red-700",
+    },
+  ],
+  [
+    "REDEEM_PROMOCODE",
+    {
+      icon: "/icons/wallet/redeem-icon.png",
+      text: "Promocode reward received by using code",
+      amountColor: "text-green-700",
+    },
+  ],
+  [
+    "REGISTRATION_PROMOCODE",
+    {
+      icon: "/icons/wallet/promo-code.svg",
+      text: "Promocode reward received by using code",
+      amountColor: "text-green-700",
+    },
+  ],
 ]);

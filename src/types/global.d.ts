@@ -6,7 +6,8 @@ type ActionResponse<T = null> = {
   data?: T;
   error?: {
     message: string;
-    details?: Record<string, string[]>;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    details?: Record<string, any>;
   };
   status?: number;
   headers?: Headers;

@@ -4,7 +4,8 @@ import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 
 import { auth } from "@/auth";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/global/toast";
+import UserProvider from "@/provider/user-provider";
 import { ReactQueryProvider } from "@/react-query/provider";
 
 const inter = localFont({
@@ -30,13 +31,15 @@ export default async function RootLayout({
   const session = await auth();
 
   return (
-    <html lang="en" suppressHydrationWarning>
-      <SessionProvider session={session}>
-        <body className={`${inter.className} antialiased`}>
-          <ReactQueryProvider>{children}</ReactQueryProvider>
-          <Toaster />
-        </body>
-      </SessionProvider>
+    <html lang="en" suppressHydrationWarning className="no-scrollbar">
+      <body className={`${inter.className} no-scrollbar antialiased`}>
+        <SessionProvider session={session}>
+          <ReactQueryProvider>
+            <UserProvider>{children}</UserProvider>
+          </ReactQueryProvider>
+          <Toaster position="top-center" closeButton={false} duration={3000} />
+        </SessionProvider>
+      </body>
     </html>
   );
 }

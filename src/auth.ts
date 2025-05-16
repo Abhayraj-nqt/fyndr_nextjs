@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { jwtDecode } from "jwt-decode";
-import NextAuth, { User } from "next-auth";
+import NextAuth, { AuthError, User } from "next-auth";
 import type { AdapterUser } from "next-auth/adapters";
 import type { JWT } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
@@ -11,8 +11,17 @@ import {
   signInAPI,
 } from "@/actions/auth.actions";
 
-import { SignInSchema } from "./lib/validations";
+import { SignInSchema } from "./components/forms/auth/schema";
+import { authConfig } from "./config/auth.config";
 import { Coordinates } from "./types/global";
+
+class InvalidLoginError extends AuthError {
+  code = "custom";
+  constructor(message?: any, errorOptions?: any) {
+    super(message, errorOptions);
+    this.message = message;
+  }
+}
 
 interface UserSession {
   accessToken: string;
@@ -21,8 +30,10 @@ interface UserSession {
   id: string;
   name: string;
   email: string;
-  role: string;
+  entityType: EntityType;
+  entityRole: EntityRole;
   accountStatus: string;
+  bizid: number;
 
   phone?: string;
   image?: string;
@@ -42,7 +53,8 @@ declare module "next-auth" {
   interface User {
     accessToken?: string | null | any;
     refreshToken?: string | null | any;
-    role?: string | null | any;
+    entityRole?: EntityRole | null | any;
+    entityType?: EntityType | null | any;
     accountStatus?: string | null | any;
     phone?: string | null | any;
     location?: Coordinates | null | any;
@@ -58,11 +70,12 @@ declare module "next-auth/jwt" {
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  session: {
-    strategy: "jwt",
-    maxAge: 72 * 60 * 60, // 72 hours // 3 days
-  },
+  // session: {
+  //   strategy: "jwt",
+  //   maxAge: 72 * 60 * 60, // 72 hours // 3 days
+  // },
 
+  ...authConfig,
   providers: [
     Credentials({
       async authorize(credentials) {
@@ -76,13 +89,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               headers: signInHeaders,
               success: signInSuccess,
               data: signInData,
+              error,
             } = await signInAPI({
               email,
               password,
               mode: "classic",
             });
 
-            if (!signInSuccess || !signInHeaders || !signInData) return null;
+            if (!signInSuccess || !signInHeaders || !signInData) {
+              throw new InvalidLoginError(
+                error?.details?.message || "Something went wrong"
+              );
+            }
 
             const accessToken = signInHeaders.get("x-auth-fyndr-code");
             const refreshToken = signInHeaders.get("x-auth-fyndr-refresh-code");
@@ -92,7 +110,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             const { success, data: parsedAccountResponse } =
               await getAccountAPI({
                 email,
-                regMode: "facebook",
+                regMode: "classic",
                 accessToken,
               });
 
@@ -107,15 +125,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               firstName,
               lastName,
               email: userEmail,
-              // entityRole,
+              entityRole,
               entityType,
               address,
               accountStatus,
+              bizid,
             } = parsedAccountResponse;
 
             const id = indvid.toString();
             const name = `${firstName} ${lastName}`;
-            const role = entityType?.toLowerCase();
 
             return {
               accessToken,
@@ -123,18 +141,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               id,
               name,
               email: userEmail,
-
-              role,
+              entityRole,
+              entityType,
               accountStatus,
               location: {
                 lat: address.lat,
                 lng: address.lng,
               },
               phone: address.phone,
+              bizid,
             } as User;
-          } catch (error) {
-            console.log(error);
-            return null;
+          } catch (error: any) {
+            throw new InvalidLoginError(
+              error?.message || "Something went wrong"
+            );
           }
         }
 

@@ -8,59 +8,62 @@ export default {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-  	extend: {
-  		colors: {
-  			primary: {
-  				'50': '#E6F2FF',
-  				'100': '#EAF2FC',
-  				'400': '#4891D5',
-  				'500': '#257CDB',
-  				'600': '#2A5F91',
-  				'700': '#113354',
-  				'900': '#223369'
-  			},
-  			light: {
-  				'300': '#64748B',
-  				'400': '#858EAD',
-  				'700': '#D3D6E1',
-  				'800': '#F5F5F5',
-  				'900': '#FFFFFF'
-  			},
-  			dark: {
-  				'100': '#000000',
-  				'200': '#1F2937',
-  				'300': '#374151',
-  				'400': '#6B7280'
-  			},
-  			sidebar: {
-  				DEFAULT: 'hsl(var(--sidebar-background))',
-  				foreground: 'hsl(var(--sidebar-foreground))',
-  				primary: 'hsl(var(--sidebar-primary))',
-  				'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-  				accent: 'hsl(var(--sidebar-accent))',
-  				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-  				border: 'hsl(var(--sidebar-border))',
-  				ring: 'hsl(var(--sidebar-ring))'
-  			}
-  		},
-  		borderRadius: {
-  			'1.5': '6px',
-  			'2': '8px',
-  			lg: 'var(--radius)',
-  			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)'
-  		},
-  		boxShadow: {},
-  		backgroundImage: {},
-  		screens: {
-  			xs: '420px'
-  		},
-  		fontFamily: {
-  			inter: [
-  				'var(--font-inter)'
-  			]
-  		}
-  	}
+    extend: {
+      colors: {
+        primary: {
+          "50": "#E6F2FF",
+          "100": "#EAF2FC",
+          "400": "#4891D5",
+          "500": "#257CDB",
+          "600": "#2A5F91",
+          "700": "#113354",
+          "900": "#223369",
+        },
+        light: {
+          "300": "#64748B",
+          "400": "#858EAD",
+          "700": "#D3D6E1",
+          "800": "#F5F5F5",
+          "900": "#FFFFFF",
+        },
+        dark: {
+          "100": "#000000",
+          "200": "#1F2937",
+          "300": "#374151",
+          "400": "#6B7280",
+        },
+        sidebar: {
+          DEFAULT: "hsl(var(--sidebar-background))",
+          foreground: "hsl(var(--sidebar-foreground))",
+          primary: "hsl(var(--sidebar-primary))",
+          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
+          accent: "hsl(var(--sidebar-accent))",
+          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
+          border: "hsl(var(--sidebar-border))",
+          ring: "hsl(var(--sidebar-ring))",
+        },
+      },
+      borderRadius: {
+        "1.5": "6px",
+        "2": "8px",
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      boxShadow: {
+        pagination: "0px -4px 11px 0px rgba(0, 0, 0, 0.05)",
+      },
+      backgroundImage: {
+        "offer-gradient":
+          "linear-gradient(90deg, rgb(255, 218, 220) 0%, rgb(255, 255, 255) 100%, rgb(255, 255, 255) 100.01%)",
+      },
+      screens: {
+        xs: "420px",
+      },
+      fontFamily: {
+        inter: ["var(--font-inter)"],
+      },
+    },
   },
   plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 } satisfies Config;

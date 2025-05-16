@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { DEFAULT_LOCATION } from "@/constants";
 import { RouteParams } from "@/types/global";
 
-import CampaignCarousel from "./_components/CampaignCarousel";
+import CampaignCarousel from "./_components/campaign-carousel";
 import Description from "./_components/description";
 import NearestLocation from "./_components/nearest-locations";
 import Offers from "./_components/offers";

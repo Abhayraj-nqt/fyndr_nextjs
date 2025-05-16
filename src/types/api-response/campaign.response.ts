@@ -8,3 +8,8 @@ export type CampaignsResponse = {
   resultFromCampaignTag: boolean;
   resultFromTextExactMatch: null | boolean;
 };
+
+export type CampaignListResponse = {
+  campaigns: CampaignProps[];
+  last: boolean;
+};

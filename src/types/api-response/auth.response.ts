@@ -24,8 +24,8 @@ export type AccountResponse = {
   deviceToken: null | unknown;
   displayName: string;
   email: string;
-  entityRole: string | "INDIVIDUAL_ADMIN";
-  entityType: string | "INDIVIDUAL";
+  entityRole: EntityRole;
+  entityType: EntityType;
   firstName: string;
   lastName: string;
   fyndrHandle: string;

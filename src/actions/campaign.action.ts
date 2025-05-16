@@ -1,12 +1,14 @@
 "use server";
 
 import { API_BASE_URL } from "@/environment";
-import { _post } from "@/lib/handlers/fetch";
+import { _get, _post } from "@/lib/handlers/fetch";
 import {
   GetCampaignByQrProps,
+  GetCampaignListProps,
   GetCampaignsProps,
 } from "@/types/api-params/campaign.params";
 import {
+  CampaignListResponse,
   CampaignResponse,
   CampaignsResponse,
 } from "@/types/api-response/campaign.response";
@@ -42,5 +44,14 @@ export const onGetCampaigns: GetCampaignsProps = async (params, payload) => {
     next: {
       revalidate: 10000,
     },
+  });
+};
+
+export const onGetCampaignList: GetCampaignListProps = async (params) => {
+  const endpoint = `${API_BASE_URL}/campaign/fetch/business/${params.bizid}?pgStart=0&pgSize=100&status=ALL`;
+
+  return _get<CampaignListResponse>(endpoint, {
+    requireAuth: true,
+    cache: "force-cache",
   });
 };
