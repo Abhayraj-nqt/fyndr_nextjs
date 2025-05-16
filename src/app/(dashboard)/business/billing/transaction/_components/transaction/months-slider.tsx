@@ -50,7 +50,7 @@ const TransactionSlider = () => {
         onValueChange={handleChange}
         className="w-full"
       />
-      <span className="text-sm text-right mt-1">
+      <span className="mt-1 text-right text-sm">
         Past {range} {range > 1 ? "Months" : "Month"}
       </span>
     </>

@@ -1,6 +1,7 @@
-import SummaryCard from "./summary-card";
-import MonthSlider from "./month-slider";
 import { getInvoiceSummary } from "@/actions/transaction.action";
+
+import MonthSlider from "./month-slider";
+import SummaryCard from "./summary-card";
 
 type Props = {
   month: string;
@@ -16,9 +17,9 @@ const Summary = async ({ month, bizid }: Props) => {
 
   return (
     <div className="bg-primary-50 p-4">
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <div className="text-lg font-normal">Total Transaction</div>
-        <div className="flex flex-col items-end w-full md:w-[300px]">
+        <div className="flex w-full flex-col items-end md:w-[300px]">
           <MonthSlider />
         </div>
       </div>

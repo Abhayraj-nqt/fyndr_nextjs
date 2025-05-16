@@ -1,4 +1,3 @@
-import { Input } from "@/components/ui/input";
 import TransactionSlider from "./months-slider";
 import ReceivableDropdown from "./receivableDropdown";
 import TransactionInput from "./transaction-input";
@@ -10,13 +9,13 @@ type Props = {
 const CommonHeader = ({ type }: Props) => {
   return (
     <>
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-4 mt-4">
-        <div className="flex-1 max-w-lg">
+      <div className="my-4 flex flex-col justify-between gap-6 md:flex-row md:items-center">
+        <div className="max-w-lg flex-1">
           <div className="relative">
             <TransactionInput />
           </div>
         </div>
-        <div className="flex flex-col items-end w-full md:w-[300px]">
+        <div className="flex w-full flex-col items-end md:w-[300px]">
           <TransactionSlider />
         </div>
         {type === "receivable" && (
@@ -25,8 +24,8 @@ const CommonHeader = ({ type }: Props) => {
           </div>
         )}
       </div>
-      <hr className="border-black-200 mb-2" />
-      <div className="grid grid-cols-3 gap-4 text-sm font-semibold text-gray-600 mb-3">
+      <hr className="mb-2 border-gray-300" />
+      <div className="mb-3 grid grid-cols-3 gap-4 text-sm font-semibold text-gray-600">
         <div className="text-left">
           {type === "receivable" ? "Username" : "Offer Name"}
         </div>
