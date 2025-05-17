@@ -24,17 +24,5 @@
     "[javascriptreact]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "typescript.tsdk": "node_modules/typescript/lib",
-    "files.exclude": {
-        "**/.git": true,
-        "**/.husky": true,
-        "**/.svn": true,
-        "**/.hg": true,
-        "**/CVS": true,
-        "**/.DS_Store": true,
-        "**/Thumbs.db": true,
-        "**/.next": true,
-        "**/node_modules": true,
-        "next-env.d.ts": true,
-    }
+    "typescript.tsdk": "node_modules/typescript/lib"
 }
