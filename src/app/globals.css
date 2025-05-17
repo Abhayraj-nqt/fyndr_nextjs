@@ -1,6 +1,6 @@
-@import "tailwindcss";
-
-@plugin "@tailwindcss/typography";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body {
   font-family: "Inter", sans-serif;
@@ -86,7 +86,7 @@ body {
   }
 
   .subtle-medium {
-    @apply text-[10px] font-medium leading-[13px];
+    @apply text-[10px] font-medium leading-[13px] !important;
   }
 
   .subtle-regular {
@@ -112,7 +112,7 @@ body {
   }
 
   .no-focus {
-    @apply focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0;
+    @apply focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 !important;
   }
 
   .invert-colors {
@@ -128,15 +128,15 @@ body {
   }
 
   .btn-primary {
-    @apply btn text-light-900 hover:bg-primary-400 hover:text-light-900 bg-primary-500 shadow-none;
+    @apply btn text-light-900 hover:bg-primary-400 hover:text-light-900 bg-primary-500 shadow-none  !important;
   }
 
   .btn-primary-outlined {
-    @apply btn border-primary-500 text-primary-500 hover:bg-light-900 hover:text-primary-500 bg-light-900 shadow-none border-2;
+    @apply btn border-primary-500 text-primary-500 hover:bg-light-900 hover:text-primary-500 bg-light-900 shadow-none border-2 !important;
   }
 
   .rounded-10 {
-    @apply rounded-[10px];
+    @apply rounded-[10px] !important;
   }
 }
 
