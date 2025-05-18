@@ -14,69 +14,31 @@ import Cropper, { Area } from "react-easy-crop";
 import { Modal } from "@/components/global/modal";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { createCropPreview, dataURLtoFile } from "@/lib/file-utils/crop.utils";
+import {
+  createCropPreview,
+  createCropPreview2,
+  dataURLtoFile,
+} from "@/lib/file-utils/crop.utils";
 import {
   FileWithPreview,
   ProcessedFileProps,
   processFiles,
 } from "@/lib/file-utils/upload.utils";
+import { FileUploaderProps } from "../uploader/file-uploader";
 
-export type ImageCropperProps = {
-  /**
-   * Children (typically the FileUploader component)
-   */
+type ImageCropperProps = {
   children: React.ReactNode;
-
-  /**
-   * Whether to show rotation slider
-   * @default true
-   */
   rotationSlider?: boolean;
-
-  /**
-   * Whether to show zoom slider
-   * @default true
-   */
   zoomSlider?: boolean;
-
-  /**
-   * Aspect ratio for cropping (width/height)
-   * @default undefined (free form)
-   */
   aspectRatio?: number;
-
-  /**
-   * Minimum zoom level
-   * @default 1
-   */
   minZoom?: number;
-
-  /**
-   * Maximum zoom level
-   * @default 3
-   */
   maxZoom?: number;
-
-  /**
-   * Callback for when cropping is complete
-   */
   onCropComplete?: (croppedFiles: ProcessedFileProps[]) => void;
-
-  /**
-   * Callback for when cropping is cancelled
-   */
   onCropCancel?: () => void;
-
-  /**
-   * Image quality for the cropped output (0-1)
-   * @default 0.9
-   */
   imageQuality?: number;
+  restrictPosition?: boolean;
 };
 
-/**
- * Image cropper component that wraps FileUploader to add cropping functionality
- */
 const ImageCropper = ({
   children,
   rotationSlider = true,
@@ -87,11 +49,9 @@ const ImageCropper = ({
   onCropComplete,
   onCropCancel,
   imageQuality = 0.9,
+  restrictPosition = true,
 }: ImageCropperProps) => {
-  // State for crop modal
   const [isCropModalOpen, setIsCropModalOpen] = useState(false);
-
-  // State for the selected image before cropping
   const [selectedFile, setSelectedFile] = useState<FileWithPreview | null>(
     null
   );
@@ -159,9 +119,10 @@ const ImageCropper = ({
       setIsCropping(true);
 
       // Create crop preview
-      const croppedImageUrl = await createCropPreview(
+      const croppedImageUrl = await createCropPreview2(
         selectedFile.preview,
         croppedAreaPixels,
+        selectedFile.type,
         rotation
       );
 
@@ -195,7 +156,7 @@ const ImageCropper = ({
 
   // Clone the child component (FileUploader) and inject our onSelect handler
   const modifiedChildren = React.Children.map(children, (child) => {
-    if (React.isValidElement(child)) {
+    if (React.isValidElement<FileUploaderProps>(child)) {
       return React.cloneElement(child, {
         onSelect: handleFileSelect,
         ...child.props,
@@ -205,11 +166,11 @@ const ImageCropper = ({
   });
 
   const handleZoomIn = () => {
-    setZoom((prevZoom) => Math.min(prevZoom + 0.1, 3));
+    setZoom((prevZoom) => Math.min(prevZoom + 0.1, maxZoom));
   };
 
   const handleZoomOut = () => {
-    setZoom((prevZoom) => Math.max(prevZoom - 0.1, 1));
+    setZoom((prevZoom) => Math.max(prevZoom - 0.1, minZoom));
   };
 
   const handleRotateCW = () => {
@@ -261,6 +222,7 @@ const ImageCropper = ({
                 maxZoom={maxZoom}
                 cropShape={aspectRatio ? "rect" : "rect"}
                 showGrid={true}
+                restrictPosition={restrictPosition}
               />
             )}
           </div>

@@ -30,6 +30,7 @@ export const createCropPreview = async (
   ctx.rotate((rotation * Math.PI) / 180);
   ctx.scale(flip.horizontal ? -1 : 1, flip.vertical ? -1 : 1);
   ctx.translate(-canvas.width / 2, -canvas.height / 2);
+  ctx.fillStyle = "#FFFFFF";
 
   // Draw rotated/flipped image onto the canvas, centered
   ctx.drawImage(
@@ -46,6 +47,64 @@ export const createCropPreview = async (
 
   // Return the cropped canvas as a data URL
   return canvas.toDataURL("image/jpeg");
+};
+
+export const createCropPreview2 = async (
+  imageSrc: string,
+  pixelCrop: Area,
+  imageType: string,
+  rotation = 0,
+  flip = { horizontal: false, vertical: false }
+) => {
+  const image = await createImage(imageSrc);
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  if (!ctx) {
+    throw new Error("No 2d context");
+  }
+
+  const { width: imageWidth, height: imageHeight } = image;
+  const { width: cropWidth, height: cropHeight, x, y } = pixelCrop;
+
+  const rotRad = getRadianAngle(rotation);
+  const { width: rotatedWidth, height: rotatedHeight } = rotateSize(
+    imageWidth,
+    imageHeight,
+    rotation
+  );
+
+  canvas.width = rotatedWidth;
+  canvas.height = rotatedHeight;
+  ctx.translate(rotatedWidth / 2, rotatedHeight / 2);
+  ctx.rotate(rotRad);
+  ctx.scale(flip.horizontal ? -1 : 1, flip.vertical ? -1 : 1);
+  ctx.drawImage(image, -imageWidth / 2, -imageHeight / 2);
+  ctx.fillStyle = "#FFFFFF";
+  const croppedCanvas = document.createElement("canvas");
+  const croppedCtx = croppedCanvas.getContext("2d");
+
+  if (!croppedCtx) {
+    throw new Error("Could not create cropped canvas context");
+  }
+
+  croppedCanvas.width = cropWidth;
+  croppedCanvas.height = cropHeight;
+  croppedCtx.fillStyle = "#FFFFFF";
+
+  croppedCtx.drawImage(
+    canvas,
+    x,
+    y,
+    cropWidth,
+    cropHeight,
+    0,
+    0,
+    cropWidth,
+    cropHeight
+  );
+
+  return croppedCanvas.toDataURL(imageType || "image/jpeg");
 };
 
 /**
@@ -129,3 +188,54 @@ export const percentagesToPixelArea = (
     height: (percentageArea.height * imageHeight) / 100,
   };
 };
+
+// -------------------------------
+
+export async function getRotatedImage(imageSrc: string, rotation = 0) {
+  const image = await createImage(imageSrc);
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  if (!ctx) {
+    throw new Error("No 2d context");
+  }
+
+  const orientationChanged =
+    rotation === 90 ||
+    rotation === -90 ||
+    rotation === 270 ||
+    rotation === -270;
+  if (orientationChanged) {
+    canvas.width = image.height;
+    canvas.height = image.width;
+  } else {
+    canvas.width = image.width;
+    canvas.height = image.height;
+  }
+  ctx.translate(canvas.width / 2, canvas.height / 2);
+  ctx.rotate((rotation * Math.PI) / 180);
+  ctx.drawImage(image, -image.width / 2, -image.height / 2);
+  return new Promise((resolve) => {
+    canvas.toBlob((file) => {
+      if (file) {
+        resolve(URL.createObjectURL(file));
+      } else {
+        resolve(null);
+      }
+    }, "image/png");
+  });
+}
+
+export function rotateSize(width: number, height: number, rotation: number) {
+  const rotRad = getRadianAngle(rotation);
+  return {
+    width:
+      Math.abs(Math.cos(rotRad) * width) + Math.abs(Math.sin(rotRad) * height),
+    height:
+      Math.abs(Math.sin(rotRad) * width) + Math.abs(Math.cos(rotRad) * height),
+  };
+}
+
+export function getRadianAngle(degreeValue: number) {
+  return (degreeValue * Math.PI) / 180;
+}
