@@ -210,7 +210,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
                 className={`flex-1 border-b p-4 ${headerClassName}`}
               >
                 {title && (
-                  <DialogTitle className="h3-semibold text-primary-900">
+                  <DialogTitle className="h3-semibold font-medium text-primary-900">
                     {title}
                   </DialogTitle>
                 )}
