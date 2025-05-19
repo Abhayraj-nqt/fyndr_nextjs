@@ -15,7 +15,7 @@ const AboutUsMap = () => {
         alt="map"
         onMouseEnter={() => setMapSrc(hoverMap)}
         onMouseLeave={() => setMapSrc(map)}
-        height={450} // 26rem
+        height={450} 
         width={450}
         className="w-full rounded-lg object-cover"
         loading="lazy"
