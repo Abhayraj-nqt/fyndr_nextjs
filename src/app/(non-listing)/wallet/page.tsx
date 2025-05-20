@@ -7,7 +7,7 @@ import ActivitySection from "./_components/sections/activity-section";
 import WalletSection from "./_components/sections/wallet-section";
 
 const Wallet = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
-  const { page = 1 } = await searchParams;
+  const { page = 1, size = 10 } = await searchParams;
 
   const session = await auth();
   const user = session?.user;
@@ -21,9 +21,9 @@ const Wallet = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
       <DefaultCard className="max-w-screen-xl p-0 lg:w-11/12 xl:w-9/12">
         <h1 className="h3-semibold m-4">Fyndr Wallet</h1>
         <Separator />
-        <div className="flex flex-col gap-4 p-4">
+        <div className="flex flex-col gap-4">
           <WalletSection />
-          <ActivitySection page={Number(page) || 1} />
+          <ActivitySection page={Number(page) || 1} size={Number(size) || 10} />
         </div>
       </DefaultCard>
     </main>

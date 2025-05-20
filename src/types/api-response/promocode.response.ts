@@ -49,3 +49,7 @@ export type VerifyPromocodeResponse = {
   };
   promocode: boolean;
 };
+
+export type RedeemPromocodeResponse = {
+  message: string;
+};

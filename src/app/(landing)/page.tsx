@@ -2,6 +2,7 @@ import { Suspense } from "react";
 
 import GoTopButton from "@/components/global/buttons/go-top-button";
 import DefaultCard from "@/components/global/cards/default-card";
+// import HomeCardSkeleton from "@/components/global/loaders/skeletons/home-card-skeleton";
 import { RouteParams } from "@/types/global";
 
 import CampaignsSection from "../(landing)/_components/sections/campaigns-section";
@@ -18,7 +19,8 @@ const Home = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
         <Suspense fallback={<div>Loading...</div>}>
           <CategoriesSection />
         </Suspense>
-        <Suspense fallback={<div>Loading...</div>}>
+        {/* <Suspense key={`${lat}-${lng}`} fallback={<HomeCardSkeleton />}> */}
+        <Suspense key={`${lat}-${lng}`} fallback={<div>Loading...</div>}>
           <CampaignsSection location={{ lat, lng }} />
         </Suspense>
       </DefaultCard>

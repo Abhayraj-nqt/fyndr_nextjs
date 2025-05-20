@@ -2,9 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
+import ROUTES from "@/constants/routes";
+
 const Logo = () => {
   return (
-    <Link href={"/"} className="flex items-center gap-1">
+    <Link href={ROUTES.HOME} className="flex items-center gap-1">
       <Image
         src={"/images/site-logo.png"}
         width={100}

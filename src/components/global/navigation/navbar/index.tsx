@@ -4,8 +4,8 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
 
-import Account from "./Account";
-import Logo from "./Logo";
+import Account from "./account";
+import Logo from "./logo";
 import MobileNavigation from "./mobile-navigation";
 import NavLinks from "./nav-links";
 import LocationSelector from "../../location-selector";
@@ -20,7 +20,7 @@ type Props = {
   searchParam?: string;
 };
 
-const Navbar = async ({
+const Navbar = ({
   location,
   searchbar,
   searchNavigateTo,
@@ -72,7 +72,7 @@ const Navbar = async ({
       </div>
 
       <div className="flex-between gap-5">
-        <section className="mx-4 hidden w-full min-w-40 max-w-48 justify-between gap-4 lg:flex">
+        <section className="mx-4 hidden w-full min-w-40 max-w-48 justify-end gap-4 lg:flex">
           <NavLinks className="md:flex-center small-regular hidden flex-col gap-1 text-light-900" />
         </section>
         <Button

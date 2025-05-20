@@ -18,21 +18,18 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useLocationSelector } from "@/hooks/location";
-import { Coordinates } from "@/types/global";
 
 type Props = {
   className?: string;
   inputClassName?: string;
   commandClassName?: string;
   placeholder?: string;
-  onLocationSelect?: (location: string, coordinates: Coordinates) => void;
 };
 
 const LocationSelector = ({
   className = "",
   commandClassName = "",
   placeholder = "Search location...",
-  //   onLocationSelect,
   inputClassName,
 }: Props) => {
   const {

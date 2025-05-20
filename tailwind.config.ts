@@ -50,7 +50,9 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-      boxShadow: {},
+      boxShadow: {
+        pagination: "0px -4px 11px 0px rgba(0, 0, 0, 0.05)",
+      },
       backgroundImage: {
         "offer-gradient":
           "linear-gradient(90deg, rgb(255, 218, 220) 0%, rgb(255, 255, 255) 100%, rgb(255, 255, 255) 100.01%)",
@@ -59,7 +61,8 @@ export default {
         xs: "420px",
       },
       fontFamily: {
-        inter: ["var(--font-inter)"],
+        // inter: ["var(--font-inter)"],
+        roboto: ["var(--font-roboto)"],
       },
     },
   },
