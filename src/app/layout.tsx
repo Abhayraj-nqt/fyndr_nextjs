@@ -7,11 +7,18 @@ import { auth } from "@/auth";
 import { Toaster } from "@/components/global/toast";
 import UserProvider from "@/provider/user-provider";
 import { ReactQueryProvider } from "@/react-query/provider";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
-const inter = localFont({
-  src: "./fonts/InterVF.ttf",
-  variable: "--font-inter",
-  weight: "100 200 300 400 500 700 800 900",
+// const inter = localFont({
+//   src: "./fonts/InterVF.ttf",
+//   variable: "--font-inter",
+//   weight: "100 200 300 400 500 700 800 900",
+// });
+
+const roboto = localFont({
+  src: "./fonts/RobotoVF.ttf",
+  variable: "--font-roboto",
+  weight: "100 200 300 400 500 600 700 800 900",
 });
 
 export const metadata: Metadata = {
@@ -32,10 +39,13 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning className="no-scrollbar">
-      <body className={`${inter.className} no-scrollbar antialiased`}>
+      {/* <body className={`${inter.className} no-scrollbar antialiased`}> */}
+      <body className={`${roboto.className} no-scrollbar antialiased`}>
         <SessionProvider session={session}>
           <ReactQueryProvider>
-            <UserProvider>{children}</UserProvider>
+            <UserProvider>
+              <NuqsAdapter>{children}</NuqsAdapter>
+            </UserProvider>
           </ReactQueryProvider>
           <Toaster position="top-center" closeButton={false} duration={3000} />
         </SessionProvider>

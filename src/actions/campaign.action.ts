@@ -28,8 +28,6 @@ export const onGetCampaignByQr: GetCampaignByQrProps = async (
 };
 
 export const onGetCampaigns: GetCampaignsProps = async (params, payload) => {
-  console.log(payload);
-
   let endpoint = `${API_BASE_URL}/campaign/v2/public/search?pgStart=${params.page}&pgSize=${params.pageSize}`;
   if (params.search) {
     endpoint = `${endpoint}&text=${params.search}`;

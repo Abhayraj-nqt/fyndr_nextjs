@@ -61,7 +61,8 @@ export default {
         xs: "420px",
       },
       fontFamily: {
-        inter: ["var(--font-inter)"],
+        // inter: ["var(--font-inter)"],
+        roboto: ["var(--font-roboto)"],
       },
     },
   },
