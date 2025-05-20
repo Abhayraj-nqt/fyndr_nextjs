@@ -1,7 +1,7 @@
 import { DataTableColumnHeader } from "@/components/global/data-table/data-table-column-header";
 import { AdminUserProps } from "@/types/api-response/user.response";
 import { ColumnDef } from "@tanstack/react-table";
-import { Button } from "@/components/ui/button";
+import Button from "@/components/global/buttons";
 import { cn } from "@/lib/utils";
 import { DataTableRowAction } from "@/types/data-table";
 
@@ -102,7 +102,10 @@ export function getUserDetailsTableColumns({
       ),
       cell: ({ row }) => (
         <div>
-          <Button onClick={() => setRowAction({ row, variant: "update" })}>
+          <Button
+            onClick={() => setRowAction({ row, variant: "update" })}
+            variant="primary"
+          >
             Actions
           </Button>
         </div>

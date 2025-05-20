@@ -171,6 +171,10 @@ body {
   scrollbar-width: none; /* Firefox */
 }
 
+.clip-rounded {
+  clip-path: inset(0% round 10px);
+}
+
 @layer base {
   :root {
     --radius: 0.5rem;
