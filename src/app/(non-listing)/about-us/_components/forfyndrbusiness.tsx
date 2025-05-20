@@ -1,8 +1,6 @@
 import React from "react";
 
-import AboutRow from "./aboutrow";
-// import AboutUsLeft from "./AboutUsLeft";
-// import AboutUsRight from "./AboutUsRight";
+import AboutRow from "./aboutRow";
 
 type FyndrBusinessItem = {
   title: string;

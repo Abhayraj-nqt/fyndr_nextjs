@@ -60,22 +60,27 @@ const Faq = ({ userType }: Props) => {
         <div className="flex flex-col items-center justify-center">
           <Tabs className="flex w-full  border-b border-[#e6e6e6] ">
             <TabsList>
-              {categories.map((cat) => (
-                <TabsTrigger
-                  key={cat.id}
-                  value={cat.id.toString()}
-                  className="relative mx-10 mt-8 border-b-2 border-transparent pb-2 text-[1vw]
-          font-normal text-[#7a8086]
-          data-[state=active]:border-primary-500 
-          data-[state=active]:text-primary-500"
-                  onClick={() => setSelectedCategoryId(cat.id)}
-                  data-state={
-                    selectedCategoryId === cat.id ? "active" : "inactive"
-                  }
-                >
-                  {cat.name}
-                </TabsTrigger>
-              ))}
+              <div className="overflow-x-auto ">
+                <div className="flex flex-nowrap">
+                  {categories.map((cat) => (
+                    <TabsTrigger
+                      key={cat.id}
+                      value={cat.id.toString()}
+                      className="relative mx-4 mt-4 whitespace-nowrap border-b-2
+          border-transparent pb-2 text-[2vw] font-normal text-[#7a8086]
+          data-[state=active]:border-primary-500 data-[state=active]:text-primary-500 sm:text-[2vw]
+          md:text-[2vw]
+          lg:text-[1vw]"
+                      onClick={() => setSelectedCategoryId(cat.id)}
+                      data-state={
+                        selectedCategoryId === cat.id ? "active" : "inactive"
+                      }
+                    >
+                      {cat.name}
+                    </TabsTrigger>
+                  ))}
+                </div>
+              </div>
             </TabsList>
           </Tabs>
         </div>

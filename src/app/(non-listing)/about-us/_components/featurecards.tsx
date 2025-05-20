@@ -6,20 +6,22 @@ interface Props {
   title: string;
   description: string;
   index: number;
+  className?: string;
 }
 
 const FeatureCard = ({ imgURL, title, description, index }: Props) => {
   return (
-    <div className="relative size-[25rem] overflow-hidden rounded-lg transition-all duration-300 md:h-[25rem] md:w-60 md:hover:w-[25rem]">
-    
-    {/* //   className={`
-    //     relative w-60 shrink-0 overflow-hidden rounded-lg transition-all
-    //     duration-300
-    //     ${index === 0 ? "grow-size-[25rem]" : "w-60"}
-    //     hover:grow
-    //     group-hover:grow
-    //   `}
-    // > */}
+    <div
+      className={`
+        group/card relative h-[25rem] shrink-0 cursor-pointer overflow-hidden rounded-lg
+        transition-all duration-300 ease-in-out
+        ${
+          index === 0
+            ? "w-[25rem] hover:w-[25rem] group-hover:w-60 "
+            : "w-60 hover:w-[25rem]"
+        }
+      `}
+    >
       <Image
         src={imgURL}
         alt={title}
