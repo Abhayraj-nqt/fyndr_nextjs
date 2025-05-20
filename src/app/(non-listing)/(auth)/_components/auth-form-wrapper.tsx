@@ -6,6 +6,7 @@ import { SignInSchema } from "@/components/forms/auth/schema";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 type Props = {
@@ -17,6 +18,10 @@ const AuthFormWrapper = ({ formType }: Props) => {
   const paragraphFirstWord = formType === "SIGN_IN" ? "Don't" : "Already";
   const link = formType === "SIGN_IN" ? ROUTES.SIGN_UP : ROUTES.SIGN_IN;
   const linkText = formType === "SIGN_IN" ? "Sign up" : "Sign in";
+
+  const router = useRouter();
+
+  const handleGoBack = () => router.back();
 
   return (
     <div className="w-full rounded-lg bg-dark-100 p-8 md:w-3/4 md:max-w-lg ">
@@ -53,7 +58,14 @@ const AuthFormWrapper = ({ formType }: Props) => {
           </Button>
         </div>
       ) : (
-        <></>
+        <>
+          <Button
+            onClick={handleGoBack}
+            className="paragraph-medium min-h-12 w-full rounded-2 bg-transparent px-4 py-3 border border-white text-white hover:bg-transparent"
+          >
+            Go Back
+          </Button>
+        </>
       )}
     </div>
   );
