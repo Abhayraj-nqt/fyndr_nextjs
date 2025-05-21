@@ -1,10 +1,11 @@
+import DateComponent from "@/components/global/date-component";
+import { Pagination } from "@/components/ui/pagination";
 import { ExpiredPromo } from "@/types/api-response/promocode.response";
 import React from "react";
 type Props = {
   data: ExpiredPromo[] | undefined;
 };
 const Expiredpromos = ({ data }: Props) => {
-  console.log("expired", data);
   return (
     <div>
       {data?.map((promo, key) => (
@@ -20,12 +21,13 @@ const Expiredpromos = ({ data }: Props) => {
           <p className="text-sm" style={{ color: "#257cdb" }}>{promo.promoCode}</p>
           </div>
           <div className="flex flex-row justify-between">
-            <p className="text-sm">Expired on: {promo.endDate}</p>
+            <p className="text-sm">Expired on: <DateComponent date={promo.endDate}/> </p>
             <p className="text-sm">Registrations: {promo.userRegistered}</p>
           </div>
           </div>
         </div>
       ))}
+      <Pagination />
     </div>
   );
 };
