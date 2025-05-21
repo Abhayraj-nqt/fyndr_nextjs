@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -56,10 +57,10 @@ const ReceivableDropdown = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 mb-6">
+    <div className="mb-6 flex flex-col gap-4 md:flex-row">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button className="w-full md:w-auto bg-white text-black border border-black-200 hover:bg-beige-100">{`Status: ${filterType}`}</Button>
+          <Button className="w-full border border-gray-300 bg-white text-black hover:bg-white md:w-auto">{`Status: ${filterType}`}</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           {statusList.map((item) => (
@@ -78,7 +79,7 @@ const ReceivableDropdown = () => {
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button className="w-full md:w-auto bg-white text-black border border-black-200 hover:bg-beige-100">{`Channel: ${filterChannel}`}</Button>
+          <Button className="w-full border border-gray-300 bg-white text-black hover:bg-white md:w-auto">{`Channel: ${filterChannel}`}</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           {channelList.map((item) => (

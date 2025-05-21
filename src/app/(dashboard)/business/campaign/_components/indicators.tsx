@@ -19,17 +19,17 @@ const FILTERS: Filter[] = [
 ];
 
 const Indicators = ({ selected, onSelect }: IndicatorsProps) => (
-  <div className="bg-white p-0 h-6 flex flex-wrap gap-4">
+  <div className="flex h-6 flex-wrap gap-4 bg-white p-0">
     {FILTERS.map(({ key, label, color }) => {
       const isBlurred = selected !== key && selected !== "all";
       return (
         <div
           key={key}
           onClick={() => onSelect(key)}
-          className="flex items-center cursor-pointer space-x-2"
+          className="flex cursor-pointer items-center space-x-2"
         >
           <div
-            className={`w-2 h-2 rounded-full ${isBlurred ? "opacity-30" : ""}`}
+            className={`size-2 rounded-full ${isBlurred ? "opacity-30" : ""}`}
             style={{ backgroundColor: color }}
           />
           <span

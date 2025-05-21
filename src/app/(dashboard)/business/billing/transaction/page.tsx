@@ -1,10 +1,9 @@
-"use server";
-
-import ContainerWrapper from "@/components/global/ContainerWrapper";
-import Summary from "./_components/summary/index";
-import { RouteParams } from "@/types/global";
-import { auth } from "@/auth";
 import { getAccountAPI } from "@/actions/auth.actions";
+import { auth } from "@/auth";
+import ContainerWrapper from "@/components/global/ContainerWrapper";
+import { RouteParams } from "@/types/global";
+
+import Summary from "./_components/summary/index";
 import Transaction from "./_components/transaction";
 
 const BusinessPage = async ({
@@ -29,7 +28,7 @@ const BusinessPage = async ({
 
   return (
     <>
-      <div className="w-[90%] max-w-screen-xl mx-auto space-y-4 ">
+      <div className="mx-auto w-[90%] max-w-screen-xl space-y-4 ">
         <ContainerWrapper title="My Order" noPadding>
           <Summary month={month} bizid={bizid} />
         </ContainerWrapper>

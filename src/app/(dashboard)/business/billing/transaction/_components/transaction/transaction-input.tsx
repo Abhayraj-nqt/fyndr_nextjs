@@ -1,8 +1,9 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
+
+import { Input } from "@/components/ui/input";
 
 const TransactionInput = () => {
   const router = useRouter();
@@ -39,7 +40,7 @@ const TransactionInput = () => {
       value={inputValue}
       onChange={handleChange}
       onKeyDown={handleKeyDown}
-      className="pr-10 h-11 rounded-lg border border-gray-300"
+      className="h-11 rounded-lg border border-gray-300 pr-10"
       placeholder="Search"
     />
   );

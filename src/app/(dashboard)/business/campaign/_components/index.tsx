@@ -1,8 +1,10 @@
 "use client";
+import { useState, useMemo } from "react";
+
 import { CampaignProps } from "@/types/campaign";
+
 import CampaignList from "./campaign_list";
 import Indicators from "./indicators";
-import { useState, useMemo } from "react";
 
 type Props = {
   campaigns: CampaignProps[];
@@ -23,7 +25,7 @@ const Campaigns = ({ campaigns }: Props) => {
   const filteredCampaigns = useMemo(() => {
     const currDate = new Date();
 
-    let result = campaigns.filter((cmpn) => {
+    const result = campaigns.filter((cmpn) => {
       if (cmpn.cmpnType === "brochure") return false;
 
       const featuredEnd = isValidDate(cmpn.featuredEndDt)
@@ -74,7 +76,7 @@ const Campaigns = ({ campaigns }: Props) => {
   }, [filter, campaigns]);
 
   return (
-    <div className="border border-solid-black p-4">
+    <div className="border border-gray-200 p-4">
       <Indicators selected={filter} onSelect={handleFilterClick} />
       <div className="mt-1">
         <CampaignList campaigns={filteredCampaigns} />

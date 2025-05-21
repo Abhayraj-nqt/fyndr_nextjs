@@ -44,7 +44,7 @@ const ActivityCard = ({ transaction }: Props) => {
         </div>
       </div>
       <div
-        className={`${data?.amountColor} paragraph-semibold flex w-32 items-center text-right lg:justify-end`}
+        className={`${data?.amountColor} paragraph-semibold flex w-32 items-center text-right lg:justify-end ${transaction.reason === "FYNDR_CASH_EXPIRED" || transaction.reason === "REDEEMED" ? "text-red-700" : "text-green-700"}`}
       >
         {transaction.amount > 0
           ? `+$${toTwoDecimalPlaces(transaction.amount)}`

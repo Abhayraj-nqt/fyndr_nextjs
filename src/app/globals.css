@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 body {
-  font-family: "Inter", sans-serif;
+  /* font-family: "Inter", sans-serif; */
+  font-family: "Roboto", sans-serif;
 }
 
 :root {
@@ -168,6 +169,10 @@ body {
 .no-scrollbar {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+.clip-rounded {
+  clip-path: inset(0% round 10px);
 }
 
 @layer base {
