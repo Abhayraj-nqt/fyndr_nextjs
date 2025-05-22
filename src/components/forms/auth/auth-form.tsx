@@ -22,7 +22,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { FormInput } from "@/components/forms/auth/form-input";
 import ROUTES from "@/constants/routes";
 import { ActionResponse } from "@/types/global";
 
@@ -71,7 +71,7 @@ const AuthForm = <T extends FieldValues>({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="mt-8 space-y-6"
+        className="mt-8 space-y-4"
       >
         {Object.keys(defaultValues).map((field) => (
           <FormField
@@ -80,17 +80,16 @@ const AuthForm = <T extends FieldValues>({
             name={field as Path<T>}
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="paragraph-medium text-light-900">
+                <FormLabel className="paragraph-medium text-light-900 hidden">
                   {field.name === "email"
                     ? "Email Address"
                     : field.name.charAt(0).toLowerCase() + field.name.slice(1)}
                 </FormLabel>
                 <FormControl>
-                  <Input
+                  <FormInput
                     type={field.name === "password" ? "password" : "text"}
                     {...field}
-                    className="paragraph-regular no-focus min-h-12 rounded-lg border bg-light-900 text-dark-100"
-                    placeholder={`Enter your ${field.name}`}
+                    placeholder={`${field.name.charAt(0).toUpperCase() + field.name.slice(1)}`}
                   />
                 </FormControl>
                 <FormMessage />
@@ -100,7 +99,7 @@ const AuthForm = <T extends FieldValues>({
         ))}
         <Button
           disabled={form.formState.isSubmitting}
-          className="paragraph-medium min-h-12 w-full rounded-2 bg-primary-500 px-4 py-3 !text-light-900 hover:bg-primary-500"
+          className="text-base font-normal min-h-12 w-full mt-10 rounded-[10px] bg-primary-500 px-4 py-3 !text-light-900 hover:bg-primary-500"
         >
           {form.formState.isSubmitting
             ? buttonText === "Sign In"
