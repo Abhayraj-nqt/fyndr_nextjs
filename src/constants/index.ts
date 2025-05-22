@@ -163,17 +163,17 @@ export const COMPANY: CompanyProps = {
     {
       label: "Facebook",
       icon: "/images/facebook.png",
-      url: "",
+      url: "https://www.facebook.com/profile.php?id=61551952386073",
     },
     {
       label: "Instagram",
       icon: "/images/instagram.png",
-      url: "",
+      url: "https://www.instagram.com/fyndr.us/",
     },
     {
       label: "Linkedin",
       icon: "/images/linkdin.png",
-      url: "",
+      url: "https://www.linkedin.com/company/fyndr-us/",
     },
   ],
 };
