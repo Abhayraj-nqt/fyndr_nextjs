@@ -56,6 +56,8 @@ const CampaignsSection = ({
 
   // Refetch when filters change
   useEffect(() => {
+    console.log("USE EFFECT RUN");
+
     refetch();
   }, [dealTypes, categories, distance, location, indvId, refetch]);
 

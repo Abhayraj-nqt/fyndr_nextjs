@@ -114,7 +114,7 @@ const CampaignCard = ({ campaign }: Props) => {
             <CardTitle className="paragraph-semibold line-clamp-1 text-dark-200">
               {campaign.biz.bizName}
             </CardTitle>
-            <CardDescription className="body-regular line-clamp-2 h-11 text-light-300">
+            <CardDescription className="body-regular line-clamp-2 h-10 text-light-300">
               {`${
                 campaign?.cmpnLocs[0]?.distance
                   ? campaign?.cmpnLocs[0]?.distance.toFixed(1)

@@ -9,7 +9,7 @@ const formatResponse = (
   responseType: ResponseType,
   status: number,
   message: string,
-  errors?: Record<string, string[]> | undefined
+  errors?: Record<string, unknown> | undefined
 ) => {
   const responseContent = {
     success: false,

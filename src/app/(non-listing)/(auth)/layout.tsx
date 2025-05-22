@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 import { auth } from "@/auth";
+import ROUTES from "@/constants/routes";
 
 type Props = {
   children: React.ReactNode;
@@ -10,9 +11,9 @@ type Props = {
 const AuthLayout = async ({ children }: Props) => {
   const session = await auth();
 
-  if (session && session.user) redirect("/callback/sign-in");
+  if (session && session.user) redirect(ROUTES.CALLBACK_SIGN_IN);
 
-  return <section>{children}</section>;
+  return <>{children}</>;
 };
 
 export default AuthLayout;

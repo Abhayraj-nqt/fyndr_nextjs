@@ -2,20 +2,23 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 import React from "react";
 
 import { SheetClose } from "@/components/ui/sheet";
 import { NAVBAR_MENU } from "@/constants/menu";
+import ROUTES from "@/constants/routes";
+// import { useUser } from "@/hooks/auth";
 import { cn } from "@/lib/utils";
 
 interface Props {
   isMobileNav?: boolean;
-  userId?: string;
   className?: string;
 }
 
-const NavLinks = ({ isMobileNav = false, userId, className }: Props) => {
+const NavLinks = ({ isMobileNav = false, className }: Props) => {
   const pathname = usePathname();
+  const { data: session } = useSession();
 
   return (
     <>
@@ -23,10 +26,17 @@ const NavLinks = ({ isMobileNav = false, userId, className }: Props) => {
         const isActive =
           (pathname.includes(route) && route.length > 1) || pathname === route;
 
-        if (route === "/account") {
-          if (userId) route = `${route}/${userId}`;
-          else return null;
-        }
+        if (!session?.user && route === ROUTES.WALLET) return null;
+        if (
+          session?.user?.entityRole === "SUPER_ADMIN" &&
+          route === ROUTES.WALLET
+        )
+          return null;
+        if (
+          session?.user?.entityRole === "FYNDR_SUPPORT" &&
+          route === ROUTES.WALLET
+        )
+          return null;
 
         const LinkComponent = (
           <Link
@@ -49,26 +59,6 @@ const NavLinks = ({ isMobileNav = false, userId, className }: Props) => {
       })}
     </>
   );
-
-  // return (
-  //   <div className="small-regular flex gap-10 text-light-900">
-  //     {NAVBAR_MENU.map((navLink) => (
-  //       <Link
-  //         key={navLink.label}
-  //         href={navLink.route}
-  //         className="flex-center cursor-pointer flex-col gap-1"
-  //       >
-  //         <Image
-  //           src={navLink.imgURL}
-  //           alt={navLink.label}
-  //           height={20}
-  //           width={20}
-  //         />
-  //         <p>{navLink.label}</p>
-  //       </Link>
-  //     ))}
-  //   </div>
-  // );
 };
 
 export default NavLinks;
