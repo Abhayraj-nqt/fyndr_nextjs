@@ -6,6 +6,7 @@ import handleError from "@/lib/handlers/error";
 import { _post } from "@/lib/handlers/fetch";
 import { encryptPassword } from "@/lib/utils";
 import {
+  ConfirmIdentityProps,
   GetAccountAPIProps,
   RefreshAccessTokenAPIProps,
   SignInAPIProps,
@@ -42,6 +43,11 @@ export const signOut: SignOutProps = async () => {
   }
 };
 
+export const onConfirmIdentity: ConfirmIdentityProps = async (payload) => {
+  const endpoint = `${API_BASE_URL}/identity/confirmIdentity`;
+  return _post(endpoint, payload);
+};
+
 // !Don't use these functions other than auth.ts file
 
 export const signInAPI: SignInAPIProps = async (payload) => {
@@ -64,19 +70,38 @@ export const signInAPI: SignInAPIProps = async (payload) => {
 export const getAccountAPI: GetAccountAPIProps = async (payload) => {
   const endpoint = `${API_BASE_URL}/identity/account`;
 
-  const newPayload = {
+  console.log({ payload });
+
+  let newPayload: typeof payload = {
     email: payload.email,
     regMode: payload.regMode,
   };
 
-  return _post<AccountResponse>(endpoint, newPayload, {
-    headers: {
+  if (payload.isBusiness) {
+    newPayload = {
+      ...newPayload,
+      isBusiness: payload.isBusiness,
+    };
+  }
+
+  let headers = {};
+  let next = undefined;
+
+  if (payload?.accessToken) {
+    headers = {
+      ...headers,
       Authorization: `Bearer ${payload.accessToken}`,
-    },
-    cache: "force-cache",
-    next: {
+    };
+
+    next = {
       revalidate: 500000,
-    },
+    };
+  }
+
+  return _post<AccountResponse>(endpoint, newPayload, {
+    headers,
+    cache: "force-cache",
+    next,
   });
 };
 

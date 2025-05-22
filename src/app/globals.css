@@ -139,6 +139,10 @@ body {
   .rounded-10 {
     @apply rounded-[10px] !important;
   }
+
+  .input-primary {
+    @apply no-focus text-base font-normal py-[10px] px-3 placeholder border-none text-[#4D4D4D] shadow-none outline-none disabled:bg-[#F2F2F2] bg-white placeholder:text-[#999999] dark:placeholder:text-[#999999] !important;
+  }
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -169,6 +173,10 @@ body {
 .no-scrollbar {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+.clip-rounded {
+  clip-path: inset(0% round 10px);
 }
 
 @layer base {
