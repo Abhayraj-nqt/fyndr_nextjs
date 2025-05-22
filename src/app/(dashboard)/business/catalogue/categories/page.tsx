@@ -1,8 +1,8 @@
 import { fetchStoreCategory } from "@/actions/catalogue.actions";
 import { auth } from "@/auth";
 import ContainerWrapper from "@/components/global/ContainerWrapper";
-import { Button } from "@/components/ui/button";
 
+import AddCategory from "./_components/addCategory";
 import CategoriesList from "./_components/categoriesList";
 
 const Categories = async () => {
@@ -14,11 +14,8 @@ const Categories = async () => {
   if (!success || !data) return null;
 
   return (
-    <ContainerWrapper
-      title="Categories"
-      headerOption={<Button className="btn-primary">Add Category</Button>}
-    >
-      <CategoriesList categories={data?.categories} />
+    <ContainerWrapper title="Categories" headerOption={<AddCategory />}>
+      <CategoriesList categories={data?.categories} bizid={bizid} />
     </ContainerWrapper>
   );
 };

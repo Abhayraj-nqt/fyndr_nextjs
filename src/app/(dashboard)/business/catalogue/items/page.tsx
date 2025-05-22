@@ -19,7 +19,7 @@ const CatalogItems = async () => {
         title="Items"
         headerOption={<Button className="btn-primary">Add Item</Button>}
       >
-        <ItemList items={data.items} />
+        <ItemList items={data.items} bizid={bizid} />
       </ContainerWrapper>
     </>
   );

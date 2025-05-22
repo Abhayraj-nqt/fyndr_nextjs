@@ -1,7 +1,12 @@
 "use server";
+import { revalidatePath } from "next/cache";
+
+import ROUTES from "@/constants/routes";
 import { API_BASE_URL } from "@/environment";
-import { _get, _put } from "@/lib/handlers/fetch";
+import { _delete, _get, _put } from "@/lib/handlers/fetch";
 import {
+  DeleteCategory,
+  DeleteModifier,
   GetCatalogueList,
   GetLocationsList,
   GetStoreCategoriesList,
@@ -14,6 +19,7 @@ import {
   fetchLocationResponse,
   StoreCategoryResponse,
   StoreItemResponse,
+  StoreModifierDelete,
   StoreModifierResponse,
   UpdateURLResponse,
 } from "@/types/api-response/catalogue.response";
@@ -47,6 +53,7 @@ export const fetchStoreCategory: GetStoreCategoriesList = async (params) => {
 
   return _get<StoreCategoryResponse>(endpoint, {
     requireAuth: true,
+    cache: "force-cache",
   });
 };
 
@@ -55,6 +62,7 @@ export const fetchStoreItem: GetStoreItemList = async (params) => {
 
   return _get<StoreItemResponse>(endpoint, {
     requireAuth: true,
+    cache: "force-cache",
   });
 };
 
@@ -62,6 +70,34 @@ export const fetchStoreModifier: GetStoreModifiersList = async (params) => {
   const endpoint = `${API_BASE_URL}/catalogue/modifiers/fetch/${params.bizid}?pgStart=${params.pgStart || 0}&pgSize=${params.pgSize || 1000}`;
 
   return _get<StoreModifierResponse>(endpoint, {
+    requireAuth: true,
+    cache: "force-cache",
+  });
+};
+
+export const deleteModifier: DeleteModifier = async (payload) => {
+  const endpoint = `${API_BASE_URL}/catalogue/modifier`;
+
+  revalidatePath(ROUTES.STORE_MODIFIERS);
+  return _delete<StoreModifierDelete>(endpoint, payload, {
+    requireAuth: true,
+  });
+};
+
+export const deleteItem: DeleteModifier = async (payload) => {
+  const endpoint = `${API_BASE_URL}/catalogue/item`;
+
+  revalidatePath(ROUTES.STORE_ITEMS);
+  return _delete<StoreModifierDelete>(endpoint, payload, {
+    requireAuth: true,
+  });
+};
+
+export const deleteCategory: DeleteCategory = async (payload) => {
+  const endpoint = `${API_BASE_URL}/catalogue/category`;
+
+  revalidatePath(ROUTES.STORE_CATEGORY);
+  return _delete<StoreModifierDelete>(endpoint, payload, {
     requireAuth: true,
   });
 };

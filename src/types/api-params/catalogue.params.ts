@@ -3,6 +3,7 @@ import {
   fetchLocationResponse,
   StoreCategoryResponse,
   StoreItemResponse,
+  StoreModifierDelete,
   StoreModifierResponse,
   UpdateURLResponse,
 } from "../api-response/catalogue.response";
@@ -40,3 +41,15 @@ export type GetStoreModifiersList = (params: {
   pgStart?: number;
   pgSize?: number;
 }) => Promise<ActionResponse<StoreModifierResponse>>;
+
+export type DeleteModifier = (payload: {
+  bizid: number;
+  objid: number;
+}) => Promise<ActionResponse<StoreModifierDelete>>;
+
+export type DeleteCategory = (payload: {
+  bizid: number;
+  objid: number;
+  description: string;
+  name: string;
+}) => Promise<ActionResponse<StoreModifierDelete>>;

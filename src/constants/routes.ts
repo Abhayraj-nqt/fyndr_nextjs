@@ -20,6 +20,10 @@ const ROUTES = {
   SUPPORT_DASHBOARD: "/support/dashboard",
 
   CALLBACK_SIGN_IN: "/callback/sign-in",
+  STORE_ADD_CATEGORY: "/business/catalogue/categories/add",
+  STORE_MODIFIERS: "/business/catalogue/modifiers",
+  STORE_ITEMS: "/business/catalogue/items",
+  STORE_CATEGORY: "/business/catalogue/categories",
 };
 
 export const PUBLIC_ROUTES = [

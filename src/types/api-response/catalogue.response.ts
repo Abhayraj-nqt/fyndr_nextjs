@@ -132,3 +132,7 @@ export type StoreModifierResponse = {
   modifiers: StoreModifier[];
   last: boolean;
 };
+
+export type StoreModifierDelete = {
+  success: boolean;
+};
