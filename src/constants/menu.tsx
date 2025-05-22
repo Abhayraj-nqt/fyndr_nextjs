@@ -30,7 +30,13 @@ import {
   Megaphone,
   Gift,
   UserCog,
+  ArrowDownToLine,
+  Contact,
+  GlobeLock,
+  Handshake,
+  TableOfContents,
 } from "lucide-react";
+import { StaticImageData } from "next/image";
 
 import ROUTES from "./routes";
 
@@ -46,11 +52,9 @@ export interface SubMenuProps extends MenuProps {
 }
 
 export interface FooterMenuProps {
-  title: string;
-  links: {
-    label: string;
-    url: string;
-  }[];
+  icon: string | LucideIcon | StaticImageData;
+  label: string;
+  url: string;
 }
 
 export const INDIVIDUAL_MENU: MenuProps[] = [];
@@ -285,59 +289,33 @@ export const NAVBAR_MENU: MenuProps[] = [
 
 export const FOOTER_MENU: FooterMenuProps[] = [
   {
-    title: "Quick Links",
-    links: [
-      {
-        label: "Download Fyndr",
-        url: "",
-      },
-      {
-        label: "Blog",
-        url: "",
-      },
-    ],
+    icon: ArrowDownToLine,
+    label: "Download Fyndr",
+    url: "",
   },
   {
-    title: "Company",
-    links: [
-      {
-        label: "About Us",
-        url: "",
-      },
-      {
-        label: "Contact Us",
-        url: "",
-      },
-    ],
+    icon: Contact,
+    label: "Contact Us",
+    url: "",
   },
   {
-    title: "Help",
-    links: [
-      {
-        label: "Payments",
-        url: "",
-      },
-      {
-        label: "FAQ",
-        url: "",
-      },
-    ],
+    icon: ReceiptText,
+    label: "Term of use",
+    url: "",
   },
   {
-    title: "Legal",
-    links: [
-      {
-        label: "Terms of Use",
-        url: "",
-      },
-      {
-        label: "Privacy Policy",
-        url: "",
-      },
-      {
-        label: "Business Agreement",
-        url: "",
-      },
-    ],
+    icon: GlobeLock,
+    label: "Privacy Policy",
+    url: "",
+  },
+  {
+    icon: Handshake,
+    label: "Business Agremnent",
+    url: "",
+  },
+  {
+    icon: TableOfContents,
+    label: "FAQ",
+    url: "",
   },
 ];

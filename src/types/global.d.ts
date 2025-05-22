@@ -1,4 +1,5 @@
 import { LucideIcon } from "lucide-react";
+import { StaticImageData } from "next/image";
 import { NextResponse } from "next/server";
 
 type ActionResponse<T = null> = {
@@ -57,7 +58,7 @@ interface ValueLabelProps {
 
 interface SocialLinksProps {
   label: string;
-  icon: LucideIcon;
+  icon: string | LucideIcon | StaticImageData;
   url: string;
 }
 
