@@ -4,6 +4,7 @@ const ROUTES = {
   HOME: "/",
   SIGN_IN: "/sign-in",
   SIGN_UP: "/sign-up",
+  SIGN_UP_COMPLETE: "/sign-up/complete",
   RESET_PASSWORD: "/reset-password",
   WALLET: "/wallet",
   ABOUT_US: "/about-us",
@@ -14,6 +15,11 @@ const ROUTES = {
   OFFER_DETAILS: (bizName: string, qrCode: string) =>
     slugify(`/offer-details/${bizName}/${qrCode}`),
   STORE: (id: number | string) => `/store/${id}`,
+
+  // Legal routes
+  LEGAL_TERMS: "/legal/terms",
+  LEGAL_privacy: "/legal/privacy",
+  LEGAL_AGREEMENT: "/legal/agreement",
 
   // Business routes
   BUSINESS_DASHBOARD: "/business/billing/transaction",
