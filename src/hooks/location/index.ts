@@ -11,6 +11,7 @@ import {
 } from "@/actions/maps.actions";
 import { DEFAULT_LOCATION } from "@/constants";
 import { Coordinates } from "@/types/global";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 
 import { useUser } from "../auth";
 
@@ -294,3 +295,205 @@ export function useLocationSelector() {
     isFetchingCurrentLocation,
   };
 }
+
+// -------------------------------------------------------------------------------------------------------------
+
+interface ZipCodeResult {
+  city: string;
+  state: string;
+  lat: number;
+  lng: number;
+  postalCode: string;
+}
+
+interface UseZipCodeLookupProps {
+  zipCode: string;
+  countryCode: string;
+  enabled?: boolean;
+}
+
+// Helper function to get country name from country code
+function getCountryName(countryCode: string): string {
+  const countryMap: Record<string, string> = {
+    US: "United States",
+    AU: "Australia",
+    CA: "Canada",
+    GB: "United Kingdom",
+    IN: "India",
+    NZ: "New Zealand",
+  };
+
+  return countryMap[countryCode] || countryCode;
+}
+
+// Helper function to extract location data from Google Places API response
+function extractLocationData(
+  placeDetail: any,
+  zipCode: string
+): ZipCodeResult | null {
+  try {
+    const addressComponents = placeDetail.address_components || [];
+    const geometry = placeDetail.geometry;
+
+    if (!geometry || !geometry.location) {
+      return null;
+    }
+
+    let city = "";
+    let state = "";
+    let postalCode = zipCode;
+
+    // Extract city and state from address components
+    for (const component of addressComponents) {
+      const types = component.types;
+
+      if (types.includes("locality") || types.includes("sublocality")) {
+        city = component.long_name;
+      } else if (types.includes("administrative_area_level_1")) {
+        state = component.short_name || component.long_name;
+      } else if (types.includes("postal_code") && !postalCode) {
+        postalCode = component.long_name;
+      }
+    }
+
+    // Fallback for city if not found in locality
+    if (!city) {
+      const cityComponent = addressComponents.find(
+        (comp: any) =>
+          comp.types.includes("sublocality_level_1") ||
+          comp.types.includes("neighborhood") ||
+          comp.types.includes("administrative_area_level_2")
+      );
+      if (cityComponent) {
+        city = cityComponent.long_name;
+      }
+    }
+
+    // If still no city, try to get it from formatted_address
+    if (!city && placeDetail.formatted_address) {
+      const addressParts = placeDetail.formatted_address.split(",");
+      if (addressParts.length >= 2) {
+        city = addressParts[1].trim();
+      }
+    }
+
+    return {
+      city,
+      state,
+      lat: geometry.location.lat,
+      lng: geometry.location.lng,
+      postalCode,
+    };
+  } catch (error) {
+    console.error("Error extracting location data:", error);
+    return null;
+  }
+}
+
+// Main function to lookup zip code
+async function lookupZipCode(
+  zipCode: string,
+  countryCode: string
+): Promise<ZipCodeResult> {
+  if (!zipCode || zipCode.length < 3) {
+    throw new Error("Zip code must be at least 3 characters");
+  }
+
+  try {
+    // Create search query based on country
+    const searchQuery = `${zipCode} ${getCountryName(countryCode)}`;
+
+    // Get autocomplete predictions
+    const predictions = await placeAutocomplete(searchQuery);
+
+    if (!predictions || predictions.length === 0) {
+      throw new Error("No results found for this zip code");
+    }
+
+    // Find the best matching prediction (postal code type)
+    const bestMatch =
+      predictions.find(
+        (prediction) =>
+          prediction.types.includes("postal_code") ||
+          prediction.types.includes("sublocality") ||
+          prediction.description.includes(zipCode)
+      ) || predictions[0];
+
+    // Get detailed place information
+    const placeDetail = await placeDetails(bestMatch.place_id);
+
+    if (!placeDetail) {
+      throw new Error("Could not fetch place details");
+    }
+
+    // Extract city, state, and coordinates
+    const result = extractLocationData(placeDetail, zipCode);
+
+    if (!result) {
+      throw new Error("Could not extract location data from the response");
+    }
+
+    // Validate that we have minimum required data
+    if (!result.lat || !result.lng) {
+      throw new Error("Could not determine coordinates for this location");
+    }
+
+    return result;
+  } catch (error) {
+    console.error("Zip code lookup error:", error);
+    throw error;
+  }
+}
+
+// React Query hook
+export const useZipCodeLookup = ({
+  zipCode,
+  countryCode,
+  enabled = true,
+}: UseZipCodeLookupProps) => {
+  return useQuery({
+    queryKey: ["zipCodeLookup", zipCode, countryCode],
+    queryFn: () => lookupZipCode(zipCode, countryCode),
+    enabled:
+      enabled &&
+      Boolean(zipCode) &&
+      zipCode.length >= 3 &&
+      Boolean(countryCode),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    // cacheTime: 10 * 60 * 1000, // 10 minutes
+    retry: (failureCount, error) => {
+      // Don't retry if it's a validation error
+      if (
+        error instanceof Error &&
+        error.message.includes("must be at least")
+      ) {
+        return false;
+      }
+      // Retry up to 2 times for other errors
+      return failureCount < 2;
+    },
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff
+  });
+};
+
+// Alternative hook for manual triggering (useful for forms)
+export const useZipCodeLookupMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      zipCode,
+      countryCode,
+    }: {
+      zipCode: string;
+      countryCode: string;
+    }) => lookupZipCode(zipCode, countryCode),
+    onSuccess: (data, variables) => {
+      // Cache the result for future use
+      queryClient.setQueryData(
+        ["zipCodeLookup", variables.zipCode, variables.countryCode],
+        data
+      );
+    },
+  });
+};
