@@ -19,7 +19,6 @@ const RedeemPromocodeDialog = ({ children }: Props) => {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading profile</div>;
   if (!user) return <div>Please sign in</div>;
-
   const handleModalOpen = () => setModalOpen(true);
   const handleModalClose = () => setModalOpen(false);
 

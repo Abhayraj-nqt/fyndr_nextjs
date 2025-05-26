@@ -41,6 +41,8 @@
     "cmdk": "^1.0.0",
     "crypto-js": "^4.2.0",
     "date-fns": "^4.1.0",
+    "dayjs": "^1.11.13",
+    "dayjs-plugin-utc": "^0.1.2",
     "embla-carousel-react": "^8.5.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard": "^17.1.0",

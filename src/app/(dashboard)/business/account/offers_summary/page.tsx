@@ -41,10 +41,10 @@ const OfferSummary = async () => {
           </div>
 
           <div className=" flex flex-col justify-end gap-2 text-[16px] leading-5 text-[#878787]">
-            <p>Total Offers Sold:{data?.data.purchasedOffersCount} </p>
-            <p>Total Unused Offers:{data?.data.unredeemedOffersCount} </p>
-            <p>Total Redeemed Offers:{ data.data?.redeemedOffersCount} </p>
-            <p>Total Partially Redeemed Offers:{data?.data.partiallyRedeemedOffersCount} </p>
+            <p>Total Offers Sold: {data?.data.purchasedOffersCount} </p>
+            <p>Total Unused Offers: {data?.data.unredeemedOffersCount} </p>
+            <p>Total Redeemed Offers: { data.data?.redeemedOffersCount} </p>
+            <p>Total Partially Redeemed Offers: {data?.data.partiallyRedeemedOffersCount} </p>
           </div>
         </div>
 

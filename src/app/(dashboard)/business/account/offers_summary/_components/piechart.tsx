@@ -23,7 +23,7 @@ const PieChartSection: React.FC<PieChartProps> = ({ chartData, colors = ["#5196E
           nameKey="name"
           cx="50%"
           cy="50%"
-          outerRadius={75}
+          outerRadius={70}
           label
         >
           {chartData.map((_, index) => (

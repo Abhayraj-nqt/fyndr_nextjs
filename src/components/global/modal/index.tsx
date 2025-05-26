@@ -223,9 +223,11 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
               </button>
             )}
           </div>
-          <div className="p-4">{children}</div>
+          <div className="no-scrollbar max-h-[80vh] overflow-y-auto p-4">
+            {children}
+          </div>
           {shouldShowFooter && (
-            <DialogFooter className="flex flex-col-reverse p-4 sm:flex-row sm:justify-end sm:space-x-2">
+            <DialogFooter className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2">
               {secondaryAction && (
                 <Button
                   variant={secondaryAction.variant || "outline"}

@@ -3,12 +3,14 @@
 import { API_BASE_URL } from "@/environment";
 import { _post } from "@/lib/handlers/fetch";
 import {
+  GetInvoiceDetailProps,
   GetInvoiceSummaryProps,
   GetPayableProps,
   GetReceivableProps,
 } from "@/types/api-params/transaction.params";
 import {
   fetchInvoiceResponse,
+  invoiceDetailsResponse,
   InvoiceSummary,
 } from "@/types/api-response/transaction.response";
 
@@ -37,3 +39,15 @@ export const fetchPayables: GetPayableProps = async (payload) => {
     cache: "force-cache",
   });
 };
+
+
+export const onGetInvoiceDetails :  GetInvoiceDetailProps =  async (payload) => {
+   
+    const endpoint = `${API_BASE_URL}/invoice/v2/details`;
+
+    return _post<invoiceDetailsResponse>(endpoint, payload, {
+      requireAuth : true,
+      cache : "force-cache",
+    })
+   
+}
