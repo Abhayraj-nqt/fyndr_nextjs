@@ -26,8 +26,9 @@ export const EMPTY_CATEGORY = {
 };
 
 export const EMPTY_WALLET_TRANSACTIONS = {
-  title: "No activity yet!",
-  message: "You haven",
+  title: "No Wallet Transactions Yet!",
+  message:
+    "Your wallet's still untouched — start exploring and make your first transaction today!",
 };
 
 // export const EMPTY_TAGS = {

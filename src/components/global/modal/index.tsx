@@ -50,6 +50,9 @@ type BaseModalProps = {
    * @default true
    */
   closeOnOutsideClick?: boolean;
+
+  footerClassName?: string;
+  headerClassName?: string;
 };
 
 type TriggeredModalProps = BaseModalProps & {
@@ -138,6 +141,8 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
       contentClassName,
       width,
       closeOnOutsideClick = true,
+      footerClassName = "",
+      headerClassName = "",
     },
     ref
   ) => {
@@ -201,9 +206,11 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
         >
           <div className="flex items-start justify-between">
             {shouldShowHeader && (
-              <DialogHeader className="flex-1 border-b p-4">
+              <DialogHeader
+                className={`flex-1 border-b p-4 ${headerClassName}`}
+              >
                 {title && (
-                  <DialogTitle className="h3-semibold text-primary-900">
+                  <DialogTitle className="h3-semibold font-medium text-primary-900">
                     {title}
                   </DialogTitle>
                 )}
@@ -227,13 +234,15 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
             {children}
           </div>
           {shouldShowFooter && (
-            <DialogFooter className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2">
+            <DialogFooter
+              className={`flex flex-col-reverse p-4 sm:flex-row sm:justify-end sm:space-x-2 ${footerClassName}`}
+            >
               {secondaryAction && (
                 <Button
                   variant={secondaryAction.variant || "outline"}
                   onClick={secondaryAction.onClick}
                   disabled={secondaryAction.disabled}
-                  className={secondaryAction.className}
+                  className={`btn-primary-outlined ${secondaryAction.className}`}
                 >
                   {secondaryAction.label}
                 </Button>
@@ -243,7 +252,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
                   variant={primaryAction.variant || "default"}
                   onClick={primaryAction.onClick}
                   disabled={primaryAction.disabled || primaryAction.loading}
-                  className={primaryAction.className}
+                  className={`btn-primary ${primaryAction.className}`}
                 >
                   {primaryAction.loading ? "Loading..." : primaryAction.label}
                 </Button>
