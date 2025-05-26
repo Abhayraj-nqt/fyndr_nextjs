@@ -5,6 +5,7 @@ import { auth } from "@/auth";
 import ContainerWrapper from "@/components/global/ContainerWrapper";
 
 import PiechartSummary from "./_components/piechart";
+import OfferSummaryTable from "./_components/offer-summary-table";
 
 const OfferSummary = async () => {
   const session = await auth();
@@ -12,9 +13,11 @@ const OfferSummary = async () => {
 
   console.log(bizid);
 
+  const pgSize = 10;
+
   const { success, data } = await onGetOfferSummary({
     bizid,
-    pgSize: 10,
+    pgSize,
     pgStart: 1,
   });
 
@@ -63,7 +66,12 @@ const OfferSummary = async () => {
             <span>Offers Partially Redeemed</span>
           </div>
         </div>
+
+       
       </div>
+       <section className="mt-10">
+          <OfferSummaryTable data={data?.data?.listOfferPurchasedOutDTO} count ={data?.data?.count} pageSize = {pgSize} />
+        </section>
     </ContainerWrapper>
   );
 };
