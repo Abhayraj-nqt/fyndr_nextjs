@@ -56,3 +56,9 @@ export type AccountResponse = {
   website: string | null;
   yob: string;
 };
+
+export type ConfirmIdentityResponse = {
+  entity: "TOKEN" | string;
+  message: string;
+  statusCode: null | unknown;
+};

@@ -29,7 +29,7 @@ const BusinessPage = async ({
   return (
     <>
       <div className="mx-auto w-[90%] max-w-screen-xl space-y-4 ">
-        <ContainerWrapper title="My Order" noPadding>
+        <ContainerWrapper title="My Orders" noPadding>
           <Summary month={month} bizid={bizid} />
         </ContainerWrapper>
         <ContainerWrapper>

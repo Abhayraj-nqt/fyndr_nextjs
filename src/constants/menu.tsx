@@ -160,7 +160,7 @@ export const BUSINESS_MENU: SubMenuProps[] = [
       },
       {
         icon: ChartPie,
-        route: "",
+        route: "/business/account/offers_summary",
         label: "Offer Summary",
       },
       {
