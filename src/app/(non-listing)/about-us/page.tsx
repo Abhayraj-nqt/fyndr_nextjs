@@ -17,6 +17,7 @@ const AboutUs = () => {
             imgURL={feature.imgURL}
             description={feature.description}
             index={index}
+            className={index === 0 ? "peer" : ""}
           />
         ))}
       </div>
