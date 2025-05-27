@@ -1,9 +1,10 @@
 "use client";
 
-import ImageUploader from "@/components/global/uploader/image-uploader";
-import { ProcessedFileProps } from "@/lib/file-utils/upload.utils";
 import Image from "next/image";
 import React, { useState } from "react";
+
+import ImageUploader from "@/components/global/uploader/image-uploader";
+import { ProcessedFileProps } from "@/lib/file-utils/upload.utils";
 
 const ImageUploaderTest = () => {
   const [uploadedFiles, setUploadedFiles] = useState<ProcessedFileProps[]>([]);

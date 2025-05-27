@@ -1,12 +1,4 @@
-import {
-  Facebook,
-  Instagram,
-  Linkedin,
-  Twitter,
-  Navigation,
-  Wallet,
-  Crown,
-} from "lucide-react";
+import { Navigation, Wallet, Crown } from "lucide-react";
 
 import {
   CompanyProps,
@@ -170,23 +162,18 @@ export const COMPANY: CompanyProps = {
   socialLinks: [
     {
       label: "Facebook",
-      icon: Facebook,
-      url: "",
+      icon: "/images/facebook.png",
+      url: "https://www.facebook.com/profile.php?id=61551952386073",
     },
     {
       label: "Instagram",
-      icon: Instagram,
-      url: "",
+      icon: "/images/instagram.png",
+      url: "https://www.instagram.com/fyndr.us/",
     },
     {
       label: "Linkedin",
-      icon: Linkedin,
-      url: "",
-    },
-    {
-      label: "Twitter",
-      icon: Twitter,
-      url: "",
+      icon: "/images/linkdin.png",
+      url: "https://www.linkedin.com/company/fyndr-us/",
     },
   ],
 };
