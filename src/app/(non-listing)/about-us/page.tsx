@@ -2,13 +2,13 @@ import React from "react";
 
 import { ABOUT_PAGE_FEATURES, FYNDR_ABOUT_AND_MISSION } from "@/constants";
 
-import AboutRow from "./_components/aboutRow";
-import AboutUsTab from "./_components/aboutUsTab";
+import AboutRow from "./_components/AboutRow";
+import AboutUsTab from "./_components/AboutUsTab";
 import FeatureCard from "./_components/featurecards";
 
 const AboutUs = () => {
   return (
-    <main>
+    <main className="scroll-smooth">
       <div className="group relative flex flex-col items-center justify-center gap-4 p-4 md:flex-row">
         {ABOUT_PAGE_FEATURES.map((feature, index) => (
           <FeatureCard
