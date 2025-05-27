@@ -42,7 +42,10 @@ const Faq = ({ userType }: Props) => {
   }, [query, searchParams]);
 
   return (
-    <div className="w-4/5 rounded-[10px] border border-[#e6e6e6] bg-white px-10 pb-24 shadow-md">
+    <section
+      id="faq"
+      className="w-4/5 rounded-[10px] border border-[#e6e6e6] bg-white px-10 pb-24 shadow-md scroll-smooth"
+    >
       <div className="flex flex-col items-center justify-center py-6 text-[24px] font-semibold text-black">
         <h3>Frequently Asked Questions By {userType} (FAQs)</h3>
         <span className="mt-4 text-[16px] font-normal">
@@ -137,7 +140,7 @@ const Faq = ({ userType }: Props) => {
             ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
