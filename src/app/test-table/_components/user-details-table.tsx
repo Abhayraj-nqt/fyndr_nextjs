@@ -35,6 +35,8 @@ const UserDetailsTable = ({ promises }: Props) => {
 
   const { count, users } = data.data;
 
+  console.log("this is users", users);
+
   const { table } = useDataTable({
     data: users || [],
     columns,
