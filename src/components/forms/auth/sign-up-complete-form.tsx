@@ -103,10 +103,10 @@ const SignUpCompleteForm = () => {
       };
 
       // delete (x as any).bizName;
-      delete basePayload.bizName;
-      delete basePayload.bizType;
-      delete basePayload.website;
-      delete basePayload.tags;
+      delete (basePayload as any).bizName;
+      delete (basePayload as any).bizType;
+      delete (basePayload as any).website;
+      delete (basePayload as any).tags;
 
       const finalPayload = {
         ...basePayload,
@@ -162,16 +162,11 @@ const SignUpCompleteForm = () => {
 
   return (
     <>
-      {isLoading ? (
-        <FyndrLoading />
+      <FyndrLoading loading={isLoading} />
+      {isBusiness ? (
+        <BusinessForm onSubmit={handleSubmitBusiness} />
       ) : (
-        <>
-          {isBusiness ? (
-            <BusinessForm onSubmit={handleSubmitBusiness} />
-          ) : (
-            <IndividualForm onSubmit={handleSubmitIndividual} />
-          )}
-        </>
+        <IndividualForm onSubmit={handleSubmitIndividual} />
       )}
     </>
   );

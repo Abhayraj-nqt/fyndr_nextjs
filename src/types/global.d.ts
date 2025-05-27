@@ -1,4 +1,5 @@
 import { LucideIcon } from "lucide-react";
+import { StaticImageData } from "next/image";
 import { NextResponse } from "next/server";
 import { Control } from "react-hook-form";
 
@@ -58,7 +59,7 @@ interface ValueLabelProps {
 
 interface SocialLinksProps {
   label: string;
-  icon: LucideIcon;
+  icon: string | LucideIcon | StaticImageData;
   url: string;
 }
 

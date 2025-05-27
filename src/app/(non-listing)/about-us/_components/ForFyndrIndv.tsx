@@ -1,6 +1,6 @@
 import React from "react";
 
-import AboutRow from "./aboutRow";
+import AboutRow from "./AboutRow";
 
 type FyndrIndvItem = {
   title: string;

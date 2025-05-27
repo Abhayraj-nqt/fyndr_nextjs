@@ -3,54 +3,54 @@ import Link from "next/link";
 import React from "react";
 
 import { Separator } from "@/components/ui/separator";
-import { COMPANY } from "@/constants";
 import { FOOTER_MENU } from "@/constants/menu";
 
+import ContactUsModal from "./ContactUsModal";
 import SocialLinks from "./social-links";
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
-
   return (
-    <main className="flex flex-col bg-dark-200 text-light-900 md:items-center">
-      <div className="flex-between w-full px-4 py-8 sm:w-11/12">
-        <div className="hidden flex-col gap-4 self-start sm:flex">
-          <Image
-            src={"/images/site-logo.png"}
-            width={100}
-            height={100}
-            alt="Fyndr Logo"
-          />
-          <p className="body-regular text-light-700">An online marketplace</p>
-        </div>
-        <div className="grid grid-cols-4 gap-2 sm:gap-4">
-          {FOOTER_MENU.map(({ title, links }) => (
-            <div key={title} className="flex flex-col gap-2">
-              <h2 className="body-medium mb-2 text-light-400">{title}</h2>
-              {links.map(({ label, url }) => (
-                <Link
-                  key={label}
-                  href={url}
-                  className="small-regular sm:body-regular text-light-700"
-                >
-                  {label}
-                </Link>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="mb-6 flex flex-col gap-2 px-4 sm:hidden">
-        <h2 className="body-medium mb-2 text-light-400">Social</h2>
-        <SocialLinks />
-      </div>
-      <Separator className="bg-dark-300" />
-      <div className="flex-between w-full px-4 py-6 xs:w-11/12">
-        <p className="body-regular text-light-700">
-          © {currentYear} {COMPANY.name}. All rights reserved.
-        </p>
-        <SocialLinks className="hidden sm:flex" />
-      </div>
+    <main className="flex-between  bg-dark-200 text-light-900 md:items-center  max-h-[100px] py-5 w-full">
+      {/* <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-2 sm:gap-8"> */}
+      <SocialLinks className="hidden sm:flex " />
+      {FOOTER_MENU.map(({ icon, url, label }) => (
+        <React.Fragment key={label}>
+          {label !== "Contact Us" ? (
+            <Link href={url} key={label} className="flex  gap-1">
+              {typeof icon === "string" ? (
+                <Image src={icon} width={20} height={20} alt={label} />
+              ) : (
+                React.createElement(icon, {
+                  className: "w-5 h-5 text-light-700 hidden lg:flex",
+                })
+              )}
+              <div className="text-[20px] sm:body-regular text-light-700 xs: ml-2 sm:ml-2 md:ml-2">
+                {label}
+              </div>
+            </Link>
+          ) : (
+            <>
+              <ContactUsModal>
+                <div className="flex  gap-1">
+                  {typeof icon === "string" ? (
+                    <Image src={icon} width={20} height={20} alt={label} />
+                  ) : (
+                    React.createElement(icon, {
+                      className: "w-5 h-5 text-light-700 hidden lg:flex",
+                    })
+                  )}
+                  <div className="small-regular sm:body-regular text-light-700 xs: ml-2 sm:ml-2 md:ml-2">
+                    {label}
+                  </div>
+                </div>
+              </ContactUsModal>
+            </>
+          )}
+
+          <Separator orientation="vertical" className="h-8" />
+        </React.Fragment>
+      ))}
+      {/* </div> */}
     </main>
   );
 };

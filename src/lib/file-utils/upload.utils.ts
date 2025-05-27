@@ -19,6 +19,7 @@ export type FileWithPreview = File & {
 };
 
 export type ProcessedFileProps = {
+  indexOf(arg0: string): unknown;
   name: string;
   type: string;
   base64: string;
@@ -145,9 +146,9 @@ export const processFiles = async (
   for (const file of files) {
     try {
       // Show toast for uploading
-      toast.info({
-        message: `Processing ${file.name}`,
-      });
+      // toast.info({
+      //   message: `Processing ${file.name}`,
+      // });
 
       // Compress image if needed and it's an image type
       let fileToProcess = file;
