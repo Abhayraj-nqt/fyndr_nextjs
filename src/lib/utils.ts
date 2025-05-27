@@ -210,6 +210,20 @@ export const slugify = (path: string): string => {
   return slugifiedParts.join("/");
 };
 
+export const findPathForAccount=(role:string) =>{
+  switch (role) {
+    case "FYNDR": {
+      return "/admin/dashboard";
+    }
+    case "INDIVIDUAL": {
+      return "/billig/transactions";
+    }
+    default:{
+      return "/billing/transactions";
+    }
+    
+};
+
 //* It will only used for internal functions - No need to export ----------------------------------------------------------
 
 const _slugify = (str: string | number): string => {

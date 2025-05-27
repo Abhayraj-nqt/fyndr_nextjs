@@ -1,6 +1,9 @@
 import { API_BASE_URL } from "@/environment";
 import { _get, _post } from "@/lib/handlers/fetch";
+import { adminCampaignParam } from "@/types/api-params/admincampaign.params";
 import { GetActivePromoProps, GetExpiredPromos } from "@/types/api-params/promocode.params";
+import { RevenueProps } from "@/types/api-params/revenue.params";
+import { ReviewReportParam } from "@/types/api-params/reviewReport.param";
 import { GetUsersParams } from "@/types/api-params/user.params";
 import { campaignStatistics, revernueStatistics, userStatistics } from "@/types/api-response/adminStatistics.response";
 import { ExpiredList } from "@/types/api-response/promocode.response";
@@ -47,3 +50,40 @@ export const onGetUsers: GetUsersParams = async (params, payload) => {
     },
   });
 };
+
+export const getCapaignDetails : adminCampaignParam = async (params, payload)=>{
+  const {pgStart, pgSize} = params;
+   let endpoint = `${API_BASE_URL}/admin/campaign?pgStart=${pgStart}&pgSize=${pgSize}`;
+   return _post(endpoint, payload, {
+    requireAuth: true,
+    cache: "force-cache",
+    next : {
+      revalidate: 600000,
+    }
+   });
+}
+
+export const getReveue: RevenueProps= async(params, payload) =>{
+  const {pgStart, pgSize} = params;
+  let endpoint= `${API_BASE_URL}/admin/revenue?pgStart=${pgStart}&pgSize=${pgSize}`;
+  return _post(endpoint, payload, {
+    requireAuth: true,
+    cache: "force-cache",
+    next : {
+      revalidate: 600000,
+    }
+  })
+}
+
+export const getReviewReport : ReviewReportParam = async(params)=>{
+  const {orderBy, pgSize, pgStart} = params;
+  let endpoint =`${API_BASE_URL}/admin/comment/list?orderBy=${orderBy}&pgStart=${pgStart}&pgSize=${pgSize}`
+  return _get(endpoint, {
+    requireAuth:true,
+    cache:'force-cache',
+    next:{
+      revalidate:600000,
+    }
+  })
+
+}

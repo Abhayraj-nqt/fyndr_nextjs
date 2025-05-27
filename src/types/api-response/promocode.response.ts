@@ -40,7 +40,7 @@ export type ExpiredList = {
   last: boolean;
   promocodesList: ExpiredPromo[] | undefined;
   count: number;
-}
+};
 export type VerifyPromocodeResponse = {
   message: string;
   promoCodeDetails: {
@@ -53,3 +53,11 @@ export type VerifyPromocodeResponse = {
 export type RedeemPromocodeResponse = {
   message: string;
 };
+
+export type getAllPromoCode = {
+  id: number;
+  promoCode: string;
+  promoCodeType: "REGISTRATION" | "REDEEM_PROMOCODE" | "REGISTRATION_N_REDEEM";
+};
+
+export type getAllPromoCodeResponse = [getAllPromoCode];

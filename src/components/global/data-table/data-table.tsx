@@ -16,6 +16,8 @@ import { cn } from "@/lib/utils";
 interface DataTableProps<TData> extends React.ComponentProps<"div"> {
   table: TanstackTable<TData>;
   actionBar?: React.ReactNode;
+  enableRowIndicator?: boolean;
+  getRowIndicatorColor?: (row: TData) => string;
 }
 
 export function DataTable<TData>({
@@ -23,6 +25,8 @@ export function DataTable<TData>({
   actionBar,
   children,
   className,
+  enableRowIndicator = false,
+  getRowIndicatorColor,
   ...props
 }: DataTableProps<TData>) {
   return (
@@ -74,20 +78,37 @@ export function DataTable<TData>({
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      style={{
-                        ...getCommonPinningStyles({ column: cell.column }),
-                      }}
-                      className="p-4 text-sm font-normal text-[#333] border border-[#d3d6e1]"
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
+                  {row.getVisibleCells().map((cell, cellIndex) => {
+                    const isFirstCell = cellIndex === 0;
+                    const shouldShowIndicator = enableRowIndicator && isFirstCell && getRowIndicatorColor;
+                    const indicatorColor = shouldShowIndicator ? getRowIndicatorColor(row.original) : '';
+                    
+                    return (
+                      <TableCell
+                        key={cell.id}
+                        style={{
+                          ...getCommonPinningStyles({ column: cell.column }),
+                        }}
+                        className={cn(
+                          "p-4 text-sm font-normal text-[#333] border border-[#d3d6e1]",
+                          shouldShowIndicator && "relative"
+                        )}
+                      >
+                        {shouldShowIndicator && indicatorColor && (
+                          <div 
+                            className={cn(
+                              "absolute left-0 top-0 w-[7px] h-full rounded-tr-md rounded-br-md",
+                              indicatorColor
+                            )}
+                          />
+                        )}
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    );
+                  })}
                 </TableRow>
               ))
             ) : (

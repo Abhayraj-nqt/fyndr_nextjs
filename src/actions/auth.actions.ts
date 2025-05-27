@@ -3,7 +3,7 @@
 import { signIn, signOut as authSignOut } from "@/auth";
 import { API_BASE_URL, API_GATEWAY_URL } from "@/environment";
 import handleError from "@/lib/handlers/error";
-import { _post } from "@/lib/handlers/fetch";
+import { _get, _post } from "@/lib/handlers/fetch";
 import { encryptPassword } from "@/lib/utils";
 import {
   GetAccountAPIProps,
@@ -16,6 +16,7 @@ import {
   AccountResponse,
   RefreshTokenResponse,
 } from "@/types/api-response/auth.response";
+import { ChannelOptionsResponse } from "@/types/api-response/findUsChannel.response";
 import { ErrorResponse } from "@/types/global";
 
 export const signInWithCredentials: SignInWithCredentials = async (params) => {
@@ -86,3 +87,8 @@ export const refreshAccessTokenAPI: RefreshAccessTokenAPIProps = async (
   const endpoint = `${API_GATEWAY_URL}/v1/token/generateFromRefreshToken`;
   return _post<RefreshTokenResponse>(endpoint, payload);
 };
+
+export const getAllChannel = async()=> {
+  const endpoint=`${API_BASE_URL}/identity/find_us`
+  return _get<ChannelOptionsResponse>(endpoint)
+}

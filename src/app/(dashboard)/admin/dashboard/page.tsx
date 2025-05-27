@@ -6,6 +6,8 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import ROUTES from "@/constants/routes";
+import Link from "next/link";
 import React from "react";
 
 const AdminDashboard = async () => {
@@ -22,11 +24,24 @@ const AdminDashboard = async () => {
     { label: "In-Store", value: campaignData?.data?.instore },
     { label: "Online & In-Store", value: campaignData?.data?.all },
   ];
-  const userStats = [
-    { label: "Total Enrollments", value: userData?.data?.user },
-    { label: "Total Individual", value: userData?.data?.customer },
-    { label: "Total Business", value: userData?.data?.merchant },
-  ];
+const userStats = [
+  {
+    label: "Total Enrollments",
+    value: userData?.data?.user,
+    href: ROUTES.ADMIN_USER_DETAILS
+  },
+  {
+    label: "Total Individual",
+    value: userData?.data?.customer,
+    href: `${ROUTES.ADMIN_USER_DETAILS}?customer=INDIVIDUAL&status=ACTIVE`,
+  },
+  {
+    label: "Total Business",
+    value: userData?.data?.merchant,
+    href: `${ROUTES.ADMIN_USER_DETAILS}?customer=BUSINESS&status=ACTIVE`,
+  },
+];
+
   const revenueStats = [
     { label: "Total Revenue", value: revenueData?.data?.totalRevenue },
     { label: "Offer Revenue", value: revenueData?.data?.offerRevenue },
@@ -62,7 +77,7 @@ const AdminDashboard = async () => {
           {userStats.map((item, index) => (
             <CardContent className="p-0 text-sm" key={index}>
               <div className="flex justify-between py-1">
-                <p>{item.label}</p>
+                <p><Link href={item.href}>{item.label}</Link> </p>
                 <p>{item.value}</p>
               </div>
             </CardContent>
