@@ -23,15 +23,15 @@ const PieChartSection: React.FC<PieChartProps> = ({ chartData, colors = ["#5196E
   if (!mounted) return null; //Resolving hydration error 
   return (
 
-      <PieChart width={250} height={250}>
+      <PieChart width={200} height={200}>
         <Pie
           data={chartData}
           dataKey="visitors"
           nameKey="name"
           cx="50%"
           cy="50%"
-          outerRadius={70}
-          label
+          outerRadius={100}
+         
         >
           {chartData.map((_, index) => (
             <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />

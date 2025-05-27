@@ -35,6 +35,7 @@ export function DataTableColumnHeader<TData, TValue>({
   }
 
   return (
+    <div className="flex justify-center w-full">
     <DropdownMenu>
       <DropdownMenuTrigger
         className={cn(
@@ -95,5 +96,6 @@ export function DataTableColumnHeader<TData, TValue>({
         )}
       </DropdownMenuContent>
     </DropdownMenu>
+    </div>
   );
 }

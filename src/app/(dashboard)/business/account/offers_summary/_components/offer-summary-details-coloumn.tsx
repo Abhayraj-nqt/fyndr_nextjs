@@ -97,6 +97,7 @@ export function getOfferSummaryDetailsColoumn({
           </div>
         </>
       ),
+      enableSorting: false,
     },
     {
       accessorKey: "validTill",
@@ -104,12 +105,13 @@ export function getOfferSummaryDetailsColoumn({
         <DataTableColumnHeader column={column} title="Valid Till" />
       ),
       cell: ({ row }) => (
-        <div >
+        <div>
           {row.original.validTill
             ? dayjs(row.original.validTill).format("MMMM D, YYYY")
             : "N/A"}
         </div>
       ),
+      enableSorting: false,
     },
     {
       accessorKey: "redemptionTime",
@@ -138,8 +140,10 @@ export function getOfferSummaryDetailsColoumn({
       enableSorting: false,
     },
     {
-      id: "actions",
-      header: "Action",
+      accessorKey: "status",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Status" />
+      ),
       cell: ({ row }) => (
         <Button
             // onClick={() => setRowAction({ row, variant: "update" })}
@@ -148,6 +152,7 @@ export function getOfferSummaryDetailsColoumn({
             Actions
           </Button>
       ),
+         enableSorting: false,
     },
   ];
 }
