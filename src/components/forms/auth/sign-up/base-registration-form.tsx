@@ -118,11 +118,21 @@ export const BaseRegistrationForm = <T extends FieldValues>({
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[#4D4D4D]"
             >
               I agree with{" "}
-              <Link href={ROUTES.LEGAL_TERMS} className="text-primary-500">
+              <Link
+                href={ROUTES.LEGAL_TERMS}
+                className="text-primary-500"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Fyndr's terms of use
               </Link>{" "}
               &{" "}
-              <Link href={ROUTES.LEGAL_privacy} className="text-primary-500">
+              <Link
+                href={ROUTES.LEGAL_privacy}
+                className="text-primary-500"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Privacy Policy
               </Link>
             </Label>
