@@ -139,6 +139,7 @@ const FormFieldRenderer = <T extends FieldValues>({
                       placeholder={config.placeholder}
                       value={field.value}
                       onValueChange={config.onValueChange}
+                      disabled={config?.disabled}
                     />
                   </FormControl>
                   <FormMessage />
@@ -218,7 +219,7 @@ const FormFieldRenderer = <T extends FieldValues>({
                     {states.isMobileVerified && (
                       <div
                         onClick={() => setters.setIsMobileVerified(false)}
-                        className="p-2 rounded-full bg-primary-500 text-white cursor-pointer"
+                        className="p-2 rounded-full bg-primary-500 text-white cursor-pointer !m-0"
                       >
                         <RotateCw size={15} />
                       </div>
@@ -232,50 +233,54 @@ const FormFieldRenderer = <T extends FieldValues>({
 
       case "referral":
         return (
-          <FormField
-            control={control}
-            name={config.name as Path<T>}
-            render={({ field }) => (
-              <FormItem className="flex sm:flex-row flex-col gap-2 sm:items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
-                  {config.label}
-                </FormLabel>
-                <div className="w-full flex flex-col gap-1">
-                  <FormControl>
-                    <Input
-                      {...field}
-                      value={field.value || ""}
-                      placeholder={config.placeholder}
-                      disabled={config.disabled}
-                      leftNode={
-                        <Button
-                          variant="primary"
-                          type="button"
-                          onClick={handlers.handleVerifyCode}
-                          className={`${states.isCodeVerified ? "bg-green-500 hover:bg-green-500 cursor-not-allowed" : ""} disabled:cursor-not-allowed`}
-                        >
-                          {states.isVerifyingCode
-                            ? "Verifying"
-                            : states.isCodeVerified
-                              ? "Verified"
-                              : "Verify"}
-                        </Button>
-                      }
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </div>
-                {states.isCodeVerified && (
-                  <div
-                    onClick={() => setters.setIsCodeVerified(false)}
-                    className="p-2 rounded-full bg-primary-500 text-white cursor-pointer"
-                  >
-                    <RotateCw size={15} />
+          <div className="flex-row gap-2 items-center w-full">
+            <FormField
+              control={control}
+              name={config.name as Path<T>}
+              render={({ field }) => (
+                <FormItem className="flex sm:flex-row flex-col gap-2 sm:items-center">
+                  <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+                    {config.label}
+                  </FormLabel>
+                  <div className="w-full flex flex-row gap-2 items-center">
+                    <div className="w-full flex flex-col gap-1">
+                      <FormControl>
+                        <Input
+                          {...field}
+                          value={field.value || ""}
+                          placeholder={config.placeholder}
+                          disabled={config.disabled}
+                          leftNode={
+                            <Button
+                              variant="primary"
+                              type="button"
+                              onClick={handlers.handleVerifyCode}
+                              className={`${states.isCodeVerified ? "bg-green-500 hover:bg-green-500 cursor-not-allowed" : ""} disabled:cursor-not-allowed`}
+                            >
+                              {states.isVerifyingCode
+                                ? "Verifying"
+                                : states.isCodeVerified
+                                  ? "Verified"
+                                  : "Verify"}
+                            </Button>
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                    {states.isCodeVerified && (
+                      <div
+                        onClick={() => setters.setIsCodeVerified(false)}
+                        className="p-2 rounded-full bg-primary-500 text-white cursor-pointer !m-0 w-fit"
+                      >
+                        <RotateCw size={15} />
+                      </div>
+                    )}
                   </div>
-                )}
-              </FormItem>
-            )}
-          />
+                </FormItem>
+              )}
+            />
+          </div>
         );
 
       case "tag":

@@ -21,6 +21,9 @@ const ROUTES = {
   LEGAL_privacy: "/legal/privacy",
   LEGAL_AGREEMENT: "/legal/agreement",
 
+  // User routes
+  USER_DASHBOARD: "/user/billing/transaction",
+
   // Business routes
   BUSINESS_DASHBOARD: "/business/billing/transaction",
   BUSINESS_CAMPAIGNS: "/business/campaign",

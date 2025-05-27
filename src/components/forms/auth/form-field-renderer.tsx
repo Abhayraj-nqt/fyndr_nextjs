@@ -108,6 +108,7 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
                       placeholder={config.placeholder}
                       value={field.value}
                       onValueChange={config.onValueChange}
+                      disabled={config.disabled}
                     />
                   </FormControl>
                   <FormMessage />

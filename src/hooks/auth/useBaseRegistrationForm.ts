@@ -54,6 +54,7 @@ interface UseBaseRegistrationFormConfig<T extends BaseFormData> {
 interface UseBaseRegistrationFormReturn<T extends BaseFormData> {
   form: UseFormReturn<T, any>;
   states: {
+    isBusiness: boolean;
     isVerifyingCode: boolean;
     isMobileVerified: boolean;
     isCodeVerified: boolean;
@@ -245,6 +246,16 @@ export const useBaseRegistrationForm = <T extends BaseFormData>({
       return;
     }
 
+    if (!isMobileVerified) {
+      toast.error({ message: "Please verify your mobile number." });
+      return;
+    }
+
+    if (isBusiness && !values?.addressLine1) {
+      toast.error({ message: "Please provide your business address." });
+      return;
+    }
+
     // Type-safe handling of promo/referral codes
     const processedValues = { ...values };
     if ("promoCode" in processedValues && processedValues.promoCode) {
@@ -282,6 +293,7 @@ export const useBaseRegistrationForm = <T extends BaseFormData>({
       isMobileVerified,
       isCodeVerified,
       agreeOnTerms,
+      isBusiness,
       findUsOptionsLoading,
     },
     setters: {
@@ -361,23 +373,4 @@ export const useBusinessForm = ({
       businessTypes: formattedBusinessTypes || [],
     },
   };
-
-  // return useBaseRegistrationForm({
-  //   schema: BusinessFormSchema,
-  //   defaultValues: {
-  //     bizName: "",
-  //     bizType: "",
-  //     website: "",
-  //     tags: "",
-  //     accountStatus: "ACTIVE" as const,
-  //   },
-  //   onSubmit,
-  //   isBusiness: true,
-  //   states: {
-  //     businessTypesLoading,
-  //   },
-  //   data: {
-  //     businessTypes,
-  //   },
-  // });
 };
