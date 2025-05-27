@@ -48,7 +48,7 @@ const [searchText, setSearchText] = useState<string>("");
   });
 
   return (<>
-    <div className="flex mb-8">
+    {/* <div className="flex mb-8">
           <div></div>
           <div>
             <Input type="search"
@@ -59,7 +59,7 @@ const [searchText, setSearchText] = useState<string>("");
             />
             
           </div>
-        </div>
+        </div> */}
   <DataTable table={table} />
   </>
   );

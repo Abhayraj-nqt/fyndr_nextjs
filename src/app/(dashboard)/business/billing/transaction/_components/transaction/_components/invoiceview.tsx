@@ -50,6 +50,7 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
     taxAmount,
     tipAmount,
     invoiceDt,
+    fulfiled,
     currencySymbol,
     status,
     invoiceDetails,
@@ -192,7 +193,7 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
             />
           </div>
         )}
-        <div className="flex rounded-[10px] border border-[#D3D6E1] px-1 pt-2">
+        <div className="flex rounded-[10px] border border-[#D3D6E1] px-3 pt-2">
           <div style={{ width: "100%" }}>
             <div className="mb-[8px] flex justify-between text-[#257CDB]">
               <span className="text-base font-semibold">Invoiced to:</span>
@@ -218,7 +219,7 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
                     Delivered:
                   </span>
                   <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
-                    {/* {fulfiled ? capitalize(fulfiled) : "NA"} */}
+                    {fulfiled ? capitalize(fulfiled) : "NA"}
                   </span>
                 </div>
                 <div className="mb-[8px] flex justify-between">
@@ -226,7 +227,7 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
                     Delivery Time:
                   </span>
                   <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
-                    {/* {capitalize(deliveryTime)} */}
+                    {capitalize(invoiceDetails?.deliveryTime)}
                   </span>
                 </div>
               </>
@@ -450,9 +451,9 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
                 </span>
               </div>
             )}
-            {channel === "catalog" && (
+            {/* {channel === "catalog" && (
               <Button onClick={() => alert("QR code")}>Show QR Code</Button>
-            )}
+            )} */}
           </div>
         </div>
 
