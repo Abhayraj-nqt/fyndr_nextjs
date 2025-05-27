@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import React, { Suspense } from "react";
 
 import { auth } from "@/auth";
@@ -6,7 +7,14 @@ import { RouteParams } from "@/types/global";
 
 import OfferFilters from "./_components/offer-filters";
 import MobileFilters from "./_components/offer-filters/mobile-filters";
-import CampaignsSection from "./_components/sections/campaigns-section";
+// import CampaignsSection from "./_components/sections/campaigns-section";
+
+const CampaignsSection = dynamic(
+  () => import("./_components/sections/campaigns-section"),
+  {
+    loading: () => <p>Loading...</p>,
+  }
+);
 
 const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
   const {

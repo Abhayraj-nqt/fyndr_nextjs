@@ -21,6 +21,7 @@ const HeroSection = async ({ location }: Props) => {
     >
       <div className="relative size-full">
         <Suspense
+          key={`${location.lat}-${location.lng}`}
           fallback={
             <div className="relative flex h-[23rem] w-full items-center justify-center overflow-hidden">
               <Image src={"/images/home-page-banner.webp"} fill alt="Fyndr" />

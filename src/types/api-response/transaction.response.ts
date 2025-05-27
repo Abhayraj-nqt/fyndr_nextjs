@@ -205,3 +205,132 @@ export type fetchInvoiceResponse = {
   invoices: fetchInvoice[];
   last: boolean;
 };
+
+
+export type InvoiceOfferDetail = {
+  offer_id: number;
+  offer_price: number;
+  qty: number;
+  retail_price: number;
+  title: string;
+  usage_limit: number;
+  discount_type: string; // e.g., '%' or '$'
+  discount_amount: number;
+  validity_period: string;
+  qty_total: string;
+  row_tax: string;
+  row_total: string;
+  unit_tax: string;
+};
+
+export type InvoiceDetails = {
+  business_name: string;
+  business_country: string;
+  cmpn_id: number;
+  cmpn_end_dt: string; // ISO date string
+  cmpn_title: string;
+  fine_print: string;
+  tax_rate: number;
+  loc_name: string;
+  locId: number;
+  offers: InvoiceOfferDetail[];
+};
+
+export type Payment = {
+  cardBrand: string;
+  cardLast4: string;
+};
+
+export type InvoiceOffer = {
+  objid: number;
+  invoiceId: number;
+  voucherCode: string;
+  redeemptionStatus: string;
+  remarks: string | null;
+  paymentId: number;
+  offerId: number;
+  offerTitle: string;
+  cmpnTitle: string;
+  buyerName: string;
+  buyerEmail: string;
+  offerPrice: number;
+  tax: number;
+  validTill: string; // ISO date string
+  retailPrice: number;
+  currentValue: number;
+  fyndrCash: number;
+  isVoucher: boolean;
+  customVoucherCode: string | null;
+};
+export type Biz = {
+  bizid: number;
+  bizName: string;
+  website: string | null;
+  mainLogo: string;
+  addonUrl: string | null;
+  phone: string;
+  addressLine1: string;
+  addressLine2: string;
+  city: string;
+  state: string;
+  country: string;
+  postalCode: string;
+  bizType: string;
+  lat: number;
+  lng: number;
+  showBiz: boolean;
+  country_code: string;
+  expo_code: string | null;
+};
+
+
+export type Address = {
+  addressLine1: string;
+  addressLine2: string;
+  city: string;
+  state: string;
+  country: string;
+  postalCode: string;
+};
+
+export type GiftDetails = {
+  name: string;
+  email: string;
+  phoneNumber: string | null;
+  countryCode: string;
+  message: string;
+};
+
+
+export type invoiceDetailsResponse = {
+  invoiceDt: string;
+  invoiceDetails: InvoiceDetails;
+  taxAmount: number;
+  baseAmount: number;
+  discountAmount: number;
+  currency: string;
+  currencySymbol: string;
+  buyerId: number;
+  merchantId: string;
+  status: string;
+  channel: string;
+  buyerEmail: string;
+  buyerFname: string;
+  buyerLname: string;
+  includesTax: boolean | null;
+  tipAmount: number;
+  disputeId: number | null;
+  payments: Payment;
+  offers: InvoiceOffer[];
+  biz: Biz;
+  disputeStatus: string | null;
+  fyndrCash: number;
+  billingAddress: Address;
+  gifteeDetails: GiftDetails;
+  invoiceId: number;
+  fyndrLogo: string | null;
+  businessLocationAddress: Address;
+  dueDate: string | null;
+  campaignName: string | null;
+};
+

@@ -1,7 +1,7 @@
 "use client";
 
 import { PlaceAutocompleteResult } from "@googlemaps/google-maps-services-js";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import {
@@ -32,6 +32,7 @@ export function useLocationSelector() {
   const commandRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -198,15 +199,18 @@ export function useLocationSelector() {
         setSelectedLocation(formattedAddress);
         setCoordinates(currentCoordinates);
 
-        const newUrl = `?lat=${currentCoordinates.lat}&lng=${currentCoordinates.lng}`;
-        router.push(newUrl, { scroll: false });
+        // const newUrl = `?lat=${currentCoordinates.lat}&lng=${currentCoordinates.lng}`;
+        // router.push(newUrl, { scroll: false });
+
+        updateLocationParams(currentCoordinates.lat, currentCoordinates.lng);
       } else {
         // Set input without triggering prediction fetch
         setInputWithoutFetch("Current Location");
         setCoordinates(currentCoordinates);
 
-        const newUrl = `?lat=${currentCoordinates.lat}&lng=${currentCoordinates.lng}`;
-        router.push(newUrl, { scroll: false });
+        // const newUrl = `?lat=${currentCoordinates.lat}&lng=${currentCoordinates.lng}`;
+        // router.push(newUrl, { scroll: false });
+        updateLocationParams(currentCoordinates.lat, currentCoordinates.lng);
       }
     } catch (error) {
       if (
@@ -234,6 +238,19 @@ export function useLocationSelector() {
     }
   };
 
+  const updateLocationParams = (lat: number, lng: number) => {
+    // Create a new URLSearchParams object based on current params
+    const params = new URLSearchParams(searchParams.toString());
+
+    // Update lat and lng parameters
+    params.set("lat", lat.toString());
+    params.set("lng", lng.toString());
+
+    // Use router.replace instead of push to avoid adding to history stack
+    // This also ensures a proper re-render of server components
+    router.replace(`${pathname}?${params.toString()}`);
+  };
+
   const onSelectPrediction = async (placeId: string, description: string) => {
     try {
       // Set input without triggering prediction fetch
@@ -251,8 +268,9 @@ export function useLocationSelector() {
 
         setCoordinates(newCoordinates);
 
-        const newUrl = `?lat=${newCoordinates.lat}&lng=${newCoordinates.lng}`;
-        router.push(newUrl, { scroll: false });
+        // const newUrl = `?lat=${newCoordinates.lat}&lng=${newCoordinates.lng}`;
+        // router.push(newUrl, { scroll: false });
+        updateLocationParams(newCoordinates.lat, newCoordinates.lng);
       }
     } catch (error) {
       console.error("Error fetching place details:", error);
