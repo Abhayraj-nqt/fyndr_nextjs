@@ -40,7 +40,7 @@ export function getUserDetailsTableColumns({
         <DataTableColumnHeader column={column} title="Address" />
       ),
       cell: ({ row }) => {
-        const addressObj = row.getValue("address");
+        const addressObj :any = row.getValue("address");
         const formattedAddress = cn(
           addressObj?.addressLine1 ? `${addressObj?.addressLine1}` : "",
           addressObj?.addressLine1 ? `, ${addressObj?.addressLine1}` : "",
