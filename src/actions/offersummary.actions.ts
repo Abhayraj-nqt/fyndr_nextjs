@@ -14,7 +14,7 @@ export const onGetOfferSummary: GetOfferSummaryParams = async (params) => {
     text = "",
     redemptionStatusList = [],
   } = params;
-  let endpoint = `${API_BASE_URL}/campaign/offer_purchase/business/${bizid}?pgStart =${pgStart}&pgSize =${pgSize}`;
+  let endpoint = `${API_BASE_URL}/campaign/offer_purchase/business/${bizid}?pgStart=${pgStart}&pgSize=${pgSize}`;
 
    if (orderBy) {
     endpoint += `&orderBy=${orderBy}`;
