@@ -13,16 +13,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { FormInput } from "./form-input";
+import { FormInput } from "../form-input";
 import { useRegistrationStore } from "@/zustand/stores/registration.store";
 import toast from "@/components/global/toast";
 import { getAccountAPI } from "@/actions/auth.actions";
+import { SignUpSchema } from "../schema";
 
-const EmailSchema = z.object({
-  email: z
-    .string()
-    .min(1, { message: "Email is required." })
-    .email({ message: "Please provide a valid email address." }),
+const EmailSchema = SignUpSchema.pick({
+  email: true,
 });
 
 type EmailStepProps = {
@@ -49,30 +47,30 @@ const EmailStep = ({ userType, onNextStep }: EmailStepProps) => {
         regMode: "classic",
       });
 
-      if (userType === "business") {
-        const { status, success, data, error, headers } = await getAccountAPI({
-          email: values.email,
-          regMode: "classic",
-          isBusiness: true,
-        });
+      const { status, success, data, error } = await getAccountAPI({
+        email: values.email,
+        regMode: "classic",
+        isBusiness: userType === "business",
+      });
 
-        console.log({ status, success, data, error, headers });
+      console.log({ status, success, data, error });
 
-        if (success && status === 200) {
-          toast.error({
-            message: `This email address is already associated with an account. Please use a different email address to register.`,
-          });
-        }
-
-        if (!success && status === 404) {
+      if (!data && (status === 200 || status === 404)) {
+        if (userType === "business") {
           toast.success({
             message: `Verification email sent to ${values.email}`,
           });
-
-          onNextStep();
         }
-      } else {
+
         onNextStep();
+      } else if (success && status === 200 && data) {
+        toast.error({
+          message: `This email address is already associated with an account. Please use a different email address to register.`,
+        });
+      } else {
+        toast.error({
+          message: error?.details?.message || "Something went wrong!",
+        });
       }
     });
   };

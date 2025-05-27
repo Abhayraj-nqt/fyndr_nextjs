@@ -2,8 +2,48 @@ import {
   AccountResponse,
   ConfirmIdentityResponse,
   RefreshTokenResponse,
+  SendMobileVerificationCodeResponse,
+  VerifyCodeResponse,
+  VerifyMobileResponse,
 } from "../api-response/auth.response";
-import { ActionResponse } from "../global";
+import { ActionResponse, RegModeProps } from "../global";
+
+type BaseSignupPayload = {
+  email: string;
+  firstName: string;
+  lastName: string;
+  ctryCode: string;
+  phone: string;
+  country: string;
+  postalCode: string;
+  addressLine1: string;
+  addressLine2: string;
+  city: string;
+  state: string;
+  isBusiness: boolean;
+  referralCode: string | null;
+  promoCode: string | null;
+  lat: number;
+  lng: number;
+  pwd: string[];
+  regMode: RegModeProps;
+  findUsId: number;
+};
+
+type IndividualSignUpPayload = BaseSignupPayload & {
+  yob: string | null;
+  gender: null | "M" | "F" | "OT" | "ND";
+};
+
+type BusinessSignUpPayload = BaseSignupPayload & {
+  bizInfo: {
+    bizName: string;
+    bizType: string;
+    website: string;
+    tags: string;
+  };
+  accountStatus?: string;
+};
 
 export type SignInAPIProps = (payload: {
   email: string;
@@ -27,6 +67,10 @@ export type SignInWithCredentials = (params: {
   password: string;
 }) => Promise<ActionResponse>;
 
+export type SignUpProps = (
+  payload: IndividualSignUpPayload | BusinessSignUpPayload
+) => Promise<ActionResponse<AccountResponse>>;
+
 export type SignOutProps = () => Promise<void>;
 
 export type ConfirmIdentityProps = (payload: {
@@ -34,3 +78,25 @@ export type ConfirmIdentityProps = (payload: {
   token: string;
   isBusiness: boolean;
 }) => Promise<ActionResponse<ConfirmIdentityResponse>>;
+
+export type SendMobileVerificationCodeProps = (payload: {
+  countryCode: string;
+  email: string;
+  isBusiness: boolean;
+  phone: string;
+  registerMode: RegModeProps;
+}) => Promise<ActionResponse<SendMobileVerificationCodeResponse>>;
+
+export type VerifyMobileProps = (payload: {
+  countryCode: string;
+  email: string;
+  phone: string;
+  verificationCode: string;
+}) => Promise<ActionResponse<VerifyMobileResponse>>;
+
+export type VerifyCodeProps = (params: {
+  isBusiness: boolean;
+  code: string;
+  countryId: number;
+  codeType: "REGISTRATION" | string;
+}) => Promise<ActionResponse<VerifyCodeResponse>>;

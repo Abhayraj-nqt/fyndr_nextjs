@@ -7,3 +7,15 @@ export type FindUsOptionsResponse = {
   id: number;
   options: string;
 }[];
+
+export type CountryListParams = {
+  objId: number;
+  name: string;
+  isoCode: string;
+}[];
+
+export type BusinessTypesResponse = {
+  objid: number;
+  isActive: boolean;
+  name: string;
+}[];

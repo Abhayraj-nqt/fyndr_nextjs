@@ -3,6 +3,7 @@ import InfoTooltip from "../tooltip/info-tooltip";
 
 type Props = {
   children: React.ReactNode;
+  leftNode?: React.ReactNode;
   label?: string;
   disabled?: boolean;
   showRequired?: boolean;
@@ -12,6 +13,7 @@ type Props = {
 
 const InputWrapper = ({
   children,
+  leftNode,
   label,
   disabled = false,
   info = null,
@@ -20,7 +22,7 @@ const InputWrapper = ({
 }: Props) => {
   return (
     <div
-      className={`relative flex h-[46px] grow items-center gap-1 rounded-[10px] border text-[#7F7F7F] border-[#D3D6E1] ${!disabled ? "bg-white" : "bg-[#F2F2F2]"} ${className}`}
+      className={`relative flex h-[46px] grow items-center gap-1 p-1 rounded-[10px] border text-[#7F7F7F] border-[#D3D6E1] ${!disabled ? "bg-white" : "bg-[#F2F2F2]"} ${className}`}
     >
       {label && (
         <div
@@ -38,6 +40,7 @@ const InputWrapper = ({
         </div>
       )}
       {children}
+      {leftNode ? leftNode : null}
     </div>
   );
 };

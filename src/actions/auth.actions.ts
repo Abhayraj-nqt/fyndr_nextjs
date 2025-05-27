@@ -3,15 +3,19 @@
 import { signIn, signOut as authSignOut } from "@/auth";
 import { API_BASE_URL, API_GATEWAY_URL } from "@/environment";
 import handleError from "@/lib/handlers/error";
-import { _post } from "@/lib/handlers/fetch";
+import { _get, _post } from "@/lib/handlers/fetch";
 import { encryptPassword } from "@/lib/utils";
 import {
   ConfirmIdentityProps,
   GetAccountAPIProps,
   RefreshAccessTokenAPIProps,
+  SendMobileVerificationCodeProps,
   SignInAPIProps,
   SignInWithCredentials,
   SignOutProps,
+  SignUpProps,
+  VerifyCodeProps,
+  VerifyMobileProps,
 } from "@/types/api-params/auth.params";
 import {
   AccountResponse,
@@ -35,6 +39,10 @@ export const signInWithCredentials: SignInWithCredentials = async (params) => {
   }
 };
 
+export const signUp: SignUpProps = async (payload) => {
+  return _post(`${API_BASE_URL}/identity/signup`, payload);
+};
+
 export const signOut: SignOutProps = async () => {
   try {
     await authSignOut({ redirectTo: "/" });
@@ -46,6 +54,23 @@ export const signOut: SignOutProps = async () => {
 export const onConfirmIdentity: ConfirmIdentityProps = async (payload) => {
   const endpoint = `${API_BASE_URL}/identity/confirmIdentity`;
   return _post(endpoint, payload);
+};
+
+export const onSendMobileVerificationCode: SendMobileVerificationCodeProps =
+  async (payload) => {
+    const endpoint = `${API_BASE_URL}/identity/verify/sendVerificationCode?type=phone`;
+    return _post(endpoint, payload);
+  };
+
+export const onVerifyMobile: VerifyMobileProps = async (payload) => {
+  const endpoint = `${API_BASE_URL}/identity/verify/verifyVerificationCode?type=phone`;
+  return _post(endpoint, payload);
+};
+
+export const onVerifyCode: VerifyCodeProps = async (params) => {
+  const { isBusiness, code, countryId, codeType } = params;
+  const endpoint = `${API_BASE_URL}/identity/verify?isBusiness=${isBusiness}&code=${code}&countryId=${countryId}&codeType=${codeType}`;
+  return _get(endpoint);
 };
 
 // !Don't use these functions other than auth.ts file

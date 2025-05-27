@@ -13,31 +13,20 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { FormInput } from "./form-input";
+import { FormInput } from "../form-input";
 import { useTimer } from "@/hooks/use-timer";
 import { useRegistrationStore } from "@/zustand/stores/registration.store";
 import { encryptPassword } from "@/lib/utils";
 import toast from "@/components/global/toast";
-import { onConfirmIdentity } from "@/actions/auth.actions";
+import { getAccountAPI, onConfirmIdentity } from "@/actions/auth.actions";
 import { useRouter } from "next/navigation";
 import ROUTES from "@/constants/routes";
+import { SignUpSchema } from "../schema";
 
 const createPasswordSchema = (requireVerification: boolean) => {
-  const baseSchema = z.object({
-    password: z
-      .string()
-      .min(6, { message: "Password must be at least 6 characters long." })
-      .max(100, { message: "Password cannot exceed 100 characters." })
-      .regex(/[A-Z]/, {
-        message: "Password must contain at least one uppercase letter.",
-      })
-      .regex(/[a-z]/, {
-        message: "Password must contain at least one lowercase letter.",
-      })
-      .regex(/[0-9]/, { message: "Password must contain at least one number." })
-      .regex(/[^a-zA-Z0-9]/, {
-        message: "Password must contain at least one special character.",
-      }),
+  const baseSchema = SignUpSchema.pick({
+    password: true,
+  }).extend({
     confirmPassword: z
       .string()
       .min(1, { message: "Please confirm your password." }),
@@ -75,6 +64,7 @@ type PasswordStepProps = {
 
 const PasswordStep = ({ requireVerification }: PasswordStepProps) => {
   const [isPending, startTransition] = useTransition();
+  const [isSendingToken, startSendingToken] = useTransition();
   const { timer, isActive, startTimer } = useTimer(30);
 
   const setData = useRegistrationStore((state) => state.setData);
@@ -134,14 +124,37 @@ const PasswordStep = ({ requireVerification }: PasswordStepProps) => {
         await encryptPassword({ email, password })
       );
 
-      setData({ pwd: encryptedPassword });
+      setData({ pwd: encryptedPassword, password });
 
       router.push(ROUTES.SIGN_UP_COMPLETE);
     });
   };
 
   const handleResendToken = async () => {
-    startTimer();
+    if (!email) {
+      toast.error({ message: "Something went wrong!" });
+      return;
+    }
+    startSendingToken(async () => {
+      const { status, data } = await getAccountAPI({
+        email: email,
+        regMode: "classic",
+        isBusiness: requireVerification,
+      });
+
+      if (!data && (status === 200 || status === 404)) {
+        if (requireVerification) {
+          toast.success({
+            message: `Verification email sent to ${email}`,
+          });
+        }
+        startTimer();
+      } else {
+        toast.error({
+          message: "Something went wrong! Please try again later.",
+        });
+      }
+    });
   };
 
   return (
@@ -219,9 +232,10 @@ const PasswordStep = ({ requireVerification }: PasswordStepProps) => {
             type="button"
             onClick={handleResendToken}
             className="text-base font-normal min-h-12 w-full rounded-[10px] bg-primary-500 px-4 py-3 !text-light-900 hover:bg-primary-500"
-            disabled={isActive}
+            disabled={isActive || isSendingToken}
           >
-            Resend Token {isActive ? <span>({timer}s)</span> : <></>}
+            {isSendingToken ? "Resending..." : "Resend Token"}{" "}
+            {isActive ? <span>({timer}s)</span> : <></>}
           </Button>
         ) : (
           <></>
