@@ -1,24 +1,29 @@
 "use client";
 
 import { DataTableColumnHeader } from "@/components/global/data-table/data-table-column-header";
-import { Button } from "@/components/ui/button";
+
 import { DataTableRowAction } from "@/types/data-table";
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import React from "react";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+import Button from "@/components/global/buttons";
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 type Props = {
   setRowAction: React.Dispatch<
     React.SetStateAction<DataTableRowAction<OfferPurchaseProps> | null>
   >;
+  userTimeZone?: string;
 };
 
 export function getOfferSummaryDetailsColoumn({
   setRowAction,
+  userTimeZone,
 }: Props): ColumnDef<OfferPurchaseProps>[] {
-
-   
   return [
     {
       accessorKey: "buyerName",
@@ -59,36 +64,39 @@ export function getOfferSummaryDetailsColoumn({
       cell: ({ row }) => <div>{row.original.buyerPhone || "NA"}</div>,
       enableSorting: false,
     },
-   {
-  accessorKey: "redemptionDt",
-  header: ({ column }) => (
-    <DataTableColumnHeader column={column} title="Date Redeemed" />
-  ),
-  cell: ({ row }) => {
-    const redemptionDate = row.original.redemptionDt;
-    console.log("Redemption Date:", redemptionDate); // 👈 this works now
+    {
+      accessorKey: "redemptionDt",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Date Redeemed" />
+      ),
+      cell: ({ row }) => {
+        const redemptionDate = row.original.redemptionDt;
 
-    return (
-      <div>
-        {redemptionDate ? dayjs(redemptionDate).format("LL") : "N/A"}
-      </div>
-    );
-  },
-  enableSorting: false,
-},
+        return (
+          <div>
+            {redemptionDate
+              ? dayjs(redemptionDate).format("MMMM D, YYYY")
+              : "N/A"}
+          </div>
+        );
+      },
+      enableSorting: false,
+    },
     {
       accessorKey: "invoiceDt",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Purchase Date" />
       ),
       cell: ({ row }) => (
-        <div>
-          {row.original.invoiceDt
-            ? dayjs(row.original.invoiceDt).format("LL")
-            : "N/A"}
-        </div>
+        <>
+          {console.log("invoice dt", row.original.invoiceDt)}
+          <div>
+            {row.original.invoiceDt
+              ? dayjs(row.original.invoiceDt).format("MMMM D, YYYY")
+              : "N/A"}
+          </div>
+        </>
       ),
-    
     },
     {
       accessorKey: "validTill",
@@ -96,9 +104,9 @@ export function getOfferSummaryDetailsColoumn({
         <DataTableColumnHeader column={column} title="Valid Till" />
       ),
       cell: ({ row }) => (
-        <div>
+        <div >
           {row.original.validTill
-            ? dayjs(row.original.validTill).format("LL")
+            ? dayjs(row.original.validTill).format("MMMM D, YYYY")
             : "N/A"}
         </div>
       ),
@@ -108,13 +116,17 @@ export function getOfferSummaryDetailsColoumn({
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Time of Redemption" />
       ),
-      cell: ({ row }) => (
-        <div>
-          {row.original.redemptionTime
-            ? dayjs(row.original.redemptionTime).format("LL")
-            : "N/A"}
-        </div>
-      ),
+      cell: ({ row }) => {
+        const time = row.original.redemptionTime;
+        const formattedTime = time
+          ? dayjs
+              .utc(`1970-01-01T${time}`)
+              .tz(userTimeZone || dayjs.tz.guess())
+              .format("hh:mm A")
+          : "N/A";
+
+        return <div suppressHydrationWarning>{formattedTime}</div>;
+      },
       enableSorting: false,
     },
     {
@@ -130,12 +142,11 @@ export function getOfferSummaryDetailsColoumn({
       header: "Action",
       cell: ({ row }) => (
         <Button
-        //   onClick={() =>
-        //     setRowAction({ type: "view-voucher", data: row.original })
-        //   }
-        >
-          View
-        </Button>
+            // onClick={() => setRowAction({ row, variant: "update" })}
+            variant="primary"
+          >
+            Actions
+          </Button>
       ),
     },
   ];

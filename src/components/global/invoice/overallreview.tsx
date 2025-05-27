@@ -2,6 +2,7 @@ import React from "react";
 
 import { ReviewOverviews } from "@/types/api-response/review.response";
 import ReviewStars from "./reviewstars";
+import Stars from "../ratings/stars";
 
 type OverallReviewResponse = {
   disable: boolean;
@@ -23,16 +24,25 @@ const Overallreview: React.FC<OverallReviewResponse> = ({
   onStarsClick
 }) => {
   console.log("inside compoent", reviewsOverview);
+
+  console.log("total rating ",totalRatings)
   return (
     <div>
       {reviewsOverview && (
         <div className="flex flex-col ">
           <div>
-            <ReviewStars
+            {/* <ReviewStars
               onStarsClick={onStarsClick}
               disable={disable}
               rating={rating}
+            /> */}
+            <Stars 
+           
+             ratings={Number(rating)}
             />
+
+            
+            
           </div>
           <div className="font-normal text-base leading-5 text-[#4d4d4d] pt-2 md:text-sm">
             {rating}
