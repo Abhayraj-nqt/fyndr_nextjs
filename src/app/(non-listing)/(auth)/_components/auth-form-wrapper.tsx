@@ -1,8 +1,8 @@
 "use client";
 
 import { signInWithCredentials } from "@/actions/auth.actions";
-import AuthForm from "@/components/forms/auth/auth-form";
-import { SignInSchema } from "@/components/forms/auth/schema";
+import AuthForm from "@/components/forms/auth/sign-in/auth-form";
+import { SignInSchema } from "@/components/forms/auth/sign-in/schema";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
 import { useRegistrationStore } from "@/zustand/stores/registration.store";

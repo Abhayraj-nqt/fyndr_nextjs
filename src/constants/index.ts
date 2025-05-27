@@ -291,37 +291,37 @@ export const WALET_TRANSACTION_DATA = new Map<
 
 export const COUNTRIES = [
   {
-    id: "US",
+    value: "US",
     label: "United States",
     flagURL: "/icons/country/US.svg",
     countryCode: "+1",
   },
   {
-    id: "AU",
+    value: "AU",
     label: "Australia",
     flagURL: "/icons/country/AU.svg",
     countryCode: "+61",
   },
   {
-    id: "CA",
+    value: "CA",
     label: "Canada",
     flagURL: "/icons/country/CA.svg",
     countryCode: "+1",
   },
   {
-    id: "GB",
+    value: "GB",
     label: "United Kingdom",
     flagURL: "/icons/country/GB.svg",
     countryCode: "+44",
   },
   {
-    id: "IN",
+    value: "IN",
     label: "India",
     flagURL: "/icons/country/IN.svg",
     countryCode: "+91",
   },
   {
-    id: "NZ",
+    value: "NZ",
     label: "New Zealand",
     flagURL: "/icons/country/NZ.svg",
     countryCode: "+64",
@@ -330,15 +330,19 @@ export const COUNTRIES = [
 
 export const GENDER = [
   {
-    id: "M",
+    value: "M",
     label: "Male",
   },
   {
-    id: "F",
+    value: "F",
     label: "Female",
   },
   {
-    id: "O",
+    value: "OT",
     label: "Other",
+  },
+  {
+    value: "ND",
+    label: "Do not want to disclose",
   },
 ];

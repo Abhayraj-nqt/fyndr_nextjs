@@ -141,7 +141,7 @@ body {
   }
 
   .input-primary {
-    @apply no-focus text-base font-normal py-[10px] px-3 placeholder border-none text-[#4D4D4D] shadow-none outline-none disabled:bg-[#F2F2F2] bg-white placeholder:text-[#999999] dark:placeholder:text-[#999999] !important;
+    @apply no-focus text-base font-normal py-[10px] px-2 placeholder border-none text-[#4D4D4D] shadow-none outline-none disabled:bg-[#F2F2F2] bg-white placeholder:text-[#999999] dark:placeholder:text-[#999999] !important;
   }
 }
 

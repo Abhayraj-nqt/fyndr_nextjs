@@ -6,7 +6,7 @@ import ROUTES from "@/constants/routes";
 
 const Logo = () => {
   return (
-    <Link href={ROUTES.HOME} className="flex items-center gap-1">
+    <Link href={ROUTES.HOME} className="flex items-center gap-1 lg:w-[19rem]">
       <Image
         src={"/images/site-logo.png"}
         width={100}

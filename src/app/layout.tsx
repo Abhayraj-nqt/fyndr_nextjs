@@ -6,7 +6,7 @@ import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import { Toaster } from "@/components/global/toast";
 import UserProvider from "@/provider/user-provider";
-import { ReactQueryProvider } from "@/react-query/provider";
+import { ReactQueryProvider } from "@/provider/react-query-provider";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 // const inter = localFont({

@@ -29,7 +29,7 @@ const Navbar = ({
   return (
     <nav className="flex-between sticky top-0 z-50 min-h-16 w-full gap-5 bg-primary-500 p-2 px-4 xs:px-8">
       <Logo />
-      <div className="flex-between relative w-full max-w-2xl gap-2 lg:gap-8">
+      <div className="flex items-center justify-end md:justify-center lg:justify-end relative w-full max-w-2xl gap-2 lg:gap-8">
         {searchbar && (
           <>
             {searchNavigateTo ? (
@@ -62,7 +62,7 @@ const Navbar = ({
         {location && (
           <>
             <LocationSelector
-              className="hidden w-full sm:flex"
+              className="hidden w-full sm:flex max-w-lg"
               inputClassName="w-full"
             />
             <div></div>
