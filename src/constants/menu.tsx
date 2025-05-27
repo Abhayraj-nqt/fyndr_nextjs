@@ -164,7 +164,7 @@ export const BUSINESS_MENU: SubMenuProps[] = [
       },
       {
         icon: ChartPie,
-        route: "",
+        route: "/business/account/offers_summary",
         label: "Offer Summary",
       },
       {
@@ -316,6 +316,6 @@ export const FOOTER_MENU: FooterMenuProps[] = [
   {
     icon: TableOfContents,
     label: "FAQ",
-    url: "",
+    url: `${ROUTES.ABOUT_US}#faq`,
   },
 ];

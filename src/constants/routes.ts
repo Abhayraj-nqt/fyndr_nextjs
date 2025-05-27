@@ -23,6 +23,9 @@ const ROUTES = {
   DOWNLOAD_FYNDR: "/download-fyndr-app",
   // BUSINESS_AGREEMENT: "/legal/agreement",
 
+  // User routes
+  USER_DASHBOARD: "/user/billing/transaction",
+
   // Business routes
   BUSINESS_DASHBOARD: "/business/billing/transaction",
   BUSINESS_CAMPAIGNS: "/business/campaign",

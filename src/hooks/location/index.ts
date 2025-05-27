@@ -11,8 +11,10 @@ import {
 } from "@/actions/maps.actions";
 import { DEFAULT_LOCATION } from "@/constants";
 import { Coordinates } from "@/types/global";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 
 import { useUser } from "../auth";
+import { onGetCountryList } from "@/actions/admin.actions";
 
 export function useLocationSelector() {
   const [input, setInput] = useState<string>("");
@@ -292,5 +294,21 @@ export function useLocationSelector() {
     onSelectCurrentLocation,
     onSelectPrediction,
     isFetchingCurrentLocation,
+  };
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+export function useCountryList() {
+  const QUERY_KEY = ["countryList"];
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: QUERY_KEY,
+    queryFn: onGetCountryList,
+  });
+
+  return {
+    countryList: data?.data || [],
+    isLoading,
   };
 }

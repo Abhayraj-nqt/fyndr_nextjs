@@ -3,6 +3,9 @@ import {
   BackgroundImageResponse,
   BusinessLogo,
   ContactUsResponse,
+  BusinessTypesResponse,
+  CountryListParams,
+  FindUsOptionsResponse,
 } from "../api-response/others.response";
 import { ActionResponse, Coordinates } from "../global";
 
@@ -67,3 +70,14 @@ export type AddLocationParams = (payload: {
     isCampaignBookingEnabled: boolean;
   };
 }) => Promise<ActionResponse<AddLocation>>;
+export type GetFindUsOptionsProps = () => Promise<
+  ActionResponse<FindUsOptionsResponse>
+>;
+
+export type GetCountryListParams = () => Promise<
+  ActionResponse<CountryListParams>
+>;
+
+export type GetBusinessTypesProps = () => Promise<
+  ActionResponse<BusinessTypesResponse>
+>;

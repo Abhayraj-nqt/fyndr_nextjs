@@ -62,3 +62,21 @@ export type ConfirmIdentityResponse = {
   message: string;
   statusCode: null | unknown;
 };
+
+export type SendMobileVerificationCodeResponse = {
+  message: string;
+  promoCodeDetails: null | unknown;
+  promocode: boolean;
+};
+
+export type VerifyMobileResponse = {
+  message: string;
+  isPromocode: boolean;
+  promoCodeDetails: null | unknown;
+};
+
+export type VerifyCodeResponse = {
+  message: string;
+  promoCodeDetails: null | unknown;
+  promocode: boolean;
+};

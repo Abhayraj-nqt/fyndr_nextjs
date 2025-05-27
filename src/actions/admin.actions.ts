@@ -1,5 +1,6 @@
 import { API_BASE_URL } from "@/environment";
 import { _get, _post } from "@/lib/handlers/fetch";
+import { GetCountryListParams } from "@/types/api-params/others.params";
 import {
   GetActivePromoProps,
   GetExpiredPromos,
@@ -34,5 +35,12 @@ export const onGetUsers: GetUsersParams = async (params, payload) => {
     next: {
       revalidate: 600000,
     },
+  });
+};
+
+export const onGetCountryList: GetCountryListParams = async () => {
+  const endpoint = `${API_BASE_URL}/admin/country/list`;
+  return _get(endpoint, {
+    cache: "force-cache",
   });
 };

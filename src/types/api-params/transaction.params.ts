@@ -1,5 +1,6 @@
 import {
   fetchInvoiceResponse,
+  invoiceDetailsResponse,
   InvoiceSummary,
 } from "../api-response/transaction.response";
 import { ActionResponse } from "../global";
@@ -24,3 +25,10 @@ export type GetPayableProps = (payload: {
   days: number;
   text?: string;
 }) => Promise<ActionResponse<fetchInvoiceResponse>>;
+
+
+export type GetInvoiceDetailProps = (payload : {
+  bizid ? :number;
+  invoiceId : number;
+  buyerId ? : number;
+}) => Promise<ActionResponse<invoiceDetailsResponse>>;

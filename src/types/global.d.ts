@@ -1,6 +1,7 @@
 import { LucideIcon } from "lucide-react";
 import { StaticImageData } from "next/image";
 import { NextResponse } from "next/server";
+import { Control } from "react-hook-form";
 
 type ActionResponse<T = null> = {
   success: boolean;
@@ -95,3 +96,5 @@ type AddressProps = {
   postalCode: string;
   state: string;
 };
+
+type RegModeProps = "classic" | "google" | "facebook" | "apple";

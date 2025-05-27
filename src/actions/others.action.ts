@@ -8,6 +8,8 @@ import {
   BusinessLogoParams,
   ContactUsParams,
   GetBackgroundImageProps,
+  GetBusinessTypesProps,
+  GetFindUsOptionsProps,
   QrLogoUploadParams,
 } from "@/types/api-params/others.params";
 import {
@@ -49,5 +51,18 @@ export const onAddLocation: AddLocationParams = async (payload) => {
   const endpoint = `${API_BASE_URL}identity/location`;
   return _post(endpoint, payload, {
     requireAuth: true,
+  });
+};
+export const onGetFindUsOptions: GetFindUsOptionsProps = async () => {
+  const endpoint = `${API_BASE_URL}/identity/find_us`;
+  return _get(endpoint, {
+    cache: "force-cache",
+  });
+};
+
+export const onGetBusinessTypes: GetBusinessTypesProps = async () => {
+  const endpoint = `${API_BASE_URL}/identity/businessTypes`;
+  return _get(endpoint, {
+    cache: "force-cache",
   });
 };
