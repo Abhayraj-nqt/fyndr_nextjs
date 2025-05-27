@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { PieChart, Pie, Tooltip, Cell } from "recharts";
 
 interface ChartData {
@@ -14,6 +14,13 @@ interface PieChartProps {
 }
 
 const PieChartSection: React.FC<PieChartProps> = ({ chartData, colors = ["#5196E2", "#999999", "#EAF2FC"] }) => {
+     const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true); // Ensure rendering only happens on client
+  }, []);
+
+  if (!mounted) return null; //Resolving hydration error 
   return (
 
       <PieChart width={250} height={250}>

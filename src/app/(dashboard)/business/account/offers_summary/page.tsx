@@ -4,14 +4,15 @@ import { onGetOfferSummary } from "@/actions/offersummary.actions";
 import { auth } from "@/auth";
 import ContainerWrapper from "@/components/global/ContainerWrapper";
 
-import PiechartSummary from "./_components/piechart";
+
 import OfferSummaryTable from "./_components/offer-summary-table";
+import PieChartSection from "@/components/global/piechart/piechart";
 
 const OfferSummary = async () => {
   const session = await auth();
   const bizid = session?.user?.bizid;
 
-  console.log(bizid);
+
 
   const pgSize = 10;
 
@@ -22,9 +23,6 @@ const OfferSummary = async () => {
   });
 
   if (!success || !data) return null;
-
-  console.log("data -> ", data);
-  console.log("Hello -> ", data.data.purchasedOffersCount);
 
   const chartData = [
     { name: "Unused", visitors: data?.data.unredeemedOffersCount || 0 },
@@ -40,7 +38,7 @@ const OfferSummary = async () => {
       <div className="flex justify-between gap-4 pb-6 pt-1 text-[14px] font-normal md:flex-row ">
         <div className="flex">
           <div className="mr-6 flex items-center justify-center rounded-[10px] bg-[#F4F8FD] p-6 shadow-[0px_4px_4px_0px_#0000001A]">
-            <PiechartSummary chartData={chartData} />
+            <PieChartSection chartData={chartData} />
           </div>
 
           <div className=" flex flex-col justify-end gap-2 text-[16px] leading-5 text-[#878787]">
