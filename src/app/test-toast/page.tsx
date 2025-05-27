@@ -69,8 +69,8 @@ export default function ToastDemo() {
   //   };
 
   return (
-    <div className="space-y-8 p-6">
-      <h1 className="text-2xl font-semibold">Ant Design Style Toast Demo</h1>
+    <div className="space-y-8 p-6 min-h-screen flex-center flex-col">
+      <h1 className="text-2xl font-semibold">Toast Demo</h1>
 
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
         <Button

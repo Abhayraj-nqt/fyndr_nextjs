@@ -288,3 +288,61 @@ export const WALET_TRANSACTION_DATA = new Map<
     },
   ],
 ]);
+
+export const COUNTRIES = [
+  {
+    value: "US",
+    label: "United States",
+    flagURL: "/icons/country/US.svg",
+    countryCode: "+1",
+  },
+  {
+    value: "AU",
+    label: "Australia",
+    flagURL: "/icons/country/AU.svg",
+    countryCode: "+61",
+  },
+  {
+    value: "CA",
+    label: "Canada",
+    flagURL: "/icons/country/CA.svg",
+    countryCode: "+1",
+  },
+  {
+    value: "GB",
+    label: "United Kingdom",
+    flagURL: "/icons/country/GB.svg",
+    countryCode: "+44",
+  },
+  {
+    value: "IN",
+    label: "India",
+    flagURL: "/icons/country/IN.svg",
+    countryCode: "+91",
+  },
+  {
+    value: "NZ",
+    label: "New Zealand",
+    flagURL: "/icons/country/NZ.svg",
+    countryCode: "+64",
+  },
+];
+
+export const GENDER = [
+  {
+    value: "M",
+    label: "Male",
+  },
+  {
+    value: "F",
+    label: "Female",
+  },
+  {
+    value: "OT",
+    label: "Other",
+  },
+  {
+    value: "ND",
+    label: "Do not want to disclose",
+  },
+];

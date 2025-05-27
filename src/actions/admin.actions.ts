@@ -1,9 +1,13 @@
 import { API_BASE_URL } from "@/environment";
 import { _get, _post } from "@/lib/handlers/fetch";
 import { adminCampaignParam } from "@/types/api-params/admincampaign.params";
-import { GetActivePromoProps, GetExpiredPromos } from "@/types/api-params/promocode.params";
 import { RevenueProps } from "@/types/api-params/revenue.params";
 import { ReviewReportParam } from "@/types/api-params/reviewReport.param";
+import { GetCountryListParams } from "@/types/api-params/others.params";
+import {
+  GetActivePromoProps,
+  GetExpiredPromos,
+} from "@/types/api-params/promocode.params";
 import { GetUsersParams } from "@/types/api-params/user.params";
 import { campaignStatistics, revernueStatistics, userStatistics } from "@/types/api-response/adminStatistics.response";
 import { ExpiredList } from "@/types/api-response/promocode.response";
@@ -87,3 +91,9 @@ export const getReviewReport : ReviewReportParam = async(params)=>{
   })
 
 }
+export const onGetCountryList: GetCountryListParams = async () => {
+  const endpoint = `${API_BASE_URL}/admin/country/list`;
+  return _get(endpoint, {
+    cache: "force-cache",
+  });
+};

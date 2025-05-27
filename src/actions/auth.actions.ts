@@ -6,11 +6,16 @@ import handleError from "@/lib/handlers/error";
 import { _get, _post } from "@/lib/handlers/fetch";
 import { encryptPassword } from "@/lib/utils";
 import {
+  ConfirmIdentityProps,
   GetAccountAPIProps,
   RefreshAccessTokenAPIProps,
+  SendMobileVerificationCodeProps,
   SignInAPIProps,
   SignInWithCredentials,
   SignOutProps,
+  SignUpProps,
+  VerifyCodeProps,
+  VerifyMobileProps,
 } from "@/types/api-params/auth.params";
 import {
   AccountResponse,
@@ -35,12 +40,38 @@ export const signInWithCredentials: SignInWithCredentials = async (params) => {
   }
 };
 
+export const signUp: SignUpProps = async (payload) => {
+  return _post(`${API_BASE_URL}/identity/signup`, payload);
+};
+
 export const signOut: SignOutProps = async () => {
   try {
     await authSignOut({ redirectTo: "/" });
   } catch (error) {
     handleError(error);
   }
+};
+
+export const onConfirmIdentity: ConfirmIdentityProps = async (payload) => {
+  const endpoint = `${API_BASE_URL}/identity/confirmIdentity`;
+  return _post(endpoint, payload);
+};
+
+export const onSendMobileVerificationCode: SendMobileVerificationCodeProps =
+  async (payload) => {
+    const endpoint = `${API_BASE_URL}/identity/verify/sendVerificationCode?type=phone`;
+    return _post(endpoint, payload);
+  };
+
+export const onVerifyMobile: VerifyMobileProps = async (payload) => {
+  const endpoint = `${API_BASE_URL}/identity/verify/verifyVerificationCode?type=phone`;
+  return _post(endpoint, payload);
+};
+
+export const onVerifyCode: VerifyCodeProps = async (params) => {
+  const { isBusiness, code, countryId, codeType } = params;
+  const endpoint = `${API_BASE_URL}/identity/verify?isBusiness=${isBusiness}&code=${code}&countryId=${countryId}&codeType=${codeType}`;
+  return _get(endpoint);
 };
 
 // !Don't use these functions other than auth.ts file
@@ -65,19 +96,38 @@ export const signInAPI: SignInAPIProps = async (payload) => {
 export const getAccountAPI: GetAccountAPIProps = async (payload) => {
   const endpoint = `${API_BASE_URL}/identity/account`;
 
-  const newPayload = {
+  console.log({ payload });
+
+  let newPayload: typeof payload = {
     email: payload.email,
     regMode: payload.regMode,
   };
 
-  return _post<AccountResponse>(endpoint, newPayload, {
-    headers: {
+  if (payload.isBusiness) {
+    newPayload = {
+      ...newPayload,
+      isBusiness: payload.isBusiness,
+    };
+  }
+
+  let headers = {};
+  let next = undefined;
+
+  if (payload?.accessToken) {
+    headers = {
+      ...headers,
       Authorization: `Bearer ${payload.accessToken}`,
-    },
-    cache: "force-cache",
-    next: {
+    };
+
+    next = {
       revalidate: 500000,
-    },
+    };
+  }
+
+  return _post<AccountResponse>(endpoint, newPayload, {
+    headers,
+    cache: "force-cache",
+    next,
   });
 };
 
