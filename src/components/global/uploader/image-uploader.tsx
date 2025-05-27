@@ -1,10 +1,12 @@
 "use client";
 
-import { ProcessedFileProps } from "@/lib/file-utils/upload.utils";
+import { ImageIcon } from "lucide-react";
 import React from "react";
+
+import { ProcessedFileProps } from "@/lib/file-utils/upload.utils";
+
 import ImageCropper from "../image-cropper";
 import FileUploader from "./file-uploader";
-import { ImageIcon } from "lucide-react";
 
 type Props = {
   children?: React.ReactNode;
@@ -86,9 +88,7 @@ const ImageUploader = ({
         maxFileSizeMB={maxFileSizeMB}
         className={`h-40 ${className}`}
       >
-        {children ? (
-          children
-        ) : (
+        {children || (
           <>
             <div className="flex h-full flex-col items-center justify-center">
               <ImageIcon className="mb-2 size-10 text-gray-400" />

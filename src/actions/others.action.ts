@@ -1,9 +1,20 @@
 "use server";
 
-import { API_BASE_URL } from "@/environment";
-import { _get } from "@/lib/handlers/fetch";
-import { GetBackgroundImageProps } from "@/types/api-params/others.params";
-import { BackgroundImageResponse } from "@/types/api-response/others.response";
+import ROUTES from "@/constants/routes";
+import { API_BASE_URL, API_GATEWAY_URL } from "@/environment";
+import { _get, _post, _put } from "@/lib/handlers/fetch";
+import {
+  AddLocationParams,
+  BusinessLogoParams,
+  ContactUsParams,
+  GetBackgroundImageProps,
+  QrLogoUploadParams,
+} from "@/types/api-params/others.params";
+import {
+  BackgroundImageResponse,
+  ContactUsResponse,
+} from "@/types/api-response/others.response";
+import { revalidatePath } from "next/cache";
 
 export const onGetBackgroundImage: GetBackgroundImageProps = async (params) => {
   const endpoint = `${API_BASE_URL}/identity/background-image?lat=${params.lat}&lng=${params.lng}`;
@@ -11,5 +22,32 @@ export const onGetBackgroundImage: GetBackgroundImageProps = async (params) => {
   return _get<BackgroundImageResponse>(endpoint, {
     cache: "force-cache",
     timeout: 10000,
+  });
+};
+
+export const onContactUs: ContactUsParams = async (payload) => {
+  const endpoint = `${API_GATEWAY_URL}/contact-us/mail`;
+  return _post<ContactUsResponse>(endpoint, payload);
+};
+
+export const onBusinessLogoUpload: BusinessLogoParams = async (payload) => {
+  const endpoint = `${API_GATEWAY_URL}/upload-logo`;
+  revalidatePath(ROUTES.BUSINESS_ACCOUNT_LOGO);
+  return _put(endpoint, payload, {
+    requireAuth: true,
+  });
+};
+export const onQrLogoUpload: QrLogoUploadParams = async (payload) => {
+  const endpoint = `${API_GATEWAY_URL}/upload-logo`;
+  revalidatePath(ROUTES.BUSINESS_ACCOUNT_QR);
+  return _put(endpoint, payload, {
+    requireAuth: true,
+  });
+};
+
+export const onAddLocation: AddLocationParams = async (payload) => {
+  const endpoint = `${API_BASE_URL}identity/location`;
+  return _post(endpoint, payload, {
+    requireAuth: true,
   });
 };

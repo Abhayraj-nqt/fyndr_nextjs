@@ -149,17 +149,17 @@ export const BUSINESS_MENU: SubMenuProps[] = [
       },
       {
         icon: IdCard,
-        route: "",
+        route: ROUTES.BUSINESS_ACCOUNT_LOGO,
         label: "Business Logo",
       },
       {
         icon: QrCode,
-        route: "",
+        route: ROUTES.BUSINESS_ACCOUNT_QR,
         label: "QR Logo",
       },
       {
         icon: Landmark,
-        route: "",
+        route: ROUTES.BUSINESS_ACCOUNT_LOCATION,
         label: "Locations",
       },
       {
@@ -291,7 +291,7 @@ export const FOOTER_MENU: FooterMenuProps[] = [
   {
     icon: ArrowDownToLine,
     label: "Download Fyndr",
-    url: "",
+    url: ROUTES.DOWNLOAD_FYNDR,
   },
   {
     icon: Contact,
@@ -301,17 +301,17 @@ export const FOOTER_MENU: FooterMenuProps[] = [
   {
     icon: ReceiptText,
     label: "Term of use",
-    url: "",
+    url: ROUTES.LEGAL_TERMS,
   },
   {
     icon: GlobeLock,
     label: "Privacy Policy",
-    url: "",
+    url: ROUTES.LEGAL_privacy,
   },
   {
     icon: Handshake,
     label: "Business Agremnent",
-    url: "",
+    url: ROUTES.LEGAL_AGREEMENT,
   },
   {
     icon: TableOfContents,
