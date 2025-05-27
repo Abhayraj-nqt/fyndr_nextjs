@@ -1,13 +1,14 @@
 "use client";
 
 import { DataTableColumnHeader } from "@/components/global/data-table/data-table-column-header";
-import { Button } from "@/components/ui/button";
+
 import { DataTableRowAction } from "@/types/data-table";
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import React from "react";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import Button from "@/components/global/buttons";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -141,12 +142,11 @@ export function getOfferSummaryDetailsColoumn({
       header: "Action",
       cell: ({ row }) => (
         <Button
-        //   onClick={() =>
-        //     setRowAction({ type: "view-voucher", data: row.original })
-        //   }
-        >
-          View
-        </Button>
+            // onClick={() => setRowAction({ row, variant: "update" })}
+            variant="primary"
+          >
+            Actions
+          </Button>
       ),
     },
   ];
