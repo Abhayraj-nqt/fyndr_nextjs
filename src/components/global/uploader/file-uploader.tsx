@@ -118,10 +118,10 @@ const FileUploader = ({
 
   const handleDrop = useCallback(
     async (acceptedFiles: File[]) => {
-      if (disabled || isProcessing) return;
+      if (disabled) return;
 
       try {
-        setIsProcessing(true);
+        // setIsProcessing(true);
 
         // Run additional validation if provided
         if (additionalValidation && !additionalValidation(acceptedFiles)) {
@@ -138,7 +138,7 @@ const FileUploader = ({
         });
 
         if (validFiles.length === 0) {
-          setIsProcessing(false);
+          // setIsProcessing(false);
           return;
         }
 
@@ -151,6 +151,7 @@ const FileUploader = ({
         // Ensure component is still mounted before updating state
         if (mountedRef.current) {
           onUpload?.(processed);
+          // setIsProcessing(false);
         }
       } catch (error) {
         console.error("File upload error:", error);
@@ -163,7 +164,7 @@ const FileUploader = ({
     },
     [
       disabled,
-      isProcessing,
+      // isProcessing,
       additionalValidation,
       allowedFileTypes,
       min,
@@ -178,7 +179,7 @@ const FileUploader = ({
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: handleDrop,
-    disabled: disabled || isProcessing,
+    disabled: disabled,
     accept: allowedFileTypes.reduce(
       (acc, type) => {
         acc[type] = [];

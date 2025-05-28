@@ -14,7 +14,7 @@ const getDecimalNum = (num: number): string => {
 
 const getDateNew = (date: string, timezone: string): string => {
   const dateObj = new Date(date);
-  return dateObj.toLocaleDateString(undefined, { timeZone: timezone });
+  return dateObj.toLocaleDateString('en-US', { timeZone: timezone });
 };
 
 type Props = {

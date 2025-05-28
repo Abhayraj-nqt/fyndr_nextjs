@@ -1,7 +1,9 @@
 "use client";
 
+import Button from "@/components/global/buttons";
 import Input from "@/components/global/input";
 import Select from "@/components/global/input/select";
+import toast from "@/components/global/toast";
 import React, { useEffect, useState } from "react";
 
 const InputTest = () => {
@@ -38,6 +40,18 @@ const InputTest = () => {
           info={"Hello"}
         />
         <Input placeholder="Enter your email" />
+        <Input
+          placeholder="Enter your email"
+          label="Email"
+          leftNode={
+            <Button
+              onClick={() => toast.success({ message: "Verified" })}
+              variant="primary"
+            >
+              Verify
+            </Button>
+          }
+        />
       </div>
 
       <Select

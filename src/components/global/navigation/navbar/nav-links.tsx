@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import React from "react";
+// import { CircleUser, TicketPercent } from "lucide-react";
 
 import { SheetClose } from "@/components/ui/sheet";
 import { NAVBAR_MENU } from "@/constants/menu";
@@ -19,6 +20,26 @@ interface Props {
 const NavLinks = ({ isMobileNav = false, className }: Props) => {
   const pathname = usePathname();
   const { data: session } = useSession();
+
+  // const navbarMenu = [...NAVBAR_MENU];
+  // if (session && session.user) {
+  //   navbarMenu.push({
+  //     label: "Account",
+  //     route:
+  //       session.user.entityRole === "BIZ_ADMIN"
+  //         ? ROUTES.BUSINESS_DASHBOARD
+  //         : session.user.entityRole === "INDIVIDUAL_ADMIN"
+  //           ? ROUTES.USER_DASHBOARD
+  //           : ROUTES.ADMIN_DASHBOARD,
+  //     icon: CircleUser,
+  //   });
+
+  //   navbarMenu.push({
+  //     label: "My Offers",
+  //     route: ROUTES.MY_OFFERS,
+  //     icon: TicketPercent,
+  //   });
+  // }
 
   return (
     <>

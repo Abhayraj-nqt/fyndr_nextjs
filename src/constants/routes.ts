@@ -20,6 +20,11 @@ const ROUTES = {
   LEGAL_TERMS: "/legal/terms",
   LEGAL_privacy: "/legal/privacy",
   LEGAL_AGREEMENT: "/legal/agreement",
+  DOWNLOAD_FYNDR: "/download-fyndr-app",
+  // BUSINESS_AGREEMENT: "/legal/agreement",
+
+  // User routes
+  USER_DASHBOARD: "/user/billing/transaction",
 
   // Business routes
   BUSINESS_DASHBOARD: "/business/billing/transaction",

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -19,13 +19,22 @@ import { useRegistrationStore } from "@/zustand/stores/registration.store";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label"; // Fixed import
 import { Checkbox } from "@/components/ui/checkbox";
-import { COUNTRIES, GENDER } from "@/constants";
+import { GENDER } from "@/constants";
 import InputWrapper from "@/components/global/input/input-wrapper";
 import { useFindUsOptions } from "@/hooks/others";
 import SelectCountry, {
   CountryData,
 } from "@/components/global/input/select-country";
 import { getPlaceDataWithZipcodeAndCountry } from "@/actions/maps.actions";
+import { validatePostalAddress } from "@/lib/utils";
+import MobileVerificationModal from "@/app/(non-listing)/(auth)/sign-up/complete/_components/mobile-verification-modal";
+import { RotateCw } from "lucide-react";
+import toast from "@/components/global/toast";
+import { onVerifyCode } from "@/actions/auth.actions";
+import { useCountryList } from "@/hooks/location";
+import Link from "next/link";
+import ROUTES from "@/constants/routes";
+import { useRouter } from "next/navigation";
 
 // Updated schema to match payload structure
 const IndividualFormSchema = z.object({
@@ -50,6 +59,7 @@ const IndividualFormSchema = z.object({
   yob: z
     .string()
     .regex(/^\d+$/, { message: "Year of birth can only contain digits." })
+    .max(4, { message: "Year of birth can only contain 4 digits" })
     .optional(),
   gender: z.enum(["M", "F", "ND", "OT"]).nullable().optional(),
   country: z.string().min(1, { message: "Country is required." }),
@@ -58,7 +68,10 @@ const IndividualFormSchema = z.object({
     .string()
     .min(1, { message: "Phone number is required." })
     .regex(/^\d+$/, { message: "Phone number can only contain digits." }),
-  postalCode: z.string().min(1, { message: "Postal code is required." }),
+  postalCode: z
+    .string()
+    .min(1, { message: "Zip code is required." })
+    .regex(/^\d+$/, { message: "Zip code can only contain digits." }),
   addressLine1: z.string().optional(),
   addressLine2: z.string().optional(),
   city: z.string().min(1, { message: "City is required." }),
@@ -74,8 +87,17 @@ type IndividualFormProps = {
 
 const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
   const { findUsOptions, isLoading: findUsOptionsLoading } = useFindUsOptions();
+  const { countryList, isLoading: countryListLoading } = useCountryList();
   const registrationData = useRegistrationStore();
-  console.log({ registrationData });
+  const { isBusiness, email, regMode, pwd } = registrationData;
+
+  const router = useRouter();
+
+  const [isVerifyingCode, startVerifyingCode] = useTransition();
+  const [isMobileVerified, setIsMobileVerified] = useState<boolean>(false);
+  const [isCodeVerified, setIsCodeVerified] = useState<boolean>(false);
+  const [countryId, setCountryId] = useState<number | null>(null);
+  const [agreeOnTerms, setAgreeOnTerms] = useState(false);
 
   const form = useForm<z.infer<typeof IndividualFormSchema>>({
     resolver: zodResolver(IndividualFormSchema),
@@ -95,65 +117,176 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
       state: registrationData.state || "",
       referralCode: registrationData.referralCode || null,
       promoCode: registrationData.promoCode || null,
-      findUsId: registrationData.findUsId || undefined,
+      findUsId: registrationData.findUsId || 8,
     },
   });
 
   const handleSubmit = (values: z.infer<typeof IndividualFormSchema>) => {
-    // Add additional payload data
-    const dataWithGeo = {
-      ...values,
-      lat: 37.7749, // Example coordinates (San Francisco)
-      lng: -122.4194,
-      isBusiness: false,
-      regMode: "classic" as const,
-    };
+    // if (!isMobileVerified) {
+    //   toast.error({
+    //     message: "Please verify your mobile number.",
+    //   });
+    //   return;
+    // }
 
+    if (form.getValues("referralCode")?.length && !isCodeVerified) {
+      toast.error({
+        message: "Either verify your Referral/Promo code or leave it empty!",
+      });
+      return;
+    }
+
+    if (values?.promoCode) {
+      values.referralCode = null;
+    }
+
+    if (!agreeOnTerms) {
+      toast.error({
+        message: "Please agree to the terms and conditions.",
+      });
+      return;
+    }
+
+    const dataWithGeo = {
+      isBusiness,
+      ...values,
+    };
     onSubmit(dataWithGeo);
   };
 
-  const handleCountryChange = (country: CountryData) => {
+  const handleCountryChange = async (country: CountryData) => {
     form.setValue("country", country.value);
     form.setValue("ctryCode", country.countryCode);
+
+    if (form.getValues("postalCode").length > 0) {
+      await handleGetCityAndState();
+    }
+
+    loadCountryId();
   };
 
-  // Reset form values when registrationData changes (fixes email population issue)
-  // React.useEffect(() => {
-  //   if (registrationData.email) {
-  //     form.reset({
-  //       email: registrationData.email,
-  //       firstName: registrationData.firstName || "",
-  //       lastName: registrationData.lastName || "",
-  //       yob: registrationData.yob || undefined,
-  //       gender: registrationData.gender || null,
-  //       country: registrationData.country || "US",
-  //       ctryCode: registrationData.ctryCode || "+1",
-  //       phone: registrationData.phone || "",
-  //       postalCode: registrationData.postalCode || "",
-  //       addressLine1: registrationData.addressLine1 || undefined,
-  //       addressLine2: registrationData.addressLine2 || undefined,
-  //       city: registrationData.city || "",
-  //       state: registrationData.state || "",
-  //       referralCode: registrationData.referralCode || null,
-  //       promoCode: registrationData.promoCode || null,
-  //       findUsId: registrationData.findUsId || undefined,
-  //     });
-  //   }
-  // }, [registrationData, form]);
+  const loadCountryId = () => {
+    const country = form.getValues("country");
+    const newObject = { isoCode: "Gl", name: "Global", objId: -1 };
+    const resultCntry: (typeof newObject)[] = countryList;
+    resultCntry.unshift(newObject);
+    console.log({ countryList, countryListLoading });
+
+    const filterArray = resultCntry.filter((item) => item.isoCode === country);
+
+    if (filterArray.length > 0) {
+      const obj = filterArray[0].objId;
+      setCountryId(obj);
+    }
+  };
+
+  useEffect(() => {
+    loadCountryId();
+  }, [countryListLoading]);
 
   const handleGetCityAndState = async () => {
-    if (form.getFieldState("postalCode").error) return;
-    if (form.getFieldState("country").error) return;
-    const data = await getPlaceDataWithZipcodeAndCountry({
-      country: form.getValues("country"),
-      zipcode: form.getValues("postalCode"),
+    const country = form.getValues("country");
+    const zipcode = form.getValues("postalCode");
+
+    const isValid = await validatePostalAddress(zipcode, country);
+
+    if (!isValid) {
+      form.setError("postalCode", {
+        message:
+          zipcode.length < 1
+            ? "Zip Code can not be blank"
+            : "Zip code is Invalid",
+      });
+
+      form.setValue("city", "");
+      form.setValue("state", "");
+      return;
+    }
+
+    form.clearErrors("postalCode");
+    const response = await getPlaceDataWithZipcodeAndCountry({
+      country,
+      zipcode,
     });
-    console.log(data);
+    console.log(response);
+    const {
+      data: { city, lat, lng, state },
+    } = response;
+    form.setValue("city", city);
+    form.setValue("state", state);
+
+    form.clearErrors("city");
+    form.clearErrors("state");
+
+    registrationData.setData({
+      lat: lat || undefined,
+      lng: lng || undefined,
+    });
   };
+
+  const handleVerifyCode = async () => {
+    if (isVerifyingCode || isCodeVerified) return;
+    const code = form.getValues("referralCode");
+
+    if (!code) {
+      toast.error({
+        message: "Please enter Referral/Promo code",
+      });
+      return;
+    }
+
+    startVerifyingCode(async () => {
+      const { success, data, error } = await onVerifyCode({
+        code: code,
+        isBusiness: false,
+        codeType: "REGISTRATION",
+        countryId: countryId || -1,
+      });
+
+      if (!success) {
+        toast.error({
+          message: error?.details?.message,
+        });
+        setIsCodeVerified(false);
+        return;
+      }
+
+      if (success && data) {
+        toast.success({
+          message: data.message,
+        });
+        setIsCodeVerified(true);
+        const { promocode: isPromocode } = data;
+        const referralCode = form.getValues("referralCode");
+
+        if (isPromocode) {
+          form.setValue("promoCode", referralCode);
+        } else {
+          form.setValue("referralCode", referralCode);
+          form.setValue("promoCode", null);
+        }
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (!useRegistrationStore.persist.hasHydrated) return;
+
+    // if (!email || !isBusiness || !regMode || !pwd) {
+    //   router.push(ROUTES.SIGN_UP);
+    // }
+    form.setValue("email", email || "");
+  }, [
+    useRegistrationStore?.persist?.hasHydrated,
+    email,
+    isBusiness,
+    regMode,
+    pwd,
+    router,
+  ]);
 
   return (
     <>
-      {/* <Button onClick={handleTest}>test</Button> */}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
           <FormField
@@ -276,7 +409,7 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
             )}
           />
 
-          <div className="flex flex-row gap-4 items-center">
+          <div className="flex flex-row gap-2 items-center">
             <FormField
               control={form.control}
               name="ctryCode"
@@ -289,6 +422,9 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
                     <FormControl>
                       <Input {...field} className="w-20" disabled />
                     </FormControl>
+                    {form.getFieldState("phone").error && (
+                      <div className="mb-[18px]"></div>
+                    )}
                     <FormMessage />
                   </div>
                 </FormItem>
@@ -299,17 +435,49 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
               control={form.control}
               name="phone"
               render={({ field }) => (
-                <FormItem className="flex flex-row gap-4 items-center mt-2 w-full">
+                <FormItem className="flex flex-row gap-2 items-center mt-2 w-full">
                   <div className="w-full flex flex-col gap-1">
                     <FormControl>
                       <Input
                         {...field}
+                        disabled={isMobileVerified}
                         placeholder="Enter your phone number"
                         type="tel"
+                        leftNode={
+                          <MobileVerificationModal
+                            email={email || ""}
+                            countryCode={form.getValues("ctryCode")}
+                            phone={form.getValues("phone")}
+                            regMode={regMode || "classic"}
+                            isBusiness={isBusiness || false}
+                            onVerify={(verified) =>
+                              setIsMobileVerified(verified)
+                            }
+                            disabled={isMobileVerified}
+                          >
+                            <Button
+                              variant="primary"
+                              type="button"
+                              className={`mr-1 ${isMobileVerified ? "bg-green-500 hover:bg-green-500 cursor-not-allowed" : ""} `}
+                            >
+                              {isMobileVerified ? "Verified" : "Verify"}
+                            </Button>
+                          </MobileVerificationModal>
+                        }
                       />
                     </FormControl>
                     <FormMessage />
                   </div>
+                  {isMobileVerified ? (
+                    <div
+                      onClick={() => setIsMobileVerified(false)}
+                      className="p-2 rounded-full bg-primary-500 text-white cursor-pointer"
+                    >
+                      <RotateCw size={15} />
+                    </div>
+                  ) : (
+                    <></>
+                  )}
                 </FormItem>
               )}
             />
@@ -433,10 +601,35 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
                       {...field}
                       value={field.value || ""}
                       placeholder="Referral/Promo Code"
+                      disabled={isCodeVerified}
+                      leftNode={
+                        <Button
+                          variant="primary"
+                          type="button"
+                          onClick={handleVerifyCode}
+                          className={`mr-1 ${isCodeVerified ? "bg-green-500 hover:bg-green-500 cursor-not-allowed" : ""} disabled:cursor-not-allowed`}
+                        >
+                          {isVerifyingCode
+                            ? "Verifying"
+                            : isCodeVerified
+                              ? "Verified"
+                              : "Verify"}
+                        </Button>
+                      }
                     />
                   </FormControl>
                   <FormMessage />
                 </div>
+                {isCodeVerified ? (
+                  <div
+                    onClick={() => setIsCodeVerified(false)}
+                    className="p-2 rounded-full bg-primary-500 text-white cursor-pointer"
+                  >
+                    <RotateCw size={15} />
+                  </div>
+                ) : (
+                  <></>
+                )}
               </FormItem>
             )}
           />
@@ -446,18 +639,20 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
               control={form.control}
               name="findUsId"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="!my-10 flex flex-row gap-4 items-center">
+                  <div className="w-40 min-w-40"></div>
                   <FormControl>
                     <InputWrapper
                       label="Where did you find us?"
-                      className="h-fit p-4 mt-16 text-[#4D4D4D]"
+                      className="h-fit p-4 text-[#4D4D4D]"
                     >
                       <RadioGroup
                         value={field.value?.toString() || ""}
+                        defaultValue="8"
                         onValueChange={(value) =>
                           field.onChange(parseInt(value))
                         }
-                        className="flex gap-4 flex-wrap"
+                        className="flex items-center gap-6 flex-wrap p-4"
                       >
                         {findUsOptions.map(
                           (item) =>
@@ -484,25 +679,42 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
             />
           )}
 
-          <div className="flex items-center space-x-2 mb-4">
-            <Checkbox id="terms" />
-            <label
-              htmlFor="terms"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[#4D4D4D]"
-            >
-              Accept terms and conditions
-            </label>
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-40 min-w-40"></div>
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="terms"
+                onCheckedChange={(checked) => setAgreeOnTerms(!!checked)}
+              />
+              <Label
+                htmlFor="terms"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[#4D4D4D]"
+              >
+                I agree with{" "}
+                <Link href={ROUTES.LEGAL_TERMS} className="text-primary-500">
+                  Fyndr's terms of use
+                </Link>{" "}
+                &{" "}
+                <Link href={ROUTES.LEGAL_privacy} className="text-primary-500">
+                  Privacy Policy
+                </Link>
+              </Label>
+            </div>
           </div>
 
-          <Button
-            type="submit"
-            variant="primary"
-            className="w-fit"
-            stdWidth
-            stdHeight
-          >
-            Register
-          </Button>
+          <div className="!mt-10 flex items-center gap-4 mb-4">
+            <div className="w-40 min-w-40"></div>
+            <Button
+              type="submit"
+              variant="primary"
+              className="w-fit"
+              stdWidth
+              stdHeight
+              disabled={form.formState.isSubmitting}
+            >
+              {form.formState.isSubmitting ? "Registering..." : "Register"}
+            </Button>
+          </div>
         </form>
       </Form>
     </>

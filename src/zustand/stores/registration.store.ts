@@ -43,7 +43,8 @@ interface RegistrationState {
   lng?: number;
 
   // Password (stored as array for consistency with your example)
-  pwd?: any[];
+  pwd?: string[];
+  password?: string;
 
   // Business specific info
   bizInfo?: BusinessInfo;

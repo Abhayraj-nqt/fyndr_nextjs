@@ -9,6 +9,7 @@ type Props = React.InputHTMLAttributes<HTMLInputElement> & {
   info?: React.ReactNode;
   className?: string;
   inputClassName?: string;
+  leftNode?: React.ReactNode;
 };
 
 const Input = ({
@@ -18,6 +19,7 @@ const Input = ({
   label,
   showRequired,
   inputClassName,
+  leftNode,
   ...inputProps
 }: Props) => {
   return (
@@ -27,6 +29,7 @@ const Input = ({
       info={info}
       label={label}
       showRequired={showRequired}
+      leftNode={leftNode}
     >
       <ShadcnInput
         className={`input-primary ${inputClassName}`}
