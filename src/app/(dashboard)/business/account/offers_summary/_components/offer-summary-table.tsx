@@ -1,31 +1,30 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { DataTable } from "@/components/global/data-table/data-table";
 import { useDataTable } from "@/hooks/use-data-table";
 import { getOfferSummaryDetailsColoumn } from "./offer-summary-details-coloumn";
 import { useUser } from "@/hooks/auth";
 import { DataTableRowAction } from "@/types/data-table";
-import Input from "@/components/global/input";
-import { Search } from "lucide-react";
+import LocalSearch from "@/components/global/search/local-search";
+import ROUTES from "@/constants/routes";
+import { onGetOfferSummary } from "@/actions/offersummary.actions";
+import { useSearchParams } from "next/navigation";
 
 
-type OfferSummaryTableProps = {
-  data: OfferPurchaseProps[];
-  count: number;
-  currentPage: number;
-  pageSize: number;
+type Props = {
+  promises: Promise<[Awaited<ReturnType<typeof onGetOfferSummary>>]>;
 };
 
-const OfferSummaryTable: React.FC<OfferSummaryTableProps> = ({
-  data,
-  count,
-  currentPage,
-  pageSize,
-}) => {
+const OfferSummaryTable = ({ promises }: Props) => {
+  const searchParams = useSearchParams();
+  const pageSize = Number(searchParams.get("pageSize")) || 10;
+
+  const [{ data, success, error }] = React.use(promises);
+
   const { user } = useUser();
   const userTimeZone = user?.userTimeZone;
-const [searchText, setSearchText] = useState<string>("");
+
   const [rowAction, setRowAction] =
     React.useState<DataTableRowAction<OfferPurchaseProps> | null>(null);
 
@@ -34,12 +33,12 @@ const [searchText, setSearchText] = useState<string>("");
     [userTimeZone]
   );
 
-  console.log('Table data length:', data?.length);
-  console.log('Current page in table:', currentPage);
-  console.log('Total count:', count);
+  if (!success || !data) return <div>Error</div>;
+
+  const { count,  listOfferPurchasedOutDTO } = data.data;
 
   const { table } = useDataTable({
-    data: data || [],
+    data:  listOfferPurchasedOutDTO || [],
     columns,
     pageCount: Math.ceil(count / pageSize),
     getRowId: (row) => `${row.objid}`,
@@ -47,21 +46,12 @@ const [searchText, setSearchText] = useState<string>("");
     clearOnDefault: true,
   });
 
-  return (<>
-    {/* <div className="flex mb-8">
-          <div></div>
-          <div>
-            <Input type="search"
-             value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-            placeholder="Search by voucher code, name & phone no."
-
-            />
-            
-          </div>
-        </div> */}
-  <DataTable table={table} />
-  </>
+  return (
+    <>
+      
+      <DataTable table={table} />
+      {/* If you have a dialog like ActionsDialog, you can include it here */}
+    </>
   );
 };
 

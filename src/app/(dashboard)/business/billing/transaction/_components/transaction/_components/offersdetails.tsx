@@ -200,11 +200,11 @@ const Offersdetails: React.FC<OffersDetails> = ({
                       )}
 
                       {/* Fyndr Generated Voucher with Action */}
-                      <div className="mb-2 flex justify-between">
+                      {/* <div className="mb-2 flex justify-between">
                         <span className="text-[14px] font-semibold text-[#4D4D4D]">
                           Fyndr Generated Voucher ID:
                         </span>
-                        {/* <Button
+                        <Button
                           className="text-[14px] text-blue-600 underline"
                           onClick={() => {
                             setSelectedVoucher(vhr);
@@ -216,8 +216,8 @@ const Offersdetails: React.FC<OffersDetails> = ({
                               ? `VHR-${(vhr.objid + "").padStart(10, 0)}`
                               : ""}
                           </div>
-                        </Button> */}
-                      </div>
+                        </Button>
+                      </div> */}
                       {vhr.appointments &&
                         vhr.appointments.length > 0 &&
                         vhr.appointments[index] === undefined && (

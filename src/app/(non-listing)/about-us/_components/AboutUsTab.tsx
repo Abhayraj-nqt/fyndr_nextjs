@@ -8,7 +8,7 @@ import AboutUsMap from "./aboutusmap";
 import Download from "./download";
 import Faq from "./faq";
 import ForFyndrBusiness from "./forfyndrbusiness";
-import ForFyndrIndv from "./ForFyndrIndv";
+import ForFyndrIndv from "./forFyndrIndv";
 
 const AboutUsTab = () => {
   const [activeTab, setActiveTab] = useState<"business" | "individual">(

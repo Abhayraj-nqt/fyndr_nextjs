@@ -127,6 +127,7 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
   }, [reviewOverviews]);
 
   console.log("invoice : D", invoiceDetailsResp);
+   const startDate = invoiceDetails?.featured_start_date && new Date(invoiceDetails?.featured_start_date);
   const endDate =
     invoiceDetails?.featured_end_date &&
     new Date(invoiceDetails?.featured_end_date);
@@ -275,7 +276,7 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
                         Featured Start Date:
                       </span>
                       <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
-                        {/* {moment.tz(startDate, userTimeZone).format("MMM DD, YYYY")} */}
+                        {dayjs.tz(startDate, userTimeZone).format("MMM DD, YYYY")}
                       </span>
                     </div>
 
@@ -284,7 +285,7 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
                         Featured End Date:
                       </span>
                       <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
-                        {/* {moment.tz(endDate, userTimeZone).format("MMM DD, YYYY")} */}
+                        {dayjs.tz(endDate, userTimeZone).format("MMM DD, YYYY")}
                       </span>
                     </div>
                   </>

@@ -2,8 +2,8 @@ import React from "react";
 
 import { ABOUT_PAGE_FEATURES, FYNDR_ABOUT_AND_MISSION } from "@/constants";
 
-import AboutRow from "./_components/AboutRow";
-import AboutUsTab from "./_components/AboutUsTab";
+import AboutRow from "./_components/aboutRow";
+import AboutUsTab from "./_components/aboutUsTab";
 import FeatureCard from "./_components/featurecards";
 
 const AboutUs = () => {

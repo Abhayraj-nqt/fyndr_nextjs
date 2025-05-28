@@ -97,7 +97,8 @@ export function getOfferSummaryDetailsColoumn({
           </div>
         </>
       ),
-      enableSorting: false,
+       enableHiding: false,
+     
     },
     {
       accessorKey: "validTill",
@@ -111,7 +112,7 @@ export function getOfferSummaryDetailsColoumn({
             : "N/A"}
         </div>
       ),
-      enableSorting: false,
+       enableHiding: false,
     },
     {
       accessorKey: "redemptionTime",
