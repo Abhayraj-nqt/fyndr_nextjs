@@ -204,11 +204,11 @@ const FileUploader = ({
     >
       <input {...getInputProps()} />
       {children}
-      {isProcessing && (
+      {/* {isProcessing && (
         <div className="absolute inset-0 flex items-center justify-center bg-white/80 dark:bg-black/80">
           <div className="text-center">Processing...</div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

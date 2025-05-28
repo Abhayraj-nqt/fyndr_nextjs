@@ -84,6 +84,8 @@ export type fetchLocationResponse = {
 export type images = {
   img_url: string;
   index: number;
+  extn?: string;
+  imgUri?: string;
 };
 
 export type StoreCategory = {

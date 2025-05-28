@@ -2,7 +2,7 @@ import { fetchStoreCategory } from "@/actions/catalogue.actions";
 import { auth } from "@/auth";
 import ContainerWrapper from "@/components/global/ContainerWrapper";
 
-import AddCategory from "./_components/addCategory";
+import AddCategory from "./_components/addCategoryButton";
 import CategoriesList from "./_components/categoriesList";
 
 const Categories = async () => {

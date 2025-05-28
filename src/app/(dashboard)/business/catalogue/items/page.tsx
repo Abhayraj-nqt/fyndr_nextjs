@@ -4,6 +4,7 @@ import ContainerWrapper from "@/components/global/ContainerWrapper";
 import { Button } from "@/components/ui/button";
 
 import ItemList from "./_components/itemList";
+import AddItem from "./_components/addItemButton";
 
 const CatalogItems = async () => {
   const session = await auth();
@@ -15,10 +16,7 @@ const CatalogItems = async () => {
 
   return (
     <>
-      <ContainerWrapper
-        title="Items"
-        headerOption={<Button className="btn-primary">Add Item</Button>}
-      >
+      <ContainerWrapper title="Items" headerOption={<AddItem />}>
         <ItemList items={data.items} bizid={bizid} />
       </ContainerWrapper>
     </>

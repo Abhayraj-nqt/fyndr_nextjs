@@ -17,6 +17,8 @@ import {
   Outdent,
   Image,
   Table,
+  Baseline,
+  PaintBucket,
 } from "lucide-react";
 
 interface ActiveFormats {
@@ -49,15 +51,15 @@ interface SelectOption {
 }
 
 interface LexicalEditorProps {
-  onContentChange?: (html: string) => void;
-  initialContent?: string;
+  onChange?: (html: string) => void;
+  value?: string;
   placeholder?: string;
   className?: string;
 }
 
 const CustomEditor: React.FC<LexicalEditorProps> = ({
-  onContentChange,
-  initialContent = "",
+  onChange,
+  value = "",
   placeholder = "Start typing...",
   className = "",
 }) => {
@@ -75,17 +77,16 @@ const CustomEditor: React.FC<LexicalEditorProps> = ({
   });
 
   useEffect(() => {
-    if (editorRef.current) {
-      editorRef.current.innerHTML = initialContent;
-      updateHtmlContent();
+    if (editorRef.current && editorRef.current.innerHTML !== value) {
+      editorRef.current.innerHTML = value;
     }
-  }, [initialContent]);
+  }, [value]);
 
   const updateHtmlContent = (): void => {
     if (editorRef.current) {
       const html = editorRef.current.innerHTML;
       setHtmlContent(html);
-      onContentChange?.(html);
+      onChange?.(html);
     }
   };
 
@@ -319,7 +320,6 @@ const CustomEditor: React.FC<LexicalEditorProps> = ({
       <style jsx>{`
         .editor-container {
           max-width: 900px;
-          margin: 0 auto;
           background: white;
           border-radius: 8px;
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -515,6 +515,21 @@ const CustomEditor: React.FC<LexicalEditorProps> = ({
           cursor: pointer;
           padding: 0;
         }
+        .color-picker-wrapper {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 4px;
+          cursor: pointer;
+
+          input[type="color"] {
+            width: 28px;
+            height: 28px;
+            border: none;
+            padding: 0;
+            background: transparent;
+            cursor: pointer;
+          }
       `}</style>
 
       {/* Toolbar */}
@@ -525,13 +540,13 @@ const CustomEditor: React.FC<LexicalEditorProps> = ({
             onClick={() => formatText("undo")}
             title="Undo (Ctrl+Z)"
           >
-            <Undo2 size={16} />
+            <Undo2 size={18} />
           </ToolbarButton>
           <ToolbarButton
             onClick={() => formatText("redo")}
             title="Redo (Ctrl+Y)"
           >
-            <Redo2 size={16} />
+            <Redo2 size={18} />
           </ToolbarButton>
         </div>
 
@@ -568,28 +583,28 @@ const CustomEditor: React.FC<LexicalEditorProps> = ({
             active={activeFormats.bold}
             title="Bold (Ctrl+B)"
           >
-            <Bold size={16} />
+            <Bold size={18} />
           </ToolbarButton>
           <ToolbarButton
             onClick={() => formatText("italic")}
             active={activeFormats.italic}
             title="Italic (Ctrl+I)"
           >
-            <Italic size={16} />
+            <Italic size={18} />
           </ToolbarButton>
           <ToolbarButton
             onClick={() => formatText("underline")}
             active={activeFormats.underline}
             title="Underline (Ctrl+U)"
           >
-            <Underline size={16} />
+            <Underline size={18} />
           </ToolbarButton>
           <ToolbarButton
             onClick={() => formatText("strikethrough")}
             active={activeFormats.strikethrough}
             title="Strikethrough"
           >
-            <Strikethrough size={16} />
+            <Strikethrough size={18} />
           </ToolbarButton>
         </div>
 
@@ -597,18 +612,24 @@ const CustomEditor: React.FC<LexicalEditorProps> = ({
 
         {/* Colors */}
         <div className="toolbar-group">
-          <input
-            type="color"
-            className="color-picker"
-            onChange={handleColorChange("foreColor")}
-            title="Text Color"
-          />
-          <input
-            type="color"
-            className="color-picker"
-            onChange={handleColorChange("hiliteColor")}
-            title="Background Color"
-          />
+          <label className="color-picker-wrapper" title="Text Color">
+            <Baseline />
+            <input
+              type="color"
+              className="color-picker"
+              onChange={handleColorChange("foreColor")}
+              title="Text Color"
+            />
+          </label>
+          <label className="color-picker-wrapper" title="Text Color">
+            <PaintBucket />
+            <input
+              type="color"
+              className="color-picker"
+              onChange={handleColorChange("hiliteColor")}
+              title="Background Color"
+            />
+          </label>
         </div>
 
         <div className="toolbar-divider" />
@@ -620,28 +641,28 @@ const CustomEditor: React.FC<LexicalEditorProps> = ({
             active={activeFormats.alignLeft}
             title="Align Left"
           >
-            <AlignLeft size={16} />
+            <AlignLeft size={18} />
           </ToolbarButton>
           <ToolbarButton
             onClick={() => formatText("justifyCenter")}
             active={activeFormats.alignCenter}
             title="Align Center"
           >
-            <AlignCenter size={16} />
+            <AlignCenter size={18} />
           </ToolbarButton>
           <ToolbarButton
             onClick={() => formatText("justifyRight")}
             active={activeFormats.alignRight}
             title="Align Right"
           >
-            <AlignRight size={16} />
+            <AlignRight size={18} />
           </ToolbarButton>
           <ToolbarButton
             onClick={() => formatText("justifyFull")}
             active={activeFormats.alignJustify}
             title="Justify"
           >
-            <AlignJustify size={16} />
+            <AlignJustify size={18} />
           </ToolbarButton>
         </div>
 
@@ -653,25 +674,25 @@ const CustomEditor: React.FC<LexicalEditorProps> = ({
             onClick={() => formatText("insertUnorderedList")}
             title="Bullet List"
           >
-            <List size={16} />
+            <List size={18} />
           </ToolbarButton>
           <ToolbarButton
             onClick={() => formatText("insertOrderedList")}
             title="Numbered List"
           >
-            <ListOrdered size={16} />
+            <ListOrdered size={18} />
           </ToolbarButton>
           <ToolbarButton
             onClick={() => formatText("outdent")}
             title="Decrease Indent"
           >
-            <Outdent size={16} />
+            <Outdent size={18} />
           </ToolbarButton>
           <ToolbarButton
             onClick={() => formatText("indent")}
             title="Increase Indent"
           >
-            <Indent size={16} />
+            <Indent size={18} />
           </ToolbarButton>
         </div>
 
@@ -680,13 +701,13 @@ const CustomEditor: React.FC<LexicalEditorProps> = ({
         {/* Insert */}
         <div className="toolbar-group">
           <ToolbarButton onClick={insertLink} title="Insert Link">
-            <Link size={16} />
+            <Link size={18} />
           </ToolbarButton>
           <ToolbarButton onClick={insertImage} title="Insert Image">
-            <Image size={16} />
+            <Image size={18} />
           </ToolbarButton>
           <ToolbarButton onClick={insertTable} title="Insert Table">
-            <Table size={16} />
+            <Table size={18} />
           </ToolbarButton>
         </div>
       </div>
@@ -702,12 +723,10 @@ const CustomEditor: React.FC<LexicalEditorProps> = ({
         onKeyDown={handleKeyDown}
         suppressContentEditableWarning={true}
       />
-
-      {/* HTML Output */}
-      <div className="html-output">
+      {/* <div className="html-output">
         <h3>Generated HTML Output:</h3>
         <pre>{htmlContent}</pre>
-      </div>
+      </div> */}
     </div>
   );
 };

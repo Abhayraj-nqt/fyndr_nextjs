@@ -11,7 +11,7 @@ const AddCategory = () => {
     <>
       <Button
         className="btn-primary"
-        onClick={() => router.push(ROUTES.STORE_ADD_CATEGORY)}
+        onClick={() => router.push(ROUTES.BUSINESS_STORE_CATEGORY_CREATE)}
       >
         Add Category
       </Button>

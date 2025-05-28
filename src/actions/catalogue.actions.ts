@@ -3,10 +3,14 @@ import { revalidatePath } from "next/cache";
 
 import ROUTES from "@/constants/routes";
 import { API_BASE_URL } from "@/environment";
-import { _delete, _get, _put } from "@/lib/handlers/fetch";
+import { _delete, _get, _post, _put } from "@/lib/handlers/fetch";
 import {
+  AddCategory,
+  AddItem,
   DeleteCategory,
   DeleteModifier,
+  EditCategory,
+  EditItem,
   GetCatalogueList,
   GetLocationsList,
   GetStoreCategoriesList,
@@ -17,7 +21,9 @@ import {
 import {
   catalogueListResponse,
   fetchLocationResponse,
+  StoreCategory,
   StoreCategoryResponse,
+  StoreItem,
   StoreItemResponse,
   StoreModifierDelete,
   StoreModifierResponse,
@@ -78,7 +84,7 @@ export const fetchStoreModifier: GetStoreModifiersList = async (params) => {
 export const deleteModifier: DeleteModifier = async (payload) => {
   const endpoint = `${API_BASE_URL}/catalogue/modifier`;
 
-  revalidatePath(ROUTES.STORE_MODIFIERS);
+  revalidatePath(ROUTES.BUSINESS_STORE_MODIFIER);
   return _delete<StoreModifierDelete>(endpoint, payload, {
     requireAuth: true,
   });
@@ -87,7 +93,7 @@ export const deleteModifier: DeleteModifier = async (payload) => {
 export const deleteItem: DeleteModifier = async (payload) => {
   const endpoint = `${API_BASE_URL}/catalogue/item`;
 
-  revalidatePath(ROUTES.STORE_ITEMS);
+  revalidatePath(ROUTES.BUSINESS_STORE_ITEM);
   return _delete<StoreModifierDelete>(endpoint, payload, {
     requireAuth: true,
   });
@@ -96,8 +102,44 @@ export const deleteItem: DeleteModifier = async (payload) => {
 export const deleteCategory: DeleteCategory = async (payload) => {
   const endpoint = `${API_BASE_URL}/catalogue/category`;
 
-  revalidatePath(ROUTES.STORE_CATEGORY);
+  revalidatePath(ROUTES.BUSINESS_STORE_CATEGORY);
   return _delete<StoreModifierDelete>(endpoint, payload, {
+    requireAuth: true,
+  });
+};
+
+export const AddCategories: AddCategory = async (payload) => {
+  const endpoint = `${API_BASE_URL}/catalogue/categories`;
+
+  revalidatePath(ROUTES.BUSINESS_STORE_CATEGORY);
+  return _post<StoreCategory, typeof payload>(endpoint, payload, {
+    requireAuth: true,
+  });
+};
+
+export const EditCategories: EditCategory = async (payload) => {
+  const endpoint = `${API_BASE_URL}/catalogue/category`;
+
+  revalidatePath(ROUTES.BUSINESS_STORE_CATEGORY);
+  return _put<StoreCategory>(endpoint, payload, {
+    requireAuth: true,
+  });
+};
+
+export const AddItems: AddItem = async (payload) => {
+  const endpoint = `${API_BASE_URL}/catalogue/items`;
+
+  revalidatePath(ROUTES.BUSINESS_STORE_ITEM);
+  return _post<StoreItem, typeof payload>(endpoint, payload, {
+    requireAuth: true,
+  });
+};
+
+export const EditItems: EditItem = async (payload) => {
+  const endpoint = `${API_BASE_URL}/catalogue/item`;
+
+  revalidatePath(ROUTES.BUSINESS_STORE_ITEM);
+  return _put<StoreItem>(endpoint, payload, {
     requireAuth: true,
   });
 };
