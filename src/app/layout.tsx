@@ -22,9 +22,9 @@ const roboto = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Fyndr",
+  title: "Fyndr: Your Marketplace for Local Deals, Services, and Events",
   description:
-    "Fyndr is a marketplace platform that offers realtime promotions deals and discounts to help people discover and find experiences in their city. If youre seeking convenience and savings then Fyndr has the right deal for you.",
+    "Fyndr is a marketplace platform, offering real-time promotions, deals, and discounts to help you discover and enjoy the best experiences in your city. Get amazing deals on Fyndr today!",
   icons: {
     icon: "/icons/favicon.ico",
   },

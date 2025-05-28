@@ -46,7 +46,7 @@ const HomeCardSkeleton = () => {
         .map((_, index) => (
           <Card
             key={index}
-            className="w-full max-w-sm overflow-hidden bg-slate-50"
+            className="flex w-full max-w-sm overflow-hidden border-none bg-slate-50 shadow-none "
           >
             {/* Image area */}
             <Skeleton className="h-48 w-full rounded-t-lg" />
