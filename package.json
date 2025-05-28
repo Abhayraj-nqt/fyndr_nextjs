@@ -101,6 +101,15 @@
     "typescript": "^5"
   },
   "packageManager": "pnpm@10.11.0",
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,css,scss}": [
+      "prettier --write"
+    ]
+  },
   "overrides": {
     "react": "$react",
     "react-dom": "$react-dom",
