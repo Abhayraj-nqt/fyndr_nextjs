@@ -10,7 +10,7 @@ import ImageUploader from "@/components/global/uploader/image-uploader";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useUser } from "@/hooks/auth";
-import { ProcessedFileProps } from "@/lib/file-utils/upload.utils";
+import { ProcessedFileProps } from "@/lib/utils/files/upload.utils";
 import { cn } from "@/lib/utils";
 
 const BusinessLogo = () => {

@@ -9,7 +9,7 @@ import toast from "@/components/global/toast";
 import FileUploader from "@/components/global/uploader/file-uploader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ProcessedFileProps } from "@/lib/file-utils/upload.utils";
+import { ProcessedFileProps } from "@/lib/utils/files/upload.utils";
 
 export default function ImageUploaderPage() {
   const [uploadedFiles, setUploadedFiles] = useState<ProcessedFileProps[]>([]);

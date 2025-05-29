@@ -3,7 +3,7 @@ import React from "react";
 
 import { onGetUsers } from "@/actions/admin.actions";
 import DefaultCard from "@/components/global/cards/default-card";
-import { getSortingStateParser } from "@/lib/parsers";
+import { getSortingStateParser } from "@/lib/utils/table/parsers";
 import { AdminUserProps } from "@/types/api-response/user.response";
 import { RouteParams } from "@/types/global";
 

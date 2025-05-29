@@ -10,7 +10,7 @@ import {
   defaultAllowedFileTypes,
   processFiles,
   validateFiles,
-} from "@/lib/file-utils/upload.utils";
+} from "@/lib/utils/files/upload.utils";
 import { cn } from "@/lib/utils";
 
 export type FileUploaderProps = {

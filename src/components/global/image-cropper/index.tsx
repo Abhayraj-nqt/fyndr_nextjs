@@ -18,12 +18,12 @@ import {
   // createCropPreview,
   createCropPreview2,
   dataURLtoFile,
-} from "@/lib/file-utils/crop.utils";
+} from "@/lib/utils/files/crop.utils";
 import {
   FileWithPreview,
   ProcessedFileProps,
   processFiles,
-} from "@/lib/file-utils/upload.utils";
+} from "@/lib/utils/files/upload.utils";
 
 import { FileUploaderProps } from "../uploader/file-uploader";
 

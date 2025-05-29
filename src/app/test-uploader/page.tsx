@@ -5,7 +5,7 @@ import React, { useState } from "react";
 
 import toast from "@/components/global/toast";
 import FileUploader from "@/components/global/uploader/file-uploader";
-import { ProcessedFileProps } from "@/lib/file-utils/upload.utils";
+import { ProcessedFileProps } from "@/lib/utils/files/upload.utils";
 
 const TestUploader = () => {
   const [, setuploadedFiles] = useState<ProcessedFileProps[]>([]);
