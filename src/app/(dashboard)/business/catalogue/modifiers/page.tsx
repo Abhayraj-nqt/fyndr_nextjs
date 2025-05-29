@@ -18,7 +18,7 @@ const CatalogModifiers = async () => {
       title="Modifiers"
       headerOption={<Button className="btn-primary">Add Modifiers</Button>}
     >
-      <ModifierList modifiers={data.modifiers} />
+      <ModifierList modifiers={data.modifiers} bizid={bizid} />
     </ContainerWrapper>
   );
 };
