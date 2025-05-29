@@ -1,11 +1,11 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
@@ -14,6 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -169,9 +170,9 @@ const BusinessForm = ({ onSubmit }: BusinessInfoStepProps) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="space-y-6 mt-8"
+        className="mt-8 space-y-6"
       >
-        <h3 className="text-xl font-semibold mb-2 text-light-900">
+        <h3 className="mb-2 text-xl font-semibold text-light-900">
           Business Information
         </h3>
 
@@ -184,18 +185,14 @@ const BusinessForm = ({ onSubmit }: BusinessInfoStepProps) => {
                 Business Name
               </FormLabel>
               <FormControl>
-                <Input
-                  {...field}
-                  placeholder="Enter your business name"
-                  className="input-field"
-                />
+                <Input {...field} placeholder="Enter your business name" />
               </FormControl>
               <FormMessage className="text-red-500" />
             </FormItem>
           )}
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <FormField
             control={form.control}
             name="bizType"
@@ -209,7 +206,7 @@ const BusinessForm = ({ onSubmit }: BusinessInfoStepProps) => {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="input-field">
+                    <SelectTrigger>
                       <SelectValue placeholder="Select business type" />
                     </SelectTrigger>
                   </FormControl>
@@ -235,11 +232,7 @@ const BusinessForm = ({ onSubmit }: BusinessInfoStepProps) => {
                   Website (Optional)
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="Enter your business website"
-                    className="input-field"
-                  />
+                  <Input {...field} placeholder="Enter your business website" />
                 </FormControl>
                 <FormMessage className="text-red-500" />
               </FormItem>
@@ -247,11 +240,11 @@ const BusinessForm = ({ onSubmit }: BusinessInfoStepProps) => {
           />
         </div>
 
-        <h3 className="text-xl font-semibold mb-2 mt-6 text-light-900">
+        <h3 className="mb-2 mt-6 text-xl font-semibold text-light-900">
           Contact Person
         </h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <FormField
             control={form.control}
             name="firstName"
@@ -261,11 +254,7 @@ const BusinessForm = ({ onSubmit }: BusinessInfoStepProps) => {
                   First Name
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="Enter first name"
-                    className="input-field"
-                  />
+                  <Input {...field} placeholder="Enter first name" />
                 </FormControl>
                 <FormMessage className="text-red-500" />
               </FormItem>
@@ -281,11 +270,7 @@ const BusinessForm = ({ onSubmit }: BusinessInfoStepProps) => {
                   Last Name
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="Enter last name"
-                    className="input-field"
-                  />
+                  <Input {...field} placeholder="Enter last name" />
                 </FormControl>
                 <FormMessage className="text-red-500" />
               </FormItem>
@@ -307,7 +292,7 @@ const BusinessForm = ({ onSubmit }: BusinessInfoStepProps) => {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="input-field">
+                    <SelectTrigger>
                       <SelectValue placeholder="Code" />
                     </SelectTrigger>
                   </FormControl>
@@ -336,7 +321,6 @@ const BusinessForm = ({ onSubmit }: BusinessInfoStepProps) => {
                   <Input
                     {...field}
                     placeholder="Enter your phone number"
-                    className="input-field"
                     type="tel"
                   />
                 </FormControl>
@@ -346,7 +330,7 @@ const BusinessForm = ({ onSubmit }: BusinessInfoStepProps) => {
           />
         </div>
 
-        <h3 className="text-xl font-semibold mb-2 mt-6 text-light-900">
+        <h3 className="mb-2 mt-6 text-xl font-semibold text-light-900">
           Business Address
         </h3>
 
@@ -360,7 +344,7 @@ const BusinessForm = ({ onSubmit }: BusinessInfoStepProps) => {
               </FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="input-field">
+                  <SelectTrigger>
                     <SelectValue placeholder="Select your country" />
                   </SelectTrigger>
                 </FormControl>
@@ -386,11 +370,7 @@ const BusinessForm = ({ onSubmit }: BusinessInfoStepProps) => {
                 Address Line 1
               </FormLabel>
               <FormControl>
-                <Input
-                  {...field}
-                  placeholder="Enter street address"
-                  className="input-field"
-                />
+                <Input {...field} placeholder="Enter street address" />
               </FormControl>
               <FormMessage className="text-red-500" />
             </FormItem>
@@ -406,18 +386,14 @@ const BusinessForm = ({ onSubmit }: BusinessInfoStepProps) => {
                 Address Line 2 (Optional)
               </FormLabel>
               <FormControl>
-                <Input
-                  {...field}
-                  placeholder="Suite, floor, etc."
-                  className="input-field"
-                />
+                <Input {...field} placeholder="Suite, floor, etc." />
               </FormControl>
               <FormMessage className="text-red-500" />
             </FormItem>
           )}
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <FormField
             control={form.control}
             name="city"
@@ -427,11 +403,7 @@ const BusinessForm = ({ onSubmit }: BusinessInfoStepProps) => {
                   City
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="Enter city"
-                    className="input-field"
-                  />
+                  <Input {...field} placeholder="Enter city" />
                 </FormControl>
                 <FormMessage className="text-red-500" />
               </FormItem>
@@ -451,7 +423,7 @@ const BusinessForm = ({ onSubmit }: BusinessInfoStepProps) => {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="input-field">
+                    <SelectTrigger>
                       <SelectValue placeholder="Select state" />
                     </SelectTrigger>
                   </FormControl>
@@ -477,11 +449,7 @@ const BusinessForm = ({ onSubmit }: BusinessInfoStepProps) => {
                   Postal Code
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="Enter postal code"
-                    className="input-field"
-                  />
+                  <Input {...field} placeholder="Enter postal code" />
                 </FormControl>
                 <FormMessage className="text-red-500" />
               </FormItem>
@@ -502,7 +470,7 @@ const BusinessForm = ({ onSubmit }: BusinessInfoStepProps) => {
                 defaultValue={field.value?.toString()}
               >
                 <FormControl>
-                  <SelectTrigger className="input-field">
+                  <SelectTrigger>
                     <SelectValue placeholder="Select an option" />
                   </SelectTrigger>
                 </FormControl>
@@ -534,7 +502,6 @@ const BusinessForm = ({ onSubmit }: BusinessInfoStepProps) => {
                 <Input
                   {...field}
                   placeholder="e.g. retail, ecommerce, fashion"
-                  className="input-field"
                 />
               </FormControl>
               <FormMessage className="text-red-500" />

@@ -1,16 +1,17 @@
-import { useEffect, useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { useEffect, useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useRegistrationStore } from "@/zustand/stores/registration.store";
-import { useFindUsOptions } from "@/hooks/others";
-import { useCountryList } from "@/hooks/location";
-import { CountryData } from "@/components/global/input/select-country";
-import { getPlaceDataWithZipcodeAndCountry } from "@/actions/maps.actions";
+
 import { onVerifyCode } from "@/actions/auth.actions";
+import { getPlaceDataWithZipcodeAndCountry } from "@/actions/maps.actions";
+import { CountryData } from "@/components/global/input/select-country";
 import toast from "@/components/global/toast";
+import { useCountryList } from "@/hooks/location";
+import { useFindUsOptions } from "@/hooks/others";
 import { validatePostalAddress } from "@/lib/utils";
+import { useRegistrationStore } from "@/zustand/stores/registration.store";
 
 const IndividualFormSchema = z.object({
   email: z
@@ -168,7 +169,7 @@ export const useIndividualForm = ({ onSubmit }: UseIndividualFormProps) => {
 
     startVerifyingCode(async () => {
       const { success, data, error } = await onVerifyCode({
-        code: code,
+        code,
         isBusiness: false,
         codeType: "REGISTRATION",
         countryId: countryId || -1,

@@ -1,17 +1,36 @@
 // components/forms/BaseRegistrationForm.tsx
 "use client";
 
-import React from "react";
 import Link from "next/link";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Form } from "@/components/ui/form";
+import React from "react";
+import type { FieldValues } from "react-hook-form";
+
+import { BusinessFormData } from "@/components/forms/auth/sign-up/schema";
 import Button from "@/components/global/buttons";
 import InputWrapper from "@/components/global/input/input-wrapper";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Form } from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import ROUTES from "@/constants/routes";
+import {
+  useIndividualForm,
+  useBusinessForm,
+} from "@/hooks/auth/useBaseRegistrationForm";
+
+import {
+  FieldConfig,
+  getIndividualFormFieldsConfig,
+  getBusinessFormFieldsConfig,
+} from "./config/base-field.config";
 import FormFieldRenderer from "./form-field-renderer";
-import { FieldConfig } from "./config/base-field.config";
+
+// Generic base registration form component
+
+// Specific Individual Form Component
+import { IndividualFormData } from "./schema";
+
+// Specific Business Form Component
 
 // Generic props interface
 interface BaseRegistrationFormProps<T> {
@@ -45,9 +64,6 @@ interface BaseRegistrationFormProps<T> {
   submittingText?: string;
 }
 
-// Generic base registration form component
-import type { FieldValues } from "react-hook-form";
-
 export const BaseRegistrationForm = <T extends FieldValues>({
   form,
   states,
@@ -74,8 +90,8 @@ export const BaseRegistrationForm = <T extends FieldValues>({
         ))}
 
         {!states.findUsOptionsLoading && data.findUsOptions.length > 0 && (
-          <div className="!my-10 flex flex-row gap-4 items-center">
-            <div className="w-[9.5rem] min-w-[9.5rem] hidden sm:flex"></div>
+          <div className="!my-10 flex flex-row items-center gap-4">
+            <div className="hidden w-[9.5rem] min-w-[9.5rem] sm:flex"></div>
             <InputWrapper
               label="Where did you find us?"
               className="h-fit p-4 text-[#4D4D4D]"
@@ -86,7 +102,7 @@ export const BaseRegistrationForm = <T extends FieldValues>({
                 onValueChange={(value) =>
                   form.setValue("findUsId", parseInt(value))
                 }
-                className="flex items-center gap-6 flex-wrap p-4"
+                className="flex flex-wrap items-center gap-6 p-4"
               >
                 {data.findUsOptions
                   .filter((item: any) => item.active)
@@ -106,8 +122,8 @@ export const BaseRegistrationForm = <T extends FieldValues>({
           </div>
         )}
 
-        <div className="flex items-center gap-4 mb-4">
-          <div className="w-[9.5rem] min-w-[9.5rem] hidden sm:flex"></div>
+        <div className="mb-4 flex items-center gap-4">
+          <div className="hidden w-[9.5rem] min-w-[9.5rem] sm:flex"></div>
           <div className="flex items-center space-x-2">
             <Checkbox
               id="terms"
@@ -115,7 +131,7 @@ export const BaseRegistrationForm = <T extends FieldValues>({
             />
             <Label
               htmlFor="terms"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[#4D4D4D]"
+              className="text-sm font-medium leading-none text-[#4D4D4D] peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
               I agree with{" "}
               <Link
@@ -139,8 +155,8 @@ export const BaseRegistrationForm = <T extends FieldValues>({
           </div>
         </div>
 
-        <div className="!mt-10 flex items-center gap-4 mb-4">
-          <div className="w-[9.5rem] min-w-[9.5rem] hidden sm:flex"></div>
+        <div className="!mt-10 mb-4 flex items-center gap-4">
+          <div className="hidden w-[9.5rem] min-w-[9.5rem] sm:flex"></div>
           <Button
             type="submit"
             variant="primary"
@@ -156,11 +172,6 @@ export const BaseRegistrationForm = <T extends FieldValues>({
     </Form>
   );
 };
-
-// Specific Individual Form Component
-import { IndividualFormData } from "./schema";
-import { useIndividualForm } from "@/hooks/auth/useBaseRegistrationForm";
-import { getIndividualFormFieldsConfig } from "./config/base-field.config";
 
 interface IndividualFormProps {
   onSubmit: (data: IndividualFormData & { isBusiness: boolean }) => void;
@@ -185,11 +196,6 @@ export const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
     />
   );
 };
-
-// Specific Business Form Component
-import { BusinessFormData } from "@/components/forms/auth/sign-up/schema";
-import { useBusinessForm } from "@/hooks/auth/useBaseRegistrationForm";
-import { getBusinessFormFieldsConfig } from "./config/base-field.config";
 
 interface BusinessFormProps {
   onSubmit: (data: BusinessFormData & { isBusiness: boolean }) => void;

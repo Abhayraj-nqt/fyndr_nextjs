@@ -1,6 +1,12 @@
+import { RotateCw } from "lucide-react";
 import React from "react";
 import { Control, FieldPath } from "react-hook-form";
-import { RotateCw } from "lucide-react";
+
+import MobileVerificationModal from "@/app/(non-listing)/(auth)/sign-up/complete/_components/mobile-verification-modal";
+import Button from "@/components/global/buttons";
+import Input from "@/components/global/input";
+import Select from "@/components/global/input/select";
+import SelectCountry from "@/components/global/input/select-country";
 import {
   FormControl,
   FormField,
@@ -8,12 +14,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import Button from "@/components/global/buttons";
-import Input from "@/components/global/input";
-import Select from "@/components/global/input/select";
-import SelectCountry from "@/components/global/input/select-country";
-import MobileVerificationModal from "@/app/(non-listing)/(auth)/sign-up/complete/_components/mobile-verification-modal";
 import { IndividualFormData } from "@/hooks/auth/useIndividualForm";
+
 import { FieldConfig } from "./form-field.config";
 
 interface FormFieldRendererProps {
@@ -41,12 +43,12 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
             control={control}
             name={config.name}
             render={({ field }) => (
-              <FormItem className="flex flex-row gap-4 items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormItem className="flex flex-row items-center gap-4">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
                   {config.label}{" "}
                   {config.required && <span className="text-red-600">*</span>}
                 </FormLabel>
-                <div className="w-full flex flex-col gap-1">
+                <div className="flex w-full flex-col gap-1">
                   <FormControl>
                     <Input
                       {...field}
@@ -70,12 +72,12 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
             control={control}
             name={config.name}
             render={({ field }) => (
-              <FormItem className="flex flex-row gap-4 items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormItem className="flex flex-row items-center gap-4">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
                   {config.label}{" "}
                   {config.required && <span className="text-red-600">*</span>}
                 </FormLabel>
-                <div className="w-full flex flex-col gap-1">
+                <div className="flex w-full flex-col gap-1">
                   <FormControl>
                     <Select
                       value={field.value || undefined}
@@ -97,12 +99,12 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
             control={control}
             name={config.name}
             render={({ field }) => (
-              <FormItem className="flex flex-row gap-4 items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormItem className="flex flex-row items-center gap-4">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
                   {config.label}{" "}
                   {config.required && <span className="text-red-600">*</span>}
                 </FormLabel>
-                <div className="w-full flex flex-col gap-1">
+                <div className="flex w-full flex-col gap-1">
                   <FormControl>
                     <SelectCountry
                       placeholder={config.placeholder}
@@ -120,17 +122,17 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
 
       case "phone":
         return (
-          <div className="flex flex-row gap-2 items-center">
+          <div className="flex flex-row items-center gap-2">
             <FormField
               control={control}
               name={config.countryCodeField as FieldPath<IndividualFormData>}
               render={({ field }) => (
-                <FormItem className="flex flex-row gap-4 items-center">
-                  <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+                <FormItem className="flex flex-row items-center gap-4">
+                  <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
                     {config.label}{" "}
                     {config.required && <span className="text-red-600">*</span>}
                   </FormLabel>
-                  <div className="w-full flex flex-col gap-1">
+                  <div className="flex w-full flex-col gap-1">
                     <FormControl>
                       <Input {...field} className="w-20" disabled />
                     </FormControl>
@@ -143,8 +145,8 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
               control={control}
               name={config.name}
               render={({ field }) => (
-                <FormItem className="flex flex-row gap-2 items-center mt-2 w-full">
-                  <div className="w-full flex flex-col gap-1">
+                <FormItem className="mt-2 flex w-full flex-row items-center gap-2">
+                  <div className="flex w-full flex-col gap-1">
                     <FormControl>
                       <Input
                         {...field}
@@ -164,7 +166,7 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
                             <Button
                               variant="primary"
                               type="button"
-                              className={`mr-1 ${states.isMobileVerified ? "bg-green-500 hover:bg-green-500 cursor-not-allowed" : ""}`}
+                              className={`mr-1 ${states.isMobileVerified ? "cursor-not-allowed bg-green-500 hover:bg-green-500" : ""}`}
                             >
                               {states.isMobileVerified ? "Verified" : "Verify"}
                             </Button>
@@ -177,7 +179,7 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
                   {states.isMobileVerified && (
                     <div
                       onClick={() => setters.setIsMobileVerified(false)}
-                      className="p-2 rounded-full bg-primary-500 text-white cursor-pointer"
+                      className="cursor-pointer rounded-full bg-primary-500 p-2 text-white"
                     >
                       <RotateCw size={15} />
                     </div>
@@ -194,11 +196,11 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
             control={control}
             name={config.name}
             render={({ field }) => (
-              <FormItem className="flex flex-row gap-4 items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormItem className="flex flex-row items-center gap-4">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
                   {config.label}
                 </FormLabel>
-                <div className="w-full flex flex-col gap-1">
+                <div className="flex w-full flex-col gap-1">
                   <FormControl>
                     <Input
                       {...field}
@@ -210,7 +212,7 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
                           variant="primary"
                           type="button"
                           onClick={handlers.handleVerifyCode}
-                          className={`mr-1 ${states.isCodeVerified ? "bg-green-500 hover:bg-green-500 cursor-not-allowed" : ""} disabled:cursor-not-allowed`}
+                          className={`mr-1 ${states.isCodeVerified ? "cursor-not-allowed bg-green-500 hover:bg-green-500" : ""} disabled:cursor-not-allowed`}
                         >
                           {states.isVerifyingCode
                             ? "Verifying"
@@ -226,7 +228,7 @@ const FormFieldRenderer: React.FC<FormFieldRendererProps> = ({
                 {states.isCodeVerified && (
                   <div
                     onClick={() => setters.setIsCodeVerified(false)}
-                    className="p-2 rounded-full bg-primary-500 text-white cursor-pointer"
+                    className="cursor-pointer rounded-full bg-primary-500 p-2 text-white"
                   >
                     <RotateCw size={15} />
                   </div>

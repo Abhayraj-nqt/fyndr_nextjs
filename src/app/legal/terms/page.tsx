@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 const Terms = () => {
   return (
     <div className="m-20">
-      <div className="flex justify-center w-full mb-5">
+      <div className="mb-5 flex w-full justify-center">
         {/* <object type="image/svg+xml" data="logo.svg" width="150"></object> */}
         <Image
           src={"/images/fyndr-logo-blue.png"}
@@ -18,7 +18,7 @@ const Terms = () => {
           alt="Fyndr Logo"
         ></Image>
       </div>
-      <div className="flex justify-center w-full">
+      <div className="flex w-full justify-center">
         <span className="text-[2rem]">Fyndr Terms of Use</span>
       </div>
       <br />
@@ -219,13 +219,13 @@ const Terms = () => {
             </Link>
           </li>
         </ol>
-        <div className="text-[1.5rem] pt-10">
+        <div className="pt-10 text-[1.5rem]">
           These Terms of Use are as follows:
         </div>
         <br />
         <br />
         <h3 className="text-[1.2rem]">
-          <Link href="" className="text-[1.6rem] text-black-600 font-semibold">
+          <Link href="" className="text-black-600 text-[1.6rem] font-semibold">
             1. About the Site
           </Link>
         </h3>
@@ -251,7 +251,7 @@ const Terms = () => {
         <br />
         <br />
         <h3>
-          <Link href="" className="text-[1.6rem] text-black-600 font-semibold">
+          <Link href="" className="text-black-600 text-[1.6rem] font-semibold">
             2. Ownership of the Site
           </Link>
         </h3>
@@ -275,13 +275,13 @@ const Terms = () => {
         <h3>
           <Link
             href="use"
-            className="text-[1.6rem] text-black-600 font-semibold"
+            className="text-black-600 text-[1.6rem] font-semibold"
           >
             3. Use of the Site
           </Link>
         </h3>
         As a condition of your use of the Site, you agree that:
-        <ul className="list-disc list-inside">
+        <ul className="list-inside list-disc">
           <li>
             You have reached the age of majority in the state or province in
             which you reside
@@ -339,7 +339,7 @@ const Terms = () => {
         </ul>
         <br />
         <h3>
-          <Link href="" className="text-[1.6rem] text-black-600 font-semibold">
+          <Link href="" className="text-black-600 text-[1.6rem] font-semibold">
             4. Access to the Site
           </Link>
         </h3>
@@ -357,7 +357,7 @@ const Terms = () => {
         <br />
         <h3>
           {" "}
-          <Link href="" className="text-[1.6rem] text-black-600 font-semibold">
+          <Link href="" className="text-black-600 text-[1.6rem] font-semibold">
             5. Modification{" "}
           </Link>
         </h3>
@@ -381,7 +381,7 @@ const Terms = () => {
         <br />
         <br />
         <h3>
-          <Link href="" className="text-[1.6rem] text-black-600 font-semibold">
+          <Link href="" className="text-black-600 text-[1.6rem] font-semibold">
             6. Your Account{" "}
           </Link>
         </h3>
@@ -420,7 +420,7 @@ const Terms = () => {
           requirements for use.
         </span>
         <h3>
-          <Link href="" className="text-[1.6rem] text-black-600 font-semibold">
+          <Link href="" className="text-black-600 text-[1.6rem] font-semibold">
             7. Your Conduct
           </Link>
         </h3>
@@ -434,10 +434,10 @@ const Terms = () => {
         violations of these Terms of Use:
         <br />
         <br />
-        <h4 className="text-[1.4rem] text-black-600 font-bold">
+        <h4 className="text-black-600 text-[1.4rem] font-bold">
           Submitting any content to the Site that:
         </h4>
-        <ul className="list-disc list-inside text-[1.2rem]">
+        <ul className="list-inside list-disc text-[1.2rem]">
           <li>
             Violates applicable laws (including, without limitation,
             intellectual property laws, laws relating to rights of privacy and
@@ -472,10 +472,10 @@ const Terms = () => {
           </li>
         </ul>
         <br />
-        <h4 className="text-[1.4rem] text-black-600 font-bold">
+        <h4 className="text-black-600 text-[1.4rem] font-bold">
           Attempting to do or actually doing any of the following:
         </h4>
-        <ul className="list-disc list-inside text-[1.2rem]">
+        <ul className="list-inside list-disc text-[1.2rem]">
           <li>
             Accessing data not intended for you, such as logging into a server
             or an account which you are not authorized to access
@@ -498,10 +498,10 @@ const Terms = () => {
           </li>
         </ul>
         <br />
-        <h4 className="text-[1.4rem] text-black-600 font-bold">
+        <h4 className="text-black-600 text-[1.4rem] font-bold">
           Using any of the following:
         </h4>
-        <ul className="list-disc list-inside text-[1.2rem]">
+        <ul className="list-inside list-disc text-[1.2rem]">
           <li>
             Frames, framing techniques, or framing technology to enclose any
             content included on the Site without our express written permission
@@ -526,10 +526,10 @@ const Terms = () => {
           </li>
         </ul>
         <br />
-        <h4 className="text-[1.4rem] text-black-600 font-bold">
+        <h4 className="text-black-600 text-[1.4rem] font-bold">
           Collecting any of the following:
         </h4>
-        <ul className="list-disc list-inside text-[1.2rem]">
+        <ul className="list-inside list-disc text-[1.2rem]">
           <li>
             Content from the Site, including, without limitation, in connection
             with current or previously offered deals, and featuring such content
@@ -544,10 +544,10 @@ const Terms = () => {
           </li>
         </ul>
         <br />
-        <h4 className="text-[1.4rem] text-black-600 font-bold">
+        <h4 className="text-black-600 text-[1.4rem] font-bold">
           Engaging in any of the following:
         </h4>
-        <ul className="list-disc list-inside text-[1.2rem]">
+        <ul className="list-inside list-disc text-[1.2rem]">
           <li>
             Tampering or interfering with the proper functioning of any part,
             page, or area of the Site or any functions or services provided by
@@ -607,7 +607,7 @@ const Terms = () => {
         <br />
         <br />
         <h3>
-          <Link href="" className="text-[1.4rem] text-black-600 font-bold">
+          <Link href="" className="text-black-600 text-[1.4rem] font-bold">
             8. Your Privacy
           </Link>
         </h3>
@@ -623,7 +623,7 @@ const Terms = () => {
         <br />
         <br />
         <h3>
-          <Link href="" className="text-[1.4rem] text-black-600 font-bold">
+          <Link href="" className="text-black-600 text-[1.4rem] font-bold">
             9. Copyright and Trademarks
           </Link>
         </h3>
@@ -665,11 +665,11 @@ const Terms = () => {
         <br />
         <br />
         <h3>
-          <Link href="" className="text-[1.4rem] text-black-600 font-bold">
+          <Link href="" className="text-black-600 text-[1.4rem] font-bold">
             10.User Content
           </Link>
         </h3>
-        <div className="text-[1.2rem] mb-5 ">
+        <div className="mb-5 text-[1.2rem] ">
           {" "}
           The Site may provide registered users and visitors various
           opportunities to submit or post reviews, opinions, advice, ratings,
@@ -696,7 +696,7 @@ const Terms = () => {
           (a) you are the creator of the User Content; or <br />
           (b) if you are acting on behalf of the creator, that you have <br />
         </div>
-        <ol className="list-decimal list-inside text-[1.2rem]">
+        <ol className="list-inside list-decimal text-[1.2rem]">
           <li>
             express, advance authority from the creator to submit or post the
             User Content, and that they have waived any moral rights in such
@@ -744,10 +744,10 @@ const Terms = () => {
             other form, media or technology.
           </li>
         </ol>
-        <h4 className="text-[1.4rem] text-black-600 font-bold mt-10">
+        <h4 className="text-black-600 mt-10 text-[1.4rem] font-bold">
           Public Nature of Your User Content.
         </h4>
-        <ul className="list-disc list-inside text-[1.2rem]">
+        <ul className="list-inside list-disc text-[1.2rem]">
           <li>
             You understand and agree that User Content is public. Any person
             (whether or not a user of Fyndr’s services) may read your User
@@ -774,10 +774,10 @@ const Terms = () => {
           </li>
         </ul>
         <br />
-        <h4 className="text-[1.4rem] text-black-600 font-bold">
+        <h4 className="text-black-600 text-[1.4rem] font-bold">
           License Grants.
         </h4>
-        <ul className="list-disc list-inside text-[1.2rem]">
+        <ul className="list-inside list-disc text-[1.2rem]">
           <li>
             Some User Content you submit to Fyndr may be displayed or may give
             you the option to display in connection with your Personal
@@ -859,7 +859,7 @@ const Terms = () => {
         <br />
         <h3>
           {" "}
-          <Link href="" className="text-[1.4rem] text-black-600 font-bold">
+          <Link href="" className="text-black-600 text-[1.4rem] font-bold">
             11. Unsolicited Ideas
           </Link>
         </h3>
@@ -873,7 +873,7 @@ const Terms = () => {
         If you send us Unsolicited Materials, you understand and agree that the
         following terms will apply, notwithstanding any cover letter or other
         terms that accompany them:
-        <ul className="list-disc list-inside text-[1.2rem]">
+        <ul className="list-inside list-disc text-[1.2rem]">
           <li>
             Fyndr has no obligation to review any Unsolicited Materials, nor to
             keep any Unsolicited Materials confidential
@@ -888,12 +888,12 @@ const Terms = () => {
         <br />
         <h3>
           {" "}
-          <Link href="" className="text-[1.4rem] text-black-600 font-bold">
+          <Link href="" className="text-black-600 text-[1.4rem] font-bold">
             12. Infringement Reporting Procedures and Digital Millennium
             Copyright Act (DMCA) Procedures{" "}
           </Link>
         </h3>
-        <ul className="list-disc list-inside text-[1.2rem]">
+        <ul className="list-inside list-disc text-[1.2rem]">
           <li>
             Infringement Reporting Procedures. If you own copyright, trademark,
             patent, or other intellectual property rights (“ IP Rights Owner ”),
@@ -917,7 +917,7 @@ const Terms = () => {
             attention, you must provide Fyndr the following information:
           </li>
         </ul>
-        <ol className="list-decimal list-inside text-[1.2rem]">
+        <ol className="list-inside list-decimal text-[1.2rem]">
           <li>
             {" "}
             an electronic or physical signature of the person authorized to act
@@ -948,7 +948,7 @@ const Terms = () => {
         <br />
         <h3>
           {" "}
-          <Link href="" className="text-[1.4rem] text-black-600 font-bold">
+          <Link href="" className="text-black-600 text-[1.4rem] font-bold">
             13. Disclaimer of Warranty
           </Link>
         </h3>
@@ -987,7 +987,7 @@ const Terms = () => {
         <br />
         <br />
         <h3>
-          <Link href="" className="text-[1.4rem] text-black-600 font-bold">
+          <Link href="" className="text-black-600 text-[1.4rem] font-bold">
             14. Limitation of Liability
           </Link>
         </h3>
@@ -1021,7 +1021,7 @@ const Terms = () => {
         <br />
         <br />
         <h3>
-          <Link href="" className="text-[1.4rem] text-black-600 font-bold">
+          <Link href="" className="text-black-600 text-[1.4rem] font-bold">
             15. Electronic Communications
           </Link>
         </h3>
@@ -1047,7 +1047,7 @@ const Terms = () => {
         <br />
         <h3>
           {" "}
-          <Link href="" className="text-[1.4rem] text-black-600 font-bold">
+          <Link href="" className="text-black-600 text-[1.4rem] font-bold">
             16. Websites of Others
           </Link>
         </h3>
@@ -1068,7 +1068,7 @@ const Terms = () => {
         <br />
         <h3>
           {" "}
-          <Link href="" className="text-[1.4rem] text-black-600 font-bold">
+          <Link href="" className="text-black-600 text-[1.4rem] font-bold">
             17. Indemnification/Release
           </Link>
         </h3>
@@ -1101,7 +1101,7 @@ const Terms = () => {
         <br />
         <h3>
           {" "}
-          <Link href="" className="text-[1.4rem] text-black-600 font-bold">
+          <Link href="" className="text-black-600 text-[1.4rem] font-bold">
             18. Force Majeure
           </Link>
         </h3>
@@ -1122,7 +1122,7 @@ const Terms = () => {
         <br />
         <h3>
           {" "}
-          <Link href="" className="text-[1.4rem] text-black-600 font-bold">
+          <Link href="" className="text-black-600 text-[1.4rem] font-bold">
             19. Assignment
           </Link>
         </h3>
@@ -1138,7 +1138,7 @@ const Terms = () => {
         <br />
         <h3>
           {" "}
-          <Link href="" className="text-[1.4rem] text-black-600 font-bold">
+          <Link href="" className="text-black-600 text-[1.4rem] font-bold">
             20. Entire Agreement
           </Link>
         </h3>
@@ -1156,7 +1156,7 @@ const Terms = () => {
         <br />
         <h3>
           {" "}
-          <Link href="" className="text-[1.4rem] text-black-600 font-bold">
+          <Link href="" className="text-black-600 text-[1.4rem] font-bold">
             21. Choice of Law
           </Link>
         </h3>
@@ -1179,11 +1179,11 @@ const Terms = () => {
         <br />
         <h3>
           {" "}
-          <Link href="" className="text-[1.4rem] text-black-600 font-bold">
+          <Link href="" className="text-black-600 text-[1.4rem] font-bold">
             22. Dispute Resolution/Arbitration Agreement
           </Link>
         </h3>
-        <ul className="list-disc list-inside text-[1.2rem]">
+        <ul className="list-inside list-disc text-[1.2rem]">
           <li>
             Binding Arbitration . Except as specifically stated herein, any
             dispute or claim between you and Fyndr and/or its subsidiaries,
@@ -1272,7 +1272,7 @@ const Terms = () => {
         <br />
         <h3>
           {" "}
-          <Link href="" className="text-[1.4rem] text-black-600 font-bold">
+          <Link href="" className="text-black-600 text-[1.4rem] font-bold">
             23. Additional Disclosures
           </Link>
         </h3>

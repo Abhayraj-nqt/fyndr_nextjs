@@ -1,3 +1,5 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import {
   useForm,
@@ -6,23 +8,22 @@ import {
   FieldValues,
   DefaultValues,
 } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { ZodSchema } from "zod";
-import { useRegistrationStore } from "@/zustand/stores/registration.store";
-import { useBusinessTypes, useFindUsOptions } from "@/hooks/others";
-import { useCountryList } from "@/hooks/location";
-import { CountryData } from "@/components/global/input/select-country";
-import { getPlaceDataWithZipcodeAndCountry } from "@/actions/maps.actions";
+
 import { onVerifyCode } from "@/actions/auth.actions";
-import toast from "@/components/global/toast";
-import { validatePostalAddress } from "@/lib/utils";
+import { getPlaceDataWithZipcodeAndCountry } from "@/actions/maps.actions";
 import {
   IndividualFormData,
   BusinessFormData,
   IndividualFormSchema,
   BusinessFormSchema,
 } from "@/components/forms/auth/sign-up/schema";
+import { CountryData } from "@/components/global/input/select-country";
+import toast from "@/components/global/toast";
+import { useCountryList } from "@/hooks/location";
+import { useBusinessTypes, useFindUsOptions } from "@/hooks/others";
+import { validatePostalAddress } from "@/lib/utils";
+import { useRegistrationStore } from "@/zustand/stores/registration.store";
 
 // Base form data interface
 interface BaseFormData extends FieldValues {

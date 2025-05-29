@@ -1,9 +1,11 @@
 "use client";
 
 import { PlaceAutocompleteResult } from "@googlemaps/google-maps-services-js";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
+import { onGetCountryList } from "@/actions/admin.actions";
 import {
   placeAutocomplete,
   placeDetails,
@@ -11,10 +13,8 @@ import {
 } from "@/actions/maps.actions";
 import { DEFAULT_LOCATION } from "@/constants";
 import { Coordinates } from "@/types/global";
-import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 
 import { useUser } from "../auth";
-import { onGetCountryList } from "@/actions/admin.actions";
 
 export function useLocationSelector() {
   const [input, setInput] = useState<string>("");

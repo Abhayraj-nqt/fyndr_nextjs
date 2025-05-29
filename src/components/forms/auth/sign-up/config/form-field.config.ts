@@ -1,4 +1,5 @@
 import { GENDER } from "@/constants";
+
 // import { IndividualFormData } from "@/hooks/auth/useIndividualForm";
 import { IndividualFormData, BusinessFormData } from "../schema";
 

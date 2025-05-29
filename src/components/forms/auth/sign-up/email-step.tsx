@@ -1,9 +1,12 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+
+import { getAccountAPI } from "@/actions/auth.actions";
+import toast from "@/components/global/toast";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -13,10 +16,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { FormInput } from "../form-input";
 import { useRegistrationStore } from "@/zustand/stores/registration.store";
-import toast from "@/components/global/toast";
-import { getAccountAPI } from "@/actions/auth.actions";
+
+import { FormInput } from "../form-input";
 import { SignUpSchema } from "../schema";
 
 const EmailSchema = SignUpSchema.pick({
@@ -77,7 +79,7 @@ const EmailStep = ({ userType, onNextStep }: EmailStepProps) => {
 
   return (
     <>
-      <div className="text-lg font-medium my-6 text-center">
+      <div className="my-6 text-center text-lg font-medium">
         Register as {userType === "business" ? "a Business" : "an Individual"}
       </div>
       <Form {...form}>
@@ -87,7 +89,7 @@ const EmailStep = ({ userType, onNextStep }: EmailStepProps) => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="paragraph-medium text-light-900 hidden">
+                <FormLabel className="paragraph-medium hidden text-light-900">
                   Email Address
                 </FormLabel>
                 <FormControl>
@@ -104,7 +106,7 @@ const EmailStep = ({ userType, onNextStep }: EmailStepProps) => {
           <Button
             type="submit"
             disabled={isPending}
-            className="text-base font-normal min-h-12 w-full rounded-[10px] bg-primary-500 px-4 py-3 !text-light-900 hover:bg-primary-500"
+            className="min-h-12 w-full rounded-[10px] bg-primary-500 px-4 py-3 text-base font-normal !text-light-900 hover:bg-primary-500"
           >
             {isPending ? "Proceeding" : "Proceed"}
           </Button>

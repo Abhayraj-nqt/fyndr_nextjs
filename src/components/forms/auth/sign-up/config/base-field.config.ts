@@ -1,9 +1,9 @@
 // components/forms/configs/base-field.config.ts
-import { GENDER } from "@/constants";
 import {
   IndividualFormData,
   BusinessFormData,
 } from "@/components/forms/auth/sign-up/schema";
+import { GENDER } from "@/constants";
 
 // Generic field configuration interfaces
 export interface BaseFieldConfig<T = any> {
@@ -97,7 +97,7 @@ export const getBaseFieldConfigs = <T>(
     required: true,
     placeholder: "Select your country",
     onValueChange: handlers.handleCountryChange,
-    disabled: states?.isBusiness ? true : false,
+    disabled: !!states?.isBusiness,
   },
   {
     fieldType: "phone",

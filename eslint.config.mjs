@@ -14,7 +14,7 @@ const compat = new FlatCompat({
 
 const config = [
     {
-        ignores: ["components/ui/**/*"],
+        ignores: ["./src/components/ui/**/*"],
     },
     ...compat.extends(
         "next/core-web-vitals",
@@ -56,6 +56,15 @@ const config = [
                 },
             ],
             "comma-dangle": "off",
+            // Add max-lines rule
+            "max-lines": [
+                "error",
+                {
+                    max: 250,
+                    skipBlankLines: true,
+                    skipComments: true,
+                },
+            ],
         },
     },
     {
@@ -63,6 +72,21 @@ const config = [
 
         rules: {
             "no-undef": "off",
+        },
+    },
+    // Optional: Override max-lines for specific file patterns
+    {
+        files: [
+            "**/*.config.js",
+            "**/*.config.ts",
+            "**/*.config.mjs",
+            "**/tailwind.config.js",
+            "**/next.config.js",
+            // Add other patterns you want to exclude
+            "./src/components/ui/**/*"
+        ],
+        rules: {
+            "max-lines": "off", // Disable for config files
         },
     },
 ];

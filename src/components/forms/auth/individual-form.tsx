@@ -1,12 +1,25 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { RotateCw } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+
+import { onVerifyCode } from "@/actions/auth.actions";
+import { getPlaceDataWithZipcodeAndCountry } from "@/actions/maps.actions";
+import MobileVerificationModal from "@/app/(non-listing)/(auth)/sign-up/complete/_components/mobile-verification-modal";
 import Button from "@/components/global/buttons";
 import Input from "@/components/global/input";
+import InputWrapper from "@/components/global/input/input-wrapper";
 import Select from "@/components/global/input/select";
+import SelectCountry, {
+  CountryData,
+} from "@/components/global/input/select-country";
+import toast from "@/components/global/toast";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -15,26 +28,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useRegistrationStore } from "@/zustand/stores/registration.store";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label"; // Fixed import
-import { Checkbox } from "@/components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { GENDER } from "@/constants";
-import InputWrapper from "@/components/global/input/input-wrapper";
-import { useFindUsOptions } from "@/hooks/others";
-import SelectCountry, {
-  CountryData,
-} from "@/components/global/input/select-country";
-import { getPlaceDataWithZipcodeAndCountry } from "@/actions/maps.actions";
-import { validatePostalAddress } from "@/lib/utils";
-import MobileVerificationModal from "@/app/(non-listing)/(auth)/sign-up/complete/_components/mobile-verification-modal";
-import { RotateCw } from "lucide-react";
-import toast from "@/components/global/toast";
-import { onVerifyCode } from "@/actions/auth.actions";
-import { useCountryList } from "@/hooks/location";
-import Link from "next/link";
 import ROUTES from "@/constants/routes";
-import { useRouter } from "next/navigation";
+import { useCountryList } from "@/hooks/location";
+import { useFindUsOptions } from "@/hooks/others";
+import { validatePostalAddress } from "@/lib/utils";
+import { useRegistrationStore } from "@/zustand/stores/registration.store";
 
 // Updated schema to match payload structure
 const IndividualFormSchema = z.object({
@@ -237,7 +238,7 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
 
     startVerifyingCode(async () => {
       const { success, data, error } = await onVerifyCode({
-        code: code,
+        code,
         isBusiness: false,
         codeType: "REGISTRATION",
         countryId: countryId || -1,
@@ -293,11 +294,11 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem className="flex flex-row gap-4 items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormItem className="flex flex-row items-center gap-4">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
                   Email Address <span className="text-red-600">*</span>
                 </FormLabel>
-                <div className="w-full flex flex-col gap-1">
+                <div className="flex w-full flex-col gap-1">
                   <FormControl>
                     <Input {...field} disabled placeholder="Email" />
                   </FormControl>
@@ -310,11 +311,11 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
             control={form.control}
             name="firstName"
             render={({ field }) => (
-              <FormItem className="flex flex-row gap-4 items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormItem className="flex flex-row items-center gap-4">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
                   First Name <span className="text-red-600">*</span>
                 </FormLabel>
-                <div className="w-full flex flex-col gap-1">
+                <div className="flex w-full flex-col gap-1">
                   <FormControl>
                     <Input {...field} placeholder="Enter your first name" />
                   </FormControl>
@@ -328,11 +329,11 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
             control={form.control}
             name="lastName"
             render={({ field }) => (
-              <FormItem className="flex flex-row gap-4 items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormItem className="flex flex-row items-center gap-4">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
                   Last Name <span className="text-red-600">*</span>
                 </FormLabel>
-                <div className="w-full flex flex-col gap-1">
+                <div className="flex w-full flex-col gap-1">
                   <FormControl>
                     <Input {...field} placeholder="Enter your last name" />
                   </FormControl>
@@ -346,11 +347,11 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
             control={form.control}
             name="yob"
             render={({ field }) => (
-              <FormItem className="flex flex-row gap-4 items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormItem className="flex flex-row items-center gap-4">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
                   Year of Birth
                 </FormLabel>
-                <div className="w-full flex flex-col gap-1">
+                <div className="flex w-full flex-col gap-1">
                   <FormControl>
                     <Input
                       {...field}
@@ -368,11 +369,11 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
             control={form.control}
             name="gender"
             render={({ field }) => (
-              <FormItem className="flex flex-row gap-4 items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormItem className="flex flex-row items-center gap-4">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
                   Gender
                 </FormLabel>
-                <div className="w-full flex flex-col gap-1">
+                <div className="flex w-full flex-col gap-1">
                   <FormControl>
                     <Select
                       value={field.value || undefined}
@@ -391,11 +392,11 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
             control={form.control}
             name="country"
             render={({ field }) => (
-              <FormItem className="flex flex-row gap-4 items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormItem className="flex flex-row items-center gap-4">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
                   Country <span className="text-red-600">*</span>
                 </FormLabel>
-                <div className="w-full flex flex-col gap-1">
+                <div className="flex w-full flex-col gap-1">
                   <FormControl>
                     <SelectCountry
                       placeholder="Select your country"
@@ -409,16 +410,16 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
             )}
           />
 
-          <div className="flex flex-row gap-2 items-center">
+          <div className="flex flex-row items-center gap-2">
             <FormField
               control={form.control}
               name="ctryCode"
               render={({ field }) => (
-                <FormItem className="flex flex-row gap-4 items-center">
-                  <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+                <FormItem className="flex flex-row items-center gap-4">
+                  <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
                     Phone Number <span className="text-red-600">*</span>
                   </FormLabel>
-                  <div className="w-full flex flex-col gap-1">
+                  <div className="flex w-full flex-col gap-1">
                     <FormControl>
                       <Input {...field} className="w-20" disabled />
                     </FormControl>
@@ -435,8 +436,8 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
               control={form.control}
               name="phone"
               render={({ field }) => (
-                <FormItem className="flex flex-row gap-2 items-center mt-2 w-full">
-                  <div className="w-full flex flex-col gap-1">
+                <FormItem className="mt-2 flex w-full flex-row items-center gap-2">
+                  <div className="flex w-full flex-col gap-1">
                     <FormControl>
                       <Input
                         {...field}
@@ -458,7 +459,7 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
                             <Button
                               variant="primary"
                               type="button"
-                              className={`mr-1 ${isMobileVerified ? "bg-green-500 hover:bg-green-500 cursor-not-allowed" : ""} `}
+                              className={`mr-1 ${isMobileVerified ? "cursor-not-allowed bg-green-500 hover:bg-green-500" : ""} `}
                             >
                               {isMobileVerified ? "Verified" : "Verify"}
                             </Button>
@@ -471,7 +472,7 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
                   {isMobileVerified ? (
                     <div
                       onClick={() => setIsMobileVerified(false)}
-                      className="p-2 rounded-full bg-primary-500 text-white cursor-pointer"
+                      className="cursor-pointer rounded-full bg-primary-500 p-2 text-white"
                     >
                       <RotateCw size={15} />
                     </div>
@@ -487,11 +488,11 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
             control={form.control}
             name="postalCode"
             render={({ field }) => (
-              <FormItem className="flex flex-row gap-4 items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormItem className="flex flex-row items-center gap-4">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
                   Zip Code <span className="text-red-600">*</span>
                 </FormLabel>
-                <div className="w-full flex flex-col gap-1">
+                <div className="flex w-full flex-col gap-1">
                   <FormControl>
                     <Input
                       {...field}
@@ -509,11 +510,11 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
             control={form.control}
             name="addressLine1"
             render={({ field }) => (
-              <FormItem className="flex flex-row gap-4 items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormItem className="flex flex-row items-center gap-4">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
                   Address 1
                 </FormLabel>
-                <div className="w-full flex flex-col gap-1">
+                <div className="flex w-full flex-col gap-1">
                   <FormControl>
                     <div className="flex flex-col">
                       <Input
@@ -533,11 +534,11 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
             control={form.control}
             name="addressLine2"
             render={({ field }) => (
-              <FormItem className="flex flex-row gap-4 items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormItem className="flex flex-row items-center gap-4">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
                   Address 2
                 </FormLabel>
-                <div className="w-full flex flex-col gap-1">
+                <div className="flex w-full flex-col gap-1">
                   <FormControl>
                     <Input
                       {...field}
@@ -555,11 +556,11 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
             control={form.control}
             name="city"
             render={({ field }) => (
-              <FormItem className="flex flex-row gap-4 items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormItem className="flex flex-row items-center gap-4">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
                   City <span className="text-red-600">*</span>
                 </FormLabel>
-                <div className="w-full flex flex-col gap-1">
+                <div className="flex w-full flex-col gap-1">
                   <FormControl>
                     <Input {...field} placeholder="City" disabled />
                   </FormControl>
@@ -573,11 +574,11 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
             control={form.control}
             name="state"
             render={({ field }) => (
-              <FormItem className="flex flex-row gap-4 items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormItem className="flex flex-row items-center gap-4">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
                   State <span className="text-red-600">*</span>
                 </FormLabel>
-                <div className="w-full flex flex-col gap-1">
+                <div className="flex w-full flex-col gap-1">
                   <FormControl>
                     <Input {...field} placeholder="State" disabled />
                   </FormControl>
@@ -591,11 +592,11 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
             control={form.control}
             name="referralCode"
             render={({ field }) => (
-              <FormItem className="flex flex-row gap-4 items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormItem className="flex flex-row items-center gap-4">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
                   Referral/Promo Code
                 </FormLabel>
-                <div className="w-full flex flex-col gap-1">
+                <div className="flex w-full flex-col gap-1">
                   <FormControl>
                     <Input
                       {...field}
@@ -607,7 +608,7 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
                           variant="primary"
                           type="button"
                           onClick={handleVerifyCode}
-                          className={`mr-1 ${isCodeVerified ? "bg-green-500 hover:bg-green-500 cursor-not-allowed" : ""} disabled:cursor-not-allowed`}
+                          className={`mr-1 ${isCodeVerified ? "cursor-not-allowed bg-green-500 hover:bg-green-500" : ""} disabled:cursor-not-allowed`}
                         >
                           {isVerifyingCode
                             ? "Verifying"
@@ -623,7 +624,7 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
                 {isCodeVerified ? (
                   <div
                     onClick={() => setIsCodeVerified(false)}
-                    className="p-2 rounded-full bg-primary-500 text-white cursor-pointer"
+                    className="cursor-pointer rounded-full bg-primary-500 p-2 text-white"
                   >
                     <RotateCw size={15} />
                   </div>
@@ -639,7 +640,7 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
               control={form.control}
               name="findUsId"
               render={({ field }) => (
-                <FormItem className="!my-10 flex flex-row gap-4 items-center">
+                <FormItem className="!my-10 flex flex-row items-center gap-4">
                   <div className="w-40 min-w-40"></div>
                   <FormControl>
                     <InputWrapper
@@ -652,7 +653,7 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
                         onValueChange={(value) =>
                           field.onChange(parseInt(value))
                         }
-                        className="flex items-center gap-6 flex-wrap p-4"
+                        className="flex flex-wrap items-center gap-6 p-4"
                       >
                         {findUsOptions.map(
                           (item) =>
@@ -679,7 +680,7 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
             />
           )}
 
-          <div className="flex items-center gap-4 mb-4">
+          <div className="mb-4 flex items-center gap-4">
             <div className="w-40 min-w-40"></div>
             <div className="flex items-center space-x-2">
               <Checkbox
@@ -688,7 +689,7 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
               />
               <Label
                 htmlFor="terms"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[#4D4D4D]"
+                className="text-sm font-medium leading-none text-[#4D4D4D] peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 I agree with{" "}
                 <Link href={ROUTES.LEGAL_TERMS} className="text-primary-500">
@@ -702,7 +703,7 @@ const IndividualForm = ({ onSubmit }: IndividualFormProps) => {
             </div>
           </div>
 
-          <div className="!mt-10 flex items-center gap-4 mb-4">
+          <div className="!mt-10 mb-4 flex items-center gap-4">
             <div className="w-40 min-w-40"></div>
             <Button
               type="submit"
