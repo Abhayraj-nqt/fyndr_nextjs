@@ -1,8 +1,9 @@
 import React from "react";
-import { cn } from "@/lib/utils";
-import { Input } from "@/components/ui/input";
 
-interface FormInputProps extends React.ComponentProps<"input"> {}
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+
+type FormInputProps = React.ComponentProps<"input">;
 
 const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
   ({ className, type, ...props }, ref) => {

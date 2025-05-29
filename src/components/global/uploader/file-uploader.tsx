@@ -179,7 +179,7 @@ const FileUploader = ({
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: handleDrop,
-    disabled: disabled,
+    disabled,
     accept: allowedFileTypes.reduce(
       (acc, type) => {
         acc[type] = [];
@@ -189,7 +189,7 @@ const FileUploader = ({
     ),
     multiple,
     maxFiles: multiple ? max : 1,
-    minFiles: min,
+    // minFiles: min,
   });
 
   return (

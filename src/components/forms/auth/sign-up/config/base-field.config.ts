@@ -1,11 +1,10 @@
-// components/forms/configs/base-field.config.ts
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   IndividualFormData,
   BusinessFormData,
 } from "@/components/forms/auth/sign-up/schema";
 import { GENDER } from "@/constants";
 
-// Generic field configuration interfaces
 export interface BaseFieldConfig<T = any> {
   name: keyof T;
   label: string;

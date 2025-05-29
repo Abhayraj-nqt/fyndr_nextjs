@@ -11,7 +11,7 @@ import {
   signInAPI,
 } from "@/actions/auth.actions";
 
-import { SignInSchema } from "./components/forms/auth/schema";
+import { SignInSchema } from "./components/forms/auth/sign-in/schema";
 import { authConfig } from "./config/auth.config";
 import { Coordinates } from "./types/global";
 

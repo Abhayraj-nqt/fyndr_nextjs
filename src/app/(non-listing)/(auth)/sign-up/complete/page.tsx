@@ -1,6 +1,6 @@
 import React from "react";
 
-import SignUpCompleteForm from "@/components/forms/auth/sign-up-complete-form";
+import SignUpCompleteForm from "@/components/forms/auth/sign-up/sign-up-complete-form";
 import DefaultCard from "@/components/global/cards/default-card";
 
 const SignUpComplete = () => {

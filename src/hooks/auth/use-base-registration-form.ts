@@ -1,3 +1,6 @@
+/* eslint-disable max-lines */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
@@ -12,21 +15,14 @@ import { ZodSchema } from "zod";
 
 import { onVerifyCode } from "@/actions/auth.actions";
 import { getPlaceDataWithZipcodeAndCountry } from "@/actions/maps.actions";
-import {
-  IndividualFormData,
-  BusinessFormData,
-  IndividualFormSchema,
-  BusinessFormSchema,
-} from "@/components/forms/auth/sign-up/schema";
 import { CountryData } from "@/components/global/input/select-country";
 import toast from "@/components/global/toast";
 import { useCountryList } from "@/hooks/location";
-import { useBusinessTypes, useFindUsOptions } from "@/hooks/others";
+import { useFindUsOptions } from "@/hooks/others";
 import { validatePostalAddress } from "@/lib/utils";
 import { useRegistrationStore } from "@/zustand/stores/registration.store";
 
-// Base form data interface
-interface BaseFormData extends FieldValues {
+export interface BaseFormData extends FieldValues {
   email: string;
   firstName: string;
   lastName: string;
@@ -43,7 +39,6 @@ interface BaseFormData extends FieldValues {
   findUsId?: number;
 }
 
-// Generic hook configuration
 interface UseBaseRegistrationFormConfig<T extends BaseFormData> {
   schema: ZodSchema<T>;
   defaultValues?: DefaultValues<T>;
@@ -51,7 +46,6 @@ interface UseBaseRegistrationFormConfig<T extends BaseFormData> {
   isBusiness: boolean;
 }
 
-// Return type for the base hook
 interface UseBaseRegistrationFormReturn<T extends BaseFormData> {
   form: UseFormReturn<T, any>;
   states: {
@@ -81,7 +75,6 @@ interface UseBaseRegistrationFormReturn<T extends BaseFormData> {
   };
 }
 
-// Base registration hook - generic and reusable
 export const useBaseRegistrationForm = <T extends BaseFormData>({
   schema,
   defaultValues,
@@ -257,7 +250,6 @@ export const useBaseRegistrationForm = <T extends BaseFormData>({
       return;
     }
 
-    // Type-safe handling of promo/referral codes
     const processedValues = { ...values };
     if ("promoCode" in processedValues && processedValues.promoCode) {
       (processedValues as any).referralCode = null;
@@ -313,65 +305,6 @@ export const useBaseRegistrationForm = <T extends BaseFormData>({
       email: registrationData.email || "",
       regMode: registrationData.regMode || "",
       isBusiness: registrationData.isBusiness || false,
-    },
-  };
-};
-
-// Specific hook for individual registration
-export const useIndividualForm = ({
-  onSubmit,
-}: {
-  onSubmit: (data: IndividualFormData & { isBusiness: boolean }) => void;
-}) => {
-  return useBaseRegistrationForm({
-    schema: IndividualFormSchema,
-    defaultValues: {
-      yob: null,
-      gender: null,
-    },
-    onSubmit,
-    isBusiness: false,
-  });
-};
-
-// Specific hook for business registration
-export const useBusinessForm = ({
-  onSubmit,
-}: {
-  onSubmit: (data: BusinessFormData & { isBusiness: boolean }) => void;
-}) => {
-  const { businessTypes, isLoading: businessTypesLoading } = useBusinessTypes();
-
-  const baseHook = useBaseRegistrationForm({
-    schema: BusinessFormSchema,
-    defaultValues: {
-      bizName: "",
-      bizType: "",
-      website: "",
-      tags: [],
-      accountStatus: "ACTIVE" as const,
-    },
-    onSubmit,
-    isBusiness: true,
-  });
-
-  const formattedBusinessTypes = businessTypes?.map((type) => {
-    return {
-      value: type.name,
-      label: type.name,
-    };
-  });
-
-  // Merge business-specific data with base hook data
-  return {
-    ...baseHook,
-    states: {
-      ...baseHook.states,
-      businessTypesLoading,
-    },
-    data: {
-      ...baseHook.data,
-      businessTypes: formattedBusinessTypes || [],
     },
   };
 };

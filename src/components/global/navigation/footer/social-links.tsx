@@ -15,7 +15,7 @@ const SocialLinks = ({ className }: Props) => {
         <Link
           href={url}
           key={label}
-          className="text-light-700 flex items-center"
+          className="flex items-center text-light-700"
         >
           {typeof icon === "function" ? (
             React.createElement(icon, { size: 30 })

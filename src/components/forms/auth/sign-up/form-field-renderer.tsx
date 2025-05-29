@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { RotateCw } from "lucide-react";
 import React from "react";
 import { Control, FieldPath, FieldValues, Path } from "react-hook-form";
@@ -19,7 +20,6 @@ import { FieldConfig } from "./config/base-field.config";
 import SearchableSelect from "./searchable-select";
 import TagInput from "./tag-input";
 
-// Make the interface generic
 interface FormFieldRendererProps<T extends FieldValues> {
   config: FieldConfig<T>;
   control: Control<T>;
@@ -29,7 +29,6 @@ interface FormFieldRendererProps<T extends FieldValues> {
   data: any;
 }
 
-// Make the component generic
 const FormFieldRenderer = <T extends FieldValues>({
   config,
   control,

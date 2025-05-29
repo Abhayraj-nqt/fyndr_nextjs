@@ -83,7 +83,9 @@ const MobileVerificationModal = ({
         handleModalClose();
       }
 
-      onVerify && onVerify(success);
+      if (onVerify) {
+        onVerify(success);
+      }
     });
   };
 

@@ -19,9 +19,9 @@ import {
 import { useRegistrationStore } from "@/zustand/stores/registration.store";
 
 import { FormInput } from "../form-input";
-import { SignUpSchema } from "../schema";
+import { BaseUserSchema } from "./schema";
 
-const EmailSchema = SignUpSchema.pick({
+const EmailSchema = BaseUserSchema.pick({
   email: true,
 });
 

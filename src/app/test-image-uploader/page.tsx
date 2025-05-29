@@ -31,7 +31,7 @@ const ImageUploaderTest = () => {
             alt="bjdbw"
           />
         ) : (
-          <video controls className="w-72">
+          <video key={item.name} controls className="w-72">
             <source src={item.base64Url} type={item.type} />
           </video>
         )

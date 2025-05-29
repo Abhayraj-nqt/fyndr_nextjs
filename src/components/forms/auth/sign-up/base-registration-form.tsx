@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // components/forms/BaseRegistrationForm.tsx
 "use client";
 
@@ -5,7 +6,6 @@ import Link from "next/link";
 import React from "react";
 import type { FieldValues } from "react-hook-form";
 
-import { BusinessFormData } from "@/components/forms/auth/sign-up/schema";
 import Button from "@/components/global/buttons";
 import InputWrapper from "@/components/global/input/input-wrapper";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -13,10 +13,8 @@ import { Form } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import ROUTES from "@/constants/routes";
-import {
-  useIndividualForm,
-  useBusinessForm,
-} from "@/hooks/auth/useBaseRegistrationForm";
+import { useBusinessForm } from "@/hooks/auth/use-business-form";
+import { useIndividualForm } from "@/hooks/auth/use-individual-form";
 
 import {
   FieldConfig,
@@ -24,15 +22,8 @@ import {
   getBusinessFormFieldsConfig,
 } from "./config/base-field.config";
 import FormFieldRenderer from "./form-field-renderer";
+import { IndividualFormData, BusinessFormData } from "./schema";
 
-// Generic base registration form component
-
-// Specific Individual Form Component
-import { IndividualFormData } from "./schema";
-
-// Specific Business Form Component
-
-// Generic props interface
 interface BaseRegistrationFormProps<T> {
   form: any; // UseFormReturn<T> - simplified for example
   states: {
@@ -140,7 +131,7 @@ export const BaseRegistrationForm = <T extends FieldValues>({
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Fyndr's terms of use
+                Fyndr&apos;s terms of use
               </Link>{" "}
               &{" "}
               <Link
