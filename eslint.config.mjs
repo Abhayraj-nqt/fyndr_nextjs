@@ -65,6 +65,29 @@ const config = [
                     skipComments: true,
                 },
             ],
+
+            // "@typescript-eslint/naming-convention": [
+            //     "error",
+            //     // Variables, functions, and properties should be camelCase
+            //     {
+            //         "selector": ["variable", "function", "property"],
+            //         "format": ["camelCase", "PascalCase"],
+            //         "filter": {
+            //             "regex": "^(__dirname|__filename)$",
+            //             "match": false
+            //         }
+            //     },
+            //     // Type names should be PascalCase
+            //     {
+            //         "selector": "typeLike",
+            //         "format": ["PascalCase"]
+            //     },
+            //     // Enum members should be PascalCase
+            //     {
+            //         "selector": "enumMember",
+            //         "format": ["PascalCase", "UPPER_CASE"]
+            //     }
+            // ]
         },
     },
     {
@@ -83,7 +106,8 @@ const config = [
             "**/tailwind.config.js",
             "**/next.config.js",
             // Add other patterns you want to exclude
-            "./src/components/ui/**/*"
+            "./src/components/ui/**/*",
+            "**/scripts/**"
         ],
         rules: {
             "max-lines": "off", // Disable for config files

@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky",
-    "check-file-lines": "node scripts/check-file-lines.js"
+    "check-file-lines": "node scripts/check-file-lines.js",
+    "check-naming-conventions": "node scripts/check-file-lines.js"
   },
   "dependencies": {
     "@diceui/combobox": "^1.1.0",
@@ -95,7 +96,6 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-n": "^17.18.0",
     "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-unicorn": "^59.0.1",
     "glob": "^11.0.2",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.0",

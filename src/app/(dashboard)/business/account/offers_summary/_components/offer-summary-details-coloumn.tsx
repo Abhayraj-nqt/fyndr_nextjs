@@ -1,14 +1,14 @@
 "use client";
 
-import { DataTableColumnHeader } from "@/components/global/data-table/data-table-column-header";
-
-import { DataTableRowAction } from "@/types/data-table";
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
-import React from "react";
-import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
+import React from "react";
+
 import Button from "@/components/global/buttons";
+import { DataTableColumnHeader } from "@/components/global/data-table/data-table-column-header";
+import { DataTableRowAction } from "@/types/data-table";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -104,7 +104,7 @@ export function getOfferSummaryDetailsColoumn({
         <DataTableColumnHeader column={column} title="Valid Till" />
       ),
       cell: ({ row }) => (
-        <div >
+        <div>
           {row.original.validTill
             ? dayjs(row.original.validTill).format("MMMM D, YYYY")
             : "N/A"}
@@ -142,11 +142,11 @@ export function getOfferSummaryDetailsColoumn({
       header: "Action",
       cell: ({ row }) => (
         <Button
-            // onClick={() => setRowAction({ row, variant: "update" })}
-            variant="primary"
-          >
-            Actions
-          </Button>
+          // onClick={() => setRowAction({ row, variant: "update" })}
+          variant="primary"
+        >
+          Actions
+        </Button>
       ),
     },
   ];

@@ -1,14 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { DataTable } from "@/components/global/data-table/data-table";
-import { useDataTable } from "@/hooks/use-data-table";
-import { getOfferSummaryDetailsColoumn } from "./offer-summary-details-coloumn";
-import { useUser } from "@/hooks/auth";
-import { DataTableRowAction } from "@/types/data-table";
-import Input from "@/components/global/input";
-import { Search } from "lucide-react";
 
+import { DataTable } from "@/components/global/data-table/data-table";
+import { useUser } from "@/hooks/auth";
+import { useDataTable } from "@/hooks/use-data-table";
+import { DataTableRowAction } from "@/types/data-table";
+
+import { getOfferSummaryDetailsColoumn } from "./offer-summary-details-coloumn";
 
 type OfferSummaryTableProps = {
   data: OfferPurchaseProps[];
@@ -25,7 +24,7 @@ const OfferSummaryTable: React.FC<OfferSummaryTableProps> = ({
 }) => {
   const { user } = useUser();
   const userTimeZone = user?.userTimeZone;
-const [searchText, setSearchText] = useState<string>("");
+  const [searchText, setSearchText] = useState<string>("");
   const [rowAction, setRowAction] =
     React.useState<DataTableRowAction<OfferPurchaseProps> | null>(null);
 
@@ -34,9 +33,9 @@ const [searchText, setSearchText] = useState<string>("");
     [userTimeZone]
   );
 
-  console.log('Table data length:', data?.length);
-  console.log('Current page in table:', currentPage);
-  console.log('Total count:', count);
+  console.log("Table data length:", data?.length);
+  console.log("Current page in table:", currentPage);
+  console.log("Total count:", count);
 
   const { table } = useDataTable({
     data: data || [],
@@ -47,8 +46,9 @@ const [searchText, setSearchText] = useState<string>("");
     clearOnDefault: true,
   });
 
-  return (<>
-    {/* <div className="flex mb-8">
+  return (
+    <>
+      {/* <div className="flex mb-8">
           <div></div>
           <div>
             <Input type="search"
@@ -60,8 +60,8 @@ const [searchText, setSearchText] = useState<string>("");
             
           </div>
         </div> */}
-  <DataTable table={table} />
-  </>
+      <DataTable table={table} />
+    </>
   );
 };
 
