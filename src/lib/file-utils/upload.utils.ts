@@ -24,7 +24,7 @@ export type ProcessedFileProps = {
   type: string;
   base64: string;
   base64Url: string;
-  orgFile: File;
+  orgFile: File | null;
 };
 
 export type FileValidationOptions = {
