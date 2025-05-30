@@ -1,8 +1,9 @@
+import { useQuery } from "@tanstack/react-query";
+
 import {
   onGetBusinessTypes,
   onGetFindUsOptions,
 } from "@/actions/others.action";
-import { useQuery } from "@tanstack/react-query";
 
 export const useFindUsOptions = () => {
   const QUERY_KEY = ["findUsOptions"];

@@ -10,8 +10,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getCommonPinningStyles } from "@/lib/data-table";
 import { cn } from "@/lib/utils";
+import { getCommonPinningStyles } from "@/lib/utils/table/data-table";
 
 interface DataTableProps<TData> extends React.ComponentProps<"div"> {
   table: TanstackTable<TData>;
@@ -37,12 +37,12 @@ export function DataTable<TData>({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
-                className="bg-primary-500 hover:bg-primary-500 text-white"
+                className="bg-primary-500 text-white hover:bg-primary-500"
               >
-                {headerGroup.headers.map((header, headerIndex) => {
-                  const isFirstHeader = headerIndex === 0;
-                  const isLastHeader =
-                    headerIndex === headerGroup.headers.length - 1;
+                {headerGroup.headers.map((header) => {
+                  // const isFirstHeader = headerIndex === 0;
+                  // const isLastHeader =
+                  //   headerIndex === headerGroup.headers.length - 1;
 
                   return (
                     <TableHead
@@ -80,7 +80,7 @@ export function DataTable<TData>({
                       style={{
                         ...getCommonPinningStyles({ column: cell.column }),
                       }}
-                      className="p-4 text-sm font-normal text-[#333] border border-[#d3d6e1]"
+                      className="border border-[#d3d6e1] p-4 text-sm font-normal text-[#333]"
                     >
                       {flexRender(
                         cell.column.columnDef.cell,

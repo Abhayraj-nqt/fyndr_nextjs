@@ -19,7 +19,9 @@ type ListProps = {
 };
 
 const InvoiceList = ({ rcptlist, type }: ListProps) => {
-  const [selectedInvoice, setSelectedInvoice] = useState<fetchInvoice[] | null>(null);
+  const [selectedInvoice, setSelectedInvoice] = useState<fetchInvoice[] | null>(
+    null
+  );
   const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState<boolean>(false);

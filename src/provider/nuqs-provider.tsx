@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import React from "react";
 
 type Props = {
   children: React.ReactNode;

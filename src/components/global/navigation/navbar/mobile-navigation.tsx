@@ -1,4 +1,4 @@
-import { LogOut, Menu } from "lucide-react";
+import { LogOut, Menu, CircleUser, TicketPercent } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -16,7 +16,6 @@ import ROUTES from "@/constants/routes";
 
 import NavLinks from "./nav-links";
 import SignOutButton from "../../buttons/sign-out-button";
-import { CircleUser, TicketPercent } from "lucide-react";
 
 const MobileNavigation = async () => {
   const session = await auth();
@@ -42,7 +41,7 @@ const MobileNavigation = async () => {
             <section className="flex h-full flex-col gap-10 pt-16">
               <NavLinks
                 isMobileNav
-                className="flex items-center gap-4 text-white p-4 text-xl rounded-[10px] hover:bg-white hover:text-primary-900 duration-200 transition-colors"
+                className="flex items-center gap-4 rounded-[10px] p-4 text-xl text-white transition-colors duration-200 hover:bg-white hover:text-primary-900"
               />
 
               {userId ? (
@@ -57,7 +56,7 @@ const MobileNavigation = async () => {
                     }
                     key={"Account"}
                     className={
-                      "flex items-center gap-4 text-white p-4 text-xl rounded-[10px] hover:bg-white hover:text-primary-900 duration-200 transition-colors"
+                      "flex items-center gap-4 rounded-[10px] p-4 text-xl text-white transition-colors duration-200 hover:bg-white hover:text-primary-900"
                     }
                   >
                     <CircleUser />
@@ -67,7 +66,7 @@ const MobileNavigation = async () => {
                     href={ROUTES.MY_OFFERS}
                     key={"My Offers"}
                     className={
-                      "flex items-center gap-4 text-white p-4 text-xl rounded-[10px] hover:bg-white hover:text-primary-900 duration-200 transition-colors"
+                      "flex items-center gap-4 rounded-[10px] p-4 text-xl text-white transition-colors duration-200 hover:bg-white hover:text-primary-900"
                     }
                   >
                     <TicketPercent />
@@ -83,7 +82,7 @@ const MobileNavigation = async () => {
           <div className="flex flex-col gap-3">
             {userId ? (
               <div className="flex-center">
-                <SignOutButton className="bg-white text-primary-900 font-normal text-base self-center shadow-none rounded-[10px] min-h-11 min-w-36 w-full">
+                <SignOutButton className="min-h-11 w-full min-w-36 self-center rounded-[10px] bg-white text-base font-normal text-primary-900 shadow-none">
                   <LogOut className="size-5" />
                   <span className="">Logout</span>
                 </SignOutButton>
@@ -94,7 +93,7 @@ const MobileNavigation = async () => {
                   <Link href={ROUTES.SIGN_IN}>
                     <Button
                       variant={"primary-dark"}
-                      className="bg-white text-primary-900 w-full hover:bg-white hover:text-primary-900"
+                      className="w-full bg-white text-primary-900 hover:bg-white hover:text-primary-900"
                       stdHeight
                       stdWidth
                     >
@@ -107,7 +106,7 @@ const MobileNavigation = async () => {
                   <Link href={ROUTES.SIGN_UP}>
                     <Button
                       variant={"primary-dark"}
-                      className="bg-white text-primary-900 w-full hover:bg-white hover:text-primary-900"
+                      className="w-full bg-white text-primary-900 hover:bg-white hover:text-primary-900"
                       stdHeight
                       stdWidth
                     >

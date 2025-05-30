@@ -1,5 +1,7 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+
 import ROUTES from "@/constants/routes";
 import { API_BASE_URL, API_GATEWAY_URL } from "@/environment";
 import { _get, _post, _put } from "@/lib/handlers/fetch";
@@ -16,7 +18,6 @@ import {
   BackgroundImageResponse,
   ContactUsResponse,
 } from "@/types/api-response/others.response";
-import { revalidatePath } from "next/cache";
 
 export const onGetBackgroundImage: GetBackgroundImageProps = async (params) => {
   const endpoint = `${API_BASE_URL}/identity/background-image?lat=${params.lat}&lng=${params.lng}`;

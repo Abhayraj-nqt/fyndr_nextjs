@@ -15,15 +15,16 @@ import { Modal } from "@/components/global/modal";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import {
-  createCropPreview,
+  // createCropPreview,
   createCropPreview2,
   dataURLtoFile,
-} from "@/lib/file-utils/crop.utils";
+} from "@/lib/utils/files/crop.utils";
 import {
   FileWithPreview,
   ProcessedFileProps,
   processFiles,
-} from "@/lib/file-utils/upload.utils";
+} from "@/lib/utils/files/upload.utils";
+
 import { FileUploaderProps } from "../uploader/file-uploader";
 
 type ImageCropperProps = {

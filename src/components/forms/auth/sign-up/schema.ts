@@ -80,9 +80,15 @@ export const BusinessFormSchema = BaseUserSchema.omit({
 }).extend({
   bizName: z.string().min(1, "Business name is required"),
   bizType: z.string().min(1, "Business type is required"),
-  website: z.string().url("Invalid URL").or(z.literal("")).default(""),
+  website: z
+    .string()
+    .refine((val) => val === "" || z.string().url().safeParse(val).success, {
+      message: "Please enter a valid URL or leave empty",
+    })
+    .default(""),
   tags: z.array(z.string()).default([]), // Array of strings
   accountStatus: z.enum(["ACTIVE", "INACTIVE"]).default("ACTIVE").optional(),
+  addressLine1: z.string().min(1, { message: "Business address is required." }),
 });
 
 export type IndividualFormData = z.infer<typeof IndividualFormSchema>;

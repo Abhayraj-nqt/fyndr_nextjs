@@ -47,16 +47,16 @@ const DownloadFyndr = () => {
     //     </div>
     //   </div>
     // </div>
-    <div className="relative flex items-center justify-center min-h-screen bg-gray-100 px-4">
+    <div className="relative flex min-h-screen items-center justify-center bg-gray-100 px-4">
       {/* White Container with text & store buttons */}
-      <div className="z-0 relative bg-white shadow-2xl rounded-3xl p-10 pl-32 flex flex-col justify-center md:flex-row items-center w-full h-[300] max-w-5xl">
+      <div className="relative z-0 flex h-[300] w-full max-w-5xl flex-col items-center justify-center rounded-3xl bg-white p-10 pl-32 shadow-2xl md:flex-row">
         <div className="text-left md:text-right">
           <div className="w-[700] text-left md:text-right">
-            <h2 className="text-5xl font-semibold text-gray-800 mb-6">
+            <h2 className="mb-6 text-5xl font-semibold text-gray-800">
               Download Fyndr
             </h2>
           </div>
-          <div className=" rounded-lg flex justify-end md:justify-end space-x-4 w-full ml-[40]">
+          <div className=" ml-[40] flex w-full justify-end space-x-4 rounded-lg md:justify-end">
             <Link
               href="https://play.google.com/store/apps/details?id=com.fyndr.us"
               rel="noopener noreferrer"
@@ -89,7 +89,7 @@ const DownloadFyndr = () => {
       </div>
 
       {/* Phone Image Positioned Above */}
-      <div className="absolute left-[300] z-999">
+      <div className="z-999 absolute left-[300]">
         <Image
           src="/images/fyndrMobile.png"
           alt="Mobile Fyndr App"

@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import EmailStep from "./sign-up/email-step";
-import PasswordStep from "./sign-up/password-step";
+
 import { Button } from "@/components/ui/button";
+
+import EmailStep from "./email-step";
+import PasswordStep from "./password-step";
 
 type SignupFormProps = {
   userType: "individual" | "business";
@@ -41,7 +43,7 @@ const SignUpForm = ({ userType, onGoBack }: SignupFormProps) => {
       {renderStep()}
       <Button
         onClick={handlePrevStep}
-        className="mt-4 mb-2 text-base font-normal min-h-12 w-full rounded-[10px] bg-transparent px-4 py-3 border border-white text-white hover:bg-transparent"
+        className="mb-2 mt-4 min-h-12 w-full rounded-[10px] border border-white bg-transparent px-4 py-3 text-base font-normal text-white hover:bg-transparent"
       >
         Go Back
       </Button>
