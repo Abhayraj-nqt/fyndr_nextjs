@@ -17,8 +17,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { formUrlQuery } from "@/lib/utils/url";
 import { cn } from "@/lib/utils";
+import { formUrlQuery } from "@/lib/utils/url";
 
 type Props = {
   className?: string;
