@@ -26,7 +26,7 @@ type OffersDetails = {
   appointments: Offer[] | null;
   currencySymbol: string;
   taxAmount: number;
-  userTimeZone: string  | null
+  userTimeZone: string | null;
 };
 
 interface ExtendedInvoiceOffer extends InvoiceOffer {

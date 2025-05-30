@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { TYPES_OF_DEALS } from "@/constants";
-import { formUrlQuery, removeKeysFromUrlQuery } from "@/lib/url";
+import { formUrlQuery, removeKeysFromUrlQuery } from "@/lib/utils/url";
 
 const TypeOfDeals = () => {
   const router = useRouter();

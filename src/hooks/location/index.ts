@@ -1,9 +1,11 @@
 "use client";
 
 import { PlaceAutocompleteResult } from "@googlemaps/google-maps-services-js";
+import { useQuery } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
+import { onGetCountryList } from "@/actions/admin.actions";
 import {
   placeAutocomplete,
   placeDetails,
@@ -11,10 +13,8 @@ import {
 } from "@/actions/maps.actions";
 import { DEFAULT_LOCATION } from "@/constants";
 import { Coordinates } from "@/types/global";
-import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 
 import { useUser } from "../auth";
-import { onGetCountryList } from "@/actions/admin.actions";
 
 export function useLocationSelector() {
   const [input, setInput] = useState<string>("");
@@ -241,15 +241,9 @@ export function useLocationSelector() {
   };
 
   const updateLocationParams = (lat: number, lng: number) => {
-    // Create a new URLSearchParams object based on current params
     const params = new URLSearchParams(searchParams.toString());
-
-    // Update lat and lng parameters
     params.set("lat", lat.toString());
     params.set("lng", lng.toString());
-
-    // Use router.replace instead of push to avoid adding to history stack
-    // This also ensures a proper re-render of server components
     router.replace(`${pathname}?${params.toString()}`);
   };
 
@@ -302,7 +296,7 @@ export function useLocationSelector() {
 export function useCountryList() {
   const QUERY_KEY = ["countryList"];
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: QUERY_KEY,
     queryFn: onGetCountryList,
   });

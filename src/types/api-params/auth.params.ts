@@ -30,12 +30,12 @@ type BaseSignupPayload = {
   findUsId: number;
 };
 
-type IndividualSignUpPayload = BaseSignupPayload & {
+export type IndividualSignUpPayload = BaseSignupPayload & {
   yob: string | null;
   gender: null | "M" | "F" | "OT" | "ND";
 };
 
-type BusinessSignUpPayload = BaseSignupPayload & {
+export type BusinessSignUpPayload = BaseSignupPayload & {
   bizInfo: {
     bizName: string;
     bizType: string;

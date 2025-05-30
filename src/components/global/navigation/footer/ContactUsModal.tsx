@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { onContactUs } from "@/actions/others.action";
+import toast from "@/components/global/toast";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -26,7 +27,6 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 
 import { Modal } from "../../modal";
-import toast from "@/components/global/toast";
 
 type Props = {
   children: React.ReactNode;
@@ -84,16 +84,16 @@ const ContactUsModal = ({ children }: Props) => {
         if (!open) form.reset();
       }}
     >
-      <div className="flex gap-2 flex-center pb-10 pt-5">
+      <div className="flex-center flex gap-2 pb-10 pt-5">
         <Link href={""} className="flex gap-1">
-          <div className="flex flex-center text-blue-500">
+          <div className="flex-center flex text-blue-500">
             <Mail />
             admin@fyndr.us
           </div>
         </Link>
 
         <Link href={""} className="flex gap-1">
-          <div className="flex flex-center text-blue-500">
+          <div className="flex-center flex text-blue-500">
             <Phone />
             (480) 564-6565
           </div>
@@ -153,7 +153,7 @@ const ContactUsModal = ({ children }: Props) => {
               //   },
               // }}
               render={({ field }) => (
-                <FormItem className="flex items-center gap-2 w-1/4">
+                <FormItem className="flex w-1/4 items-center gap-2">
                   <FormLabel className="w-36 text-right">Phone: </FormLabel>
                   <FormControl>
                     <Select
@@ -186,7 +186,7 @@ const ContactUsModal = ({ children }: Props) => {
                 },
               }}
               render={({ field }) => (
-                <FormItem className="flex items-center gap-2 flex-1">
+                <FormItem className="flex flex-1 items-center gap-2">
                   <FormControl>
                     <Input type="tel" placeholder="Phone" {...field} />
                   </FormControl>
@@ -218,7 +218,7 @@ const ContactUsModal = ({ children }: Props) => {
             name="message"
             render={({ field }) => (
               <FormItem className="flex items-start gap-2">
-                <FormLabel className="w-16 text-right pt-2">
+                <FormLabel className="w-16 pt-2 text-right">
                   Message:{" "}
                 </FormLabel>
                 <FormControl>
@@ -232,7 +232,7 @@ const ContactUsModal = ({ children }: Props) => {
               </FormItem>
             )}
           />
-          <div className="flex justify-center w-full">
+          <div className="flex w-full justify-center">
             <Button type="submit" className="w-[200] bg-primary-500">
               Submit
             </Button>

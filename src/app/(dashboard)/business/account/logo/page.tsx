@@ -1,17 +1,17 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-import ImageUploader from "@/components/global/uploader/image-uploader";
-import { ProcessedFileProps } from "@/lib/file-utils/upload.utils";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { onBusinessLogoUpload } from "@/actions/others.action";
-import { useUser } from "@/hooks/auth";
-import toast from "@/components/global/toast";
-import Link from "next/link";
 import ContainerWrapper from "@/components/global/ContainerWrapper";
+import toast from "@/components/global/toast";
+import ImageUploader from "@/components/global/uploader/image-uploader";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useUser } from "@/hooks/auth";
+import { ProcessedFileProps } from "@/lib/utils/files/upload.utils";
+import { cn } from "@/lib/utils";
 
 const BusinessLogo = () => {
   const [uploadedFiles, setUploadedFiles] = useState<ProcessedFileProps[]>([]);
@@ -48,7 +48,7 @@ const BusinessLogo = () => {
       const data = await onBusinessLogoUpload({
         bizName: user?.bizName!,
         bizid: user?.bizid!,
-        extension: extension,
+        extension,
         mainLogo: uploadedFiles[0].base64,
       });
       if (data.success) {
@@ -159,7 +159,7 @@ const BusinessLogo = () => {
             </p>
           </div>
 
-          <div className="flex flex-row gap-5 justify-center mt-10">
+          <div className="mt-10 flex flex-row justify-center gap-5">
             <div className="h-40 rounded-xl">
               {uploadedFiles.map((item) => (
                 <Image
@@ -179,7 +179,7 @@ const BusinessLogo = () => {
                   width={320}
                   src={mainLogo}
                   alt="Business Logo"
-                  className="rounded-lg h-[160] w-[300] object-cover"
+                  className="h-[160] w-[300] rounded-lg object-cover"
                 />
               )}
             </div>
@@ -191,7 +191,7 @@ const BusinessLogo = () => {
               />
             </div>
           </div>
-          <div className="flex flex-row justify-between mt-10">
+          <div className="mt-10 flex flex-row justify-between">
             <div className="w-[90%]">
               <label className="flex items-start text-sm text-gray-700">
                 <Checkbox
@@ -203,7 +203,7 @@ const BusinessLogo = () => {
                   I represent and warrant that I have full ownership and/or
                   licensing rights to the image and authorize Fyndr to use this
                   image as per:
-                  <Link href="/legal/agreement" className="text-blue-600 ml-1">
+                  <Link href="/legal/agreement" className="ml-1 text-blue-600">
                     Fyndr Business Agreement
                   </Link>
                 </span>

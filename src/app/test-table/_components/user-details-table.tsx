@@ -1,14 +1,17 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
-import { onGetUsers } from "@/actions/admin.actions";
-import React from "react";
-import { getUserDetailsTableColumns } from "./user-details-table-columns";
-import { useDataTable } from "@/hooks/use-data-table";
-import { DataTable } from "@/components/global/data-table/data-table";
-import { DataTableRowAction } from "@/types/data-table";
-import { AdminUserProps } from "@/types/api-response/user.response";
-import ActionsDialog from "./actions-dialog";
 import { useSearchParams } from "next/navigation";
+import React from "react";
+
+import { onGetUsers } from "@/actions/admin.actions";
+import { DataTable } from "@/components/global/data-table/data-table";
+import { useDataTable } from "@/hooks/use-data-table";
+import { AdminUserProps } from "@/types/api-response/user.response";
+import { DataTableRowAction } from "@/types/data-table";
+
+import ActionsDialog from "./actions-dialog";
+import { getUserDetailsTableColumns } from "./user-details-table-columns";
 
 type Props = {
   promises: Promise<[Awaited<ReturnType<typeof onGetUsers>>]>;
@@ -19,7 +22,7 @@ const UserDetailsTable = ({ promises }: Props) => {
 
   const pageSize = Number(searchParams.get("pageSize")) || 10;
 
-  const [{ data, success, error }] = React.use(promises);
+  const [{ data, success }] = React.use(promises);
 
   const [rowAction, setRowAction] =
     React.useState<DataTableRowAction<AdminUserProps> | null>(null);

@@ -1,6 +1,7 @@
 "use client";
 
 import type { Column } from "@tanstack/react-table";
+import { PlusCircle, XCircle } from "lucide-react";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
@@ -14,7 +15,6 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
-import { PlusCircle, XCircle } from "lucide-react";
 
 interface Range {
   min: number;
@@ -184,7 +184,7 @@ export function DataTableSliderFilter<TData>({
                 className={cn("h-8 w-24", unit && "pr-8")}
               />
               {unit && (
-                <span className="absolute top-0 right-0 bottom-0 flex items-center rounded-r-md bg-slate-100 px-2 text-slate-500 text-sm dark:bg-slate-800 dark:text-slate-400">
+                <span className="absolute inset-y-0 right-0 flex items-center rounded-r-md bg-slate-100 px-2 text-sm text-slate-500 dark:bg-slate-800 dark:text-slate-400">
                   {unit}
                 </span>
               )}
@@ -208,7 +208,7 @@ export function DataTableSliderFilter<TData>({
                 className={cn("h-8 w-24", unit && "pr-8")}
               />
               {unit && (
-                <span className="absolute top-0 right-0 bottom-0 flex items-center rounded-r-md bg-slate-100 px-2 text-slate-500 text-sm dark:bg-slate-800 dark:text-slate-400">
+                <span className="absolute inset-y-0 right-0 flex items-center rounded-r-md bg-slate-100 px-2 text-sm text-slate-500 dark:bg-slate-800 dark:text-slate-400">
                   {unit}
                 </span>
               )}
