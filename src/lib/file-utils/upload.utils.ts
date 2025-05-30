@@ -19,7 +19,6 @@ export type FileWithPreview = File & {
 };
 
 export type ProcessedFileProps = {
-  indexOf(arg0: string): unknown;
   name: string;
   type: string;
   base64: string;
