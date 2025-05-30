@@ -1,12 +1,13 @@
-import DefaultCard from "@/components/global/cards/default-card";
-import React from "react";
-import UserDetailsTable from "./_components/user-details-table";
-import { onGetUsers } from "@/actions/admin.actions";
-import { RouteParams } from "@/types/global";
 import { createSearchParamsCache, parseAsInteger } from "nuqs/server";
-import { getSortingStateParser } from "@/lib/parsers";
+import React from "react";
+
+import { onGetUsers } from "@/actions/admin.actions";
+import DefaultCard from "@/components/global/cards/default-card";
+import { getSortingStateParser } from "@/lib/utils/table/parsers";
 import { AdminUserProps } from "@/types/api-response/user.response";
-import { json } from "stream/consumers";
+import { RouteParams } from "@/types/global";
+
+import UserDetailsTable from "./_components/user-details-table";
 
 const TestTable = async ({
   searchParams,
@@ -48,7 +49,7 @@ const TestTable = async ({
   ]);
 
   return (
-    <div className="p-4 bg-light-700 min-h-screen">
+    <div className="min-h-screen bg-light-700 p-4">
       <DefaultCard>
         <h1 className="h2-semibold">Table example</h1>
         <section className="mt-10">

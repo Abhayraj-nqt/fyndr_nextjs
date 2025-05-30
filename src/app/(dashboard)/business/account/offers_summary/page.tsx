@@ -1,5 +1,6 @@
-
+import { createSearchParamsCache, parseAsInteger } from "nuqs/server";
 import React from "react";
+
 import { onGetOfferSummary } from "@/actions/offersummary.actions";
 import { auth } from "@/auth";
 import DefaultCard from "@/components/global/cards/default-card";

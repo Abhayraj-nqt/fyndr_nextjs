@@ -1,0 +1,154 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import React, { useTransition } from "react";
+
+import { signInWithCredentials, signUp } from "@/actions/auth.actions";
+import FyndrLoading from "@/components/global/loading/fyndr-loading";
+import toast from "@/components/global/toast";
+import ROUTES from "@/constants/routes";
+import {
+  BusinessSignUpPayload,
+  IndividualSignUpPayload,
+} from "@/types/api-params/auth.params";
+import { useRegistrationStore } from "@/zustand/stores/registration.store";
+
+import { BusinessForm, IndividualForm } from "./base-registration-form";
+import { BusinessFormData, IndividualFormData } from "./schema";
+
+const SignUpCompleteForm = () => {
+  const router = useRouter();
+  const { isBusiness, pwd, regMode, password, reset } = useRegistrationStore();
+  const [isLoading, startTransition] = useTransition();
+
+  const validateRegistrationData = (): boolean => {
+    if (!pwd) {
+      toast.error({
+        message: "Password is not set. Please go back to the previous step.",
+      });
+      return false;
+    }
+
+    if (!regMode) {
+      toast.error({
+        message:
+          "Registration mode is not set. Please go back to the previous step.",
+      });
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleAutoSignIn = async (email: string) => {
+    if (!password) {
+      router.replace(ROUTES.CALLBACK_SIGN_IN);
+      return;
+    }
+
+    const result = await signInWithCredentials({ email, password });
+
+    if (result.success) {
+      toast.success({
+        message: "Signed in successfully",
+      });
+    }
+
+    router.replace(ROUTES.CALLBACK_SIGN_IN);
+  };
+
+  const transformBusinessPayload = (
+    payload: BusinessFormData
+  ): BusinessSignUpPayload => {
+    const { bizName, bizType, website, tags, ...baseData } = payload;
+
+    return {
+      ...baseData,
+      isBusiness: true,
+      pwd: pwd!,
+      regMode: regMode!,
+      bizInfo: {
+        bizName,
+        bizType,
+        website,
+        tags: tags.join(", "),
+      },
+    };
+  };
+
+  const handleSignUp = async (
+    payload: IndividualSignUpPayload | BusinessSignUpPayload
+  ) => {
+    const { success, data, error } = await signUp(payload);
+
+    if (!success && error) {
+      toast.error({
+        message:
+          error.details?.message || "An error occurred during registration.",
+      });
+      return false;
+    }
+
+    if (success && data) {
+      reset();
+      toast.success({
+        message: "Registration successful!",
+      });
+      return true;
+    }
+
+    return false;
+  };
+
+  const handleSubmitIndividual = async (
+    payload: IndividualFormData & { isBusiness: boolean }
+  ) => {
+    startTransition(async () => {
+      if (!validateRegistrationData() || !pwd || !regMode) {
+        return;
+      }
+
+      const individualPayload: IndividualSignUpPayload = {
+        ...payload,
+        isBusiness: false,
+        pwd: pwd!,
+        regMode: regMode!,
+      };
+
+      const success = await handleSignUp(individualPayload);
+      if (success) {
+        await handleAutoSignIn(payload.email);
+      }
+    });
+  };
+
+  const handleSubmitBusiness = async (
+    payload: BusinessFormData & { isBusiness: boolean }
+  ) => {
+    startTransition(async () => {
+      if (!validateRegistrationData() || !pwd || !regMode) {
+        return;
+      }
+
+      const businessPayload = transformBusinessPayload(payload);
+
+      const success = await handleSignUp(businessPayload);
+      if (success) {
+        await handleAutoSignIn(payload.email);
+      }
+    });
+  };
+
+  return (
+    <>
+      <FyndrLoading loading={isLoading} />
+      {isBusiness ? (
+        <BusinessForm onSubmit={handleSubmitBusiness} />
+      ) : (
+        <IndividualForm onSubmit={handleSubmitIndividual} />
+      )}
+    </>
+  );
+};
+
+export default SignUpCompleteForm;

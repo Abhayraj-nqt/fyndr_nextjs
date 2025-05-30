@@ -2,7 +2,10 @@
 
 import React from "react";
 import { DataTable } from "@/components/global/data-table/data-table";
+import { useUser } from "@/hooks/auth";
 import { useDataTable } from "@/hooks/use-data-table";
+import { DataTableRowAction } from "@/types/data-table";
+
 import { getOfferSummaryDetailsColoumn } from "./offer-summary-details-coloumn";
 import { useUser } from "@/hooks/auth";
 import { DataTableRowAction } from "@/types/data-table";

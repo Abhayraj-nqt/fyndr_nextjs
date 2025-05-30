@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { Slider } from "@/components/ui/slider";
-import { formUrlQuery } from "@/lib/url";
+import { formUrlQuery } from "@/lib/utils/url";
 
 const DEFAULT_RANGE = 50;
 const MIN = 20;

@@ -37,16 +37,16 @@ const ROUTES = {
   BUSINESS_STORE: "/business/store",
   BUSINESS_STORE_CREATE: "/business/store/create",
   BUSINESS_STORE_EDIT: (id: number | string) => `/business/store/edit/${id}`,
-  BUSINESS_STORE_CATEGORY: "/business/store/category",
-  BUSINESS_STORE_CATEGORY_CREATE: "/business/store/category/create",
+  BUSINESS_STORE_CATEGORY: "/business/catalogue/categories",
+  BUSINESS_STORE_CATEGORY_CREATE: "/business/catalogue/categories/add",
   BUSINESS_STORE_CATEGORY_EDIT: (id: number | string) =>
     `/business/store/category/edit/${id}`,
-  BUSINESS_STORE_ITEM: "/business/store/item",
-  BUSINESS_STORE_ITEM_CREATE: "/business/store/item/create",
+  BUSINESS_STORE_ITEM: "/business/catalogue/items",
+  BUSINESS_STORE_ITEM_CREATE: "/business/catalogue/items/add",
   BUSINESS_STORE_ITEM_EDIT: (id: number | string) =>
     `/business/store/item/edit/${id}`,
-  BUSINESS_STORE_MODIFIER: "/business/store/modifier",
-  BUSINESS_STORE_MODIFIER_CREATE: "/business/store/modifier/create",
+  BUSINESS_STORE_MODIFIER: "/business/catalogue/modifiers",
+  BUSINESS_STORE_MODIFIER_CREATE: "/business/catalogue/modifiers/add",
   BUSINESS_STORE_MODIFIER_EDIT: (id: number | string) =>
     `/business/store/modifier/edit/${id}`,
   BUSINESS_ACCOUNT_LOGO: "/business/account/logo",

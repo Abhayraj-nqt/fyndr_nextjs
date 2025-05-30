@@ -1,9 +1,10 @@
 "use client";
 
-import { Modal } from "@/components/global/modal";
-import { AdminUserProps } from "@/types/api-response/user.response";
 import Image from "next/image";
 import React from "react";
+
+import { Modal } from "@/components/global/modal";
+import { AdminUserProps } from "@/types/api-response/user.response";
 
 interface ActionsDialogProps {
   row: AdminUserProps | null;
@@ -15,7 +16,7 @@ const ActionsDialog = ({ row, onOpenChange, open }: ActionsDialogProps) => {
   return (
     <>
       <Modal onOpenChange={onOpenChange} open={open} title={"Actions"}>
-        <div className="flex gap-4 flex-col">
+        <div className="flex flex-col gap-4">
           <div className="flex gap-2">
             {row?.businessLogo ? (
               <Image
@@ -35,12 +36,12 @@ const ActionsDialog = ({ row, onOpenChange, open }: ActionsDialogProps) => {
           </div>
 
           <div className="flex">
-            <div className="flex flex-nowrap gap-2 w-1/2 flex-col">
+            <div className="flex w-1/2 flex-col flex-nowrap gap-2">
               <div>Login</div>
               <div>Update Status</div>
               <div>Check Stripe Status</div>
             </div>
-            <div className="flex flex-nowrap gap-2 w-1/2 flex-col pl-6">
+            <div className="flex w-1/2 flex-col flex-nowrap gap-2 pl-6">
               <div>Update Email Address</div>
               <div>Update Business Name</div>
             </div>

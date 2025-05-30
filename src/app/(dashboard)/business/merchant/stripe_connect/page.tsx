@@ -58,7 +58,7 @@ const StripePage = () => {
                 touch with your Fyndr rep or reach us at admin@fyndr.us.
               </p>
               <p>
-                You're all set! Your account is ready to start selling your
+                You are all set! Your account is ready to start selling your
                 products and/or services on Fyndr
               </p>
               <p>

@@ -3,7 +3,7 @@
 import { ImageIcon } from "lucide-react";
 import React from "react";
 
-import { ProcessedFileProps } from "@/lib/file-utils/upload.utils";
+import { ProcessedFileProps } from "@/lib/utils/files/upload.utils";
 
 import ImageCropper from "../image-cropper";
 import FileUploader from "./file-uploader";

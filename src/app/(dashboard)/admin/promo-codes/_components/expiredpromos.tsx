@@ -1,5 +1,6 @@
-import { ExpiredPromo } from "@/types/api-response/promocode.response";
 import React from "react";
+
+import { ExpiredPromo } from "@/types/api-response/promocode.response";
 type Props = {
   data: ExpiredPromo[] | undefined;
 };
@@ -10,19 +11,24 @@ const Expiredpromos = ({ data }: Props) => {
       {data?.map((promo, key) => (
         <div
           key={key}
-          className="w-full border border-[#d3d6e1] rounded-[10px] mt-5 flex"
+          className="mt-5 flex w-full rounded-[10px] border border-[#d3d6e1]"
         >
           <div>
-            <img src={promo.imageUrl} className="w-[77.3134px] h-[77.3134px] rounded-[10px]" />
+            <img
+              src={promo.imageUrl}
+              className="size-[77.3134px] rounded-[10px]"
+            />
           </div>
-          <div className="flex flex-col justify-evenly w-full pt-1 pl-4 pr-4">
-          <div>
-          <p className="text-sm" style={{ color: "#257cdb" }}>{promo.promoCode}</p>
-          </div>
-          <div className="flex flex-row justify-between">
-            <p className="text-sm">Expired on: {promo.endDate}</p>
-            <p className="text-sm">Registrations: {promo.userRegistered}</p>
-          </div>
+          <div className="flex w-full flex-col justify-evenly px-4 pt-1">
+            <div>
+              <p className="text-sm" style={{ color: "#257cdb" }}>
+                {promo.promoCode}
+              </p>
+            </div>
+            <div className="flex flex-row justify-between">
+              <p className="text-sm">Expired on: {promo.endDate}</p>
+              <p className="text-sm">Registrations: {promo.userRegistered}</p>
+            </div>
           </div>
         </div>
       ))}

@@ -75,7 +75,7 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
   const [promoImage, setPromoImage] = useState<string>("");
   const [invoiceId, setInvoiceId] = useState<number | null>(null);
   const [reviewOverviews, setReviewOverviews] = useState<ReviewOverviews>();
-   const [seeAllComments, setSeeAllComments] = useState<boolean>(false);
+  const [seeAllComments, setSeeAllComments] = useState<boolean>(false);
   // 2. Fetch user
   const { user, isLoading: isUserLoading, error } = useUser();
 
@@ -118,7 +118,7 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
   const { data: reviewOverviewsresp, isLoading: reviewOverviewsLoading } =
     useUserReviewOverViews(invoiceDetailsResp?.biz?.bizid);
 
-    console.log("review response", reviewOverviewsresp);
+  console.log("review response", reviewOverviewsresp);
   useEffect(() => {
     if (!reviewOverviews) return;
 
@@ -158,7 +158,7 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
   console.log("dispute", disputeStatus);
 
   console.log("details", invoiceDetails?.items || invoiceDetails?.offers);
-  console.log("review response", reviewOverviewsresp)
+  console.log("review response", reviewOverviewsresp);
   return (
     <>
       <div>
@@ -182,11 +182,11 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
                   <Overallreview
                     disable={true}
                     reviewsOverview={reviewOverviewsresp}
-                    rating = {reviewOverviewsresp?.overallRating ?? 0 }
-                    text =" out of 5"
-                    totalRatings ={`(${reviewOverviewsresp?.totalRatings} Reviews)`}
-                    onClick ={()=>{
-                     setSeeAllComments(true);
+                    rating={reviewOverviewsresp?.overallRating ?? 0}
+                    text=" out of 5"
+                    totalRatings={`(${reviewOverviewsresp?.totalRatings} Reviews)`}
+                    onClick={() => {
+                      setSeeAllComments(true);
                     }}
                   />
                 )

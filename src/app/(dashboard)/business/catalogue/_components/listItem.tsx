@@ -107,7 +107,10 @@ const ListItem: React.FC<ListItemProps> = ({
         showCloseButton={true}
         primaryAction={{
           label: "OK",
-          onClick: deletePress!,
+          onClick: async () => {
+            await deletePress?.();
+            setVisible(false);
+          },
           className: "bg-primary-500 text-white hover:bg-primary-600",
         }}
         secondaryAction={{

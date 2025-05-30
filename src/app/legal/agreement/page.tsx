@@ -11,7 +11,7 @@ const Agreement = () => {
   const headingSize = "text-[1.6rem]";
   return (
     <div className="m-20">
-      <div className="flex justify-center w-full mb-5">
+      <div className="mb-5 flex w-full justify-center">
         <Image
           src={"/images/fyndr-logo-blue.png"}
           width={300}
@@ -19,7 +19,7 @@ const Agreement = () => {
           alt="Fyndr Logo"
         ></Image>
       </div>
-      <div className="flex justify-center w-full">
+      <div className="flex w-full justify-center">
         <span className="text-[2rem]">Fyndr Business Terms & Conditions</span>
       </div>
       <br />
