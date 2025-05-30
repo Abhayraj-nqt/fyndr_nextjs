@@ -1,11 +1,12 @@
+import Image from "next/image";
+import React from "react";
+
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import Image from "next/image";
-import React from "react";
 
 type Props = {
   children: React.ReactNode;
@@ -21,7 +22,7 @@ const InfoTooltip = ({ children }: Props) => {
             alt="info"
             height={20}
             width={20}
-            className="size-4 relative"
+            className="relative size-4"
           />
         </TooltipTrigger>
         <TooltipContent>{children}</TooltipContent>

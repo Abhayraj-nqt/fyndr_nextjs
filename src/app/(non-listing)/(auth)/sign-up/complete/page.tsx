@@ -1,14 +1,15 @@
-import SignUpCompleteForm from "@/components/forms/auth/sign-up-complete-form";
-import DefaultCard from "@/components/global/cards/default-card";
 import React from "react";
+
+import SignUpCompleteForm from "@/components/forms/auth/sign-up/sign-up-complete-form";
+import DefaultCard from "@/components/global/cards/default-card";
 
 const SignUpComplete = () => {
   return (
-    <div className="flex-center min-h-screen flex-col sm:p-4 overflow-x-hidden">
-      <h1 className="h3-semibold text-primary-500 w-full text-left max-w-screen-lg xs:w-11/12 py-8 ml-6 sm:ml-0">
+    <div className="flex-center min-h-screen flex-col overflow-x-hidden sm:p-4">
+      <h1 className="h3-semibold ml-6 w-full max-w-screen-lg py-8 text-left text-primary-500 xs:w-11/12 sm:ml-0">
         Register
       </h1>
-      <DefaultCard className="mb-10 max-w-screen-lg overflow-x-hidden pt-8 xs:w-11/12 p-4 md:p-8 sm:pt-8">
+      <DefaultCard className="mb-10 max-w-screen-lg overflow-x-hidden p-4 pt-8 xs:w-11/12 sm:pt-8 md:p-8">
         <SignUpCompleteForm />
       </DefaultCard>
     </div>

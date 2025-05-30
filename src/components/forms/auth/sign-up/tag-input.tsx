@@ -1,6 +1,7 @@
 // components/global/input/tag-input.tsx
-import React, { useState, KeyboardEvent } from "react";
 import { X } from "lucide-react";
+import React, { useState, KeyboardEvent } from "react";
+
 import Input from "@/components/global/input";
 
 interface TagInputProps {
@@ -56,18 +57,18 @@ const TagInput: React.FC<TagInputProps> = ({
       />
 
       {value.length > 0 && (
-        <div className="flex flex-wrap gap-2 mt-2">
+        <div className="mt-2 flex flex-wrap gap-2">
           {value.map((tag, index) => (
             <div
               key={index}
-              className="inline-flex items-center gap-1 px-3 py-1 bg-white rounded-full text-sm border text-[#7F7F7F] border-[#D3D6E1]"
+              className="inline-flex items-center gap-1 rounded-full border border-[#D3D6E1] bg-white px-3 py-1 text-sm text-[#7F7F7F]"
             >
               <span>{tag}</span>
               {!disabled && (
                 <button
                   type="button"
                   onClick={() => removeTag(tag)}
-                  className="hover:text-primary-900 focus:outline-none ml-1"
+                  className="ml-1 hover:text-primary-900 focus:outline-none"
                   aria-label={`Remove ${tag} tag`}
                 >
                   <X size={14} />

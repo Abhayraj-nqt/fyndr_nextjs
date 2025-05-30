@@ -1,20 +1,19 @@
-
+import { createSearchParamsCache, parseAsInteger } from "nuqs/server";
 import React from "react";
+
 import { onGetOfferSummary } from "@/actions/offersummary.actions";
 import { auth } from "@/auth";
 import ContainerWrapper from "@/components/global/ContainerWrapper";
-import OfferSummaryTable from "./_components/offer-summary-table";
 import PieChartSection from "@/components/global/piechart/piechart";
-import Input from "@/components/global/input";
 import { RouteParams } from "@/types/global";
-import { createSearchParamsCache, parseAsInteger } from "nuqs/server";
 
+import OfferSummaryTable from "./_components/offer-summary-table";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-const OfferSummary = async ({ 
-  searchParams 
+const OfferSummary = async ({
+  searchParams,
 }: Pick<RouteParams, "searchParams">) => {
   const session = await auth();
   const bizid = session?.user?.bizid;
@@ -29,8 +28,8 @@ const OfferSummary = async ({
 
   const search = searchParamsCache.parse(params);
 
-  console.log('Current page:', search.page);
-  console.log('Page size:', search.pageSize);
+  console.log("Current page:", search.page);
+  console.log("Page size:", search.pageSize);
 
   // Make API call with current page parameters
   const { success, data } = await onGetOfferSummary({
@@ -64,7 +63,10 @@ const OfferSummary = async ({
             <p>Total Offers Sold: {data?.data.purchasedOffersCount}</p>
             <p>Total Unused Offers: {data?.data.unredeemedOffersCount}</p>
             <p>Total Redeemed Offers: {data.data?.redeemedOffersCount}</p>
-            <p>Total Partially Redeemed Offers: {data?.data.partiallyRedeemedOffersCount}</p>
+            <p>
+              Total Partially Redeemed Offers:{" "}
+              {data?.data.partiallyRedeemedOffersCount}
+            </p>
           </div>
         </div>
 
@@ -84,11 +86,9 @@ const OfferSummary = async ({
         </div>
       </div>
 
-    
-
       <section className="mt-10">
-        <OfferSummaryTable 
-          data={data?.data?.listOfferPurchasedOutDTO || []} 
+        <OfferSummaryTable
+          data={data?.data?.listOfferPurchasedOutDTO || []}
           count={data?.data?.count || 0}
           currentPage={search.page}
           pageSize={search.pageSize}

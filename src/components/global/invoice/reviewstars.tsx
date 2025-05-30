@@ -1,22 +1,18 @@
-import React from 'react'
+import React from "react";
 
+type ReviewStarsPorps = {
+  disable: boolean;
+  rating: number;
+  onStarsClick?: () => void;
+  onChange?: () => void;
+};
 
-
-type ReviewStarsPorps ={
-    disable : boolean
-    rating : number
-    onStarsClick? :()=> void
-    onChange? : ()=> void
-}
-
-const ReviewStars : React.FC<ReviewStarsPorps> = ({
-    disable,
-    rating,
-    onStarsClick
+const ReviewStars: React.FC<ReviewStarsPorps> = ({
+  disable,
+  rating,
+  onStarsClick,
 }) => {
-  return (
-    <div>ReviewStars</div>
-  )
-}
+  return <div>ReviewStars</div>;
+};
 
-export default ReviewStars
+export default ReviewStars;

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@radix-ui/react-tabs";
 import React from "react";
 

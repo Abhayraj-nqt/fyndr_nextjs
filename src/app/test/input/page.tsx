@@ -1,10 +1,11 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
+
 import Button from "@/components/global/buttons";
 import Input from "@/components/global/input";
 import Select from "@/components/global/input/select";
 import toast from "@/components/global/toast";
-import React, { useEffect, useState } from "react";
 
 const InputTest = () => {
   const [selectedValue, setSelectedValue] = useState("");
@@ -20,7 +21,7 @@ const InputTest = () => {
   }, [selectedValue]);
 
   return (
-    <div className="min-h-screen flex-center gap-4">
+    <div className="flex-center min-h-screen gap-4">
       <h1>Input</h1>
       <div className="flex gap-4">
         <Input

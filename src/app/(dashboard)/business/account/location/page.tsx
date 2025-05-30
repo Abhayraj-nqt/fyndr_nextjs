@@ -1,14 +1,7 @@
-// import React from "react";
-
-// const Location = () => {
-//   return <div>Location</div>;
-// };
-
-// export default Location;
 "use client";
 
-import React, { useState, useEffect } from "react";
 import { Edit, Trash2, QrCode } from "lucide-react";
+import React, { useState, useEffect } from "react";
 
 const LocationManager = () => {
   const [locations, setLocations] = useState([]);
@@ -62,17 +55,17 @@ const LocationManager = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 p-6 w-full">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex justify-between items-center mb-8">
+      <div className="min-h-screen w-full bg-gray-50 p-6">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-8 flex items-center justify-between">
             <h1 className="text-3xl font-medium text-blue-500">
               Manage Locations
             </h1>
-            <button className="bg-blue-500 text-white px-6 py-2 rounded-lg font-medium">
+            <button className="rounded-lg bg-blue-500 px-6 py-2 font-medium text-white">
               Create Location
             </button>
           </div>
-          <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-8">
+          <div className="rounded-lg border border-gray-100 bg-white p-8 shadow-sm">
             <div className="text-center text-gray-500">
               Loading locations...
             </div>
@@ -84,17 +77,17 @@ const LocationManager = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 p-6 w-full">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex justify-between items-center mb-8">
+      <div className="min-h-screen w-full bg-gray-50 p-6">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-8 flex items-center justify-between">
             <h1 className="text-3xl font-medium text-blue-500">
               Manage Locations
             </h1>
-            <button className="bg-blue-500 text-white px-6 py-2 rounded-lg font-medium">
+            <button className="rounded-lg bg-blue-500 px-6 py-2 font-medium text-white">
               Create Location
             </button>
           </div>
-          <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-8">
+          <div className="rounded-lg border border-gray-100 bg-white p-8 shadow-sm">
             <div className="text-center text-red-500">{error}</div>
           </div>
         </div>
@@ -103,23 +96,23 @@ const LocationManager = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6 w-full">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen w-full bg-gray-50 p-6">
+      <div className="mx-auto max-w-7xl">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
+        <div className="mb-8 flex items-center justify-between">
           <h1 className="text-3xl font-medium text-blue-500">
             Manage Locations
           </h1>
           <button
             onClick={handleCreateLocation}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-medium transition-colors"
+            className="rounded-lg bg-blue-500 px-6 py-2 font-medium text-white transition-colors hover:bg-blue-600"
           >
             Create Location
           </button>
         </div>
 
         {/* Locations List */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-100">
+        <div className="rounded-lg border border-gray-100 bg-white shadow-sm">
           {locations.length === 0 ? (
             <div className="p-8 text-center text-gray-500">
               No locations found. Create your first location to get started.
@@ -129,7 +122,7 @@ const LocationManager = () => {
               {locations.map((location, index) => (
                 <div
                   key={location.id}
-                  className="flex items-center justify-between p-6 hover:bg-gray-50 transition-colors"
+                  className="flex items-center justify-between p-6 transition-colors hover:bg-gray-50"
                 >
                   <div className="flex items-center gap-4">
                     {/* QR Code Icon */}
@@ -147,14 +140,14 @@ const LocationManager = () => {
                   <div className="flex items-center gap-3">
                     <button
                       onClick={() => handleEdit(location.id)}
-                      className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
+                      className="rounded-lg p-2 text-blue-500 transition-colors hover:bg-blue-50"
                       title="Edit location"
                     >
                       <Edit size={20} />
                     </button>
                     <button
                       onClick={() => handleDelete(location.id)}
-                      className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                      className="rounded-lg p-2 text-red-500 transition-colors hover:bg-red-50"
                       title="Delete location"
                     >
                       <Trash2 size={20} />

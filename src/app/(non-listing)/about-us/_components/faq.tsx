@@ -44,7 +44,7 @@ const Faq = ({ userType }: Props) => {
   return (
     <section
       id="faq"
-      className="w-4/5 rounded-[10px] border border-[#e6e6e6] bg-white px-10 pb-24 shadow-md scroll-smooth"
+      className="w-4/5 scroll-smooth rounded-[10px] border border-[#e6e6e6] bg-white px-10 pb-24 shadow-md"
     >
       <div className="flex flex-col items-center justify-center py-6 text-[24px] font-semibold text-black">
         <h3>Frequently Asked Questions By {userType} (FAQs)</h3>

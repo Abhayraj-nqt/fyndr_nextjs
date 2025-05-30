@@ -13,7 +13,7 @@ const Privacy = () => {
   const headingSize = "text-[1.6rem]";
   return (
     <div className="m-20">
-      <div className="flex justify-center w-full mb-5">
+      <div className="mb-5 flex w-full justify-center">
         {/* <object type="image/svg+xml" data="logo.svg" width="150"></object> */}
         <Image
           src={"/images/fyndr-logo-blue.png"}
@@ -22,7 +22,7 @@ const Privacy = () => {
           alt="Fyndr Logo"
         ></Image>
       </div>
-      <div className="flex justify-center w-full">
+      <div className="flex w-full justify-center">
         <span className="text-[2rem]">Fyndr Privacy Statement</span>
       </div>
       <div>
@@ -153,7 +153,7 @@ const Privacy = () => {
             We may collect the following categories of personal information from
             and about you:
           </p>
-          <ul className="list-disc list-inside text-[1.2rem]">
+          <ul className="list-inside list-disc text-[1.2rem]">
             <li>
               <strong>Identifiers</strong>: such as your name, postal addresses,
               email addresses, social networking website user account names,
@@ -216,7 +216,7 @@ const Privacy = () => {
             We may collect personal information about you from a variety of
             sources, including:
           </p>
-          <ul className="list-disc list-inside text-[1.2rem]">
+          <ul className="list-inside list-disc text-[1.2rem]">
             <li>
               <strong>From you: </strong>We collect information that you submit
               to us. For example, when you check-in with the business, scan a QR

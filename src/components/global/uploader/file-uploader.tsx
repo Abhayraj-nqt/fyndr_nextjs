@@ -10,7 +10,7 @@ import {
   defaultAllowedFileTypes,
   processFiles,
   validateFiles,
-} from "@/lib/file-utils/upload.utils";
+} from "@/lib/utils/files/upload.utils";
 import { cn } from "@/lib/utils";
 
 export type FileUploaderProps = {
@@ -179,7 +179,7 @@ const FileUploader = ({
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: handleDrop,
-    disabled: disabled,
+    disabled,
     accept: allowedFileTypes.reduce(
       (acc, type) => {
         acc[type] = [];
@@ -189,7 +189,7 @@ const FileUploader = ({
     ),
     multiple,
     maxFiles: multiple ? max : 1,
-    minFiles: min,
+    // minFiles: min,
   });
 
   return (

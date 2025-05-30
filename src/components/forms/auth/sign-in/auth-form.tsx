@@ -12,6 +12,7 @@ import {
 } from "react-hook-form";
 import { z, ZodType } from "zod";
 
+import { FormInput } from "@/components/forms/auth/form-input";
 import { toast } from "@/components/global/toast";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,7 +23,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { FormInput } from "@/components/forms/auth/form-input";
 import ROUTES from "@/constants/routes";
 import { ActionResponse } from "@/types/global";
 
@@ -80,7 +80,7 @@ const AuthForm = <T extends FieldValues>({
             name={field as Path<T>}
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="paragraph-medium text-light-900 hidden">
+                <FormLabel className="paragraph-medium hidden text-light-900">
                   {field.name === "email"
                     ? "Email Address"
                     : field.name.charAt(0).toLowerCase() + field.name.slice(1)}
@@ -99,7 +99,7 @@ const AuthForm = <T extends FieldValues>({
         ))}
         <Button
           disabled={form.formState.isSubmitting}
-          className="text-base font-normal min-h-12 w-full mt-10 rounded-[10px] bg-primary-500 px-4 py-3 !text-light-900 hover:bg-primary-500"
+          className="mt-10 min-h-12 w-full rounded-[10px] bg-primary-500 px-4 py-3 text-base font-normal !text-light-900 hover:bg-primary-500"
         >
           {form.formState.isSubmitting
             ? buttonText === "Sign In"

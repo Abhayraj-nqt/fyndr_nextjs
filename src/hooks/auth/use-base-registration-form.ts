@@ -1,30 +1,28 @@
-import {
-  BusinessFormData,
-  BusinessFormSchema,
-  IndividualFormData,
-  IndividualFormSchema,
-} from "@/components/forms/auth/sign-up/schema";
-import { CountryData } from "@/components/global/input/select-country";
-import { useRegistrationStore } from "@/zustand/stores/registration.store";
+/* eslint-disable max-lines */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  DefaultValues,
-  FieldPath,
-  FieldValues,
-  useForm,
-  UseFormReturn,
-} from "react-hook-form";
-import { z, ZodType } from "zod";
-import { useFindUsOptions } from "../others";
-import { useCountryList } from "../location";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
-import { getPlaceDataWithZipcodeAndCountry } from "@/actions/maps.actions";
-import { validatePostalAddress } from "@/lib/utils";
-import toast from "@/components/global/toast";
-import { onVerifyCode } from "@/actions/auth.actions";
+import {
+  useForm,
+  UseFormReturn,
+  FieldPath,
+  FieldValues,
+  DefaultValues,
+} from "react-hook-form";
+import { ZodSchema } from "zod";
 
-interface BaseFormData extends FieldValues {
+import { onVerifyCode } from "@/actions/auth.actions";
+import { getPlaceDataWithZipcodeAndCountry } from "@/actions/maps.actions";
+import { CountryData } from "@/components/global/input/select-country";
+import toast from "@/components/global/toast";
+import { useCountryList } from "@/hooks/location";
+import { useFindUsOptions } from "@/hooks/others";
+import { validatePostalAddress } from "@/lib/utils";
+import { useRegistrationStore } from "@/zustand/stores/registration.store";
+
+export interface BaseFormData extends FieldValues {
   email: string;
   firstName: string;
   lastName: string;
@@ -42,16 +40,16 @@ interface BaseFormData extends FieldValues {
 }
 
 interface UseBaseRegistrationFormConfig<T extends BaseFormData> {
-  schema: ZodType<T>;
-  defaultValues?: T;
+  schema: ZodSchema<T>;
+  defaultValues?: DefaultValues<T>;
   onSubmit: (data: T & { isBusiness: boolean }) => void;
   isBusiness: boolean;
 }
 
-// Return type for the base hook
 interface UseBaseRegistrationFormReturn<T extends BaseFormData> {
-  form: UseFormReturn<T>;
+  form: UseFormReturn<T, any>;
   states: {
+    isBusiness: boolean;
     isVerifyingCode: boolean;
     isMobileVerified: boolean;
     isCodeVerified: boolean;
@@ -83,11 +81,6 @@ export const useBaseRegistrationForm = <T extends BaseFormData>({
   onSubmit,
   isBusiness,
 }: UseBaseRegistrationFormConfig<T>): UseBaseRegistrationFormReturn<T> => {
-  const form = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
-    defaultValues: defaultValues as DefaultValues<T>,
-  });
-
   const { findUsOptions, isLoading: findUsOptionsLoading } = useFindUsOptions();
   const { countryList, isLoading: countryListLoading } = useCountryList();
   const registrationData = useRegistrationStore();
@@ -100,20 +93,28 @@ export const useBaseRegistrationForm = <T extends BaseFormData>({
   const [countryId, setCountryId] = useState<number | null>(null);
   const [agreeOnTerms, setAgreeOnTerms] = useState(false);
 
-  useEffect(() => {
-    loadCountryId();
-  }, [countryListLoading]);
+  const baseDefaults: DefaultValues<T> = {
+    email: registrationData.email || "",
+    firstName: registrationData.firstName || "",
+    lastName: registrationData.lastName || "",
+    country: registrationData.country || "US",
+    ctryCode: registrationData.ctryCode || "+1",
+    phone: registrationData.phone || "",
+    postalCode: registrationData.postalCode || "",
+    addressLine1: registrationData.addressLine1 || "",
+    addressLine2: registrationData.addressLine2 || "",
+    city: registrationData.city || "",
+    state: registrationData.state || "",
+    referralCode: registrationData.referralCode || null,
+    promoCode: registrationData.promoCode || null,
+    findUsId: registrationData.findUsId || 8,
+    ...defaultValues,
+  } as DefaultValues<T>;
 
-  useEffect(() => {
-    if (!useRegistrationStore.persist.hasHydrated) return;
-    form.setValue("email" as FieldPath<T>, (email || "") as any);
-  }, [
-    useRegistrationStore?.persist?.hasHydrated,
-    email,
-    isBusiness,
-    regMode,
-    router,
-  ]);
+  const form = useForm<T>({
+    resolver: zodResolver(schema),
+    defaultValues: baseDefaults,
+  });
 
   const loadCountryId = () => {
     const country = form.getValues("country" as FieldPath<T>);
@@ -160,6 +161,9 @@ export const useBaseRegistrationForm = <T extends BaseFormData>({
 
     form.setValue("city" as FieldPath<T>, city as any);
     form.setValue("state" as FieldPath<T>, state as any);
+    form.setValue("lat" as FieldPath<T>, lat as any);
+    form.setValue("lng" as FieldPath<T>, lng as any);
+
     form.clearErrors("city" as FieldPath<T>);
     form.clearErrors("state" as FieldPath<T>);
 
@@ -236,7 +240,16 @@ export const useBaseRegistrationForm = <T extends BaseFormData>({
       return;
     }
 
-    // Type-safe handling of promo/referral codes
+    if (!isMobileVerified) {
+      toast.error({ message: "Please verify your mobile number." });
+      return;
+    }
+
+    if (isBusiness && !values?.addressLine1) {
+      toast.error({ message: "Please provide your business address." });
+      return;
+    }
+
     const processedValues = { ...values };
     if ("promoCode" in processedValues && processedValues.promoCode) {
       (processedValues as any).referralCode = null;
@@ -251,6 +264,21 @@ export const useBaseRegistrationForm = <T extends BaseFormData>({
     onSubmit(dataWithBusiness);
   });
 
+  useEffect(() => {
+    loadCountryId();
+  }, [countryListLoading]);
+
+  useEffect(() => {
+    if (!useRegistrationStore.persist.hasHydrated) return;
+    form.setValue("email" as FieldPath<T>, (email || "") as any);
+  }, [
+    useRegistrationStore?.persist?.hasHydrated,
+    email,
+    isBusiness,
+    regMode,
+    router,
+  ]);
+
   return {
     form,
     states: {
@@ -258,6 +286,7 @@ export const useBaseRegistrationForm = <T extends BaseFormData>({
       isMobileVerified,
       isCodeVerified,
       agreeOnTerms,
+      isBusiness,
       findUsOptionsLoading,
     },
     setters: {
@@ -278,59 +307,4 @@ export const useBaseRegistrationForm = <T extends BaseFormData>({
       isBusiness: registrationData.isBusiness || false,
     },
   };
-};
-
-// Specific hook for individual registration
-export const useIndividualForm = ({
-  onSubmit,
-}: {
-  onSubmit: (data: IndividualFormData & { isBusiness: boolean }) => void;
-}) => {
-  return useBaseRegistrationForm({
-    schema: IndividualFormSchema,
-    defaultValues: {
-      yob: "",
-      gender: null,
-      email: "",
-      firstName: "",
-      lastName: "",
-      country: "",
-      ctryCode: "",
-      phone: "",
-      postalCode: "",
-      city: "",
-      state: "",
-    },
-    onSubmit,
-    isBusiness: false,
-  });
-};
-
-// Specific hook for business registration
-export const useBusinessForm = ({
-  onSubmit,
-}: {
-  onSubmit: (data: BusinessFormData & { isBusiness: boolean }) => void;
-}) => {
-  return useBaseRegistrationForm({
-    schema: BusinessFormSchema,
-    defaultValues: {
-      bizName: "",
-      bizType: "",
-      website: "",
-      accountStatus: "ACTIVE" as const,
-      email: "",
-      firstName: "",
-      lastName: "",
-      country: "",
-      ctryCode: "",
-      phone: "",
-      postalCode: "",
-      city: "",
-      state: "",
-      tags: "",
-    },
-    onSubmit,
-    isBusiness: true,
-  });
 };

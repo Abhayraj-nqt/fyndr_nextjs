@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 
 import ImageUploader from "@/components/global/uploader/image-uploader";
-import { ProcessedFileProps } from "@/lib/file-utils/upload.utils";
+import { ProcessedFileProps } from "@/lib/utils/files/upload.utils";
 
 const ImageUploaderTest = () => {
   const [uploadedFiles, setUploadedFiles] = useState<ProcessedFileProps[]>([]);
@@ -31,7 +31,7 @@ const ImageUploaderTest = () => {
             alt="bjdbw"
           />
         ) : (
-          <video controls className="w-72">
+          <video key={item.name} controls className="w-72">
             <source src={item.base64Url} type={item.type} />
           </video>
         )

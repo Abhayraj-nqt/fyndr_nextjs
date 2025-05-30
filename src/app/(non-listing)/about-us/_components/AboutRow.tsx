@@ -1,6 +1,5 @@
 import Image from "next/image";
 import React from "react";
-import { symbol } from "zod";
 
 interface Props {
   imgURL: string;
@@ -21,7 +20,7 @@ const AboutRow = ({
   imageClassName = "",
   textClassName = "",
   titleClassName = "",
-  symbol
+  symbol,
 }: Props) => {
   return (
     <div

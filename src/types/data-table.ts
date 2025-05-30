@@ -1,19 +1,7 @@
-import type { DataTableConfig } from "@/config/data-table";
-import type { FilterItemSchema } from "@/lib/parsers";
 import type { ColumnSort, Row, RowData } from "@tanstack/react-table";
 
-declare module "@tanstack/react-table" {
-  // biome-ignore lint/correctness/noUnusedVariables: <explanation>
-  interface ColumnMeta<TData extends RowData, TValue> {
-    label?: string;
-    placeholder?: string;
-    variant?: FilterVariant;
-    options?: Option[];
-    range?: [number, number];
-    unit?: string;
-    icon?: React.FC<React.SVGProps<SVGSVGElement>>;
-  }
-}
+import type { DataTableConfig } from "@/config/data-table";
+import type { FilterItemSchema } from "@/lib/utils/table/parsers";
 
 export interface Option {
   label: string;
@@ -37,4 +25,17 @@ export interface ExtendedColumnFilter<TData> extends FilterItemSchema {
 export interface DataTableRowAction<TData> {
   row: Row<TData>;
   variant: "update" | "delete";
+}
+
+declare module "@tanstack/react-table" {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+  interface ColumnMeta<TData extends RowData, TValue> {
+    label?: string;
+    placeholder?: string;
+    variant?: FilterVariant;
+    options?: Option[];
+    range?: [number, number];
+    unit?: string;
+    icon?: React.FC<React.SVGProps<SVGSVGElement>>;
+  }
 }
