@@ -1,4 +1,4 @@
-// components/maps/GoogleMap.tsx
+/* eslint-disable max-lines */
 "use client";
 
 import { useEffect, useRef, useState, ReactNode } from "react";
