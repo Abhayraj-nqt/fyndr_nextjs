@@ -150,8 +150,8 @@ const BusinessLogo = () => {
       {/* <div className=" w-full text-blue-500 text-[1.5rem] ml-10">
         Business Logo Upload
       </div> */}
-      <div className=" flex justify-center">
-        <div className="rounded-md border border-gray-200 bg-white p-4 shadow-sm">
+      <div className=" flex ">
+        <div className="rounded-md border border-gray-200 bg-white p-4">
           <div className="flex rounded-md bg-blue-50 border-l-4 border-cyan-400 p-4">
             <p className="text-gray-500 text-[1rem]">
               Please upload your business logo here, it will be displayed on the

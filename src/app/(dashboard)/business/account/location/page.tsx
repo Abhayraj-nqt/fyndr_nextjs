@@ -65,9 +65,7 @@ const LocationManager = () => {
       <div className="min-h-screen bg-gray-50 p-6 w-full">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-8">
-            <h1 className="text-3xl font-medium text-blue-500">
-              Manage Locations
-            </h1>
+            <h1 className="text-[1.5rem]  text-blue-500">Manage Locations</h1>
             <button className="bg-blue-500 text-white px-6 py-2 rounded-lg font-medium">
               Create Location
             </button>
@@ -87,9 +85,7 @@ const LocationManager = () => {
       <div className="min-h-screen bg-gray-50 p-6 w-full">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-8">
-            <h1 className="text-3xl font-medium text-blue-500">
-              Manage Locations
-            </h1>
+            <h1 className="text-[1.5rem]  text-blue-500">Manage Locations</h1>
             <button className="bg-blue-500 text-white px-6 py-2 rounded-lg font-medium">
               Create Location
             </button>
@@ -107,9 +103,7 @@ const LocationManager = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-medium text-blue-500">
-            Manage Locations
-          </h1>
+          <h1 className="text-[1.5rem] text-blue-500">Manage Locations</h1>
           <button
             onClick={handleCreateLocation}
             className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-medium transition-colors"
