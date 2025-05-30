@@ -6,10 +6,10 @@ import { useDataTable } from "@/hooks/use-data-table";
 import { getOfferSummaryDetailsColoumn } from "./offer-summary-details-coloumn";
 import { useUser } from "@/hooks/auth";
 import { DataTableRowAction } from "@/types/data-table";
-import LocalSearch from "@/components/global/search/local-search";
-import ROUTES from "@/constants/routes";
 import { onGetOfferSummary } from "@/actions/offersummary.actions";
 import { useSearchParams } from "next/navigation";
+import ActionsDialog from "../../../../_components/redeemptionModal/actions-dialog";
+
 
 
 type Props = {
@@ -51,6 +51,11 @@ const OfferSummaryTable = ({ promises }: Props) => {
       
       <DataTable table={table} />
       {/* If you have a dialog like ActionsDialog, you can include it here */}
+      <ActionsDialog
+        open={rowAction?.variant === "update"}
+        onOpenChange={() => setRowAction(null)}
+        row = {rowAction?.row.original ?? null}
+      />
     </>
   );
 };

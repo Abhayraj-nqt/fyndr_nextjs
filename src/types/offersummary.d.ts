@@ -1,3 +1,16 @@
+export type Remarks = {
+   
+    currentValue: number;
+    lat: null | number;
+    lng: null | number;
+    message: null;
+    redeemedValue: 12;
+    status: "partially-redeemed" | string;
+    time: string;
+    updatedBy: string;
+  };
+
+
 type OfferPurchaseProps = {
   buyerName: string;
   buyerPhone: string;
@@ -13,7 +26,6 @@ type OfferPurchaseProps = {
   redeemptionStatus: "unused" | "redeemed" | "partially-redeemed" | string; // adjust if fixed set known
   redemptionDt: string | null;
   redemptionTime: string | null;
-  remarks: string | null;
   retailPrice: number;
   validTill: string; 
   voucherCode: string;
@@ -25,16 +37,11 @@ type OfferPurchaseProps = {
   };
   bookingDate: null;
   bookingDay: null;
+  isVoucher?: boolean; 
+  customVoucherCode?: string;
   slotEndTime: null;
   slotStartTime: null;
-  remark: {
-    currentValue: number;
-    lat: null | number;
-    lng: null | number;
-    message: null;
-    redeemedValue: 12;
-    status: "partially-redeemed" | string;
-    time: string;
-    updatedBy: string;
-  }[];
+  remarks: Remarks[];
 };
+
+

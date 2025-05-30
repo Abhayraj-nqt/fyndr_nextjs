@@ -6,11 +6,12 @@ import DefaultCard from "@/components/global/cards/default-card";
 import PieChartSection from "@/components/global/piechart/piechart";
 import OfferSummaryTable from "./_components/offer-summary-table";
 import { RouteParams } from "@/types/global";
-import { createSearchParamsCache, parseAsInteger } from "nuqs/server";
+import { createSearchParamsCache, parseAsArrayOf, parseAsInteger ,parseAsString } from "nuqs/server";
 import ContainerWrapper from "@/components/global/ContainerWrapper";
 import LocalSearch from "@/components/global/search/local-search";
 import ROUTES from "@/constants/routes";
 import { getSortingStateParser } from "@/lib/parsers";
+import { MultiSelect } from "@/components/global/multiselect-dropdown/multiselectDropdown";
 
 
 
@@ -29,16 +30,19 @@ const searchParamsCache = createSearchParamsCache({
         { id: "invoiceDt", desc: true },
         {id :"validTill" ,desc :true},
       ]),
+  status: parseAsArrayOf(parseAsString).withDefault([]),
 
 });
 
   const search = searchParamsCache.parse(params);
+  const selectedStatuses = search.status;
     const orderBy = search.sort.map((item) => (item.desc ? "DESC" : "ASC"));
     const { success, data } = await onGetOfferSummary({
     bizid,
     pgSize: search.pageSize,
     pgStart: search.page, 
     text: query,
+    redemptionStatusList: selectedStatuses,
   });
 
     const chartData = [
@@ -56,6 +60,7 @@ const searchParamsCache = createSearchParamsCache({
       pgStart: search.page,
       text: query,
       orderBy :params?.sort ? orderBy[0] : undefined,
+      redemptionStatusList: selectedStatuses,
     }),
   ]);
 
@@ -97,9 +102,18 @@ const searchParamsCache = createSearchParamsCache({
           </div>
         </div>
 
-        <div className="flex">
+        <div className="flex gap-2">
         <div>
-        
+          <MultiSelect 
+          placeholder="Redemption Status"
+           options={[
+            { label: "Redeemed", value: "redeemed" },
+            { label: "Unused", value: "unused" },
+            { label: "Partially Redeemed", value: "partially-redeemed" },
+          ]}
+          paramKey="status"
+          className="w-[250px] h-[40px] border border-light-700 bg-light-900 "
+          />
         </div>
         <div>
           <LocalSearch

@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import Image from "next/image";
 import React from "react";
 
@@ -7,23 +8,31 @@ interface Props {
   description: string;
   index: number;
   className?: string;
+  isFirst?: boolean;
+    hoveredIndex: number | null;
+  setHoveredIndex: (index: number | null) => void;
 }
 
-const FeatureCard = ({ imgURL, title, description, index ,className =""}: Props) => {
-  const isFirst = index === 0;
+const FeatureCard = ({ imgURL, title, description, index ,className ="", isFirst,
+  hoveredIndex,
+  setHoveredIndex,}: Props) => {
+const isHovered = hoveredIndex === index;
+  const isAnotherHovered = hoveredIndex !== null && !isHovered;
+   const cardWidth = isFirst
+    ? isAnotherHovered
+      ? "w-60" // shrink first card when another is hovered
+      : "w-[25rem]" // normal width
+    : isHovered
+      ? "w-[25rem]" // expand hovered card
+      : "w-60"; // default width
   return (
     <div
-     className={`
-        relative h-[25rem] shrink-0 cursor-pointer overflow-hidden rounded-lg
-        transition-all duration-300 ease-in-out
-        ${
-          isFirst
-            ? // For index 0: wide by default, shrink on group-hover — but not if it's the only one hovered
-              "w-[25rem] group-hover:w-60 hover:!w-[25rem]"
-            : // For others: narrow by default, expand on hover
-              "w-60 hover:w-[25rem]"
-        }
-      `}
+      className={clsx(
+        "relative h-[25rem] shrink-0 cursor-pointer overflow-hidden rounded-lg transition-all duration-300 ease-in-out",
+        cardWidth
+      )}
+      onMouseEnter={() => setHoveredIndex(index)}
+      onMouseLeave={() => setHoveredIndex(null)}
     >
       <Image
         src={imgURL}

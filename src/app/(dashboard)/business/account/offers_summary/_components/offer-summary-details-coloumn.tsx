@@ -147,7 +147,7 @@ export function getOfferSummaryDetailsColoumn({
       ),
       cell: ({ row }) => (
         <Button
-            // onClick={() => setRowAction({ row, variant: "update" })}
+            onClick={() => setRowAction({ row, variant: "update" })}
             variant="primary"
           >
             Actions
