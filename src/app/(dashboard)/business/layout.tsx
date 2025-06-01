@@ -12,7 +12,7 @@ const BusinessLayout = ({ children }: { children: ReactNode }) => {
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
-      <section className="flex min-h-screen flex-1 flex-col bg-light-800">
+      <section className="flex min-h-screen flex-1 flex-col bg-secondary-10">
         <div className="">
           <div className="flex min-h-0 flex-col">
             <SidebarProvider>

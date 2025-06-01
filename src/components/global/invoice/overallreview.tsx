@@ -39,13 +39,13 @@ const Overallreview: React.FC<OverallReviewResponse> = ({
             /> */}
             <Stars ratings={Number(rating)} />
           </div>
-          <div className="pt-2 text-base font-normal leading-5 text-[#4d4d4d] md:text-sm">
+          <div className="pt-2 text-base font-normal leading-5 text-black-70 md:text-sm">
             {rating}
             {text}
           </div>
           <div
             onClick={onClick}
-            className="cursor-pointer pt-2 text-base font-normal leading-5  text-[#257cdb] md:text-sm"
+            className="cursor-pointer pt-2 text-base font-normal leading-5  text-primary md:text-sm"
           >
             {totalRatings}
           </div>

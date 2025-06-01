@@ -21,7 +21,7 @@ type BizCardProps = {
   vouchers: InvoiceOffer[] | null;
   giftDetails: GiftDetails | null;
   invoiceId: number | null;
-   reviewRatings?: React.ReactNode
+  reviewRatings?: React.ReactNode;
 };
 const Bizcard: React.FC<BizCardProps> = ({
   businessLogo,
@@ -52,7 +52,7 @@ const Bizcard: React.FC<BizCardProps> = ({
                 loading="lazy"
                 height={75}
                 width={150}
-                className="aspect-[2/1] h-[75px] rounded-[10px] object-cover"
+                className="aspect-[2/1] h-[75px] rounded-10 object-cover"
               />
             </div>
           )}
@@ -60,7 +60,7 @@ const Bizcard: React.FC<BizCardProps> = ({
           <div
             className={`${businessLogo ? "w-[55%]" : "w-full"} flex flex-col justify-between`}
           >
-            <p className="text-base font-medium text-black">{businessName}</p>
+            <p className="text-black text-base font-medium">{businessName}</p>
 
             {channel !== "cmpn_promo" && (
               <div className="flex ">{reviewRatings}</div>
@@ -112,7 +112,7 @@ const Bizcard: React.FC<BizCardProps> = ({
 
       <div className="flex self-start text-right">
         <div className="flex justify-end">
-          <span className="text-sm font-semibold leading-5 text-[#666666] ">
+          <span className="text-sm font-semibold leading-5 text-black-60 ">
             Invoice ID: {invoiceId}
           </span>
         </div>

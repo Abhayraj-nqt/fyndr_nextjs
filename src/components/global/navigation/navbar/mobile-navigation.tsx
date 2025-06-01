@@ -24,9 +24,9 @@ const MobileNavigation = async () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Menu size={30} className="text-light-900 lg:hidden" />
+        <Menu size={30} className="text-white lg:hidden" />
       </SheetTrigger>
-      <SheetContent side={"right"} className="border-none bg-primary-900">
+      <SheetContent side={"right"} className="border-none bg-secondary">
         <SheetTitle className="hidden">Navigation</SheetTitle>
         <Link href="/" className="flex items-center gap-1">
           <Image
@@ -41,7 +41,7 @@ const MobileNavigation = async () => {
             <section className="flex h-full flex-col gap-10 pt-16">
               <NavLinks
                 isMobileNav
-                className="flex items-center gap-4 rounded-[10px] p-4 text-xl text-white transition-colors duration-200 hover:bg-white hover:text-primary-900"
+                className="flex items-center gap-4 rounded-[10px] p-4 text-xl text-white transition-colors duration-200 hover:bg-white hover:text-secondary"
               />
 
               {userId ? (
@@ -56,7 +56,7 @@ const MobileNavigation = async () => {
                     }
                     key={"Account"}
                     className={
-                      "flex items-center gap-4 rounded-[10px] p-4 text-xl text-white transition-colors duration-200 hover:bg-white hover:text-primary-900"
+                      "flex items-center gap-4 rounded-[10px] p-4 text-xl text-white transition-colors duration-200 hover:bg-white hover:text-secondary"
                     }
                   >
                     <CircleUser />
@@ -66,7 +66,7 @@ const MobileNavigation = async () => {
                     href={ROUTES.MY_OFFERS}
                     key={"My Offers"}
                     className={
-                      "flex items-center gap-4 rounded-[10px] p-4 text-xl text-white transition-colors duration-200 hover:bg-white hover:text-primary-900"
+                      "flex items-center gap-4 rounded-[10px] p-4 text-xl text-white transition-colors duration-200 hover:bg-white hover:text-secondary"
                     }
                   >
                     <TicketPercent />
@@ -82,7 +82,7 @@ const MobileNavigation = async () => {
           <div className="flex flex-col gap-3">
             {userId ? (
               <div className="flex-center">
-                <SignOutButton className="min-h-11 w-full min-w-36 self-center rounded-[10px] bg-white text-base font-normal text-primary-900 shadow-none">
+                <SignOutButton className="min-h-11 w-full min-w-36 self-center rounded-[10px] bg-white text-base font-normal text-secondary shadow-none">
                   <LogOut className="size-5" />
                   <span className="">Logout</span>
                 </SignOutButton>
@@ -93,7 +93,7 @@ const MobileNavigation = async () => {
                   <Link href={ROUTES.SIGN_IN}>
                     <Button
                       variant={"primary-dark"}
-                      className="w-full bg-white text-primary-900 hover:bg-white hover:text-primary-900"
+                      className="w-full bg-white text-secondary hover:bg-white hover:text-secondary"
                       stdHeight
                       stdWidth
                     >
@@ -106,7 +106,7 @@ const MobileNavigation = async () => {
                   <Link href={ROUTES.SIGN_UP}>
                     <Button
                       variant={"primary-dark"}
-                      className="w-full bg-white text-primary-900 hover:bg-white hover:text-primary-900"
+                      className="w-full bg-white text-secondary hover:bg-white hover:text-secondary"
                       stdHeight
                       stdWidth
                     >

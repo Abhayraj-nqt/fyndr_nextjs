@@ -16,7 +16,7 @@ import UserProvider from "@/provider/user-provider";
 // });
 
 const roboto = localFont({
-  src: "./fonts/RobotoVF.ttf",
+  src: "./fonts/roboto.ttf",
   variable: "--font-roboto",
   weight: "100 200 300 400 500 600 700 800 900",
 });

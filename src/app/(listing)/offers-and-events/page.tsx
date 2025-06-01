@@ -66,15 +66,15 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
   return (
     <main className="relative w-full p-4">
       <div className="relative flex flex-col flex-nowrap gap-4 md:flex-row">
-        <section className="hidden h-fit w-80 min-w-80 rounded-lg bg-light-900 md:flex">
+        <section className="hidden h-fit w-80 min-w-80 rounded-lg bg-white md:flex">
           <OfferFilters />
         </section>
         <section className="z-20 flex md:hidden">
           <MobileFilters />
         </section>
 
-        <section className="mt-5 w-full rounded-lg bg-light-900 p-4 md:mt-0">
-          <h1 className="base-semibold mb-4 text-primary-900">
+        <section className="mt-5 w-full rounded-lg bg-white p-4 md:mt-0">
+          <h1 className="base-semibold mb-4 text-secondary">
             Offers and Events on Fyndr
           </h1>
 

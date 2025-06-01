@@ -238,7 +238,7 @@ const ImageCropper = ({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="size-8 rounded-full bg-light-800 p-4 text-dark-300 hover:bg-light-800"
+                  className="size-8 rounded-full bg-secondary-10 p-4 text-black-80 hover:bg-secondary-10"
                   onClick={handleZoomOut}
                 >
                   <Minus />
@@ -254,7 +254,7 @@ const ImageCropper = ({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="size-8 rounded-full bg-light-800 p-4 text-dark-300 hover:bg-light-800"
+                  className="size-8 rounded-full bg-secondary-10 p-4 text-black-80 hover:bg-secondary-10"
                   onClick={handleZoomIn}
                 >
                   <Plus />
@@ -273,7 +273,7 @@ const ImageCropper = ({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="size-8 rounded-full bg-light-800 p-4 text-dark-300 hover:bg-light-800"
+                  className="size-8 rounded-full bg-secondary-10 p-4 text-black-80 hover:bg-secondary-10"
                   onClick={handleRotateCCW}
                 >
                   <RotateCcw />
@@ -289,7 +289,7 @@ const ImageCropper = ({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="size-8 rounded-full bg-light-800 p-4 text-dark-300 hover:bg-light-800"
+                  className="size-8 rounded-full bg-secondary-10 p-4 text-black-80 hover:bg-secondary-10"
                   onClick={handleRotateCW}
                 >
                   <RotateCw />

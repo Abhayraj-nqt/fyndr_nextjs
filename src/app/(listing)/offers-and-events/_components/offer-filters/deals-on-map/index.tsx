@@ -6,7 +6,7 @@ import DistanceSlider from "./distance-slider";
 const DealsOnMap = () => {
   return (
     <section>
-      <h4 className="base-semibold mb-4 text-primary-900">Deals on map</h4>
+      <h4 className="base-semibold mb-4 text-secondary">Deals on map</h4>
       <CampaignMarkerMap />
       <DistanceSlider />
     </section>

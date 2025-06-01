@@ -23,7 +23,7 @@ const AuthContainerWrapper = ({ children, title, description }: Props) => {
         <div className="absolute inset-0 bg-black/10"></div>
 
         <div className="relative z-10 flex size-full items-center justify-center">
-          <div className="flex flex-col items-center justify-center p-4 text-light-900">
+          <div className="flex flex-col items-center justify-center p-4 text-white">
             <div className="mb-8 text-center">
               <h1 className="h1-bold text-white">{title}</h1>
               <p className="paragraph-regular mt-2 text-gray-200">

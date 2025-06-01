@@ -81,7 +81,7 @@ const CampaignList = ({ campaigns }: Props) => {
 
         return (
           <div
-            className="flex-between h-36 w-full gap-3 rounded-[9px] border border-[#d3d6e1] p-2 shadow-md"
+            className="flex-between h-36 w-full gap-3 rounded-[9px] border border-secondary-20 p-2 shadow-md"
             style={{ background: backgroundColor }}
           >
             <div className="shrink-0">

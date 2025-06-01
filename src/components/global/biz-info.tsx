@@ -27,8 +27,6 @@ const BizInfo: React.FC<BizInfoProps> = ({
   showInfo,
   showStore,
 }) => {
-
-
   return (
     <div className="mb-3 max-w-[96%]">
       <div className="flex justify-between">
@@ -43,7 +41,7 @@ const BizInfo: React.FC<BizInfoProps> = ({
               <text onClick={() => callback(true)}>{phone}</text>
             )} */}
           {label !== undefined && (
-            <span className="cursor-pointer text-sm font-normal leading-5 text-[#333333]">
+            <span className="cursor-pointer text-sm font-normal leading-5 text-black-80">
               {label}
             </span>
           )}

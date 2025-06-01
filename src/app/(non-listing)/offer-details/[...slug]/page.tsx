@@ -76,7 +76,7 @@ const Offer = async ({ params, searchParams }: RouteParams & Props) => {
         <DefaultCard className="flex size-full flex-col p-0 sm:max-w-72 lg:min-w-96 lg:max-w-96">
           <CampaignCarousel images={campaignImages} />
           <div className="flex flex-col gap-4 p-4">
-            <h1 className="text-2xl font-medium text-primary-900">{bizName}</h1>
+            <h1 className="text-2xl font-medium text-secondary">{bizName}</h1>
             <Stars outOf={5} ratings={4} />
             {isFeatured && <div>Features</div>}
             <SocialIcons />

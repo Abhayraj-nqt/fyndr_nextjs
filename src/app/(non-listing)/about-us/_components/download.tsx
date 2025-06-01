@@ -14,7 +14,7 @@ const Download = () => {
     <div className="w-full bg-white py-6">
       <div className="hidden sm:block">
         <div className="flex flex-col items-center justify-center gap-8 sm:flex-row">
-          <div className="flex items-center justify-center rounded-lg bg-[#257cdb] p-12">
+          <div className="flex items-center justify-center rounded-lg bg-primary p-12">
             <Image
               src="/images/aboutus/downloadUsQr.png"
               width={120}
@@ -64,7 +64,7 @@ const Download = () => {
                   width={30}
                   height={30}
                 />
-                <span className="text-xl font-normal text-[#257cdb] underline">
+                <span className="text-xl font-normal text-primary underline">
                   Save Big
                 </span>
               </div>
@@ -72,7 +72,7 @@ const Download = () => {
                 Save up to 70% on local services, events, and activities with
                 exclusive offers and discounts.
               </span>
-              <div className="mt-4 flex flex-col gap-2 text-[#333]">
+              <div className="mt-4 flex flex-col gap-2 text-black-80">
                 <span className="">• Amazing Deals</span>
                 <span className="">• Effortless Bookings</span>
                 <span className="">• Discover Events</span>

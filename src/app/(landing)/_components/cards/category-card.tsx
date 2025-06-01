@@ -50,7 +50,7 @@ const CategoryCard = ({
       <Button
         className={cn(
           `body-medium rounded-lg px-6 py-3 capitalize shadow-none flex gap-2`,
-          "bg-light-800 text-primary-900 hover:bg-light-800",
+          "bg-secondary-10 text-secondary hover:bg-secondary-10",
           isActive ? `` : ``,
           className
         )}

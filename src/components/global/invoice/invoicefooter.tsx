@@ -5,7 +5,7 @@ import { email, phoneNumber } from "@/common/config";
 
 const Invoicefooter = () => {
   return (
-    <div className="flex w-full justify-between rounded-b-[10px] bg-[#1D1D1F] px-4 py-2 text-white ">
+    <div className="flex w-full justify-between rounded-b-10 bg-black-100 px-4 py-2 text-white ">
       <div className="flex items-center space-x-2">
         <Image
           alt="mtlIcon"

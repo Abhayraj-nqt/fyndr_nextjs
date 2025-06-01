@@ -41,7 +41,6 @@ type InvoiceViewProps = {
 dayjs.extend(utc);
 dayjs.extend(timezone);
 const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
-  console.log("inv", inv);
   const firstInvoice = inv?.[0];
   // Destructure from props or wherever 'firstInvoice' comes from
   const {
@@ -84,8 +83,6 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
   const indvid = user?.indvid ?? null;
   const userTimeZone = user?.userTimeZone;
 
-  console.log(user?.isBusiness, "type");
-
   // 4. Fetch invoice details hook - this must be called unconditionally
   const { data: invoiceDetailsResp, isLoading: isInvoiceLoading } =
     useInvoiceDetails(objid, type, bizid, indvid);
@@ -118,7 +115,6 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
   const { data: reviewOverviewsresp, isLoading: reviewOverviewsLoading } =
     useUserReviewOverViews(invoiceDetailsResp?.biz?.bizid);
 
-  console.log("review response", reviewOverviewsresp);
   useEffect(() => {
     if (!reviewOverviews) return;
 
@@ -126,23 +122,15 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
     setBusinessId(reviewOverviewsresp?.bizId ?? null);
   }, [reviewOverviews]);
 
-  console.log("invoice : D", invoiceDetailsResp);
   const endDate =
     invoiceDetails?.featured_end_date &&
     new Date(invoiceDetails?.featured_end_date);
 
-  console.log("end Date", endDate);
   // 6. Handle early returns AFTER hooks
   if (isUserLoading || isInvoiceLoading) return <div>Loading...</div>;
   if (error) return <div>Some error occurred</div>;
   if (!user) return <div>User not found</div>;
   if (!invoiceDetailsResp) return <div>No invoice data available</div>;
-
-  console.log("biz", biz);
-  console.log("invoice details Resp", invoiceDetailsResp);
-
-  console.log("invoice D ", invoiceDetails);
-  console.log("firstInvoice ", firstInvoice);
 
   const totalAmount = firstInvoice ? Number(getTotal(firstInvoice)) : 0.0;
   const date1 = new Date(invoiceDt);
@@ -152,12 +140,6 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
   const DifferenceInDays = DifferenceInTime / (1000 * 3600 * 24);
   // ... continue JSX render below
 
-  console.log(type, "type ---");
-
-  console.log("dispute", disputeStatus);
-
-  console.log("details", invoiceDetails?.items || invoiceDetails?.offers);
-  console.log("review response", reviewOverviewsresp);
   return (
     <>
       <div>
@@ -193,9 +175,9 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
             />
           </div>
         )}
-        <div className="flex rounded-[10px] border border-[#D3D6E1] px-3 pt-2">
+        <div className="flex rounded-[10px] border border-secondary-20 px-3 pt-2">
           <div style={{ width: "100%" }}>
-            <div className="mb-[8px] flex justify-between text-[#257CDB]">
+            <div className="mb-[8px] flex justify-between text-primary">
               <span className="text-base font-semibold">Invoiced to:</span>
               <span className="text-base font-semibold">
                 {buyerFname} {buyerLname}
@@ -204,10 +186,10 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
 
             {(channel === "offers" || channel === "offer_appointment") && (
               <div className="mb-[8px] flex justify-between">
-                <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
+                <span className="text-[14px] font-semibold leading-[20px] text-black-70">
                   Purchased as gift:
                 </span>
-                <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
+                <span className="text-[14px] font-semibold leading-[20px] text-black-80">
                   {gifteeDetails !== null ? "Yes" : "No"}
                 </span>
               </div>
@@ -215,18 +197,18 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
             {channel === "catalog" && (
               <>
                 <div className="mb-[8px] flex justify-between">
-                  <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
+                  <span className="text-[14px] font-semibold leading-[20px] text-black-70">
                     Delivered:
                   </span>
-                  <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
+                  <span className="text-[14px] font-semibold leading-[20px] text-black-80">
                     {fulfiled ? capitalize(fulfiled) : "NA"}
                   </span>
                 </div>
                 <div className="mb-[8px] flex justify-between">
-                  <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
+                  <span className="text-[14px] font-semibold leading-[20px] text-black-70">
                     Delivery Time:
                   </span>
-                  <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
+                  <span className="text-[14px] font-semibold leading-[20px] text-black-80">
                     {capitalize(invoiceDetails?.deliveryTime)}
                   </span>
                 </div>
@@ -236,10 +218,10 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
             {(channel === "cmpn_promo" || channel === "promo") && (
               <>
                 <div className="mb-[8px] flex justify-between">
-                  <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
+                  <span className="text-[14px] font-semibold leading-[20px] text-black-70">
                     Campaign Name:
                   </span>
-                  <span className="ml-4 flex-1 text-right text-[14px] font-semibold leading-[20px] text-[#333333]">
+                  <span className="ml-4 flex-1 text-right text-[14px] font-semibold leading-[20px] text-black-80">
                     {invoiceDetails?.title?.includes(":")
                       ? getTruncatedTitle(
                           invoiceDetails.title.split(":")[1].trim()
@@ -251,19 +233,19 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
                 {invoiceDetails?.promo_channels.includes("featured") && (
                   <>
                     <div className="mb-[8px] flex justify-between">
-                      <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
+                      <span className="text-[14px] font-semibold leading-[20px] text-black-70">
                         Featured:
                       </span>
-                      <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
+                      <span className="text-[14px] font-semibold leading-[20px] text-black-80">
                         Yes
                       </span>
                     </div>
 
                     <div className="mb-[8px] flex justify-between">
-                      <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
+                      <span className="text-[14px] font-semibold leading-[20px] text-black-70">
                         Featured Duration:
                       </span>
-                      <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
+                      <span className="text-[14px] font-semibold leading-[20px] text-black-80">
                         {`${invoiceDetails?.duration} ${
                           invoiceDetails?.duration === 1 ? "Month" : "Months"
                         }`}
@@ -271,19 +253,19 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
                     </div>
 
                     <div className="mb-[8px] flex justify-between">
-                      <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
+                      <span className="text-[14px] font-semibold leading-[20px] text-black-70">
                         Featured Start Date:
                       </span>
-                      <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
+                      <span className="text-[14px] font-semibold leading-[20px] text-black-80">
                         {/* {moment.tz(startDate, userTimeZone).format("MMM DD, YYYY")} */}
                       </span>
                     </div>
 
                     <div className="mb-[8px] flex justify-between">
-                      <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
+                      <span className="text-[14px] font-semibold leading-[20px] text-black-70">
                         Featured End Date:
                       </span>
-                      <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
+                      <span className="text-[14px] font-semibold leading-[20px] text-black-80">
                         {/* {moment.tz(endDate, userTimeZone).format("MMM DD, YYYY")} */}
                       </span>
                     </div>
@@ -293,10 +275,10 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
                 {(invoiceDetails?.promo_channels.includes("mobile_push") ||
                   invoiceDetails?.promo_channels.includes("email")) && (
                   <div className="mb-[8px] flex justify-between">
-                    <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
+                    <span className="text-[14px] font-semibold leading-[20px] text-black-70">
                       Promotion type:
                     </span>
-                    <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
+                    <span className="text-[14px] font-semibold leading-[20px] text-black-80">
                       {invoiceDetails?.promo_channels
                         .split(",")
                         .filter(
@@ -311,29 +293,29 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
                 )}
 
                 <div className="mb-[8px] flex justify-between">
-                  <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
+                  <span className="text-[14px] font-semibold leading-[20px] text-black-70">
                     Promotion Date:
                   </span>
-                  <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
+                  <span className="text-[14px] font-semibold leading-[20px] text-black-80">
                     {dayjs.tz(invoiceDt, userTimeZone).format("MMM DD, YYYY")}
                   </span>
                 </div>
 
                 <div className="mb-[8px] flex justify-between">
-                  <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
+                  <span className="text-[14px] font-semibold leading-[20px] text-black-70">
                     Promotion Time:
                   </span>
-                  <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
+                  <span className="text-[14px] font-semibold leading-[20px] text-black-80">
                     {dayjs.tz(invoiceDt, userTimeZone).format("hh:mm A")}
                   </span>
                 </div>
               </>
             )}
             <div className="mb-[8px] flex items-center justify-between">
-              <span className="w-1/3 text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
+              <span className="w-1/3 text-[14px] font-semibold leading-[20px] text-black-70">
                 Payment Status:
               </span>
-              <span className="w-1/3 text-right text-[14px] font-semibold leading-[20px] text-[#333333]">
+              <span className="w-1/3 text-right text-[14px] font-semibold leading-[20px] text-black-80">
                 {capitalize(status)}
               </span>
               {/* {status === "pending" && (
@@ -353,11 +335,11 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
 
             {(channel !== "cmpn_promo" || channel !== "promo") && (
               <div className="mb-[8px] flex justify-between">
-                <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
+                <span className="text-[14px] font-semibold leading-[20px] text-black-70">
                   Date Invoiced:
                 </span>
                 {userTimeZone && (
-                  <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
+                  <span className="text-[14px] font-semibold leading-[20px] text-black-80">
                     {dayjs(invoiceDt).tz(userTimeZone).format("MMM DD, YYYY")}
                   </span>
                 )}
@@ -367,30 +349,30 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
             {channel === "custom" && (
               <div>
                 <div className="mb-2 flex justify-between">
-                  <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
+                  <span className="text-[14px] font-semibold leading-[20px] text-black-70">
                     Invoice #:
                   </span>
-                  <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
+                  <span className="text-[14px] font-semibold leading-[20px] text-black-80">
                     {invoiceDetails.invoice_nbr}
                   </span>
                 </div>
 
                 {invoiceDetails.cust_message !== null && (
                   <div className="mb-2 flex justify-between">
-                    <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
+                    <span className="text-[14px] font-semibold leading-[20px] text-black-70">
                       Message:
                     </span>
-                    <span className="text-[14px] font-normal leading-[20px] text-[#333333]">
+                    <span className="text-[14px] font-normal leading-[20px] text-black-80">
                       {invoiceDetails.cust_message}
                     </span>
                   </div>
                 )}
 
                 <div className="mb-2 flex justify-between">
-                  <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
+                  <span className="text-[14px] font-semibold leading-[20px] text-black-70">
                     Associate Name:
                   </span>
-                  <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
+                  <span className="text-[14px] font-semibold leading-[20px] text-black-80">
                     {invoiceDetails.server_name}
                   </span>
                 </div>
@@ -399,40 +381,40 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
 
             {status === "paid" && brand !== undefined && brand !== "" && (
               <div className="mb-2 flex justify-between">
-                <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
+                <span className="text-[14px] font-semibold leading-[20px] text-black-70">
                   Payment Method:
                 </span>
-                <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
+                <span className="text-[14px] font-semibold leading-[20px] text-black-80">
                   {capitalize(brand)}
                 </span>
               </div>
             )}
             {billingEmail !== "" && (
               <div className="mb-2 flex justify-between">
-                <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
+                <span className="text-[14px] font-semibold leading-[20px] text-black-70">
                   Billing Email:
                 </span>
-                <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
+                <span className="text-[14px] font-semibold leading-[20px] text-black-80">
                   {billingEmail}
                 </span>
               </div>
             )}
             {billingAddress && Object.keys(billingAddress).length > 0 && (
               <div className="mb-[8px] flex justify-between">
-                <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
+                <span className="text-[14px] font-semibold leading-[20px] text-black-70">
                   Billing Address:
                 </span>
-                <span className="text-right text-[14px] font-semibold leading-[20px] text-[#333333]">
+                <span className="text-right text-[14px] font-semibold leading-[20px] text-black-80">
                   {parseAddressInvoice(billingAddress)}
                 </span>
               </div>
             )}
             {purchaseLoc && Object.keys(purchaseLoc).length > 0 && (
               <div className="mb-[8px] flex justify-between">
-                <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
+                <span className="text-[14px] font-semibold leading-[20px] text-black-70">
                   Location:
                 </span>
-                <span className="text-right text-[14px] font-semibold leading-[20px] text-[#333333]">
+                <span className="text-right text-[14px] font-semibold leading-[20px] text-black-80">
                   {parseAddressInvoice(purchaseLoc)}
                 </span>
               </div>
@@ -440,7 +422,7 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
 
             {type === "payable" && disputeStatus !== null && (
               <div className="mb-[8px] flex justify-between">
-                <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
+                <span className="text-[14px] font-semibold leading-[20px] text-black-70">
                   Dispute Status:
                 </span>
                 <span className="text-[14px] font-semibold leading-[20px] text-red-600">
@@ -459,7 +441,7 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
 
         {
           /* {(channel === "catalog" || channel === "catalog_appointment") && renderListItems()} */
-          console.log(invoiceDetails?.appointment_per_cart)
+          // console.log(invoiceDetails?.appointment_per_cart)
         }
 
         {gifteeDetails !== null && (
@@ -478,7 +460,7 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
           />
         )}
 
-        <div className="mt-3 rounded-[10px] border border-[#D3D6E1] p-3">
+        <div className="mt-3 rounded-[10px] border border-secondary-20 p-3">
           <Invoicetotal
             channel={channel}
             invoiceDetails={invoiceDetails}

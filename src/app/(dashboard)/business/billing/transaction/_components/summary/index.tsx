@@ -16,7 +16,7 @@ const Summary = async ({ month, bizid }: Props) => {
   if (!resp.success || !resp.data) return null;
 
   return (
-    <div className="bg-primary-50 p-4">
+    <div className="bg-primary-10 p-4">
       <div className="flex items-center justify-between">
         <div className="text-lg font-normal">Total Transaction</div>
         <div className="flex w-full flex-col items-end md:w-[300px]">

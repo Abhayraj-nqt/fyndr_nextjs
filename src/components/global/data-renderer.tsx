@@ -54,15 +54,15 @@ const StateSkeleton = ({
         />
       </>
     )}
-    {title && <h2 className="h2-bold mt-8 text-dark-100">{title}</h2>}
+    {title && <h2 className="h2-bold mt-8 text-black">{title}</h2>}
     {message && (
-      <p className="body-regular my-3.5 max-w-md text-center text-dark-200">
+      <p className="body-regular my-3.5 max-w-md text-center text-black-80">
         {message}
       </p>
     )}
     {button && (
       <Link href={button.href}>
-        <Button className="paragraph-medium mt-5 min-h-[46px] rounded-lg bg-primary-500 px-4 py-3 text-light-900 hover:bg-primary-500">
+        <Button className="paragraph-medium mt-5 min-h-[46px] rounded-lg bg-primary px-4 py-3 text-white hover:bg-primary">
           {button.text}
         </Button>
       </Link>

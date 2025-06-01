@@ -181,7 +181,7 @@ const ItemAddForm = ({ bizid, itemId }: Props) => {
           name="name"
           render={({ field }) => (
             <FormItem className="flex flex-row gap-4 items-center">
-              <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormLabel className="paragraph-medium w-40 min-w-40 text-black-70 text-base">
                 Name:
               </FormLabel>
               <div className="w-full flex flex-col gap-1">
@@ -203,7 +203,7 @@ const ItemAddForm = ({ bizid, itemId }: Props) => {
           name="description"
           render={({ field }) => (
             <FormItem className="flex flex-row gap-4">
-              <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base mt-2">
+              <FormLabel className="paragraph-medium w-40 min-w-40 text-black-70 text-base mt-2">
                 Description:
               </FormLabel>
               <div className="w-full flex flex-col gap-1">
@@ -221,7 +221,7 @@ const ItemAddForm = ({ bizid, itemId }: Props) => {
           name="image"
           render={({ field }) => (
             <FormItem className="flex-center">
-              <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base"></FormLabel>
+              <FormLabel className="paragraph-medium w-40 min-w-40 text-black-70 text-base"></FormLabel>
               <div className="flex-between gap-5">
                 {uploadedFiles.map((item) => (
                   <Image
@@ -250,7 +250,7 @@ const ItemAddForm = ({ bizid, itemId }: Props) => {
           name="unit"
           render={({ field }) => (
             <FormItem className="flex-center">
-              <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormLabel className="paragraph-medium w-40 min-w-40 text-black-70 text-base">
                 Unit:
               </FormLabel>
               <div className="w-full flex flex-col gap-1">
@@ -267,7 +267,7 @@ const ItemAddForm = ({ bizid, itemId }: Props) => {
           name="sku"
           render={({ field }) => (
             <FormItem className="flex flex-row gap-4 items-center">
-              <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormLabel className="paragraph-medium w-40 min-w-40 text-black-70 text-base">
                 SKU:
               </FormLabel>
               <div className="w-full flex flex-col gap-1">
@@ -289,7 +289,7 @@ const ItemAddForm = ({ bizid, itemId }: Props) => {
           name="stdTax"
           render={({ field }) => (
             <FormItem className="flex flex-row gap-4 items-center">
-              <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormLabel className="paragraph-medium w-40 min-w-40 text-black-70 text-base">
                 Standard Tax:
               </FormLabel>
               <div className="w-full flex flex-col gap-1">
@@ -309,7 +309,7 @@ const ItemAddForm = ({ bizid, itemId }: Props) => {
           name="taxPercent"
           render={({ field }) => (
             <FormItem className="flex flex-row gap-4 items-center">
-              <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormLabel className="paragraph-medium w-40 min-w-40 text-black-70 text-base">
                 Tax Percentage:
               </FormLabel>
               <div className="w-full flex flex-col gap-1">

@@ -70,57 +70,57 @@ const Privacy = () => {
         </p>
         <ol className={`${olStyle}`}>
           <li>
-            <Link href="" className="text-primary-500">
+            <Link href="" className="text-primary">
               <strong> Types of Information We Collect</strong>
             </Link>
           </li>
           <li>
-            <Link href="" className="text-primary-500">
+            <Link href="" className="text-primary">
               <strong> How Fyndr Collects Information</strong>
             </Link>
           </li>
           <li>
-            <Link href="" className="text-primary-500">
+            <Link href="" className="text-primary">
               <strong> How Fyndr Uses Information</strong>
             </Link>
           </li>
           <li>
-            <Link href="" className="text-primary-500">
+            <Link href="" className="text-primary">
               <strong> When and Why Fyndr Discloses Information</strong>
             </Link>
           </li>
           <li>
-            <Link href="" className="text-primary-500">
+            <Link href="" className="text-primary">
               <strong> Security of Personal Information</strong>
             </Link>
           </li>
           <li>
-            <Link href="" className="text-primary-500">
+            <Link href="" className="text-primary">
               <strong> Your Rights Regarding Personal Information</strong>
             </Link>
           </li>
           <li>
-            <Link href="" className="text-primary-500">
+            <Link href="" className="text-primary">
               <strong> Your Choices</strong>
             </Link>
           </li>
           <li>
-            <Link href="" className="text-primary-500">
+            <Link href="" className="text-primary">
               <strong> Social Community Areas</strong>
             </Link>
           </li>
           <li>
-            <Link href="" className="text-primary-500">
+            <Link href="" className="text-primary">
               <strong> Privacy Practices of Third Parties</strong>
             </Link>
           </li>
           <li>
-            <Link href="" className="text-primary-500">
+            <Link href="" className="text-primary">
               <strong> Business Transfers and Corporate Changes</strong>
             </Link>
           </li>
           <li>
-            <Link href="" className="text-primary-500">
+            <Link href="" className="text-primary">
               <strong>
                 Notice to Residents of Countries outside the United States of
                 America
@@ -128,22 +128,22 @@ const Privacy = () => {
             </Link>
           </li>
           <li>
-            <Link href="" className="text-primary-500">
+            <Link href="" className="text-primary">
               <strong> Children&rsquo;s Privacy</strong>
             </Link>
           </li>
           <li>
-            <Link href="" className="text-primary-500">
+            <Link href="" className="text-primary">
               <strong> Contact Us</strong>
             </Link>
           </li>
           <li>
-            <Link href="" className="text-primary-500">
+            <Link href="" className="text-primary">
               <strong>California Privacy Rights and Other Countries</strong>
             </Link>
           </li>
           <li>
-            <Link href="" className="text-primary-500">
+            <Link href="" className="text-primary">
               <strong>Google Calendar Permission</strong>
             </Link>
           </li>
@@ -510,7 +510,7 @@ const Privacy = () => {
               You have the right to update your
               <Link
                 href="https://fyndr.us/legal/privacy.html"
-                className="text-primary-500"
+                className="text-primary"
               >
                 personal information
               </Link>
@@ -520,7 +520,7 @@ const Privacy = () => {
               You have the right to request a portable copy of your
               <Link
                 href="https://fyndr.us/legal/privacy.html"
-                className="text-primary-500"
+                className="text-primary"
               >
                 personal information
               </Link>
@@ -530,7 +530,7 @@ const Privacy = () => {
               You have the right to request that Fyndr delete your
               <Link
                 href="https://fyndr.us/legal/privacy.html"
-                className="text-primary-500"
+                className="text-primary"
               >
                 Personal Information
               </Link>
@@ -778,7 +778,7 @@ const Privacy = () => {
             written information about our policies and practices with respect to
             the transfer of your personal information to vendors outside Canada.
             E-mail us at
-            <Link href="mailto:privacy@Fyndr.us" className="text-primary-500">
+            <Link href="mailto:privacy@Fyndr.us" className="text-primary">
               privacy@Fyndr.us
             </Link>{" "}
             with questions.
@@ -854,7 +854,7 @@ const Privacy = () => {
             Google APIs to any other app will adhere to the
             <Link
               href="https://developers.google.com/terms/api-services-user-data-policy"
-              className="text-primary-500"
+              className="text-primary"
             >
               Google API Services User Data Policy
             </Link>
@@ -884,7 +884,7 @@ const Privacy = () => {
             process at the following link:{" "}
             <Link
               href="https://www.youtube.com/watch?v=JHuCq9VxhRY"
-              className="text-primary-500"
+              className="text-primary"
             >
               OAuth Consent Screen Demo
             </Link>

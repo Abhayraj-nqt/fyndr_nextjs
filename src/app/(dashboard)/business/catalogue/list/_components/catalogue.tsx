@@ -94,7 +94,7 @@ const Catalogue = ({ data }: Props) => {
         primaryAction={{
           label: "OK",
           onClick: handleOnClick,
-          className: "bg-primary-500 text-white hover:bg-primary-600",
+          className: "bg-primary text-white hover:bg-secondary-90",
         }}
         secondaryAction={{
           label: "Cancel",
@@ -122,7 +122,7 @@ const Catalogue = ({ data }: Props) => {
         primaryAction={{
           label: "OK",
           onClick: () => {},
-          className: "bg-primary-500 text-white hover:bg-primary-600",
+          className: "bg-primary text-white hover:bg-secondary-90",
         }}
         secondaryAction={{
           label: "Cancel",
@@ -146,7 +146,7 @@ const Catalogue = ({ data }: Props) => {
                 className="flex cursor-pointer items-center gap-3 rounded-md border border-gray-300 p-3"
               >
                 <RadioGroupItem value={String(item.objid)} />
-                <span className="text-sm text-primary-500">
+                <span className="text-sm text-primary">
                   {item.addressLine1}, {item.addressLine2}, {item.city},{" "}
                   {item.postalCode}
                 </span>

@@ -41,11 +41,11 @@ const SeeCampaignCard = ({ className, href, offers }: SeeCampaignProps) => {
             <div className="flex w-48 flex-col gap-2 p-2">
               <h3 className="body-regular line-clamp-1">{offer.title}</h3>
               <div className="flex gap-2">
-                <span className="small-regular text-light-400 line-through">
+                <span className="small-regular text-secondary-70 line-through">
                   {offer.currencySymbol}
                   {offer.retailPrice.toFixed(2)}
                 </span>
-                <span className="body-regular text-primary-500">
+                <span className="body-regular text-primary">
                   {offer.currencySymbol}
                   {offer.offerPrice.toFixed(2)}
                 </span>
@@ -68,13 +68,13 @@ const CampaignCard = ({ campaign }: Props) => {
   const toggleSeeMore = () => setSeeMore((prev) => !prev);
 
   return (
-    <Card className="relative flex max-h-fit max-w-xl flex-col gap-4 rounded-lg border-light-700 p-4 shadow-none duration-100">
+    <Card className="relative flex max-h-fit max-w-xl flex-col gap-4 rounded-lg border-secondary-20 p-4 shadow-none duration-100">
       <Link
         href={ROUTES.OFFER_DETAILS(campaign.biz.bizName, campaign.qrCode)}
         className="flex flex-col gap-4"
       >
         <CardHeader className="flex-between flex-row items-center gap-2 p-0">
-          <CardTitle className="paragraph-semibold text-dark-200">
+          <CardTitle className="paragraph-semibold text-black-80">
             {campaign.title}
           </CardTitle>
           {campaign.isFeatured && (
@@ -111,10 +111,10 @@ const CampaignCard = ({ campaign }: Props) => {
             href={ROUTES.OFFER_DETAILS(campaign.biz.bizName, campaign.qrCode)}
             className="space-y-4"
           >
-            <CardTitle className="paragraph-semibold line-clamp-1 text-dark-200">
+            <CardTitle className="paragraph-semibold line-clamp-1 text-black-80">
               {campaign.biz.bizName}
             </CardTitle>
-            <CardDescription className="body-regular line-clamp-2 h-10 text-light-300">
+            <CardDescription className="body-regular line-clamp-2 h-10 text-secondary-80">
               {`${
                 campaign?.cmpnLocs[0]?.distance
                   ? campaign?.cmpnLocs[0]?.distance.toFixed(1)
@@ -123,7 +123,7 @@ const CampaignCard = ({ campaign }: Props) => {
             </CardDescription>
           </Link>
 
-          <div className="flex items-center gap-4 text-dark-300">
+          <div className="flex items-center gap-4 text-black-80">
             <Phone size={20} />
             <Globe size={20} />
             <Share2 size={20} />
@@ -135,7 +135,7 @@ const CampaignCard = ({ campaign }: Props) => {
         </div>
       </CardContent>
 
-      <CardFooter className="flex-between body-regular p-0 text-dark-300">
+      <CardFooter className="flex-between body-regular p-0 text-black-80">
         <div className="capitalize">
           {campaign.cmpnType}: {campaign.cmpnOffers.length}
         </div>

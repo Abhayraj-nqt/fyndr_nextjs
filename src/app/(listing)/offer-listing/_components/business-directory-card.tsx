@@ -44,7 +44,7 @@ const BusinessDirectoryCard = ({ businessDirectory }: Props) => {
           <CardTitle>{businessDirectory.bizName}</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col gap-4 p-0">
-          <CardDescription className="body-regular text-light-300">
+          <CardDescription className="body-regular text-secondary-80">
             {`${
               businessDirectory?.distance
                 ? businessDirectory?.distance.toFixed(1)
