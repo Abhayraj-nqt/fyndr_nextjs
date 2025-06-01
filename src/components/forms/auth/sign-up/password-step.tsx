@@ -171,7 +171,7 @@ const PasswordStep = ({ requireVerification }: PasswordStepProps) => {
             name={"verificationToken" as keyof FormValues}
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="paragraph-medium hidden text-light-900">
+                <FormLabel className="paragraph-medium hidden text-white">
                   Verification Token
                 </FormLabel>
                 <FormControl>
@@ -192,7 +192,7 @@ const PasswordStep = ({ requireVerification }: PasswordStepProps) => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="paragraph-medium hidden text-light-900">
+              <FormLabel className="paragraph-medium hidden text-white">
                 Password
               </FormLabel>
               <FormControl>
@@ -213,7 +213,7 @@ const PasswordStep = ({ requireVerification }: PasswordStepProps) => {
           name="confirmPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="paragraph-medium hidden text-light-900">
+              <FormLabel className="paragraph-medium hidden text-white">
                 Confirm Password
               </FormLabel>
               <FormControl>
@@ -233,7 +233,7 @@ const PasswordStep = ({ requireVerification }: PasswordStepProps) => {
           <Button
             type="button"
             onClick={handleResendToken}
-            className="min-h-12 w-full rounded-[10px] bg-primary-500 px-4 py-3 text-base font-normal !text-light-900 hover:bg-primary-500"
+            className="min-h-12 w-full rounded-[10px] bg-primary px-4 py-3 text-base font-normal !text-white hover:bg-primary"
             disabled={isActive || isSendingToken}
           >
             {isSendingToken ? "Resending..." : "Resend Token"}{" "}
@@ -245,7 +245,7 @@ const PasswordStep = ({ requireVerification }: PasswordStepProps) => {
         <Button
           type="submit"
           disabled={isPending}
-          className="min-h-12 w-full rounded-[10px] bg-primary-500 px-4 py-3 text-base font-normal !text-light-900 hover:bg-primary-500"
+          className="min-h-12 w-full rounded-[10px] bg-primary px-4 py-3 text-base font-normal !text-white hover:bg-primary"
         >
           {isPending ? "Proceeding" : "Proceed"}
         </Button>

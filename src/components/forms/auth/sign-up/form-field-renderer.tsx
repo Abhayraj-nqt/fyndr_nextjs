@@ -46,7 +46,7 @@ const FormFieldRenderer = <T extends FieldValues>({
             name={config.name as Path<T>}
             render={({ field }) => (
               <FormItem className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-black-70">
                   {config.label}{" "}
                   {config.required && <span className="text-red-600">*</span>}
                 </FormLabel>
@@ -75,7 +75,7 @@ const FormFieldRenderer = <T extends FieldValues>({
             name={config.name as Path<T>}
             render={({ field }) => (
               <FormItem className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-black-70">
                   {config.label}{" "}
                   {config.required && <span className="text-red-600">*</span>}
                 </FormLabel>
@@ -102,7 +102,7 @@ const FormFieldRenderer = <T extends FieldValues>({
             name={config.name as Path<T>}
             render={({ field }) => (
               <FormItem className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-black-70">
                   {config.label}{" "}
                   {config.required && <span className="text-red-600">*</span>}
                 </FormLabel>
@@ -130,7 +130,7 @@ const FormFieldRenderer = <T extends FieldValues>({
             name={config.name as Path<T>}
             render={({ field }) => (
               <FormItem className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-black-70">
                   {config.label}{" "}
                   {config.required && <span className="text-red-600">*</span>}
                 </FormLabel>
@@ -153,7 +153,7 @@ const FormFieldRenderer = <T extends FieldValues>({
       case "phone":
         return (
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-            <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D] sm:hidden">
+            <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-black-70 sm:hidden">
               {config.label}{" "}
               {config.required && <span className="text-red-600">*</span>}
             </FormLabel>
@@ -163,7 +163,7 @@ const FormFieldRenderer = <T extends FieldValues>({
                 name={config.countryCodeField as FieldPath<T>}
                 render={({ field }) => (
                   <FormItem className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                    <FormLabel className="paragraph-medium hidden w-40 min-w-40 text-base text-[#4D4D4D] sm:block">
+                    <FormLabel className="paragraph-medium hidden w-40 min-w-40 text-base text-black-70 sm:block">
                       {config.label}{" "}
                       {config.required && (
                         <span className="text-red-600">*</span>
@@ -190,7 +190,7 @@ const FormFieldRenderer = <T extends FieldValues>({
                           disabled={config.disabled}
                           placeholder={config.placeholder}
                           type={config.type}
-                          leftNode={
+                          rightNode={
                             <MobileVerificationModal
                               email={data.email || ""}
                               countryCode={control._getWatch(
@@ -220,7 +220,7 @@ const FormFieldRenderer = <T extends FieldValues>({
                     {states.isMobileVerified && (
                       <div
                         onClick={() => setters.setIsMobileVerified(false)}
-                        className="!m-0 cursor-pointer rounded-full bg-primary-500 p-2 text-white"
+                        className="!m-0 cursor-pointer rounded-full bg-primary p-2 text-white"
                       >
                         <RotateCw size={15} />
                       </div>
@@ -240,7 +240,7 @@ const FormFieldRenderer = <T extends FieldValues>({
               name={config.name as Path<T>}
               render={({ field }) => (
                 <FormItem className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                  <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
+                  <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-black-70">
                     {config.label}
                   </FormLabel>
                   <div className="flex w-full flex-row items-center gap-2">
@@ -251,7 +251,7 @@ const FormFieldRenderer = <T extends FieldValues>({
                           value={field.value || ""}
                           placeholder={config.placeholder}
                           disabled={config.disabled}
-                          leftNode={
+                          rightNode={
                             <Button
                               variant="primary"
                               type="button"
@@ -272,7 +272,7 @@ const FormFieldRenderer = <T extends FieldValues>({
                     {states.isCodeVerified && (
                       <div
                         onClick={() => setters.setIsCodeVerified(false)}
-                        className="!m-0 w-fit cursor-pointer rounded-full bg-primary-500 p-2 text-white"
+                        className="!m-0 w-fit cursor-pointer rounded-full bg-primary p-2 text-white"
                       >
                         <RotateCw size={15} />
                       </div>
@@ -291,7 +291,7 @@ const FormFieldRenderer = <T extends FieldValues>({
             name={config.name as Path<T>}
             render={({ field }) => (
               <FormItem className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-black-70">
                   {config.label}{" "}
                   {config.required && <span className="text-red-600">*</span>}
                 </FormLabel>

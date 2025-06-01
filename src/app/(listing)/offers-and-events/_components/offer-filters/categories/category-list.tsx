@@ -67,7 +67,7 @@ const CategoryList = ({ categories }: Props) => {
         >
           <Checkbox
             id={`${category.objid}`}
-            className="data-[state=checked]:bg-primary-900"
+            className="data-[state=checked]:bg-secondary"
             value={category.objid}
             onCheckedChange={() => handleCheckboxChange(category.objid)}
             checked={selectedCategory.includes(category.objid)}

@@ -55,7 +55,7 @@ const OfferSummary = async ({
     <ContainerWrapper title="Offer Summary">
       <div className="flex justify-between gap-4 pb-6 pt-1 text-[14px] font-normal md:flex-row">
         <div className="flex">
-          <div className="mr-6 flex items-center justify-center rounded-[10px] bg-[#F4F8FD] p-6 shadow-[0px_4px_4px_0px_#0000001A]">
+          <div className="mr-6 flex items-center justify-center rounded-10 bg-primary-0.5 p-6 shadow-[0px_4px_4px_0px_#0000001A]">
             <PieChartSection chartData={chartData} />
           </div>
 
@@ -72,15 +72,15 @@ const OfferSummary = async ({
 
         <div className="flex flex-col justify-end gap-2 pr-20">
           <div className="flex items-center">
-            <span className="mr-2 inline-block size-4 rounded-full bg-current text-[#5196E2]"></span>
+            <span className="mr-2 inline-block size-4 rounded-full bg-current text-primary-80"></span>
             <span>Offers Unused</span>
           </div>
           <div className="flex items-center">
-            <span className="mr-2 inline-block size-4 rounded-full bg-current text-[#999999]"></span>
+            <span className="mr-2 inline-block size-4 rounded-full bg-current text-black-40"></span>
             <span>Offers Redeemed</span>
           </div>
           <div className="flex items-center">
-            <span className="mr-2 inline-block size-4 rounded-full bg-current text-[#EAF2FC]"></span>
+            <span className="mr-2 inline-block size-4 rounded-full bg-current text-primary-10"></span>
             <span>Offers Partially Redeemed</span>
           </div>
         </div>

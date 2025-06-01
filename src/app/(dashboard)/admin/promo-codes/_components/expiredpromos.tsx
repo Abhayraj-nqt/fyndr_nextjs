@@ -11,13 +11,10 @@ const Expiredpromos = ({ data }: Props) => {
       {data?.map((promo, key) => (
         <div
           key={key}
-          className="mt-5 flex w-full rounded-[10px] border border-[#d3d6e1]"
+          className="mt-5 flex w-full rounded-10 border border-secondary-20"
         >
           <div>
-            <img
-              src={promo.imageUrl}
-              className="size-[77.3134px] rounded-[10px]"
-            />
+            <img src={promo.imageUrl} className="size-[77.3134px] rounded-10" />
           </div>
           <div className="flex w-full flex-col justify-evenly px-4 pt-1">
             <div>

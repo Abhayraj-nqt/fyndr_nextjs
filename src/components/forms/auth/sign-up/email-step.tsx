@@ -89,7 +89,7 @@ const EmailStep = ({ userType, onNextStep }: EmailStepProps) => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="paragraph-medium hidden text-light-900">
+                <FormLabel className="paragraph-medium hidden text-white">
                   Email Address
                 </FormLabel>
                 <FormControl>
@@ -106,7 +106,7 @@ const EmailStep = ({ userType, onNextStep }: EmailStepProps) => {
           <Button
             type="submit"
             disabled={isPending}
-            className="min-h-12 w-full rounded-[10px] bg-primary-500 px-4 py-3 text-base font-normal !text-light-900 hover:bg-primary-500"
+            className="min-h-12 w-full rounded-[10px] bg-primary px-4 py-3 text-base font-normal !text-white hover:bg-primary"
           >
             {isPending ? "Proceeding" : "Proceed"}
           </Button>

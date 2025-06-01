@@ -77,7 +77,7 @@ const SelectCountry = ({
         >
           <SelectValue
             placeholder={placeholder}
-            className="placeholder:text-[#999999]"
+            className="placeholder:text-black-40"
           >
             {selectedCountry && (
               <div className="flex items-center gap-2">
