@@ -1,14 +1,15 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
 import { deleteCategory } from "@/actions/catalogue.actions";
+import toast from "@/components/global/toast";
 import { StoreCategory } from "@/types/api-response/catalogue.response";
+import { useCategoryStore } from "@/zustand/stores/storeCategory.store";
 
 import List from "../../../_components/list";
 import ListItem from "../../_components/listItem";
-import { useCategoryStore } from "@/zustand/stores/storeCategory.store";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import toast from "@/components/global/toast";
 
 type Props = {
   categories: StoreCategory[];

@@ -80,7 +80,7 @@ export type AddItem = (
     description: string;
     name: string;
     images: string[];
-    sku: String;
+    sku: string;
     stdTax: boolean;
     taxPercent: string;
     unit: string;
@@ -92,7 +92,7 @@ export type EditItem = (payload: {
   description: string;
   name: string;
   images: string[];
-  sku: String;
+  sku: string;
   stdTax: boolean;
   taxPercent: string;
   unit: string;

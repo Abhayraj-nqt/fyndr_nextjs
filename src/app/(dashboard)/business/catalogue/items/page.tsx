@@ -1,10 +1,9 @@
 import { fetchStoreItem } from "@/actions/catalogue.actions";
 import { auth } from "@/auth";
 import ContainerWrapper from "@/components/global/ContainerWrapper";
-import { Button } from "@/components/ui/button";
 
-import ItemList from "./_components/itemList";
 import AddItem from "./_components/addItemButton";
+import ItemList from "./_components/itemList";
 
 const CatalogItems = async () => {
   const session = await auth();

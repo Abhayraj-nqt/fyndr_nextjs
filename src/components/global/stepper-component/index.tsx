@@ -1,66 +1,62 @@
 "use client";
 
-import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Stepper,
   StepperItem,
   StepperTrigger,
   StepperTitle,
-  //   StepperDescription,
 } from "@/components/ui/stepper";
-import { Button } from "@/components/ui/button";
 
 type Step = {
-  step: number;
+  step: string;
   title: string;
-  // description?: string;
-};
-
-type StepperComponentProps = {
-  steps: Step[];
 };
 
 type StepState = "inactive" | "active" | "completed";
 
-const StepperComponent: React.FC<StepperComponentProps> = ({ steps }) => {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+type Props = {
+  steps: Step[];
+  currentStep: string;
+  onStepClick?: (step: string) => void;
+  children?: React.ReactNode;
+};
 
-  const getStepState = (stepNumber: number): StepState => {
-    if (stepNumber < currentStep) return "completed";
-    if (stepNumber === currentStep) return "active";
+const StepperComponent = ({
+  steps,
+  currentStep,
+  onStepClick,
+  children,
+}: Props) => {
+  const getStepState = (stepNum: string): StepState => {
+    const current = parseInt(currentStep);
+    const step = parseInt(stepNum);
+    if (step < current) return "completed";
+    if (step === current) return "active";
     return "inactive";
   };
 
-  const handleNext = () => {
-    setCurrentStep((prev) => Math.min(prev + 1, steps.length));
-  };
-
-  const handlePrevious = () => {
-    setCurrentStep((prev) => Math.max(prev - 1, 1));
-  };
-
   return (
-    <div className="w-full max-w-3xl mx-auto p-6">
+    <div className="w-full">
       <Stepper className="relative flex w-full items-center justify-between">
         {steps.map((step, index) => {
           const state = getStepState(step.step);
-          const isLastStep = index === steps.length - 1;
+          const isLast = index === steps.length - 1;
 
           return (
             <div
               key={step.step}
-              className="relative flex-1 flex flex-col items-center"
+              className="relative flex min-h-[80px] flex-1 flex-col items-center"
             >
-              {/* Connecting line to next step */}
-              {!isLastStep && (
+              {!isLast && (
                 <div
-                  className={`absolute top-5 left-1/2 right-[-50%] h-0.5 z-0 rounded-full
-      ${step.step < currentStep ? "bg-primary-400" : "bg-gray-300"}`}
+                  className={`absolute -right-1/2 left-1/2 top-4 z-0 h-0.5 rounded-full
+                    ${state === "completed" ? "bg-primary-400" : "bg-gray-300"}`}
                 />
               )}
 
               <StepperItem
-                step={step.step}
+                step={parseInt(step.step)}
                 className="z-10 flex flex-col items-center"
               >
                 <StepperTrigger asChild>
@@ -71,31 +67,18 @@ const StepperComponent: React.FC<StepperComponentProps> = ({ steps }) => {
                         : "outline"
                     }
                     size="icon"
-                    className={`z-10 shrink-0 rounded-full w-10 h-10 flex items-center justify-center text-base
-      ${state === "active" ? "bg-white ring-2 ring-ring ring-offset-2 ring-offset-background" : ""}
-      ${state === "completed" ? "bg-primary-400 text-white" : ""}
-    `}
-                    onClick={() => setCurrentStep(step.step)}
+                    className={`z-10 flex size-8 items-center justify-center rounded-full text-base text-gray-400
+                      ${state === "active" ? "bg-white ring-2 ring-offset-2" : ""}
+                      ${state === "completed" ? "bg-primary-400 text-white" : ""}`}
+                    onClick={() => onStepClick?.(step.step)}
                   >
-                    <span
-                      className={`font-semibold text- ${
-                        step.step < currentStep
-                          ? "bg-primary-400 text-white"
-                          : step.step === currentStep
-                            ? "bg-white text-primary-400"
-                            : "bg-white text-gray-400"
-                      }`}
-                    >
-                      {step.step}
-                    </span>
+                    {step.step}
                   </Button>
                 </StepperTrigger>
 
-                <div className="mt-3 text-center">
+                <div className="mt-2 w-full max-w-[70px] text-center">
                   <StepperTitle
-                    className={`text-sm font-semibold lg:text-base ${
-                      state === "active" ? "text-primary" : ""
-                    }`}
+                    className={`text-sm font-normal ${state === "active" ? "text-primary-400" : ""}`}
                   >
                     {step.title}
                   </StepperTitle>
@@ -106,14 +89,7 @@ const StepperComponent: React.FC<StepperComponentProps> = ({ steps }) => {
         })}
       </Stepper>
 
-      <div className="mt-8 flex justify-between">
-        <Button onClick={handlePrevious} disabled={currentStep === 1}>
-          Previous
-        </Button>
-        <Button onClick={handleNext} disabled={currentStep === steps.length}>
-          {currentStep === steps.length ? "Finish" : "Next"}
-        </Button>
-      </div>
+      <div className="my-6 mt-11 w-full">{children}</div>
     </div>
   );
 };

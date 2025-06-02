@@ -1,8 +1,16 @@
 "use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import { AddItems, EditItems } from "@/actions/catalogue.actions";
 import UnitDropdown from "@/app/(dashboard)/business/catalogue/categories/_components/unitDropdown";
 import Button from "@/components/global/buttons";
 import CustomEditor from "@/components/global/editor/customEditor";
+import toast from "@/components/global/toast";
 import ImageUploader from "@/components/global/uploader/image-uploader";
 import {
   Form,
@@ -13,21 +21,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import ROUTES from "@/constants/routes";
-import { ProcessedFileProps } from "@/lib/file-utils/upload.utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import toast from "@/components/global/toast";
-import { z } from "zod";
 import { Switch } from "@/components/ui/switch";
-import {
-  StoreCategory,
-  StoreItem,
-} from "@/types/api-response/catalogue.response";
+import ROUTES from "@/constants/routes";
+import { StoreItem } from "@/types/api-response/catalogue.response";
 import { useItemStore } from "@/zustand/stores/storeItem.store";
+
+import { ProcessedFileProps } from "@/lib/file-utils/upload.utils";
 
 const itemSchema = z.object({
   name: z.string().min(1, "Please Enter Name"),
@@ -82,11 +81,11 @@ const ItemAddForm = ({ bizid, itemId }: Props) => {
   const [uploadedFiles, setUploadedFiles] = useState<ProcessedFileProps[]>([]);
   const router = useRouter();
   useEffect(() => {
-    if (itemId != undefined) {
+    if (itemId !== undefined) {
       const data = getItemById(itemId);
       setItem(data || null);
     }
-  }, [itemId, setItem]);
+  }, [getItemById, itemId, setItem]);
   const form = useForm<ItemFormValues>({
     resolver: zodResolver(itemSchema),
     defaultValues,
@@ -174,23 +173,19 @@ const ItemAddForm = ({ bizid, itemId }: Props) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4 min-w-[100%] p-8"
+        className="min-w-full space-y-4 p-8"
       >
         <FormField
           control={form.control}
           name="name"
           render={({ field }) => (
-            <FormItem className="flex flex-row gap-4 items-center">
-              <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+            <FormItem className="flex flex-row items-center gap-4">
+              <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
                 Name:
               </FormLabel>
-              <div className="w-full flex flex-col gap-1">
+              <div className="flex w-full flex-col gap-1">
                 <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="Enter item name"
-                    className="input-field"
-                  />
+                  <Input {...field} placeholder="Enter item name" />
                 </FormControl>
                 <FormMessage className="text-red-500" />
               </div>
@@ -203,10 +198,10 @@ const ItemAddForm = ({ bizid, itemId }: Props) => {
           name="description"
           render={({ field }) => (
             <FormItem className="flex flex-row gap-4">
-              <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base mt-2">
+              <FormLabel className="paragraph-medium mt-2 w-40 min-w-40 text-base text-[#4D4D4D]">
                 Description:
               </FormLabel>
-              <div className="w-full flex flex-col gap-1">
+              <div className="flex w-full flex-col gap-1">
                 <FormControl>
                   <CustomEditor value={field.value} onChange={field.onChange} />
                 </FormControl>
@@ -219,9 +214,9 @@ const ItemAddForm = ({ bizid, itemId }: Props) => {
         <FormField
           control={form.control}
           name="image"
-          render={({ field }) => (
+          render={() => (
             <FormItem className="flex-center">
-              <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base"></FormLabel>
+              <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]"></FormLabel>
               <div className="flex-between gap-5">
                 {uploadedFiles.map((item) => (
                   <Image
@@ -248,12 +243,12 @@ const ItemAddForm = ({ bizid, itemId }: Props) => {
         <FormField
           control={form.control}
           name="unit"
-          render={({ field }) => (
+          render={() => (
             <FormItem className="flex-center">
-              <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
                 Unit:
               </FormLabel>
-              <div className="w-full flex flex-col gap-1">
+              <div className="flex w-full flex-col gap-1">
                 <FormControl>
                   <UnitDropdown />
                 </FormControl>
@@ -266,17 +261,13 @@ const ItemAddForm = ({ bizid, itemId }: Props) => {
           control={form.control}
           name="sku"
           render={({ field }) => (
-            <FormItem className="flex flex-row gap-4 items-center">
-              <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+            <FormItem className="flex flex-row items-center gap-4">
+              <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
                 SKU:
               </FormLabel>
-              <div className="w-full flex flex-col gap-1">
+              <div className="flex w-full flex-col gap-1">
                 <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="Item-SKU-12345"
-                    className="input-field"
-                  />
+                  <Input {...field} placeholder="Item-SKU-12345" />
                 </FormControl>
                 <FormMessage className="text-red-500" />
               </div>
@@ -288,11 +279,11 @@ const ItemAddForm = ({ bizid, itemId }: Props) => {
           control={form.control}
           name="stdTax"
           render={({ field }) => (
-            <FormItem className="flex flex-row gap-4 items-center">
-              <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+            <FormItem className="flex flex-row items-center gap-4">
+              <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
                 Standard Tax:
               </FormLabel>
-              <div className="w-full flex flex-col gap-1">
+              <div className="flex w-full flex-col gap-1">
                 <FormControl>
                   <Switch
                     checked={field.value}
@@ -308,16 +299,15 @@ const ItemAddForm = ({ bizid, itemId }: Props) => {
           control={form.control}
           name="taxPercent"
           render={({ field }) => (
-            <FormItem className="flex flex-row gap-4 items-center">
-              <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+            <FormItem className="flex flex-row items-center gap-4">
+              <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
                 Tax Percentage:
               </FormLabel>
-              <div className="w-full flex flex-col gap-1">
+              <div className="flex w-full flex-col gap-1">
                 <FormControl>
                   <Input
                     {...field}
                     placeholder="Tax Percentage"
-                    className="input-field"
                     disabled={form.getValues("stdTax")}
                   />
                 </FormControl>
@@ -327,17 +317,17 @@ const ItemAddForm = ({ bizid, itemId }: Props) => {
           )}
         />
 
-        <div className="flex gap-4 justify-end">
+        <div className="flex justify-end gap-4">
           <Button
             type="button"
             onClick={onCancel}
-            className="bg-gray-300 text-black px-4 py-2 rounded"
+            className="rounded bg-gray-300 px-4 py-2 text-black"
           >
             Cancel
           </Button>
           <Button
             type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded"
+            className="rounded bg-blue-600 px-4 py-2 text-white"
           >
             Save
           </Button>
