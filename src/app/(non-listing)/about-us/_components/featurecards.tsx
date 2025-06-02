@@ -44,7 +44,7 @@ const isHovered = hoveredIndex === index;
       />
       <div className="absolute inset-0 bg-black/30"></div>
 
-      <div className="absolute bottom-6 left-6 z-10 text-light-900">
+      <div className="absolute bottom-6 left-6 z-10 text-white">
         <h2 className="text-xl font-bold text-white">{title}</h2>
         <p className="text-sm text-white">{description}</p>
       </div>

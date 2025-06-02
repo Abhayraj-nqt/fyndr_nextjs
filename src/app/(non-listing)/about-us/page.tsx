@@ -28,7 +28,7 @@ const AboutUs = () => {
       ))}
     </div>
 
-      <div className="flex flex-col items-center gap-8 bg-light-800 p-4 py-10">
+      <div className="flex flex-col items-center gap-8 bg-secondary-10 p-4 py-10">
         {FYNDR_ABOUT_AND_MISSION.map((item) => (
           <AboutRow
             key={item.title}
@@ -39,7 +39,7 @@ const AboutUs = () => {
           />
         ))}
       </div>
-      <div className="bg-light-900 pt-5 ">
+      <div className="bg-white pt-5 ">
         <h1 className="text-center text-[1.5rem] font-semibold  leading-[42px]">
           How to use Fyndr:
         </h1>

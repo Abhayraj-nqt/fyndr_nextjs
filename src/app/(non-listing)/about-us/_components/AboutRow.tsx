@@ -42,7 +42,7 @@ const AboutRow = ({
           </div>
         )}
         <h1
-          className={`text-[30px] font-normal leading-[42px] text-primary-500 ${titleClassName}`}
+          className={`text-[30px] font-normal leading-[42px] text-primary ${titleClassName}`}
         >
           {title}
         </h1>

@@ -26,7 +26,7 @@ export default function Buttons({
     <div className="mt-4 flex flex-col justify-between gap-4 md:flex-row">
       <Button
         onClick={onClick1}
-        className="h-[46px] w-full rounded-[10px] border border-[#257CDB] bg-[#F4F8FD] text-[#257CDB] hover:border-[#257CDB] hover:bg-[#F4F8FD] hover:text-[#257CDB] hover:shadow-none md:w-1/2"
+        className="h-[46px] w-full rounded-10 border border-primary bg-primary-0.5 text-primary hover:border-primary hover:bg-primary-0.5 hover:text-primary hover:shadow-none md:w-1/2"
       >
         {btn1}
       </Button>
@@ -62,7 +62,7 @@ export default function Buttons({
             <Button
               onClick={onClick2}
               variant="outline"
-              className="h-[46px] w-full rounded-[10px] border border-[#ED0C10] bg-white px-4 py-2 text-[16px] text-[#ED0C10] hover:border-[#ED0C10] hover:bg-white hover:text-[#ED0C10]"
+              className="h-[46px] w-full rounded-10 border border-[#ED0C10] bg-white px-4 py-2 text-[16px] text-[#ED0C10] hover:border-[#ED0C10] hover:bg-white hover:text-[#ED0C10]"
             >
               {btn2}
             </Button>

@@ -10,7 +10,7 @@ import SocialLinks from "./social-links";
 
 const Footer = () => {
   return (
-    <main className="flex-between  max-h-[100px] w-full bg-dark-200  py-5 text-light-900 md:items-center">
+    <main className="flex-between  max-h-[100px] w-full bg-black-100  py-5 text-white md:items-center">
       {/* <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-2 sm:gap-8"> */}
       <SocialLinks className="hidden sm:flex " />
       {FOOTER_MENU.map(({ icon, url, label }) => (
@@ -21,10 +21,10 @@ const Footer = () => {
                 <Image src={icon} width={20} height={20} alt={label} />
               ) : (
                 React.createElement(icon, {
-                  className: "w-5 h-5 text-light-700 hidden lg:flex",
+                  className: "w-5 h-5 text-secondary-20 hidden lg:flex",
                 })
               )}
-              <div className="sm:body-regular xs: ml-2 text-[20px] text-light-700 sm:ml-2 md:ml-2">
+              <div className="sm:body-regular xs: ml-2 text-[20px] text-secondary-20 sm:ml-2 md:ml-2">
                 {label}
               </div>
             </Link>
@@ -36,10 +36,10 @@ const Footer = () => {
                     <Image src={icon} width={20} height={20} alt={label} />
                   ) : (
                     React.createElement(icon, {
-                      className: "w-5 h-5 text-light-700 hidden lg:flex",
+                      className: "w-5 h-5 text-secondary-20 hidden lg:flex",
                     })
                   )}
-                  <div className="small-regular sm:body-regular xs: ml-2 text-light-700 sm:ml-2 md:ml-2">
+                  <div className="small-regular sm:body-regular xs: ml-2 text-secondary-20 sm:ml-2 md:ml-2">
                     {label}
                   </div>
                 </div>

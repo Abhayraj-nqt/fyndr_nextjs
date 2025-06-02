@@ -95,7 +95,7 @@ const LocalSearch = ({
 
   return (
     <div
-      className={`flex min-h-[45px] grow items-center gap-1 rounded-lg border border-light-700 bg-light-900 px-4 ${className}`}
+      className={`flex min-h-[45px] grow items-center gap-1 rounded-lg border border-secondary-20 bg-white px-4 ${className}`}
     >
        {(!direction || direction === "top") && getIcon()}
       <Input
@@ -104,7 +104,7 @@ const LocalSearch = ({
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         onKeyDown={handleKeyDown}
-        className={`no-focus paragraph-regular placeholder border-none text-dark-400 shadow-none outline-none ${inputClassName}`}
+        className={`no-focus paragraph-regular placeholder border-none text-black-70 shadow-none outline-none ${inputClassName}`}
       />
       {direction === "right" && getIcon()}
     </div>

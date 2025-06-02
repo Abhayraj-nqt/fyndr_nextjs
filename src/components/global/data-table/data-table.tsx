@@ -33,11 +33,11 @@ export function DataTable<TData>({
       {children}
       <div className="overflow-hidden rounded-[10px]">
         <Table>
-          <TableHeader className="bg-primary-500 hover:bg-primary-500">
+          <TableHeader className="bg-primary hover:bg-primary">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
-                className="bg-primary-500 text-white hover:bg-primary-500"
+                className="bg-primary text-white hover:bg-primary"
               >
                 {headerGroup.headers.map((header) => {
                   // const isFirstHeader = headerIndex === 0;
@@ -52,7 +52,7 @@ export function DataTable<TData>({
                         ...getCommonPinningStyles({ column: header.column }),
                       }}
                       className={cn(
-                        "bg-primary-500 hover:bg-primary-500 text-white p-4 text-sm font-normal border border-[#d3d6e1]"
+                        "bg-primary hover:bg-primary text-white p-4 text-sm font-normal border border-secondary-20"
                       )}
                     >
                       {header.isPlaceholder
@@ -80,7 +80,7 @@ export function DataTable<TData>({
                       style={{
                         ...getCommonPinningStyles({ column: cell.column }),
                       }}
-                      className="border border-[#d3d6e1] p-4 text-sm font-normal text-[#333]"
+                      className="border border-secondary-20 p-4 text-sm font-normal text-black-80"
                     >
                       {flexRender(
                         cell.column.columnDef.cell,

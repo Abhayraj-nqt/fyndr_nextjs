@@ -80,7 +80,7 @@ const AuthForm = <T extends FieldValues>({
             name={field as Path<T>}
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="paragraph-medium hidden text-light-900">
+                <FormLabel className="paragraph-medium hidden text-white">
                   {field.name === "email"
                     ? "Email Address"
                     : field.name.charAt(0).toLowerCase() + field.name.slice(1)}
@@ -99,7 +99,7 @@ const AuthForm = <T extends FieldValues>({
         ))}
         <Button
           disabled={form.formState.isSubmitting}
-          className="mt-10 min-h-12 w-full rounded-[10px] bg-primary-500 px-4 py-3 text-base font-normal !text-light-900 hover:bg-primary-500"
+          className="mt-10 min-h-12 w-full rounded-[10px] bg-primary px-4 py-3 text-base font-normal !text-white hover:bg-primary"
         >
           {form.formState.isSubmitting
             ? buttonText === "Sign In"

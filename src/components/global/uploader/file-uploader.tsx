@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
+import { cn } from "@/lib/utils";
 import {
   AllowedFileType,
   FileWithPreview,
@@ -11,7 +12,6 @@ import {
   processFiles,
   validateFiles,
 } from "@/lib/utils/files/upload.utils";
-import { cn } from "@/lib/utils";
 
 export type FileUploaderProps = {
   /**

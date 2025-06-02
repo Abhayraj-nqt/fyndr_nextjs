@@ -53,14 +53,14 @@ const AuthFormWrapper = ({ formType }: Props) => {
   };
 
   return (
-    <div className="w-full rounded-[10px] bg-dark-100 p-8 md:w-3/4 md:max-w-lg">
+    <div className="w-full rounded-10 bg-black p-8 md:w-3/4 md:max-w-lg">
       <h1 className="h1-bold">{heading}</h1>
       <div className="paragraph-regular">
         <span>{paragraphFirstWord} have an account?</span>
         <Button
           asChild
           variant={"ghost"}
-          className="bg-transparent p-2 text-primary-500 underline hover:bg-transparent hover:text-primary-500"
+          className="bg-transparent p-2 text-primary underline hover:bg-transparent hover:text-primary"
         >
           <Link href={link}>{linkText}</Link>
         </Button>
@@ -78,13 +78,13 @@ const AuthFormWrapper = ({ formType }: Props) => {
         <div className="mt-8 flex w-full flex-col gap-4">
           <Button
             onClick={handleRegisterBusiness}
-            className="min-h-12 w-full rounded-[10px] bg-primary-500 px-4 py-3 text-base font-normal !text-light-900 hover:bg-primary-500"
+            className="min-h-12 w-full rounded-10 bg-primary px-4 py-3 text-base font-normal !text-white hover:bg-primary"
           >
             Register as a Business
           </Button>
           <Button
             onClick={handleRegisterIndividual}
-            className="min-h-12 w-full rounded-[10px] bg-primary-500 px-4 py-3 text-base font-normal !text-light-900 hover:bg-primary-500"
+            className="min-h-12 w-full rounded-10 bg-primary px-4 py-3 text-base font-normal !text-white hover:bg-primary"
           >
             Register as an Individual
           </Button>
@@ -97,7 +97,7 @@ const AuthFormWrapper = ({ formType }: Props) => {
           <Button
             asChild
             variant={"ghost"}
-            className="bg-transparent p-2 text-primary-500 underline hover:bg-transparent hover:text-primary-500"
+            className="bg-transparent p-2 text-primary underline hover:bg-transparent hover:text-primary"
           >
             <Link href={ROUTES.RESET_PASSWORD}>Reset Password</Link>
           </Button>
@@ -107,7 +107,7 @@ const AuthFormWrapper = ({ formType }: Props) => {
           <>
             <Button
               onClick={handleGoBack}
-              className="mb-2 mt-4 min-h-12 w-full rounded-[10px] border border-white bg-transparent px-4 py-3 text-base font-normal text-white hover:bg-transparent"
+              className="mb-2 mt-4 min-h-12 w-full rounded-10 border border-white bg-transparent px-4 py-3 text-base font-normal text-white hover:bg-transparent"
             >
               Go Back
             </Button>
