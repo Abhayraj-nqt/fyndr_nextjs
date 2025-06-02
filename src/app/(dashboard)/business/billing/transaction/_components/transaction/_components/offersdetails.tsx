@@ -76,6 +76,9 @@ const Offersdetails: React.FC<OffersDetails> = ({
               //   vhr.currencySymbol = currencySymbol;
               const { redeemptionStatus, validTill } = vhr;
 
+
+              console.log("start time",appointments)
+
               return (
                 <div
                   key={`${offerId}-${index}`}
@@ -99,6 +102,7 @@ const Offersdetails: React.FC<OffersDetails> = ({
                     vhr?.appointments[index] &&
                     Object.entries(vhr?.appointments[index]).map(
                       ([appointmentDate, timeObj]: any, i) => (
+                        
                         <div key={`appointment-${i}`} className="w-full">
                           <div className="mb-2 flex justify-between">
                             <span className="text-[14px] font-semibold text-[#4D4D4D]">
@@ -108,7 +112,6 @@ const Offersdetails: React.FC<OffersDetails> = ({
                               {dayjs(appointmentDate).format("MMM DD, YYYY")}
                             </span>
                           </div>
-                          =
                           <div className="mb-2 flex justify-between">
                             <span className="text-[14px] font-semibold text-[#4D4D4D]">
                               Start Time:
@@ -118,9 +121,9 @@ const Offersdetails: React.FC<OffersDetails> = ({
                                 timeObj?.startTime?.slice(0, 5),
                                 "HH:mm"
                               ).format("hh:mm A")}
+                          
                             </span>
                           </div>
-                          =
                           <div className="mb-2 flex justify-between">
                             <span className="text-[14px] font-semibold text-[#4D4D4D]">
                               End Time:

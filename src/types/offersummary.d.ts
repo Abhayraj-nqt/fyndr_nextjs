@@ -14,7 +14,7 @@ export type Remarks = {
 type OfferPurchaseProps = {
   buyerName: string;
   buyerPhone: string;
-  currencySymbol: string;
+  currencySymbol: currencySymbol;
   currentValue: number;
   fyndrCash: number;
   invoiceDt: string; 

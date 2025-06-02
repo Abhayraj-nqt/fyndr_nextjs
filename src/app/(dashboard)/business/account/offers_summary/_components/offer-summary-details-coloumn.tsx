@@ -1,5 +1,7 @@
 "use client";
 
+import { time } from "console";
+
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
@@ -9,6 +11,7 @@ import React from "react";
 import Button from "@/components/global/buttons";
 import { DataTableColumnHeader } from "@/components/global/data-table/data-table-column-header";
 import { DataTableRowAction } from "@/types/data-table";
+import { OfferPurchaseProps } from "@/types/offersummary";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -97,8 +100,7 @@ export function getOfferSummaryDetailsColoumn({
           </div>
         </>
       ),
-       enableHiding: false,
-     
+      enableHiding: false,
     },
     {
       accessorKey: "validTill",
@@ -107,13 +109,12 @@ export function getOfferSummaryDetailsColoumn({
       ),
       cell: ({ row }) => (
         <div>
-        <div>
           {row.original.validTill
             ? dayjs(row.original.validTill).format("MMMM D, YYYY")
             : "N/A"}
         </div>
       ),
-       enableHiding: false,
+      enableHiding: false,
     },
     {
       accessorKey: "redemptionTime",
@@ -148,13 +149,13 @@ export function getOfferSummaryDetailsColoumn({
       ),
       cell: ({ row }) => (
         <Button
-            onClick={() => setRowAction({ row, variant: "update" })}
-            variant="primary"
-          >
-            Actions
-          </Button>
+          onClick={() => setRowAction({ row, variant: "update" })}
+          variant="primary"
+        >
+          Actions
+        </Button>
       ),
-         enableSorting: false,
+      enableSorting: false,
     },
   ];
 }

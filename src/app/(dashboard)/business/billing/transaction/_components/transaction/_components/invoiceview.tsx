@@ -32,6 +32,7 @@ import {
 import GifteeDetails from "./giftedetails";
 import Invoicetotal from "./invoicetotal";
 import Offersdetails from "./offersdetails";
+import InvoicePromodetails from "./promodetails";
 
 type InvoiceViewProps = {
   inv?: fetchInvoice[] | null;
@@ -159,6 +160,8 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
 
   console.log("details", invoiceDetails?.items || invoiceDetails?.offers);
   console.log("review response", reviewOverviewsresp);
+
+  console.log("Overall rating" ,invoiceDetails?.overallRating);
   return (
     <>
       <div>
@@ -234,102 +237,18 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
               </>
             )}
 
-            {(channel === "cmpn_promo" || channel === "promo") && (
-              <>
-                <div className="mb-[8px] flex justify-between">
-                  <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
-                    Campaign Name:
-                  </span>
-                  <span className="ml-4 flex-1 text-right text-[14px] font-semibold leading-[20px] text-[#333333]">
-                    {invoiceDetails?.title?.includes(":")
-                      ? getTruncatedTitle(
-                          invoiceDetails.title.split(":")[1].trim()
-                        )
-                      : getTruncatedTitle(invoiceDetails?.title)}
-                  </span>
-                </div>
+            <InvoicePromodetails 
+              channel= {channel}
+              title={invoiceDetails?.title}
+              promoChannels = {invoiceDetails?.promo_channels}
+              duration = {invoiceDetails?.duration}
+              startDate={startDate}
+              endDate = {endDate}
+              userTimeZone = {userTimeZone}
+              invoiceDt={invoiceDt}
+            />
 
-                {invoiceDetails?.promo_channels.includes("featured") && (
-                  <>
-                    <div className="mb-[8px] flex justify-between">
-                      <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
-                        Featured:
-                      </span>
-                      <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
-                        Yes
-                      </span>
-                    </div>
 
-                    <div className="mb-[8px] flex justify-between">
-                      <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
-                        Featured Duration:
-                      </span>
-                      <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
-                        {`${invoiceDetails?.duration} ${
-                          invoiceDetails?.duration === 1 ? "Month" : "Months"
-                        }`}
-                      </span>
-                    </div>
-
-                    <div className="mb-[8px] flex justify-between">
-                      <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
-                        Featured Start Date:
-                      </span>
-                      <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
-                        {dayjs.tz(startDate, userTimeZone).format("MMM DD, YYYY")}
-                      </span>
-                    </div>
-
-                    <div className="mb-[8px] flex justify-between">
-                      <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
-                        Featured End Date:
-                      </span>
-                      <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
-                        {dayjs.tz(endDate, userTimeZone).format("MMM DD, YYYY")}
-                      </span>
-                    </div>
-                  </>
-                )}
-
-                {(invoiceDetails?.promo_channels.includes("mobile_push") ||
-                  invoiceDetails?.promo_channels.includes("email")) && (
-                  <div className="mb-[8px] flex justify-between">
-                    <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
-                      Promotion type:
-                    </span>
-                    <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
-                      {invoiceDetails?.promo_channels
-                        .split(",")
-                        .filter(
-                          (ch: string) => ch !== "in_app" && ch !== "featured"
-                        )
-                        .map((ch: string) =>
-                          ch === "mobile_push" ? "Phone" : capitalize(ch)
-                        )
-                        .join(", ")}
-                    </span>
-                  </div>
-                )}
-
-                <div className="mb-[8px] flex justify-between">
-                  <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
-                    Promotion Date:
-                  </span>
-                  <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
-                    {dayjs.tz(invoiceDt, userTimeZone).format("MMM DD, YYYY")}
-                  </span>
-                </div>
-
-                <div className="mb-[8px] flex justify-between">
-                  <span className="text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
-                    Promotion Time:
-                  </span>
-                  <span className="text-[14px] font-semibold leading-[20px] text-[#333333]">
-                    {dayjs.tz(invoiceDt, userTimeZone).format("hh:mm A")}
-                  </span>
-                </div>
-              </>
-            )}
             <div className="mb-[8px] flex items-center justify-between">
               <span className="w-1/3 text-[14px] font-semibold leading-[20px] text-[#4D4D4D]">
                 Payment Status:

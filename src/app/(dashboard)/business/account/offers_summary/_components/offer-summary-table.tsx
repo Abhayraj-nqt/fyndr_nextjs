@@ -1,19 +1,17 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import React from "react";
+
+import { onGetOfferSummary } from "@/actions/offersummary.actions";
 import { DataTable } from "@/components/global/data-table/data-table";
 import { useUser } from "@/hooks/auth";
 import { useDataTable } from "@/hooks/use-data-table";
 import { DataTableRowAction } from "@/types/data-table";
+import { OfferPurchaseProps } from "@/types/offersummary";
 
 import { getOfferSummaryDetailsColoumn } from "./offer-summary-details-coloumn";
-import { useUser } from "@/hooks/auth";
-import { DataTableRowAction } from "@/types/data-table";
-import { onGetOfferSummary } from "@/actions/offersummary.actions";
-import { useSearchParams } from "next/navigation";
 import ActionsDialog from "../../../../_components/redeemptionModal/actions-dialog";
-
-
 
 type Props = {
   promises: Promise<[Awaited<ReturnType<typeof onGetOfferSummary>>]>;
@@ -38,10 +36,10 @@ const OfferSummaryTable = ({ promises }: Props) => {
 
   if (!success || !data) return <div>Error</div>;
 
-  const { count,  listOfferPurchasedOutDTO } = data.data;
+  const { count, listOfferPurchasedOutDTO } = data.data;
 
   const { table } = useDataTable({
-    data:  listOfferPurchasedOutDTO || [],
+    data: listOfferPurchasedOutDTO || [],
     columns,
     pageCount: Math.ceil(count / pageSize),
     getRowId: (row) => `${row.objid}`,
@@ -51,13 +49,13 @@ const OfferSummaryTable = ({ promises }: Props) => {
 
   return (
     <>
-      
       <DataTable table={table} />
       {/* If you have a dialog like ActionsDialog, you can include it here */}
       <ActionsDialog
         open={rowAction?.variant === "update"}
         onOpenChange={() => setRowAction(null)}
-        row = {rowAction?.row.original ?? null}
+        type={"receivable"}
+        row={rowAction?.row.original ?? null}
       />
     </>
   );
