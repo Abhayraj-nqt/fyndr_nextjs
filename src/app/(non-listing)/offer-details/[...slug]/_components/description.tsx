@@ -10,7 +10,7 @@ type Props = {
 const Description = ({ desc }: Props) => {
   return (
     <DefaultCard className="w-full p-6">
-      <h2 className="mb-2 text-xl font-medium text-primary-900">Details</h2>
+      <h2 className="mb-2 text-xl font-medium text-secondary">Details</h2>
       <HtmlContent htmlString={desc} />
     </DefaultCard>
   );

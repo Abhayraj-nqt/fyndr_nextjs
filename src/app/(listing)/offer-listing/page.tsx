@@ -14,7 +14,7 @@ const OfferListing = async ({
   return (
     <main className="relative w-full p-4">
       <div className="relative flex flex-col flex-nowrap gap-4 md:flex-row">
-        <section className="hidden h-fit w-80 min-w-80 rounded-lg bg-light-900 md:flex">
+        <section className="hidden h-fit w-80 min-w-80 rounded-lg bg-white md:flex">
           <BusinessDirectoryFilters />
         </section>
         <section className="flex md:hidden">

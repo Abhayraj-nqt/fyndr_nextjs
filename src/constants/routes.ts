@@ -18,7 +18,7 @@ const ROUTES = {
 
   // Legal routes
   LEGAL_TERMS: "/legal/terms",
-  LEGAL_privacy: "/legal/privacy",
+  LEGAL_PRIVACY: "/legal/privacy",
   LEGAL_AGREEMENT: "/legal/agreement",
   DOWNLOAD_FYNDR: "/download-fyndr-app",
   // BUSINESS_AGREEMENT: "/legal/agreement",
@@ -80,31 +80,29 @@ const ROUTES = {
 };
 
 export const PUBLIC_ROUTES = [
-  // Landing, wallet & about routes
-  "/",
-  "/about-us",
-  "/wallet",
+  // Listing & non listing routes
+  ROUTES.HOME,
+  ROUTES.ABOUT_US,
+  ROUTES.OFFERS_AND_EVENTS,
+  ROUTES.OFFER_LISTING,
+  ROUTES.OFFER_LISTING,
+  ROUTES.DOWNLOAD_FYNDR,
 
   // Auth routes
-  "/sign-in",
-  "/sign-up",
-  "/api/auth/callback/google",
+  ROUTES.SIGN_IN,
+  ROUTES.SIGN_UP,
+  ROUTES.SIGN_UP_COMPLETE,
 
   // Legal routes
-  "/agreement",
-  "/privacy",
-  "/terms",
-
-  // Campaign routes
-  "/offers-and-events",
-  "/offer-listing",
-  "/offer-details/",
+  ROUTES.LEGAL_AGREEMENT,
+  ROUTES.LEGAL_TERMS,
+  ROUTES.LEGAL_PRIVACY,
 ];
 
 export const ROLE_BASED_ROUTES: RouteAccess[] = [
-  { path: ROUTES.BUSINESS_DASHBOARD, roles: ["BIZ_ADMIN", "SUPER_ADMIN"] },
+  { path: "/business", roles: ["BIZ_ADMIN"] },
   { path: "/admin", roles: ["SUPER_ADMIN"] },
-  { path: ROUTES.SUPPORT_DASHBOARD, roles: ["FYNDR_SUPPORT", "SUPER_ADMIN"] },
+  // { path: ROUTES.SUPPORT_DASHBOARD, roles: ["FYNDR_SUPPORT", "SUPER_ADMIN"] },
 ];
 
 export default ROUTES;

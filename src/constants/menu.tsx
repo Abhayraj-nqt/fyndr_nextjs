@@ -307,7 +307,7 @@ export const FOOTER_MENU: FooterMenuProps[] = [
   {
     icon: GlobeLock,
     label: "Privacy Policy",
-    url: ROUTES.LEGAL_privacy,
+    url: ROUTES.LEGAL_PRIVACY,
   },
   {
     icon: Handshake,

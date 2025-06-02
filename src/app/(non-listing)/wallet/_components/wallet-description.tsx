@@ -16,7 +16,7 @@ const WalletDescription = ({ className }: Props) => {
           <React.Fragment key={id}>
             <div className="flex items-start gap-8">
               {Icon && (
-                <div className="text-primary-900">
+                <div className="text-secondary">
                   <Icon size={22} />
                 </div>
               )}

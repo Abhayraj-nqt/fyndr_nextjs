@@ -46,7 +46,6 @@ const InvoiceList = ({ rcptlist, type }: ListProps) => {
     setSelectedType(null);
   };
 
-  console.log("list", rcptlist);
   return (
     <div className="space-y-3 py-4">
       {rcptlist.map((item) => {

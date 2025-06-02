@@ -280,37 +280,37 @@ export const COUNTRIES = [
   {
     value: "US",
     label: "United States",
-    flagURL: "/icons/country/US.svg",
+    flagURL: "/icons/country/us.svg",
     countryCode: "+1",
   },
   {
     value: "AU",
     label: "Australia",
-    flagURL: "/icons/country/AU.svg",
+    flagURL: "/icons/country/au.svg",
     countryCode: "+61",
   },
   {
     value: "CA",
     label: "Canada",
-    flagURL: "/icons/country/CA.svg",
+    flagURL: "/icons/country/ca.svg",
     countryCode: "+1",
   },
   {
     value: "GB",
     label: "United Kingdom",
-    flagURL: "/icons/country/GB.svg",
+    flagURL: "/icons/country/gb.svg",
     countryCode: "+44",
   },
   {
     value: "IN",
     label: "India",
-    flagURL: "/icons/country/IN.svg",
+    flagURL: "/icons/country/in.svg",
     countryCode: "+91",
   },
   {
     value: "NZ",
     label: "New Zealand",
-    flagURL: "/icons/country/NZ.svg",
+    flagURL: "/icons/country/nz.svg",
     countryCode: "+64",
   },
 ];

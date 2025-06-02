@@ -42,7 +42,7 @@ const Categories = ({ categories }: Props) => {
       <Button
         className={cn(
           `body-medium rounded-lg px-6 py-3 capitalize shadow-none`,
-          "hover:bg-primary-100 text-primary-500 bg-primary-100"
+          "hover:bg-primary-10 text-primary bg-primary-10"
         )}
         onClick={() => handleClickMore()}
       >

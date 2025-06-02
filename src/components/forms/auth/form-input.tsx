@@ -11,7 +11,7 @@ const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
       <Input
         type={type}
         className={cn(
-          "paragraph-regular no-focus min-h-12 rounded-[10px] border bg-light-900 text-dark-100",
+          "paragraph-regular no-focus min-h-12 rounded-[10px] border bg-white text-black",
           className
         )}
         ref={ref}

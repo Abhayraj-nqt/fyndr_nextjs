@@ -23,13 +23,13 @@ const Button = ({
   const customClass = (() => {
     switch (variant) {
       case "primary":
-        return "bg-primary-500 text-white hover:bg-primary-500 hover:text-white";
+        return "bg-primary text-white hover:bg-primary hover:text-white";
       case "primary-outlined":
-        return "border border-primary-500 text-primary-500 bg-white hover:text-primary-500 hover:border-primary-500 hover:bg-white";
+        return "border border-primary text-primary bg-white hover:text-primary hover:border-primary hover:bg-white";
       case "primary-dark":
-        return "bg-primary-900 text-white hover:bg-primary-900 hover:text-white";
+        return "bg-secondary text-white hover:bg-secondary hover:text-white";
       case "primary-dark-outlined":
-        return "border border-primary-900 text-primary-900 bg-white hover:border-primary-900 hover:text-primary-900 hover:bg-white";
+        return "border border-secondary text-secondary bg-white hover:border-secondary hover:text-secondary hover:bg-white";
       default:
         return "";
     }

@@ -159,7 +159,7 @@ const MobileVerificationModal = ({
               placeholder="Enter verification code"
               value={code}
               onChange={handleChange}
-              leftNode={
+              rightNode={
                 <Button
                   onClick={handleSendVerificationToken}
                   type="button"

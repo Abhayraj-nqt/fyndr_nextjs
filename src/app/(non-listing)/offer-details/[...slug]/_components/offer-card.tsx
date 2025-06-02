@@ -14,7 +14,7 @@ type Props = {
 
 const OfferCard = ({ offer }: Props) => {
   return (
-    <Card className="flex flex-col gap-4 border-none bg-primary-100 p-4 shadow-none lg:flex-row">
+    <Card className="flex flex-col gap-4 border-none bg-primary-10 p-4 shadow-none lg:flex-row">
       <Image
         src={
           offer.imageFilePath
@@ -28,7 +28,7 @@ const OfferCard = ({ offer }: Props) => {
       />
       <div className="w-full">
         <CardHeader className="flex-between flex-row gap-2 space-y-0 p-0">
-          <CardTitle className="text-primary-900">{offer.title}</CardTitle>
+          <CardTitle className="text-secondary">{offer.title}</CardTitle>
           {offer.isVoucher && (
             <Image
               src={"/images/voucher-dark.svg"}
@@ -41,16 +41,16 @@ const OfferCard = ({ offer }: Props) => {
         <CardContent className="mt-2 space-y-2 p-0">
           <div className="flex-between flex gap-2">
             <div className="flex gap-3">
-              <p className="text-sm text-dark-400 line-through">
+              <p className="text-sm text-black-30 line-through">
                 {offer.currencySymbol}
                 {toTwoDecimalPlaces(offer.retailPrice)}
               </p>
-              <p className="text-base font-medium text-primary-500">
+              <p className="text-base font-medium text-primary">
                 {offer.currencySymbol}
                 {toTwoDecimalPlaces(offer.offerPrice)}
               </p>
             </div>
-            <div className="body-semibold rounded bg-green-500 px-3 py-1 capitalize text-light-900">
+            <div className="body-semibold rounded bg-green-500 px-3 py-1 capitalize text-white">
               {parseDiscount(
                 offer.amount,
                 offer.discountType,
@@ -70,7 +70,7 @@ const OfferCard = ({ offer }: Props) => {
             <div className="flex items-center gap-2">
               <p>Qty: </p>
               <div className="flex items-center gap-2">
-                <Button className="size-8 bg-primary-900 p-2">
+                <Button className="size-8 bg-secondary p-2">
                   <Minus />
                 </Button>
 
@@ -80,7 +80,7 @@ const OfferCard = ({ offer }: Props) => {
                   min={0}
                 />
 
-                <Button className="size-8 bg-primary-900 p-2">
+                <Button className="size-8 bg-secondary p-2">
                   <Plus />
                 </Button>
                 {offer.usageLimit !== -1 && (

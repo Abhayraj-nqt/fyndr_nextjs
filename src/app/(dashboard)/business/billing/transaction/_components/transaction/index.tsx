@@ -41,8 +41,6 @@ const Transaction = async ({
 
   if (!recvSuccess || !recvData) return null;
 
-  console.log("recData ", recvData?.invoices);
-
   return (
     <>
       <Tabs defaultValue="payable" className="mt-3">

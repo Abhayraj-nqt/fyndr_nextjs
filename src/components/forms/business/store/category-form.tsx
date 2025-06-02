@@ -162,7 +162,7 @@ const CategoryAddForm = ({ bizid, categoryId }: Props) => {
           name="name"
           render={({ field }) => (
             <FormItem className="flex flex-row items-center gap-4">
-              <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]">
+              <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-black-70">
                 Name:
               </FormLabel>
               <div className="flex w-full flex-col gap-1">
@@ -180,7 +180,7 @@ const CategoryAddForm = ({ bizid, categoryId }: Props) => {
           name="description"
           render={({ field }) => (
             <FormItem className="flex flex-row gap-4">
-              <FormLabel className="paragraph-medium mt-2 w-40 min-w-40 text-base text-[#4D4D4D]">
+              <FormLabel className="paragraph-medium mt-2 w-40 min-w-40 text-base text-black-70">
                 Description:
               </FormLabel>
               <div className="flex w-full flex-col">
@@ -198,7 +198,7 @@ const CategoryAddForm = ({ bizid, categoryId }: Props) => {
           name="image"
           render={() => (
             <FormItem className="flex-center">
-              <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-[#4D4D4D]"></FormLabel>
+              <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-black-70"></FormLabel>
               <div className="flex-between gap-5">
                 {uploadedFiles.map((item) => (
                   <Image

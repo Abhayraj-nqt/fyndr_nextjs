@@ -49,7 +49,7 @@ const TestTable = async ({
   ]);
 
   return (
-    <div className="min-h-screen bg-light-700 p-4">
+    <div className="min-h-screen bg-secondary-20 p-4">
       <DefaultCard>
         <h1 className="h2-semibold">Table example</h1>
         <section className="mt-10">

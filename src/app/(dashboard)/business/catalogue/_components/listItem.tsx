@@ -81,7 +81,7 @@ const ListItem: React.FC<ListItemProps> = ({
         >
           <SquarePen
             onClick={onClick}
-            className="flex-center text-primary-400"
+            className="flex-center text-primary-90"
           />
           {hideDelete && (
             <Button
@@ -111,7 +111,7 @@ const ListItem: React.FC<ListItemProps> = ({
             await deletePress?.();
             setVisible(false);
           },
-          className: "bg-primary-500 text-white hover:bg-primary-600",
+          className: "bg-primary text-white hover:bg-secondary-90",
         }}
         secondaryAction={{
           label: "Cancel",

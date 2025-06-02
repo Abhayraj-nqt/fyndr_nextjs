@@ -19,37 +19,36 @@ const GifteeDetails: React.FC<GifteeDetailsProps> = ({ giftDetails }) => {
   };
 
   return (
-    <DefaultCard className=" mb-4 rounded-[10px] border border-[#D3D6E1] p-3">
-        
+    <DefaultCard className=" mb-4 rounded-10 border border-secondary-20 p-3">
       {!msgVisible ? (
         <>
-          <div className="mb-2 text-lg font-semibold text-[#333]">
+          <div className="mb-2 text-lg font-semibold text-black-80">
             Receiver`s Details
           </div>
 
           <div className="mb-2 flex justify-between">
-            <span className="text-sm font-medium text-[#4D4D4D]">
+            <span className="text-sm font-medium text-black-70">
               Receiver`s Name:
             </span>
-            <span className="text-right text-sm font-semibold text-[#333333]">
+            <span className="text-right text-sm font-semibold text-black-80">
               {giftDetails.name}
             </span>
           </div>
 
           <div className="mb-2 flex justify-between">
-            <span className="text-sm font-medium text-[#4D4D4D]">
+            <span className="text-sm font-medium text-black-70">
               Receiver`s Email:
             </span>
-            <span className="text-right text-sm font-semibold text-[#333333]">
+            <span className="text-right text-sm font-semibold text-black-80">
               {giftDetails.email}
             </span>
           </div>
 
           <div className="mb-2 flex justify-between">
-            <span className="text-sm font-medium text-[#4D4D4D]">
+            <span className="text-sm font-medium text-black-70">
               Receiver`s Number:
             </span>
-            <span className="text-right text-sm font-semibold text-[#333333]">
+            <span className="text-right text-sm font-semibold text-black-80">
               {getFullPhone()}
             </span>
           </div>
@@ -70,7 +69,7 @@ const GifteeDetails: React.FC<GifteeDetailsProps> = ({ giftDetails }) => {
             <ArrowLeft className="mr-1 size-4" />
             Message
           </Button>
-          <div className="text-sm font-medium text-[#333333]">
+          <div className="text-sm font-medium text-black-80">
             {giftDetails.message}
           </div>
         </>

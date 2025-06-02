@@ -85,7 +85,7 @@ export const BaseRegistrationForm = <T extends FieldValues>({
             <div className="hidden w-[9.5rem] min-w-[9.5rem] sm:flex"></div>
             <InputWrapper
               label="Where did you find us?"
-              className="h-fit p-4 text-[#4D4D4D]"
+              className="h-fit p-4 text-black-70"
             >
               <RadioGroup
                 value={form.watch("findUsId")?.toString() || ""}
@@ -122,12 +122,12 @@ export const BaseRegistrationForm = <T extends FieldValues>({
             />
             <Label
               htmlFor="terms"
-              className="text-sm font-medium leading-none text-[#4D4D4D] peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              className="text-sm font-medium leading-none text-black-70 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
               I agree with{" "}
               <Link
                 href={ROUTES.LEGAL_TERMS}
-                className="text-primary-500"
+                className="text-primary"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -135,8 +135,8 @@ export const BaseRegistrationForm = <T extends FieldValues>({
               </Link>{" "}
               &{" "}
               <Link
-                href={ROUTES.LEGAL_privacy}
-                className="text-primary-500"
+                href={ROUTES.LEGAL_PRIVACY}
+                className="text-primary"
                 target="_blank"
                 rel="noopener noreferrer"
               >

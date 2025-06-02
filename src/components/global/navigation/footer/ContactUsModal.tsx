@@ -233,7 +233,7 @@ const ContactUsModal = ({ children }: Props) => {
             )}
           />
           <div className="flex w-full justify-center">
-            <Button type="submit" className="w-[200] bg-primary-500">
+            <Button type="submit" className="w-[200] bg-primary">
               Submit
             </Button>
           </div>
