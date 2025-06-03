@@ -44,7 +44,7 @@ const NearbyOffers = ({ campaigns: nearbyOffers }: Props) => {
       {
         <Button
           variant={"outline"}
-          className="body-medium self-center rounded-lg border-2 border-primary-500 px-6 py-3 text-primary-500 hover:bg-light-900 hover:text-primary-500"
+          className="body-medium self-center rounded-lg border-2 border-primary px-6 py-3 text-primary hover:bg-white hover:text-primary"
           asChild
         >
           <Link href={ROUTES.OFFERS_AND_EVENTS}>See all offers</Link>

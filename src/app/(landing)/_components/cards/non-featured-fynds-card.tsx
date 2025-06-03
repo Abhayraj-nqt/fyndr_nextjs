@@ -19,7 +19,7 @@ const NonFeaturedFyndsCard = ({ campaign }: Props) => {
   const lowestPriceOffer = getLowestPriceOffer(campaign.cmpnOffers);
 
   return (
-    <Card className="relative w-full cursor-pointer rounded-md border-light-800 p-0 shadow-none transition duration-500 hover:scale-105 sm:max-w-80">
+    <Card className="relative w-full cursor-pointer rounded-md border-secondary-10 p-0 shadow-none transition duration-500 hover:scale-105 sm:max-w-80">
       <PlaceholderImage
         src={
           (campaign.images &&
@@ -32,26 +32,26 @@ const NonFeaturedFyndsCard = ({ campaign }: Props) => {
         height={300}
         className={`aspect-[2/1] rounded-md object-cover`}
       />
-      <div className="min-h-48 space-y-4 rounded-b-md bg-primary-100 p-4">
+      <div className="min-h-48 space-y-4 rounded-b-md bg-primary-10 p-4">
         <CardTitle className="h-6">{campaign.biz.bizName}</CardTitle>
         <CardDescription className="body-regular">
-          <h4 className="paragraph-regular line-clamp-2 h-11 text-dark-100">
+          <h4 className="paragraph-regular line-clamp-2 h-11 text-black">
             {campaign.title}
           </h4>
-          <p className="line-clamp-2 h-10 text-light-300">{`${campaign?.cmpnLocs[0]?.distance ? campaign?.cmpnLocs[0]?.distance.toFixed(1) : "0"} miles, ${parseAddress(campaign?.cmpnLocs[0])}`}</p>
+          <p className="line-clamp-2 h-10 text-secondary-80">{`${campaign?.cmpnLocs[0]?.distance ? campaign?.cmpnLocs[0]?.distance.toFixed(1) : "0"} miles, ${parseAddress(campaign?.cmpnLocs[0])}`}</p>
         </CardDescription>
         <CardFooter className="flex-between flex p-0">
           {campaign.cmpnType !== "coupons" && (
             <div className="flex gap-1">
               {campaign.cmpnOffers[0]?.retailPrice !==
                 campaign.cmpnOffers[0]?.offerPrice && (
-                <div className="small-regular text-light-400 line-through">
+                <div className="small-regular text-secondary-70 line-through">
                   {campaign.cmpnOffers[0]?.currencySymbol}
                   {campaign.cmpnOffers[0]?.retailPrice?.toFixed(2)}
                 </div>
               )}
               {
-                <div className="text-primary-500">
+                <div className="text-primary">
                   {campaign.cmpnOffers[0]?.currencySymbol}
                   {campaign.cmpnOffers[0]?.offerPrice?.toFixed(2)}
                 </div>
@@ -60,7 +60,7 @@ const NonFeaturedFyndsCard = ({ campaign }: Props) => {
           )}
           {campaign.cmpnType === "coupons" &&
             campaign.cmpnOffers.length > 0 && (
-              <div className="text-primary-500">
+              <div className="text-primary">
                 {campaign.cmpnOffers[0]?.couponCode}
               </div>
             )}
@@ -68,13 +68,13 @@ const NonFeaturedFyndsCard = ({ campaign }: Props) => {
             <>
               {campaign.cmpnOffers[0]?.discountType === "%" &&
                 lowestPriceOffer.amount > 0 && (
-                  <div className="paragraph-semibold rounded bg-green-500 px-3 py-1 capitalize text-light-900">
+                  <div className="paragraph-semibold rounded bg-green-500 px-3 py-1 capitalize text-white">
                     {lowestPriceOffer?.amount}% OFF
                   </div>
                 )}
               {campaign.cmpnOffers[0]?.discountType === "flat" &&
                 lowestPriceOffer.amount > 0 && (
-                  <div className="paragraph-semibold rounded bg-green-500 px-3 py-1 capitalize text-light-900">
+                  <div className="paragraph-semibold rounded bg-green-500 px-3 py-1 capitalize text-white">
                     {lowestPriceOffer?.currencySymbol}
                     {lowestPriceOffer?.amount?.toFixed(2)} OFF
                   </div>

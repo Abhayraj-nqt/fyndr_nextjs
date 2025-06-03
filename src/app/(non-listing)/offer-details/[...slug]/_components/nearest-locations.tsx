@@ -15,7 +15,7 @@ const NearestLocations = ({ locations = [], className }: Props) => {
 
   return (
     <div className={`flex flex-col gap-4 p-4 ${className}`}>
-      <p className="text-xl text-dark-300">Nearest Valid Locations:</p>
+      <p className="text-xl text-black-80">Nearest Valid Locations:</p>
       <div className="flex flex-col gap-4">
         {locations.map((item, i) => (
           <React.Fragment key={item.objid}>

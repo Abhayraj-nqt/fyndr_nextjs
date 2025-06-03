@@ -32,7 +32,7 @@ const WalletBalance = async ({ className }: Props) => {
 
   return (
     <div
-      className={`flex flex-col gap-4 rounded-lg bg-primary-900 p-6 text-light-900 ${className}`}
+      className={`flex flex-col gap-4 rounded-lg bg-secondary p-6 text-white ${className}`}
     >
       <div className="md:flex-between flex flex-col gap-4 md:flex-row">
         <div className="flex flex-col gap-4 self-start">
@@ -67,7 +67,7 @@ const WalletBalance = async ({ className }: Props) => {
       </p>
 
       <RedeemPromocodeDialog>
-        <Button className="self-start rounded-[10px] bg-light-900 py-6 text-dark-100 hover:bg-light-900">
+        <Button className="self-start rounded-[10px] bg-white py-6 text-black hover:bg-white">
           Redeem Promo Code
         </Button>
       </RedeemPromocodeDialog>

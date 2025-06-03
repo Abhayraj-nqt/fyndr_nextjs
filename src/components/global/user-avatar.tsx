@@ -29,7 +29,7 @@ const UserAvatar = ({ name, imageUrl, className = "h-9 w-9" }: Props) => {
             quality={100}
           />
         ) : (
-          <AvatarFallback className="flex w-full items-center justify-center bg-primary-900 font-semibold tracking-wider text-white">
+          <AvatarFallback className="flex w-full items-center justify-center bg-secondary font-semibold tracking-wider text-white">
             {initials}
           </AvatarFallback>
         )}

@@ -42,44 +42,44 @@ const LocationManager = ({ children }: Props) => {
     console.log(user?.locations);
   }, [user?.locations]);
 
-  useEffect(() => {
-    const locarionData = {
-      locName: "subhLoc",
-      ctryCode: "+1",
-      phone: "9145276354",
-      addressLine1: "Baker street 1A amrit",
-      addressLine2: "",
-      city: "Phoenix",
-      state: "AZ",
-      lat: 33.4482266,
-      lng: -112.0776781,
-      country: "US",
-      bizid: 1000389,
-      postalCode: "85001",
-      parentLocation: 493,
-      timeZone: null,
-      workingHours: "",
-      deliveryOptions: "",
-      deliveryWithin: null,
-      workingHoursAndSlots: {
-        workingHours: {
-          MONDAY: [],
-          TUESDAY: [],
-          WEDNESDAY: [],
-          THURSDAY: [],
-          FRIDAY: [],
-          SATURDAY: [],
-          SUNDAY: [],
-        },
-        slotDurationInMin: null,
-        slotCapacity: -1,
-        catalogueAppointmentType: null,
-        isCampaignBookingEnabled: false,
-      },
-    };
+  // useEffect(() => {
+  //   const locarionData = {
+  //     locName: "subhLoc",
+  //     ctryCode: "+1",
+  //     phone: "9145276354",
+  //     addressLine1: "Baker street 1A amrit",
+  //     addressLine2: "",
+  //     city: "Phoenix",
+  //     state: "AZ",
+  //     lat: 33.4482266,
+  //     lng: -112.0776781,
+  //     country: "US",
+  //     bizid: 1000389,
+  //     postalCode: "85001",
+  //     parentLocation: 493,
+  //     timeZone: null,
+  //     workingHours: "",
+  //     deliveryOptions: "",
+  //     deliveryWithin: null,
+  //     workingHoursAndSlots: {
+  //       workingHours: {
+  //         MONDAY: [],
+  //         TUESDAY: [],
+  //         WEDNESDAY: [],
+  //         THURSDAY: [],
+  //         FRIDAY: [],
+  //         SATURDAY: [],
+  //         SUNDAY: [],
+  //       },
+  //       slotDurationInMin: null,
+  //       slotCapacity: -1,
+  //       catalogueAppointmentType: null,
+  //       isCampaignBookingEnabled: false,
+  //     },
+  //   };
 
-    addLocation(locarionData);
-  });
+  //   addLocation(locarionData);
+  // });
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -130,12 +130,10 @@ const LocationManager = ({ children }: Props) => {
 
   const handleEdit = (id) => {
     console.log("Edit location:", id);
-    
   };
 
   const handleDelete = async (location: Location) => {
     console.log("Delete location:", location?.objid);
-    
 
     if (window.confirm("Are you sure you want to delete this location?")) {
       const data = await onDeleteLocation({
@@ -149,8 +147,7 @@ const LocationManager = ({ children }: Props) => {
 
   const handleCreateLocation = () => {
     console.log("Create new location");
-    
-
+  };
   console.log("selectedLocation", selectedLocation?.objid);
   const handleQrCode = (location: Location) => {
     setSelectedLocation(location);

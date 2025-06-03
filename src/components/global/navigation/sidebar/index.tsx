@@ -29,7 +29,7 @@ const DashboardSidebar = ({ sidebarLinks, header }: Props) => {
     <Sidebar
       collapsible="icon"
       side="left"
-      className="sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto border-none bg-light-900 shadow-none"
+      className="sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto border-none bg-white shadow-none"
     >
       <SidebarHeader>
         <SidebarMenu>

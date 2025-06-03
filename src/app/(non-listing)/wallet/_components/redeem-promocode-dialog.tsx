@@ -121,12 +121,12 @@ const RedeemPromocodeDialog = ({ children }: Props) => {
         closeOnOutsideClick={false}
       >
         <div className="flex flex-col gap-4">
-          <div className="flex min-h-[45px] grow items-center gap-1 rounded-lg border border-light-700 bg-light-900 px-2">
+          <div className="flex min-h-[45px] grow items-center gap-1 rounded-lg border border-secondary-20 bg-white px-2">
             <Input
               placeholder="Enter Promo Code"
               value={promoCode}
               onChange={handleChange}
-              className="no-focus paragraph-regular placeholder border-none text-dark-400 shadow-none outline-none"
+              className="no-focus paragraph-regular placeholder border-none text-black-30 shadow-none outline-none"
             />
           </div>
 
@@ -145,7 +145,7 @@ const RedeemPromocodeDialog = ({ children }: Props) => {
         </div>
 
         {promocodeDetails ? (
-          <div className="paragraph-regular mt-4 flex flex-col items-center justify-center gap-4 rounded-lg bg-primary-500 p-4 text-white">
+          <div className="paragraph-regular mt-4 flex flex-col items-center justify-center gap-4 rounded-lg bg-primary p-4 text-white">
             <p>Redeem now and get</p>
             <p className="h2-semibold">
               {promocodeDetails.promoCodeDetails.currencySymbol}
@@ -183,8 +183,8 @@ const RedeemPromocodeDialog = ({ children }: Props) => {
           />
           <div className="flex-center flex-col gap-2">
             <p className="h3-semibold">Hurray!!</p>
-            <p className="paragraph-regular text-center text-dark-400">
-              <span className="h3-semibold text-primary-500">
+            <p className="paragraph-regular text-center text-black-30">
+              <span className="h3-semibold text-primary">
                 {promocodeDetails?.promoCodeDetails.currencySymbol}
                 {promocodeDetails?.promoCodeDetails.amount}
               </span>

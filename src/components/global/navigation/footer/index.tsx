@@ -10,7 +10,7 @@ import SocialLinks from "./social-links";
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-dark-200 px-4  py-6 text-light-900 ">
+    <footer className="bg-dark-200 text-light-900 w-full  px-4 py-6 ">
       <div className="flex flex-col items-center gap-4  md:flex-row  md:justify-center ">
         <SocialLinks />
 
@@ -23,10 +23,10 @@ const Footer = () => {
                     <Image src={icon} width={20} height={20} alt={label} />
                   ) : (
                     React.createElement(icon, {
-                      className: "w-5 h-5 text-light-700 hidden lg:flex",
+                      className: "w-5 h-5 text-secondary-20 hidden lg:flex",
                     })
                   )}
-                  <span className="text-sm text-light-700 sm:text-base md:text-[0.8rem] lg:text-base ">
+                  <span className="text-light-700 text-sm sm:text-base md:text-[0.8rem] lg:text-base ">
                     {label}
                   </span>
                 </Link>
@@ -40,7 +40,7 @@ const Footer = () => {
                         className: "w-5 h-5 text-light-700 hidden lg:flex",
                       })
                     )}
-                    <span className="text-sm text-light-700 sm:text-base md:text-[0.8rem] lg:text-base ">
+                    <span className="text-light-700 text-sm sm:text-base md:text-[0.8rem] lg:text-base ">
                       {label}
                     </span>
                   </div>

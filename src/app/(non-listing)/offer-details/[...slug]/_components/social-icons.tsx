@@ -3,7 +3,7 @@ import React from "react";
 
 const SocialIcons = () => {
   return (
-    <div className="flex gap-4 text-dark-300">
+    <div className="flex gap-4 text-black-80">
       <Heart />
       <Share2 />
       <Globe />

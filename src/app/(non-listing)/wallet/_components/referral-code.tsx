@@ -36,7 +36,7 @@ const ReferralCode = () => {
   };
 
   return (
-    <div className="flex gap-2 self-start rounded-full bg-primary-600 p-4">
+    <div className="flex gap-2 self-start rounded-full bg-secondary-90 p-4">
       <p className="body-regular">Your referral code : {`${referralCode}`}</p>
       <TooltipProvider>
         <Tooltip open={isTooltipOpen} onOpenChange={setIsTooltipOpen}>

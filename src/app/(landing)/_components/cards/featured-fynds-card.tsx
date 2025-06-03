@@ -54,10 +54,10 @@ const FeatureFyndsCard = ({ campaign }: Props) => {
               height={20}
               alt="offer-tag"
             />
-            <p className="absolute text-primary-500">{campaign.cmpnType}</p>
+            <p className="absolute text-primary">{campaign.cmpnType}</p>
           </div>
         </div>
-        <CardDescription className="body-regular line-clamp-2 h-10 text-light-300">
+        <CardDescription className="body-regular line-clamp-2 h-10 text-secondary-80">
           {`${
             campaign?.cmpnLocs[0]?.distance
               ? campaign?.cmpnLocs[0]?.distance.toFixed(1)
@@ -70,20 +70,20 @@ const FeatureFyndsCard = ({ campaign }: Props) => {
           {campaign.cmpnType !== "coupons" &&
             campaign.cmpnOffers[0]?.retailPrice !==
               campaign.cmpnOffers[0]?.offerPrice && (
-              <div className="small-regular text-light-400 line-through">
+              <div className="small-regular text-secondary-70 line-through">
                 {campaign.cmpnOffers[0]?.currencySymbol}
                 {campaign.cmpnOffers[0]?.retailPrice?.toFixed(2)}
               </div>
             )}
           {campaign.cmpnType !== "coupons" && (
-            <div className="paragraph-semibold text-primary-500">
+            <div className="paragraph-semibold text-primary">
               {campaign.cmpnOffers[0]?.currencySymbol}
               {campaign.cmpnOffers[0]?.offerPrice?.toFixed(2)}
             </div>
           )}
           {campaign.cmpnType === "coupons" &&
             campaign.cmpnOffers.length > 0 && (
-              <div className="paragraph-semibold text-primary-500">
+              <div className="paragraph-semibold text-primary">
                 {campaign.cmpnOffers[0]?.couponCode}
               </div>
             )}
@@ -92,13 +92,13 @@ const FeatureFyndsCard = ({ campaign }: Props) => {
           <>
             {campaign.cmpnOffers[0]?.discountType === "%" &&
               campaign.cmpnOffers[0]?.amount > 0 && (
-                <div className="body-semibold rounded bg-green-500 px-3 py-1 capitalize text-light-900">
+                <div className="body-semibold rounded bg-green-500 px-3 py-1 capitalize text-white">
                   {campaign.cmpnOffers[0]?.amount}% OFF
                 </div>
               )}
             {campaign.cmpnOffers[0]?.discountType === "flat" &&
               campaign.cmpnOffers[0]?.amount > 0 && (
-                <div className="body-semibold rounded bg-green-500 px-3 py-1 capitalize text-light-900">
+                <div className="body-semibold rounded bg-green-500 px-3 py-1 capitalize text-white">
                   {campaign.cmpnOffers[0]?.currencySymbol}
                   {campaign.cmpnOffers[0]?.amount?.toFixed(2)} OFF
                 </div>

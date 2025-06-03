@@ -9,7 +9,7 @@ const Categories = async () => {
 
   return (
     <section>
-      <h4 className="paragraph-semibold mb-4 text-primary-900">Category</h4>
+      <h4 className="paragraph-semibold mb-4 text-secondary">Category</h4>
       <CategoryList categories={categories} />
     </section>
   );
