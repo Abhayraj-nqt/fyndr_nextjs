@@ -10,7 +10,7 @@ interface Props {
 
 const SocialLinks = ({ className }: Props) => {
   return (
-    <div className={`flex gap-4 pl-5 ${className}`}>
+    <div className={`flex gap-4 ${className}`}>
       {COMPANY.socialLinks.map(({ icon, label, url }) => (
         <Link
           href={url}
@@ -20,7 +20,13 @@ const SocialLinks = ({ className }: Props) => {
           {typeof icon === "function" ? (
             React.createElement(icon, { size: 30 })
           ) : typeof icon === "string" ? (
-            <img src={icon} alt={label} width={35} height={35} />
+            <Image
+              src={icon}
+              alt={label}
+              width={35}
+              height={35}
+              className="xs:size-6 md:size-8"
+            />
           ) : icon?.src ? (
             <Image src={icon} alt={label} width={20} height={20} />
           ) : null}

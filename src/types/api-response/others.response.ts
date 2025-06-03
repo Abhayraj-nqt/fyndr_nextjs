@@ -104,6 +104,10 @@ export type AddLocation = {
   subscribedToFyndrPromoEmails: string;
   business: boolean;
 };
+
+export type DeleteLocationResponse = {
+  message: string;
+};
 export type FindUsOptionsResponse = {
   active: boolean;
   id: number;

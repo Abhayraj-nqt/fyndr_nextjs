@@ -1,59 +1,163 @@
 "use client";
 
-import { Edit, Trash2, QrCode } from "lucide-react";
-import React, { useState, useEffect } from "react";
+import { Edit, Trash2 } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { QRCode } from "react-qrcode-logo";
 
-const LocationManager = () => {
-  const [locations, setLocations] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+import { onAddLocation, onDeleteLocation } from "@/actions/others.action";
+import { Modal } from "@/components/global/modal";
+import QrCode from "@/components/icons/qr-code";
+import { useUser } from "@/hooks/auth";
 
-  // Mock API call - replace with your actual API endpoint
+type Props = {
+  children: React.ReactNode;
+};
+
+type Location = {
+  objid: number;
+  locName: string;
+  addressLine1: string;
+  addressLine2: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+  parentLocation: number;
+  catalogueName: string | null;
+  qrCode: string;
+  qrid: number;
+};
+
+const LocationManager = ({ children }: Props) => {
+  // const sanitizedQrPrefix = qrPrefix.endsWith('/') ? qrPrefix.slice(0, -1) : qrPrefix;
+  const { isLoading, user, error } = useUser();
+
+  const [qrModalVisible, setQrModalVisible] = useState(false);
+  const [locations, setLocations] = useState(user?.locations);
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(
+    null
+  );
+
   useEffect(() => {
-    const fetchLocations = async () => {
-      try {
-        setLoading(true);
-        // Simulate API call delay
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+    console.log(user?.locations);
+  }, [user?.locations]);
 
-        // Mock data - replace with actual API call
-        const mockData = [
-          { id: 1, name: "Banquet Hall" },
-          { id: 2, name: "Chicken Pie Shop" },
-          { id: 3, name: "Essentiaaa" },
-          { id: 4, name: "Tasty Bites Co Cafe & Bistro" },
-        ];
-
-        setLocations(mockData);
-      } catch (err) {
-        setError("Failed to fetch locations");
-      } finally {
-        setLoading(false);
-      }
+  useEffect(() => {
+    const locarionData = {
+      locName: "subhLoc",
+      ctryCode: "+1",
+      phone: "9145276354",
+      addressLine1: "Baker street 1A amrit",
+      addressLine2: "",
+      city: "Phoenix",
+      state: "AZ",
+      lat: 33.4482266,
+      lng: -112.0776781,
+      country: "US",
+      bizid: 1000389,
+      postalCode: "85001",
+      parentLocation: 493,
+      timeZone: null,
+      workingHours: "",
+      deliveryOptions: "",
+      deliveryWithin: null,
+      workingHoursAndSlots: {
+        workingHours: {
+          MONDAY: [],
+          TUESDAY: [],
+          WEDNESDAY: [],
+          THURSDAY: [],
+          FRIDAY: [],
+          SATURDAY: [],
+          SUNDAY: [],
+        },
+        slotDurationInMin: null,
+        slotCapacity: -1,
+        catalogueAppointmentType: null,
+        isCampaignBookingEnabled: false,
+      },
     };
 
-    fetchLocations();
-  }, []);
+    addLocation(locarionData);
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  const addLocation = async (data) => {
+    const response = await onAddLocation({
+      locName: data?.locName,
+      ctryCode: data?.ctryCode,
+      phone: data?.phone,
+      addressLine1: data?.addressLine1,
+      addressLine2: data?.addressLine2,
+      city: data?.city,
+      state: data?.state,
+      lat: data?.lat,
+      lng: data?.lng,
+      country: data?.country,
+      bizid: data?.bizid,
+      postalCode: data?.postalCode,
+      parentLocation: data?.parentLocation,
+      timeZone: data?.timeZone,
+      workingHours: data?.workingHours,
+      deliveryOptions: data?.deliveryOptions,
+      deliveryWithin: data?.deliveryWithin,
+      workingHoursAndSlots: {
+        workingHours: {
+          MONDAY: [],
+          TUESDAY: [],
+          WEDNESDAY: [],
+          THURSDAY: [],
+          FRIDAY: [],
+          SATURDAY: [],
+          SUNDAY: [],
+        },
+        slotDurationInMin: data?.workingHoursAndSlots?.slotDurationInMin,
+        slotCapacity: data?.workingHoursAndSlots?.slotCapacity,
+        catalogueAppointmentType:
+          data?.workingHoursAndSlots?.catalogueAppointmentType,
+        isCampaignBookingEnabled:
+          data?.workingHoursAndSlots?.isCampaignBookingEnabled,
+      },
+    });
+
+    if (response.success) {
+      setLocations(response);
+    }
+  };
 
   const handleEdit = (id) => {
     console.log("Edit location:", id);
-    // Implement edit functionality
+    
   };
 
-  const handleDelete = (id) => {
-    console.log("Delete location:", id);
-    // Implement delete functionality
+  const handleDelete = async (location: Location) => {
+    console.log("Delete location:", location?.objid);
+    
+
     if (window.confirm("Are you sure you want to delete this location?")) {
-      setLocations(locations.filter((location) => location.id !== id));
+      const data = await onDeleteLocation({
+        objid: location?.objid,
+        bizid: user?.bizid,
+      });
+      console.log("data", data);
+      setLocations(locations?.filter((location) => location?.objid !== objid));
     }
   };
 
   const handleCreateLocation = () => {
     console.log("Create new location");
-    // Implement create functionality
+    
+
+  console.log("selectedLocation", selectedLocation?.objid);
+  const handleQrCode = (location: Location) => {
+    setSelectedLocation(location);
+    setQrModalVisible(true);
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen w-full bg-gray-50 p-6">
         <div className="mx-auto max-w-7xl">
@@ -113,40 +217,39 @@ const LocationManager = () => {
 
         {/* Locations List */}
         <div className="rounded-lg border border-gray-100 bg-white shadow-sm">
-          {locations.length === 0 ? (
+          {locations?.length === 0 ? (
             <div className="p-8 text-center text-gray-500">
               No locations found. Create your first location to get started.
             </div>
           ) : (
             <div className="divide-y divide-gray-100">
-              {locations.map((location, index) => (
+              {locations?.map((location: Location) => (
                 <div
-                  key={location.id}
+                  key={location?.objid}
                   className="flex items-center justify-between p-6 transition-colors hover:bg-gray-50"
                 >
                   <div className="flex items-center gap-4">
-                    {/* QR Code Icon */}
-                    <div className="text-blue-500">
-                      <QrCode size={32} />
+                    <div
+                      className="text-blue-500"
+                      onClick={() => handleQrCode(location)}
+                    >
+                      <QrCode size={"32"} />
                     </div>
 
-                    {/* Location Name */}
                     <h3 className="text-lg font-medium text-gray-900">
-                      {location?.name}
+                      {location?.locName}
                     </h3>
                   </div>
-
-                  {/* Action Buttons */}
                   <div className="flex items-center gap-3">
                     <button
-                      onClick={() => handleEdit(location.id)}
+                      onClick={() => handleEdit(location?.objid)}
                       className="rounded-lg p-2 text-blue-500 transition-colors hover:bg-blue-50"
                       title="Edit location"
                     >
                       <Edit size={20} />
                     </button>
                     <button
-                      onClick={() => handleDelete(location.id)}
+                      onClick={() => handleDelete(location)}
                       className="rounded-lg p-2 text-red-500 transition-colors hover:bg-red-50"
                       title="Delete location"
                     >
@@ -159,6 +262,29 @@ const LocationManager = () => {
           )}
         </div>
       </div>
+      <Modal
+        trigger={children}
+        title={selectedLocation?.locName}
+        open={qrModalVisible}
+        onOpenChange={(open) => {
+          if (!open) {
+            setQrModalVisible(false);
+            setSelectedLocation(null);
+          }
+        }}
+      >
+        <div className="flex items-center justify-center">
+          {/* <QrCode size={"32"} /> */}
+          <QRCode
+            style={{ maxWidth: "100%" }}
+            size={160}
+            logoWidth={40}
+            logoImage={
+              user?.qrLogo ? `${user.qrLogo}?v=${Date.now()}` : undefined
+            }
+          />
+        </div>
+      </Modal>
     </div>
   );
 };

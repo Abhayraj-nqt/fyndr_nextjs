@@ -10,13 +10,13 @@ import ImageUploader from "@/components/global/uploader/image-uploader";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useUser } from "@/hooks/auth";
-import { ProcessedFileProps } from "@/lib/utils/files/upload.utils";
 import { cn } from "@/lib/utils";
+import { ProcessedFileProps } from "@/lib/utils/files/upload.utils";
 
 const BusinessLogo = () => {
   const [uploadedFiles, setUploadedFiles] = useState<ProcessedFileProps[]>([]);
   const [checked, setChecked] = useState(false);
-  const { user, isLoading, error } = useUser();
+  const { user } = useUser();
 
   const [extension, setExtension] = useState("");
 
@@ -62,98 +62,12 @@ const BusinessLogo = () => {
     ? `${user?.mainLogo}?v=${Date.now()}`
     : undefined;
 
-  console.log("mainLogo", mainLogo);
-  // if (isLoading) return <div>Loading</div>;
-  // if (error) return <div>{"Error"}</div>;
-  // if (!user) return <div>Please sign in</div>;
   return (
-    // <div className="m-20 flex justify-center w-full">
-    //   <div>
-    //     <div className=" w-full text-blue-500 text-[1.5rem] ml-10">
-    //       Business Logo Upload
-    //     </div>
-    //     <div className=" p-10 flex justify-center">
-    //       <div className="rounded-md border border-gray-200 bg-white p-4 shadow-sm">
-    //         <div className="flex rounded-md bg-blue-50 border-l-4 border-cyan-400 p-6">
-    //           <p className="text-gray-500 text-lg">
-    //             Please upload your business logo here, it will be displayed on
-    //             the pages like offer listings, business terms of service etc.
-    //           </p>
-    //         </div>
-
-    //         <div className="flex flex-row gap-5 justify-center mt-10">
-    //           <div className="h-40 rounded-xl">
-    //             {uploadedFiles.map((item) => (
-    //               <Image
-    //                 key={item.name}
-    //                 height={320}
-    //                 width={320}
-    //                 src={item.base64Url}
-    //                 alt="Business Logo"
-    //                 className="rounded-lg"
-    //               />
-    //             ))}
-
-    //             {!uploadedFiles.length && typeof mainLogo === "string" && (
-    //               <Image
-    //                 // key={item.name}
-    //                 height={320}
-    //                 width={320}
-    //                 src={mainLogo}
-    //                 alt="Business Logo"
-    //                 className="rounded-lg h-[160] w-[300] object-cover"
-    //               />
-    //             )}
-    //           </div>
-    //           <div className="flex justify-end">
-    //             <ImageUploader
-    //               maxFileSizeMB={5}
-    //               onImageUpload={handleFileUpload}
-    //               minZoom={0.1}
-    //             />
-    //           </div>
-    //         </div>
-    //         <div className="flex flex-row justify-between mt-10">
-    //           <div className="w-[90%]">
-    //             <Checkbox
-    //               checked={checked}
-    //               onCheckedChange={() => setChecked(true)}
-    //               className="mr-4"
-    //             />
-    //             <span className="">
-    //               I represent and warrant that I have full ownership and/or
-    //               licensing rights to the image and authorize Fyndr to use this
-    //               image as per:{" "}
-    //               <Link href="/legal/agreement" className="text-blue-600">
-    //                 {" "}
-    //                 Fyndr Business Agreement
-    //               </Link>
-    //             </span>
-    //           </div>
-    //           <div>
-    //             <Button
-    //               className={cn(
-    //                 `body-medium rounded-lg px-6 py-3 capitalize shadow-none`,
-    //                 "hover:bg-blue-500 text-white bg-blue-500"
-    //               )}
-    //               onClick={() => handleBusinessLogo()}
-    //             >
-    //               Save
-    //             </Button>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
     <ContainerWrapper title="Business Logo Upload">
-      {/* <div className=" w-full text-blue-500 text-[1.5rem] ml-10">
-        Business Logo Upload
-      </div> */}
       <div className=" flex ">
         <div className="rounded-md border border-gray-200 bg-white p-4">
-          <div className="flex rounded-md bg-blue-50 border-l-4 border-cyan-400 p-4">
-            <p className="text-gray-500 text-[1rem]">
+          <div className="flex rounded-md border-l-4 border-cyan-400 bg-blue-50 p-4">
+            <p className="text-[1rem] text-gray-500">
               Please upload your business logo here, it will be displayed on the
               pages like offer listings, business terms of service etc.
             </p>

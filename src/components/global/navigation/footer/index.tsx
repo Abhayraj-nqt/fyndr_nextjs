@@ -10,28 +10,15 @@ import SocialLinks from "./social-links";
 
 const Footer = () => {
   return (
-    <main className="flex-between  max-h-[100px] w-full bg-dark-200  py-5 text-light-900 md:items-center">
-      {/* <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-2 sm:gap-8"> */}
-      <SocialLinks className="hidden sm:flex " />
-      {FOOTER_MENU.map(({ icon, url, label }) => (
-        <React.Fragment key={label}>
-          {label !== "Contact Us" ? (
-            <Link href={url} key={label} className="flex  gap-1">
-              {typeof icon === "string" ? (
-                <Image src={icon} width={20} height={20} alt={label} />
-              ) : (
-                React.createElement(icon, {
-                  className: "w-5 h-5 text-light-700 hidden lg:flex",
-                })
-              )}
-              <div className="sm:body-regular xs: ml-2 text-[20px] text-light-700 sm:ml-2 md:ml-2">
-                {label}
-              </div>
-            </Link>
-          ) : (
-            <>
-              <ContactUsModal>
-                <div className="flex  gap-1">
+    <footer className="w-full bg-dark-200 px-4  py-6 text-light-900 ">
+      <div className="flex flex-col items-center gap-4  md:flex-row  md:justify-center ">
+        <SocialLinks />
+
+        <div className="flex gap-4 xs:flex-wrap  md:flex-nowrap md:gap-4 lg:ml-2 lg:justify-around lg:gap-2 xl:ml-10 xl:gap-10 2xl:gap-14">
+          {FOOTER_MENU.map(({ icon, url, label }, index) => (
+            <React.Fragment key={label}>
+              {label !== "Contact Us" ? (
+                <Link href={url} className="flex items-center gap-2">
                   {typeof icon === "string" ? (
                     <Image src={icon} width={20} height={20} alt={label} />
                   ) : (
@@ -39,19 +26,38 @@ const Footer = () => {
                       className: "w-5 h-5 text-light-700 hidden lg:flex",
                     })
                   )}
-                  <div className="small-regular sm:body-regular xs: ml-2 text-light-700 sm:ml-2 md:ml-2">
+                  <span className="text-sm text-light-700 sm:text-base md:text-[0.8rem] lg:text-base ">
                     {label}
+                  </span>
+                </Link>
+              ) : (
+                <ContactUsModal>
+                  <div className="flex cursor-pointer items-center gap-1">
+                    {typeof icon === "string" ? (
+                      <Image src={icon} width={20} height={20} alt={label} />
+                    ) : (
+                      React.createElement(icon, {
+                        className: "w-5 h-5 text-light-700 hidden lg:flex",
+                      })
+                    )}
+                    <span className="text-sm text-light-700 sm:text-base md:text-[0.8rem] lg:text-base ">
+                      {label}
+                    </span>
                   </div>
-                </div>
-              </ContactUsModal>
-            </>
-          )}
+                </ContactUsModal>
+              )}
 
-          <Separator orientation="vertical" className="h-8" />
-        </React.Fragment>
-      ))}
-      {/* </div> */}
-    </main>
+              {index < FOOTER_MENU.length - 1 && (
+                <Separator
+                  orientation="vertical"
+                  className="hidden h-6 sm:block"
+                />
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+    </footer>
   );
 };
 
