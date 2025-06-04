@@ -242,12 +242,12 @@ export const ADMIN_MENU: SubMenuProps[] = [
   },
   {
     icon: Megaphone,
-    route: "/admin/dashboard/campaigns",
+    route: "/admin/campaigns",
     label: "Campaign",
   },
   {
     icon: CircleDollarSign,
-    route: "/admin/dashboard/revenue",
+    route: "/admin/revenue",
     label: "Revenue",
   },
   {

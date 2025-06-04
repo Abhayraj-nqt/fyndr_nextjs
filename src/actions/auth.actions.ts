@@ -21,6 +21,7 @@ import {
   AccountResponse,
   RefreshTokenResponse,
 } from "@/types/api-response/auth.response";
+import { ChannelOptionsResponse } from "@/types/api-response/findUsChannel.response";
 import { ErrorResponse } from "@/types/global";
 
 export const signInWithCredentials: SignInWithCredentials = async (params) => {
@@ -136,3 +137,8 @@ export const refreshAccessTokenAPI: RefreshAccessTokenAPIProps = async (
   const endpoint = `${API_GATEWAY_URL}/v1/token/generateFromRefreshToken`;
   return _post<RefreshTokenResponse>(endpoint, payload);
 };
+
+export const getAllChannel = async()=> {
+  const endpoint=`${API_BASE_URL}/identity/find_us`
+  return _get<ChannelOptionsResponse>(endpoint)
+}

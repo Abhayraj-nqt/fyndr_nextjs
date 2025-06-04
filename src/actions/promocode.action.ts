@@ -9,6 +9,8 @@ import {
   RedeemPromocode,
   VerifyPromocode,
 } from "@/types/api-params/promocode.params";
+import { ActionResponse } from "@/types/global";
+import { getAllPromoCode } from "@/types/api-response/promocode.response";
 
 export const onVerifyPromocode: VerifyPromocode = async (params) => {
   const { code, codeType, countryId, isBusiness } = params;
@@ -18,7 +20,6 @@ export const onVerifyPromocode: VerifyPromocode = async (params) => {
 
 export const onRedeemPromocode: RedeemPromocode = async (params, payload) => {
   const { indvId } = params;
-  console.log({ params, payload });
 
   const endpoint = `${API_BASE_URL}/identity/redeem_promocode/${indvId}`;
 
@@ -28,3 +29,10 @@ export const onRedeemPromocode: RedeemPromocode = async (params, payload) => {
     requireAuth: true,
   });
 };
+
+export const getAllPromoCodes = async(): Promise<ActionResponse<getAllPromoCode[]>> =>{
+  const endpoint = `${API_BASE_URL}/admin/promocode/getAll`;
+  return _get(endpoint, {
+    requireAuth:true
+  })
+}

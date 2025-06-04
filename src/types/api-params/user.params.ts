@@ -16,5 +16,6 @@ export type GetUsersParams = (
     text: string;
     userStatus: string[];
     userType: string[];
+    findUsOptions: number[];
   }
 ) => Promise<ActionResponse<GetUsersResponse>>;

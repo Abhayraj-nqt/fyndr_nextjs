@@ -2,11 +2,11 @@ import React from "react";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { ActivePromoResponse } from "@/types/api-response/promocode.response";
+import DateComponent from "@/components/global/date-component";
 type Props = {
-  data: ActivePromoResponse | undefined;
-};
-const ActiveBar = ({ data }: Props) => {
-  console.log("d", data);
+    data: ActivePromoResponse | undefined;
+  };
+const ActiveBar = ({data}:Props) => {
   return (
     <div className="relative flex w-full space-x-4 overflow-x-scroll pb-4">
       {data?.map((item) => (
@@ -27,13 +27,8 @@ const ActiveBar = ({ data }: Props) => {
             <p className="text-sm" style={{ color: "#257cdb" }}>
               {item.promoCode}
             </p>
-            <p className="text-xs">Valid till {item.endDate} </p>
-            <p className="text-xs">
-              {item.promoCodeType == "REGISTRATION"
-                ? "Registrations: "
-                : "Redemptions: "}
-              {item.userRegistered}
-            </p>
+            <p className="text-xs">Valid till <DateComponent date={item.endDate}/></p>
+            <p className="text-xs">{item.promoCodeType=="REGISTRATION" ? "Registrations: " : "Redemptions: "}{item.userRegistered}</p>
           </CardContent>
         </Card>
       ))}

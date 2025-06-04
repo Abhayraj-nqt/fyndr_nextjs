@@ -221,6 +221,20 @@ export const slugify = (path: string): string => {
   return slugifiedParts.join("/");
 };
 
+export const findPathForAccount=(role:string) =>{
+  switch (role) {
+    case "FYNDR": {
+      return "/admin/dashboard";
+    }
+    case "INDIVIDUAL": {
+      return "/billig/transactions";
+    }
+    default:{
+      return "/billing/transactions";
+    }
+  }
+}
+    
 export const validatePostalAddress = async (value: string, country: string) => {
   const pattern = new RegExp("^" + postalPattern[country] + "$");
 
