@@ -1,6 +1,8 @@
+"use client";
+
 import dayjs from "dayjs";
 import { Underline } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import DefaultCard from "@/components/global/cards/default-card";
 import { Button } from "@/components/ui/button";
@@ -18,6 +20,10 @@ import {
   InvoiceOffer,
   Offer,
 } from "@/types/api-response/transaction.response";
+import { OfferPurchaseProps } from "@/types/offersummary";
+import ActionsDialog from "@/app/(dashboard)/_components/redeemptionModal/actions-dialog";
+import { useUser } from "@/hooks/auth";
+
 
 type OffersDetails = {
   offersDetails: Offer[];
@@ -27,13 +33,10 @@ type OffersDetails = {
   currencySymbol: string;
   taxAmount: number;
   userTimeZone: string | null;
+  type : string
 };
 
-interface ExtendedInvoiceOffer extends InvoiceOffer {
-  appointments?: Appointment[];
-  index?: number;
-  qty?: number | boolean;
-}
+
 const Offersdetails: React.FC<OffersDetails> = ({
   offersDetails,
   channel,
@@ -42,7 +45,26 @@ const Offersdetails: React.FC<OffersDetails> = ({
   currencySymbol,
   taxAmount,
   userTimeZone,
+  type
 }) => {
+
+  const { user } = useUser();
+  
+    const firstName =  user?.firstName;
+    const lastName =  user?.lastName;
+    const indvid =  user?.indvid;
+  
+
+  console.log("this is voucher",vouchers);
+const [redeemOpen, setRedeemOpen] = useState<boolean>(false);
+const [selectedVoucher, setSelectedVoucher] = useState<InvoiceOffer|null>(null);
+
+useEffect(() => {
+    (async () => {
+      await fetchInvoiceDetails();
+    })();
+  }, [voucherUpdated, inv]);
+// console.log("selected voucher" , selectedVoucher);
   return (
     <>
       {offersDetails &&
@@ -52,31 +74,41 @@ const Offersdetails: React.FC<OffersDetails> = ({
             retail_price: retailPrice,
             offer_price: offerPrice,
           } = row;
-          const vhrs =
-            channel === "events"
-              ? offersDetails.filter((offer) => offer.offer_id === offerId)
-              : vouchers?.filter((voucher) => voucher.offerId === offerId);
+          type FilteredOffer = Offer | InvoiceOffer;
+
+const vhrs: FilteredOffer[] = channel === "events"
+  ? offersDetails.filter((offer) => offer.offer_id === offerId)
+  : vouchers?.filter((voucher) => voucher.offerId === offerId) || [];
+          
 
           return (
             vhrs &&
             vhrs.map((vhrRaw, index) => {
-              const vhr = vhrRaw as ExtendedInvoiceOffer;
+              const vhr = vhrRaw ;
               let res;
 
-              if (appointments && appointments?.length > 0) {
-                res = appointments.filter(
-                  (item) => item.offer_id === vhr.offerId
-                );
-                vhr.appointments = res[0]?.appointment;
-                vhr.index = index;
-                vhr.qty = channel !== "events" && res[0]?.qty;
-              }
+              // if ("appointment" in vhr && vhr?.appointment && vhr?.appointment?.length > 0) {
+              //   res = vhr?.appointment.filter(
+              //     (item) => item.offer_id === vhr.offerId
+              //   );
+              //   vhr.appointment = res[0]?.appointment;
+              //   vhr.index = index;
+              //   vhr.qty = channel !== "events" && res[0]?.qty;
+              // }
 
               //   vhr.currencySymbol = currencySymbol;
-              const { redeemptionStatus, validTill } = vhr;
+              let redeemptionStatus, validTill;
+
+if ('offerId' in vhr) {
+  // vhr is InvoiceOffer
+  redeemptionStatus = vhr.redeemptionStatus;
+  validTill = vhr.validTill;
+}
 
 
-              console.log("start time",appointments)
+              console.log("this is redeemp",redeemptionStatus);
+
+              console.log("start time", appointments);
 
               return (
                 <div
@@ -97,11 +129,10 @@ const Offersdetails: React.FC<OffersDetails> = ({
                       {row?.title}
                     </span>
                   </div>
-                  {vhr?.appointments &&
-                    vhr?.appointments[index] &&
-                    Object.entries(vhr?.appointments[index]).map(
+                  {"appointment" in vhr && vhr?.appointment &&
+                    vhr?.appointment[index] &&
+                    Object.entries(vhr?.appointment[index]).map(
                       ([appointmentDate, timeObj]: any, i) => (
-                        
                         <div key={`appointment-${i}`} className="w-full">
                           <div className="mb-2 flex justify-between">
                             <span className="text-[14px] font-semibold text-black-70">
@@ -120,7 +151,6 @@ const Offersdetails: React.FC<OffersDetails> = ({
                                 timeObj?.startTime?.slice(0, 5),
                                 "HH:mm"
                               ).format("hh:mm A")}
-                          
                             </span>
                           </div>
                           <div className="mb-2 flex justify-between">
@@ -190,7 +220,7 @@ const Offersdetails: React.FC<OffersDetails> = ({
                         </span>
                       </div>
 
-                      {vhr.isVoucher && (
+                      {"isVoucher" in vhr && vhr.isVoucher && (
                         <div className="mb-2 flex justify-between">
                           <span className="text-[14px] font-semibold text-black-70">
                             Business Generated Voucher ID:
@@ -202,35 +232,38 @@ const Offersdetails: React.FC<OffersDetails> = ({
                       )}
 
                       {/* Fyndr Generated Voucher with Action */}
-                      {/* <div className="mb-2 flex justify-between">
+                      <div className="mb-2 flex justify-between">
                         <span className="text-[14px] font-semibold text-[#4D4D4D]">
                           Fyndr Generated Voucher ID:
                         </span>
-                        <Button
-                          className="text-[14px] text-blue-600 underline"
-                          onClick={() => {
-                            setSelectedVoucher(vhr);
-                            setScreen("edit");
-                          }}
-                        >
+                       <Button
+  className="text-[14px] text-blue-600 underline"
+  onClick={() => {
+    if ("objid" in vhr) {
+      setSelectedVoucher(vhr); 
+    } 
+    setRedeemOpen(true);
+  }}
+>
                           <div className="text-[14px] font-normal leading-[20px] text-black-80">
-                            {vhr
+                            {"objid" in vhr && vhr
                               ? `VHR-${(vhr.objid + "").padStart(10, 0)}`
                               : ""}
                           </div>
                         </Button>
-                      </div> */}
-                      {vhr.appointments &&
-                        vhr.appointments.length > 0 &&
-                        vhr.appointments[index] === undefined && (
-                          <div className="mb-8 justify-between">
-                            <div>
-                              <span className="size-[16px] font-semibold text-primary">
-                                Scheduled Later
-                              </span>
-                            </div>
-                          </div>
-                        )}
+                      </div>
+                      { "offer_id" in vhr && 
+  vhr.appointment &&
+  vhr.appointment.length > 0 &&
+  vhr.appointment[index] === undefined && (
+    <div className="mb-8 justify-between">
+      <div>
+        <span className="size-[16px] font-semibold text-primary">
+          Scheduled Later
+        </span>
+      </div>
+    </div>
+)}
                     </>
                   )}
                 </div>
@@ -238,6 +271,18 @@ const Offersdetails: React.FC<OffersDetails> = ({
             })
           );
         })}
+        
+       <ActionsDialog
+  open={redeemOpen}
+  onOpenChange={() => setRedeemOpen(false)}
+  type={type}
+  row={selectedVoucher}
+  title="Redeem Voucher"
+  currencySymbol ={currencySymbol}
+  fname = {firstName}
+  lname = {lastName}
+  indvid={indvid}
+/>
     </>
   );
 };

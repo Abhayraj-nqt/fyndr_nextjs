@@ -18,13 +18,18 @@ export const useInvoiceDetails = (
     queryFn: async () => {
       const payload: InvoicePayload = { invoiceId: objid! };
 
+      console.log("this is indvid",indvid);
+
+      console.log("this is type inside api", type);
       if (type === "receivable") {
         payload.bizid = bizid!;
       } else {
         payload.buyerId = indvid!;
       }
-
+     
+      ;
       const { success, data } = await onGetInvoiceDetails(payload);
+      console.log("data after invoice", data)
       if (!success) throw new Error("Failed to fetch invoice details");
       return data;
     },

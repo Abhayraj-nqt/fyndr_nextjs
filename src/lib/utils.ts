@@ -480,6 +480,8 @@ export const statusList = [
 ];
 
 export const getDisplayStatus = (status: Status): string => {
+
+  console.log("status in function",status);
   try {
     if (status === "unused") return "Unused";
     return statusList.find((row) => row.value === status)?.display || "";

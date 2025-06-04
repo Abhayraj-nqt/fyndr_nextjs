@@ -23,6 +23,7 @@ const InvoiceModal: React.FC<InvoiceModalProps> = ({
       if (!invoice || invoice.length === 0) {
     return null; // or show a loading/safe message
   }
+    
 
     if (status !== "pending") {
       return <Invoiceview inv={invoice} type={type} />;
@@ -57,6 +58,7 @@ const InvoiceModal: React.FC<InvoiceModalProps> = ({
         if (!val) onClose(); // when modal tries to close, call parent’s close handler
       }}
       footerContent={<Invoicefooter />}
+      footerClassName="p-0"
       showFooter={true}
     >
       {renderContent()}

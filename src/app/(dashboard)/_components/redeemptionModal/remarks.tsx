@@ -1,6 +1,5 @@
 "use client";
 
-
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
@@ -14,9 +13,9 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 type RemarksProps = {
-  remarks?: Remarks[];               // optional
-  redemptionTime?: string | null;    // optional
-  currencySymbol?: string;   
+  remarks?: Remarks[]; 
+  redemptionTime?: string | null; 
+  currencySymbol?: string;
 };
 
 const INVOICE_TEXT = "leading-5 text-[#4D4D4D] text-sm font-semibold";
@@ -32,43 +31,53 @@ const RedeemRemarks = ({
 
   return (
     <>
-    {remarks && remarks.map((remark, index) => (
-      <div   key={index} className="mt-4 rounded-[10px] border border-[#D3D6E1] p-3">
-        {remark?.time && userTimeZone && (
-          <span className="text-sm font-normal leading-4 text-[#333333]">
-            {getFormattedDtNew(remark.time, userTimeZone)}
-          </span>
-        )}
+      {remarks &&
+        remarks.map((remark, index) => (
+          <div
+            key={index}
+            className="mt-4 rounded-[10px] border border-[#D3D6E1] p-3"
+          >
+            {remark?.time && userTimeZone && (
+              <span className="text-sm font-normal leading-4 text-[#333333]">
+                {getFormattedDtNew(remark.time, userTimeZone)}
+              </span>
+            )}
 
-        {redemptionTime && (
-          <div className="flex justify-between">
-            <span className={INVOICE_TEXT}>Redemption Time:</span>
-            <span className={INVOICE_VALUE}>
-              {dayjs
-                .utc(`1970-01-01T${redemptionTime}`)
-                .tz(userTimeZone || dayjs.tz.guess())
-                .format("hh:mm A")}
-            </span>
-          </div>
-        )}
+            {redemptionTime && (
+              <div className="flex justify-between">
+                <span className={INVOICE_TEXT}>Redemption Time:</span>
+                <span className={INVOICE_VALUE}>
+                  {dayjs
+                    .utc(`1970-01-01T${redemptionTime}`)
+                    .tz(userTimeZone || dayjs.tz.guess())
+                    .format("hh:mm A")}
+                </span>
+              </div>
+            )}
 
-        {remark?.redeemedValue !== null && (
-          <div className="flex justify-between">
-            <span className={INVOICE_TEXT}>Redeemed Value:</span>
-            <span className={INVOICE_VALUE}>
-              {currencySymbol}
-              {remark?.redeemedValue}
-            </span>
+            {remark?.redeemedValue !== null && (
+              <div className="flex justify-between">
+                <span className={INVOICE_TEXT}>Redeemed Value:</span>
+                <span className={INVOICE_VALUE}>
+                  {currencySymbol}
+                  {remark?.redeemedValue}
+                </span>
+              </div>
+            )}
+            {remark?.message !== null && remark?.message !== "" && (
+              <div className="flex justify-between">
+                <span className={INVOICE_TEXT}>Message:</span>
+                <span className={INVOICE_VALUE}>{remark?.message}</span>
+              </div>
+            )}
+            {remark?.updatedBy !== null && (
+              <div className="mt-2 flex justify-between">
+                <span className={INVOICE_TEXT}>Updated by:</span>
+                <span className={INVOICE_VALUE}>{remark?.updatedBy}</span>
+              </div>
+            )}
           </div>
-        )}
-        {remark?.updatedBy !== null && (
-          <div className="mt-2 flex justify-between">
-            <span className={INVOICE_TEXT}>Updated by:</span>
-            <span className={INVOICE_VALUE}>{remark?.updatedBy}</span>
-          </div>
-        )}
-      </div>
-       ))}
+        ))}
     </>
   );
 };

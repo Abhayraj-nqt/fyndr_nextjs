@@ -12,11 +12,23 @@ import { OfferPurchaseProps } from "@/types/offersummary";
 
 import RedeemRemarks from "./remarks";
 
+import toast from "@/components/global/toast";
+import Button from "@/components/global/buttons";
+import { useOfferRedeemption } from "@/hooks/offers";
+import { InvoiceOffer } from "@/types/api-response/transaction.response";
+
 interface ActionsDialogProps {
-  row: OfferPurchaseProps | null;
-  onOpenChange: (open: boolean) => void;
+  row: OfferPurchaseProps | InvoiceOffer |  null;
+
+  onOpenChange: () => void;
   open: boolean;
   type?: string;
+  merchantId? : string;
+  fname? : string;
+  lname? : string;
+  indvid? :  number;
+  title : string;
+  currencySymbol? : string;
 }
 
 const ActionsDialog = ({
@@ -24,15 +36,21 @@ const ActionsDialog = ({
   onOpenChange,
   open,
   type,
+  merchantId,
+  fname,
+  lname,
+  indvid,
+  title,
+  currencySymbol
 }: ActionsDialogProps) => {
   const [status, setStatus] = useState<string>("");
   const [curVal, setCurVal] = useState<number>(0);
   const [remark, setRemark] = useState<string>("");
   const [redeemedAmtError, setRedeemedAmtError] = useState<string>("");
-  const [redeemedAmt, setRedeemedAmt] = useState<number>(0);
+  const [redeemedAmt, setRedeemedAmt] = useState<string>("");
 
   const INVOICE_TEXT = "leading-5 text-[#4D4D4D] text-sm font-semibold";
-  const INVOICE_VALUE = "text-[14px] leading-[20px] font-normal text-[#333333]";
+  // const INVOICE_VALUE = "text-[14px] leading-[20px] font-normal text-[#333333]";
 
   useEffect(() => {
     if (row?.currentValue != null) {
@@ -43,23 +61,102 @@ const ActionsDialog = ({
     }
   }, [row?.currentValue, row?.redeemptionStatus]);
 
-  const handleChgAmt = (val: number) => {
-    setRedeemedAmtError("");
+
+  const handleChgAmt = (val: string) => {
     setRedeemedAmt(val);
-    const balance = parseFloat((Number(row?.currentValue) - val).toFixed(2));
+    setRedeemedAmtError("");
+
+    const numericVal = parseFloat(val);
+    if (isNaN(numericVal)) return;
+
+    const balance = parseFloat(
+      (Number(row?.currentValue) - numericVal).toFixed(2)
+    );
     setCurVal(balance);
+
     if (balance < 0) {
       setRedeemedAmtError("Unused value can't be negative");
     }
   };
+  const { mutate: updateOfferRedeem, isLoading } = useOfferRedeemption();
+  
+  const voucherUpdate = () => {
 
-  console.log("status", row?.redeemptionStatus);
+    if (status === "partially-redeemed") {
+ 
 
-  console.log("current valye", row?.currentValue);
+      if (!redeemedAmt || Number(redeemedAmt) <= 0) {
+        return toast.error({
+          message: "Redeemed Amount must be greater than 0",
+        });
+      }
+    }
+    if (redeemedAmtError) {
+      return false;
+    } 
+
+if (!(row?.objid && row?.invoiceId && indvid)) return;
+
+    let payload;
+    if(type==="receivable"){
+       payload = {
+      
+       voucherId : row?.objid,
+       merchantId,
+         status: curVal <= 0 ? 'redeemed' : status,
+          customRemarks: remark,
+       invoiceId : row?.invoiceId  ,
+        updatedBy: `${fname} ${lname}`, 
+         lat:  null,
+        lng:  null,
+        buyerId: indvid,
+       redeemedValue: status==="redeemed"? curVal: redeemedAmt,
+       currentValue: status === 'redeemed' ? 0 : curVal
+    }
+
+    }
+    else {
+      payload = {
+        voucherId : row?.objid,
+        status:'redeemed',
+        invoiceId :  row?.invoiceId,
+        updatedBy: `${fname} ${lname}`,
+        lat:  null,
+        lng:  null,
+        buyerId: indvid,
+        redeemedValue: curVal,
+        currentValue: 0
+      }
+    }
+    
+    updateOfferRedeem(payload, {
+    onSuccess: (res) => {
+
+      if(res.success){
+      toast.success({message: "Voucher updated Successfully"})
+      // Reset inputs or close modal here
+      setRemark("");
+      setRedeemedAmt("");
+      onOpenChange();
+      }else {
+        toast.error({message : "Something went wrong"});
+      }
+      
+    },
+    onError: (error: any) => {
+      toast.error({
+        message: error?.message || "Failed to update voucher",
+      });
+    },
+  });
+  
+  };
+ 
+
   return (
     <>
-      <Modal onOpenChange={onOpenChange} open={open} title={"Vouchers"}>
-        <div className="rounded-[10px] border border-[#D3D6E1] p-[12px_12px_0_12px]">
+      <Modal onOpenChange={onOpenChange} open={open} title={title}>
+        <div className="rounded-10 border border-[#D3D6E1] p-[12px_12px_0_12px]">
           <div className="flex justify-center align-middle">
             <QRCode
               value={`${row?.voucherCode}`}
@@ -87,70 +184,101 @@ const ActionsDialog = ({
               <span className="text-sm font-semibold leading-5 text-[#4D4D4D]">
                 Unused Value
               </span>
-              <span>{`${row?.currencySymbol}${curVal}`}</span>
+            <span>{`${currencySymbol??currencySymbol??(row as OfferPurchaseProps)?.currencySymbol}${curVal}`}</span>
             </div>
           )}
 
         <RedeemRemarks
           remarks={row?.remarks}
-          redemptionTime={row?.redemptionTime}
+          redemptionTime={(row as OfferPurchaseProps)?.redemptionTime}
         />
 
         {type === "receivable" && row?.redeemptionStatus !== "redeemed" && (
-          <div className="mt-4 rounded-[10px] border border-[#D3D6E1] p-[12px]">
-            <RadioGroup value={status} onValueChange={(val) => setStatus(val)}>
-              {statusList.map((item) => (
-                <div
-                  key={item.value}
-                  className="mb-2 flex items-center space-x-2"
-                >
-                  <RadioGroupItem
-                    id={`status-${item.value}`}
-                    value={item.value}
-                    className="size-4"
-                  />
-                  <Label
-                    htmlFor={`status-${item.value}`}
-                    className={INVOICE_TEXT}
-                  >
-                    {item.display}
-                  </Label>
-                </div>
-              ))}
-            </RadioGroup>
+          <>
+            <div className="mt-4 rounded-[10px] border border-[#D3D6E1] p-[12px]">
+              <RadioGroup
+                value={status}
+                onValueChange={(val) => setStatus(val)}
+              >
+                {statusList.map((item) => (
+                  <div key={item.value} className="flex items-center space-x-2">
+                    <RadioGroupItem
+                      id={`status-${item.value}`}
+                      value={item.value}
+                      className="size-4"
+                    />
+                    <Label
+                      htmlFor={`status-${item.value}`}
+                      className={INVOICE_TEXT}
+                    >
+                      {item.display}
+                    </Label>
+                  </div>
+                ))}
+              </RadioGroup>
 
-            {status === "partially-redeemed" && (
-              <>
-                <div className="mt-2 flex flex-col gap-2">
-                  <div>
-                    <Input
-                      placeholder="Amount redeemed"
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (/^\d*\.?\d*$/.test(value)) {
-                          handleChgAmt(Number(value));
-                        }
-                      }}
-                      value={redeemedAmt}
-                    />
-                    <span className="size-[15px]  pl-1 leading-6 text-[red]">
-                      {redeemedAmtError}
-                    </span>
+              {status === "partially-redeemed" && (
+                <>
+                  <div className="mt-4 flex flex-col ">
+                    <div>
+                      <Input
+                        placeholder="Amount redeemed"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (/^\d*\.?\d{0,2}$/.test(value)) {
+                            handleChgAmt(value);
+                          }
+                        }}
+                        value={redeemedAmt}
+                      />
+                      <span className="size-[15px]  pl-1 leading-6 text-[red]">
+                        {redeemedAmtError}
+                      </span>
+                    </div>
+                    <div>
+                      <Input
+                        placeholder="Remarks"
+                        onChange={(e) => {
+                          setRemark(e.target.value);
+                        }}
+                        value={remark}
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <Input
-                      placeholder="Remarks"
-                      onChange={(e) => {
-                        setRemark(e.target.value);
-                      }}
-                      value={remark}
-                    />
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
+                </>
+              )}
+            </div>
+
+            <div className="mt-4 flex w-full ">
+              <Button
+                type="button"
+                className="h-[45px] w-[30%] rounded-10 bg-[#257CDB] text-white hover:bg-[#257CDB] "
+                onClick={() => {
+                  if (status === "unused") {
+                    return toast.error({
+                      message: "Please select a status before saving.",
+                    });
+                  }
+                  voucherUpdate();
+                }}
+              >
+                Save
+              </Button>
+            </div>
+            
+          </>
         )}
+        {type !== "receivable" && row?.redeemptionStatus !== "redeemed" && (
+              <div className="w-full justify-center align-middle">
+                <Button
+                  type="button"
+                  className="h-[45px] w-[30%] rounded-10 bg-[#257CDB] text-white hover:bg-[#257CDB] "
+                  onClick={() => voucherUpdate()}
+                >
+                  Mark as redeemed
+                </Button>
+              </div>
+            )}
       </Modal>
     </>
   );

@@ -3,9 +3,9 @@ export type Remarks = {
     currentValue: number;
     lat: null | number;
     lng: null | number;
-    message: null;
-    redeemedValue: 12;
-    status: "partially-redeemed" | string;
+    message: string;
+    redeemedValue: number;
+    status: string;
     time: string;
     updatedBy: string;
   };
@@ -45,3 +45,30 @@ type OfferPurchaseProps = {
 };
 
 
+// type OfferSummaryRedemption = {
+//   buyerId: number;
+//   currentValue: string;
+//   customRemarks: string | null;
+//   invoiceId: number;
+//   lat: number | null;
+//   lng: number | null;
+//   merchantId: string;
+//   redeemedValue: string;
+//   status: "partially-redeemed" | string;
+//   updatedBy: string;
+//   voucherId: number;
+// };
+
+type OfferSummaryRedemption = {
+  buyerId: number;
+  currentValue:  number;
+  customRemarks?: string | null;
+  invoiceId: number
+  lat: number | null;
+  lng: number | null;
+  merchantId?: string;
+  redeemedValue: string | number;
+  status:    string;
+  updatedBy: string;
+  voucherId: number ;
+};

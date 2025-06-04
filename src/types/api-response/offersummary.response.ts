@@ -1,3 +1,5 @@
+import { OfferPurchaseProps } from "../offersummary";
+
 export type OfferSummaryResponse = {
   data: {
     count: number;
@@ -10,3 +12,5 @@ export type OfferSummaryResponse = {
   };
   success: boolean;
 };
+
+

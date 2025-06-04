@@ -25,6 +25,10 @@ const OfferSummaryTable = ({ promises }: Props) => {
 
   const { user } = useUser();
   const userTimeZone = user?.userTimeZone;
+  const merchantId = user?.merchantId;
+  const fristName =  user?.firstName;
+  const lastName =  user?.lastName;
+  const indvid =  user?.indvid;
 
   const [rowAction, setRowAction] =
     React.useState<DataTableRowAction<OfferPurchaseProps> | null>(null);
@@ -56,6 +60,11 @@ const OfferSummaryTable = ({ promises }: Props) => {
         onOpenChange={() => setRowAction(null)}
         type={"receivable"}
         row={rowAction?.row.original ?? null}
+        merchantId = {merchantId as string}
+        fname = {fristName as string}
+        lname ={lastName as string}
+        indvid ={indvid}
+        title="Voucher"
       />
     </>
   );

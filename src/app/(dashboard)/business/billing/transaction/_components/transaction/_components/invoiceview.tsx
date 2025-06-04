@@ -83,10 +83,14 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
   const bizid = user?.bizid ?? null;
   const indvid = user?.indvid ?? null;
   const userTimeZone = user?.userTimeZone;
+    console.log("selected type" ,type);
 
   // 4. Fetch invoice details hook - this must be called unconditionally
   const { data: invoiceDetailsResp, isLoading: isInvoiceLoading } =
     useInvoiceDetails(objid, type, bizid, indvid);
+
+
+    console.log("this is the response final ",invoiceDetailsResp);
 
   // 5. Populate state when invoiceDetailsResp is updated
   useEffect(() => {
@@ -112,6 +116,8 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
       setLast4(invoiceDetailsResp.payments.cardLast4);
     }
   }, [invoiceDetailsResp]);
+
+  console.log("this is vouchers", vouchers);
 
   const { data: reviewOverviewsresp, isLoading: reviewOverviewsLoading } =
     useUserReviewOverViews(invoiceDetailsResp?.biz?.bizid);
@@ -186,7 +192,7 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
             />
           </div>
         )}
-        <div className="flex rounded-[10px] border border-secondary-20 px-3 pt-2">
+        <div className="flex rounded-10 border border-secondary-20 px-3 pt-2">
           <div style={{ width: "100%" }}>
             <div className="mb-[8px] flex justify-between text-primary">
               <span className="text-base font-semibold">Invoiced to:</span>
@@ -384,6 +390,7 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
             currencySymbol={currencySymbol}
             taxAmount={taxAmount}
             userTimeZone={userTimeZone ?? null}
+            type ={type}
           />
         )}
 

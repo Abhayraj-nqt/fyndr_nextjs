@@ -42,12 +42,14 @@ export const fetchPayables: GetPayableProps = async (payload) => {
 
 
 export const onGetInvoiceDetails :  GetInvoiceDetailProps =  async (payload) => {
+
+  console.log("get invoice payload", payload);
    
     const endpoint = `${API_BASE_URL}/invoice/v2/details`;
 
     return _post<invoiceDetailsResponse>(endpoint, payload, {
       requireAuth : true,
-      cache : "force-cache",
+      
     })
    
 }
