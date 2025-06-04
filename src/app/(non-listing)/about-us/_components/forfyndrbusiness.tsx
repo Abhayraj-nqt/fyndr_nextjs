@@ -1,6 +1,6 @@
 import React from "react";
 
-import AboutRow from "./aboutRow";
+import AboutRow from "./AboutRow";
 
 type FyndrBusinessItem = {
   title: string;
@@ -49,8 +49,8 @@ const ForFyndrBusiness = () => {
           imgURL={item.image}
           imgDir={item.imgDir}
           imageClassName="w-full sm:w-[30%]"
-          textClassName="text-[1rem] font-bold text-[#333333]"
-          titleClassName="text-[35px] font-[600] text-primary-500"
+          textClassName="text-[1rem] font-bold text-black-80"
+          titleClassName="text-[35px] font-[600] text-primary"
           symbol={true}
         />
       ))}

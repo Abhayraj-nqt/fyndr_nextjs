@@ -1,7 +1,8 @@
-import InputWrapper from "@/components/global/input/input-wrapper";
-import { Input } from "@/components/ui/input";
 import { Check, ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+
+import InputWrapper from "@/components/global/input/input-wrapper";
+import { Input } from "@/components/ui/input";
 
 // Searchable Select Component
 interface SearchableSelectProps {
@@ -134,26 +135,26 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
             disabled={disabled}
           >
             <ChevronDown
-              className={`h-4 w-4 text-gray-400 transition-transform ${isOpen ? "rotate-180" : ""}`}
+              className={`size-4 text-gray-400 transition-transform ${isOpen ? "rotate-180" : ""}`}
             />
           </button>
         </div>
 
         {isOpen && !disabled && (
-          <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-auto p-1 no-scrollbar">
+          <div className="no-scrollbar absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md border border-gray-200 bg-white p-1 shadow-lg">
             {filteredOptions.length > 0 ? (
               filteredOptions.map((option) => (
                 <div
                   key={option.value}
                   onClick={() => handleOptionSelect(option)}
-                  className={`px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 flex items-center justify-between rounded ${
+                  className={`flex cursor-pointer items-center justify-between rounded px-3 py-2 text-sm hover:bg-gray-100 ${
                     value === option.value
                       ? "bg-blue-50 text-blue-600"
                       : "text-gray-900"
                   }`}
                 >
                   <span>{option.label}</span>
-                  {value === option.value && <Check className="h-4 w-4" />}
+                  {value === option.value && <Check className="size-4" />}
                 </div>
               ))
             ) : (

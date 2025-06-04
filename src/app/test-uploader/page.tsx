@@ -5,10 +5,10 @@ import React, { useState } from "react";
 
 import toast from "@/components/global/toast";
 import FileUploader from "@/components/global/uploader/file-uploader";
-import { ProcessedFileProps } from "@/lib/file-utils/upload.utils";
+import { ProcessedFileProps } from "@/lib/utils/files/upload.utils";
 
 const TestUploader = () => {
-  const [uploadedFiles, setuploadedFiles] = useState<ProcessedFileProps[]>([]);
+  const [, setuploadedFiles] = useState<ProcessedFileProps[]>([]);
 
   const handleFileUpload = (files: ProcessedFileProps[]) => {
     console.log("UPLOADED FILES -> ", files);
@@ -19,9 +19,9 @@ const TestUploader = () => {
     });
   };
 
-  const removeFile = (file: ProcessedFileProps) => {
-    setuploadedFiles((prev) => prev.filter((f) => f.base64 !== file.base64));
-  };
+  // const removeFile = (file: ProcessedFileProps) => {
+  //   setuploadedFiles((prev) => prev.filter((f) => f.base64 !== file.base64));
+  // };
 
   return (
     <div className="flex flex-col gap-8">

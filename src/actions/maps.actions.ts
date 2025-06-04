@@ -105,7 +105,7 @@ export async function getPlaceDataWithZipcodeAndCountry(params: {
         else if (row.types.includes("postal_town" as AddressType) && !city)
           city = row.short_name;
       });
-      const { lat, lng } = response.data.results[0]["geometry"]["location"];
+      const { lat, lng } = response.data.results[0].geometry.location;
 
       return {
         success: true,

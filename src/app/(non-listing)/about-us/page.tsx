@@ -2,13 +2,13 @@ import React from "react";
 
 import { ABOUT_PAGE_FEATURES, FYNDR_ABOUT_AND_MISSION } from "@/constants";
 
-import AboutRow from "./_components/aboutRow";
-import AboutUsTab from "./_components/aboutUsTab";
+import AboutRow from "./_components/AboutRow";
+import AboutUsTab from "./_components/AboutUsTab";
 import FeatureCard from "./_components/featurecards";
 
 const AboutUs = () => {
   return (
-    <main>
+    <main className="scroll-smooth">
       <div className="group relative flex flex-col items-center justify-center gap-4 p-4 md:flex-row">
         {ABOUT_PAGE_FEATURES.map((feature, index) => (
           <FeatureCard
@@ -22,7 +22,7 @@ const AboutUs = () => {
         ))}
       </div>
 
-      <div className="flex flex-col items-center gap-8 bg-light-800 p-4 py-10">
+      <div className="flex flex-col items-center gap-8 bg-secondary-10 p-4 py-10">
         {FYNDR_ABOUT_AND_MISSION.map((item) => (
           <AboutRow
             key={item.title}
@@ -33,7 +33,7 @@ const AboutUs = () => {
           />
         ))}
       </div>
-      <div className="bg-light-900 pt-5 ">
+      <div className="bg-white pt-5 ">
         <h1 className="text-center text-[1.5rem] font-semibold  leading-[42px]">
           How to use Fyndr:
         </h1>

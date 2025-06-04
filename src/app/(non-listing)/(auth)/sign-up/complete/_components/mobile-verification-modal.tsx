@@ -1,5 +1,7 @@
 "use client";
 
+import React, { ChangeEvent, useState, useTransition } from "react";
+
 import {
   onSendMobileVerificationCode,
   onVerifyMobile,
@@ -10,7 +12,6 @@ import { Modal } from "@/components/global/modal";
 import toast from "@/components/global/toast";
 import { useTimer } from "@/hooks/use-timer";
 import { RegModeProps } from "@/types/global";
-import React, { ChangeEvent, useState, useTransition } from "react";
 
 type Props = {
   children: React.ReactNode;
@@ -62,9 +63,9 @@ const MobileVerificationModal = ({
 
     startVerifyingMobile(async () => {
       const { success, data, error } = await onVerifyMobile({
-        countryCode: countryCode,
-        email: email,
-        phone: phone,
+        countryCode,
+        email,
+        phone,
         verificationCode: code,
       });
 
@@ -82,7 +83,9 @@ const MobileVerificationModal = ({
         handleModalClose();
       }
 
-      onVerify && onVerify(success);
+      if (onVerify) {
+        onVerify(success);
+      }
     });
   };
 
@@ -105,10 +108,10 @@ const MobileVerificationModal = ({
 
     startSendingCode(async () => {
       const { success, data, error } = await onSendMobileVerificationCode({
-        countryCode: countryCode,
-        email: email,
-        isBusiness: isBusiness,
-        phone: phone,
+        countryCode,
+        email,
+        isBusiness,
+        phone,
         registerMode: regMode,
       });
       if (!success && error) {
@@ -156,7 +159,7 @@ const MobileVerificationModal = ({
               placeholder="Enter verification code"
               value={code}
               onChange={handleChange}
-              leftNode={
+              rightNode={
                 <Button
                   onClick={handleSendVerificationToken}
                   type="button"

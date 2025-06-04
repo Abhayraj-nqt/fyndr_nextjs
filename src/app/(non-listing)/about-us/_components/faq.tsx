@@ -42,8 +42,11 @@ const Faq = ({ userType }: Props) => {
   }, [query, searchParams]);
 
   return (
-    <div className="w-4/5 rounded-[10px] border border-[#e6e6e6] bg-white px-10 pb-24 shadow-md">
-      <div className="flex flex-col items-center justify-center py-6 text-[24px] font-semibold text-black">
+    <section
+      id="faq"
+      className="w-4/5 scroll-smooth rounded-10 border border-black-10 bg-white px-10 pb-24 shadow-md"
+    >
+      <div className="text-black flex flex-col items-center justify-center py-6 text-[24px] font-semibold">
         <h3>Frequently Asked Questions By {userType} (FAQs)</h3>
         <span className="mt-4 text-[16px] font-normal">
           Have question? We’re here to help you.
@@ -53,12 +56,12 @@ const Faq = ({ userType }: Props) => {
             route={ROUTES.ABOUT_US}
             icon={"/images/aboutus/home-search-icon.svg"}
             placeholder="Type your question here..."
-            className="h-[42px] rounded-[10px] border border-[#D3D6E1] bg-[#F4F8FD] px-3"
+            className="h-[42px] rounded-10 border border-secondary-20 bg-primary-0.5 px-3"
             inputClassName="pl-2 text-sm text-gray-700"
           />
         </div>
         <div className="flex flex-col items-center justify-center">
-          <Tabs className="flex w-full  border-b border-[#e6e6e6] ">
+          <Tabs className="flex w-full  border-b border-black-10 ">
             <TabsList>
               <div className="overflow-x-auto ">
                 <div className="flex flex-nowrap">
@@ -68,7 +71,7 @@ const Faq = ({ userType }: Props) => {
                       value={cat.id.toString()}
                       className="relative mx-4 mt-4 whitespace-nowrap border-b-2
           border-transparent pb-2 text-[2vw] font-normal text-[#7a8086]
-          data-[state=active]:border-primary-500 data-[state=active]:text-primary-500 sm:text-[2vw]
+          data-[state=active]:border-primary data-[state=active]:text-primary sm:text-[2vw]
           md:text-[2vw]
           lg:text-[1vw]"
                       onClick={() => setSelectedCategoryId(cat.id)}
@@ -89,7 +92,7 @@ const Faq = ({ userType }: Props) => {
             faqQAList?.map((item, index) => (
               <div key={index} className="mb-4 w-full max-sm:mb-4">
                 <div
-                  className={`size-full border border-[#e6e6e6] text-left text-[17px] leading-[30px] text-[#333333] shadow-md`}
+                  className={`size-full border border-black-10 text-left text-[17px] leading-[30px] text-black-80 shadow-md`}
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
@@ -103,7 +106,7 @@ const Faq = ({ userType }: Props) => {
                   }}
                   onClick={() => toggleAccordion(index)}
                 >
-                  <h2 className="text-left text-[17px] font-normal leading-[30px] text-[#333] max-sm:text-[12px] max-sm:font-medium max-sm:leading-[14.06px]">
+                  <h2 className="text-left text-[17px] font-normal leading-[30px] text-black-80 max-sm:text-[12px] max-sm:font-medium max-sm:leading-[14.06px]">
                     {item?.question}
                   </h2>
                   <Image
@@ -122,13 +125,13 @@ const Faq = ({ userType }: Props) => {
                 </div>
                 {activeIndex === index && (
                   <div
-                    className="border border-t-0 border-[#e6e6e6] bg-white p-3 text-left text-[15px] font-light leading-[30px] text-[#333] shadow-md max-sm:text-[12px] max-sm:font-medium max-sm:leading-[17px]"
+                    className="border border-t-0 border-black-10 bg-white p-3 text-left text-[15px] font-light leading-[30px] text-black-80 shadow-md max-sm:text-[12px] max-sm:font-medium max-sm:leading-[17px]"
                     style={{
                       borderRadius: "0px 0px 10px 10px",
                       background: "#EAF2FC",
                     }}
                   >
-                    <div className="text-[14px] text-[#333]">
+                    <div className="text-[14px] text-black-80">
                       <HtmlContent htmlString={item?.answer} />
                     </div>
                   </div>
@@ -137,7 +140,7 @@ const Faq = ({ userType }: Props) => {
             ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

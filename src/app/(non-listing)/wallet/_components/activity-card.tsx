@@ -13,7 +13,7 @@ const ActivityCard = ({ transaction }: Props) => {
   const data = WALET_TRANSACTION_DATA.get(transaction.reason);
 
   return (
-    <div className="flex flex-col gap-4 border-b border-dashed pb-4 text-dark-200 lg:flex-row">
+    <div className="flex flex-col gap-4 border-b border-dashed pb-4 text-black-80 lg:flex-row">
       <div className="flex items-center gap-4">
         <Image
           src={data?.icon || ""}

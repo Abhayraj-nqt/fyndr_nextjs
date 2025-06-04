@@ -5,11 +5,11 @@ import Image from "next/image";
 import { useState } from "react";
 
 import ImageCropper from "@/components/global/image-cropper";
+import toast from "@/components/global/toast";
 import FileUploader from "@/components/global/uploader/file-uploader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { toast } from "@/hooks/use-toast";
-import { ProcessedFileProps } from "@/lib/file-utils/upload.utils";
+import { ProcessedFileProps } from "@/lib/utils/files/upload.utils";
 
 export default function ImageUploaderPage() {
   const [uploadedFiles, setUploadedFiles] = useState<ProcessedFileProps[]>([]);
@@ -20,8 +20,8 @@ export default function ImageUploaderPage() {
   // Handler for regular file uploads
   const handleFileUpload = (files: ProcessedFileProps[]) => {
     setUploadedFiles((prev) => [...prev, ...files]);
-    toast({
-      title: "Files Uploaded",
+    toast.success({
+      message: "Files Uploaded",
       description: `Successfully uploaded ${files.length} file(s)`,
     });
   };
@@ -29,8 +29,8 @@ export default function ImageUploaderPage() {
   // Handler for cropped image uploads
   const handleCroppedImageUpload = (files: ProcessedFileProps[]) => {
     setUploadedCroppedImages((prev) => [...prev, ...files]);
-    toast({
-      title: "Cropped Image Uploaded",
+    toast.success({
+      message: "Cropped Image Uploaded",
       description: `Successfully uploaded ${files.length} cropped image(s)`,
     });
   };

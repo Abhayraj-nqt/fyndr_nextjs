@@ -1,9 +1,13 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+
+import { getAccountAPI, onConfirmIdentity } from "@/actions/auth.actions";
+import toast from "@/components/global/toast";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -13,18 +17,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { FormInput } from "../form-input";
-import { useTimer } from "@/hooks/use-timer";
-import { useRegistrationStore } from "@/zustand/stores/registration.store";
-import { encryptPassword } from "@/lib/utils";
-import toast from "@/components/global/toast";
-import { getAccountAPI, onConfirmIdentity } from "@/actions/auth.actions";
-import { useRouter } from "next/navigation";
 import ROUTES from "@/constants/routes";
-import { SignUpSchema } from "../schema";
+import { useTimer } from "@/hooks/use-timer";
+import { encryptPassword } from "@/lib/utils";
+import { useRegistrationStore } from "@/zustand/stores/registration.store";
+
+import { FormInput } from "../form-input";
+import { BaseUserSchema } from "./schema";
 
 const createPasswordSchema = (requireVerification: boolean) => {
-  const baseSchema = SignUpSchema.pick({
+  const baseSchema = BaseUserSchema.pick({
     password: true,
   }).extend({
     confirmPassword: z
@@ -137,7 +139,7 @@ const PasswordStep = ({ requireVerification }: PasswordStepProps) => {
     }
     startSendingToken(async () => {
       const { status, data } = await getAccountAPI({
-        email: email,
+        email,
         regMode: "classic",
         isBusiness: requireVerification,
       });
@@ -161,7 +163,7 @@ const PasswordStep = ({ requireVerification }: PasswordStepProps) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="space-y-4 mt-8"
+        className="mt-8 space-y-4"
       >
         {requireVerification && (
           <FormField
@@ -169,14 +171,14 @@ const PasswordStep = ({ requireVerification }: PasswordStepProps) => {
             name={"verificationToken" as keyof FormValues}
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="paragraph-medium text-light-900 hidden">
+                <FormLabel className="paragraph-medium hidden text-white">
                   Verification Token
                 </FormLabel>
                 <FormControl>
                   <FormInput
                     {...field}
                     placeholder="Verification Token"
-                    className="input-field"
+                    className=""
                   />
                 </FormControl>
                 <FormMessage />
@@ -190,7 +192,7 @@ const PasswordStep = ({ requireVerification }: PasswordStepProps) => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="paragraph-medium text-light-900 hidden">
+              <FormLabel className="paragraph-medium hidden text-white">
                 Password
               </FormLabel>
               <FormControl>
@@ -211,7 +213,7 @@ const PasswordStep = ({ requireVerification }: PasswordStepProps) => {
           name="confirmPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="paragraph-medium text-light-900 hidden">
+              <FormLabel className="paragraph-medium hidden text-white">
                 Confirm Password
               </FormLabel>
               <FormControl>
@@ -231,7 +233,7 @@ const PasswordStep = ({ requireVerification }: PasswordStepProps) => {
           <Button
             type="button"
             onClick={handleResendToken}
-            className="text-base font-normal min-h-12 w-full rounded-[10px] bg-primary-500 px-4 py-3 !text-light-900 hover:bg-primary-500"
+            className="min-h-12 w-full rounded-[10px] bg-primary px-4 py-3 text-base font-normal !text-white hover:bg-primary"
             disabled={isActive || isSendingToken}
           >
             {isSendingToken ? "Resending..." : "Resend Token"}{" "}
@@ -243,7 +245,7 @@ const PasswordStep = ({ requireVerification }: PasswordStepProps) => {
         <Button
           type="submit"
           disabled={isPending}
-          className="text-base font-normal min-h-12 w-full rounded-[10px] bg-primary-500 px-4 py-3 !text-light-900 hover:bg-primary-500"
+          className="min-h-12 w-full rounded-[10px] bg-primary px-4 py-3 text-base font-normal !text-white hover:bg-primary"
         >
           {isPending ? "Proceeding" : "Proceed"}
         </Button>

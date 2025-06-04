@@ -6,7 +6,14 @@ import md5 from "react-native-md5";
 import { twMerge } from "tailwind-merge";
 
 import { CAT_LIST_HOME, CATEGORY_ICON } from "@/constants";
-import { Address, Biz, fetchInvoice, InvoiceOfferDetail, Item, Offer } from "@/types/api-response/transaction.response";
+import {
+  Address,
+  Biz,
+  fetchInvoice,
+  InvoiceOfferDetail,
+  Item,
+  Offer,
+} from "@/types/api-response/transaction.response";
 import { CampaignOfferProps, CampaignProps } from "@/types/campaign";
 import { CurrencySymbol, DiscountType } from "@/types/global";
 
@@ -499,9 +506,6 @@ export const getFormattedDtNew = (tm: string, timeZone: string): string => {
   return dayjs.tz(tm, timeZone).utc().format("MMMM DD, YYYY");
 };
 
-
-
-
 export const getchannelBought = (channel: ChannelOffer): string => {
   switch (channel) {
     case "offers":
@@ -522,16 +526,13 @@ export const getchannelBought = (channel: ChannelOffer): string => {
   }
 };
 
-
 export const sumQuantities = (
   items: (Item | Offer)[] | undefined | null
 ): number => {
-
   console.log("items", items);
- if (!items || !Array.isArray(items)) {
+  if (!items || !Array.isArray(items)) {
     return 0;
   }
-
 
   let sum = 0;
 
@@ -542,8 +543,7 @@ export const sumQuantities = (
   return sum;
 };
 
-
-export const getTotal = (rec:  fetchInvoice ): string => {
+export const getTotal = (rec: fetchInvoice): string => {
   return (
     Number(rec.baseAmount) +
     Number(!isNaN(Number(rec.taxAmount)) ? rec.taxAmount : 0) +
@@ -552,7 +552,7 @@ export const getTotal = (rec:  fetchInvoice ): string => {
   ).toFixed(2);
 };
 
-export  const getTruncatedTitle = (title : string, limit = 50) => {
-    if (!title) return "";
-    return title.length > limit ? `${title.slice(0, limit)}...` : title;
-  };
+export const getTruncatedTitle = (title: string, limit = 50) => {
+  if (!title) return "";
+  return title.length > limit ? `${title.slice(0, limit)}...` : title;
+};

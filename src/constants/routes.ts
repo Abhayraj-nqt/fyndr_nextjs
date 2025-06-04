@@ -18,8 +18,13 @@ const ROUTES = {
 
   // Legal routes
   LEGAL_TERMS: "/legal/terms",
-  LEGAL_privacy: "/legal/privacy",
+  LEGAL_PRIVACY: "/legal/privacy",
   LEGAL_AGREEMENT: "/legal/agreement",
+  DOWNLOAD_FYNDR: "/download-fyndr-app",
+  // BUSINESS_AGREEMENT: "/legal/agreement",
+
+  // User routes
+  USER_DASHBOARD: "/user/billing/transaction",
 
   // Business routes
   BUSINESS_DASHBOARD: "/business/billing/transaction",
@@ -32,16 +37,16 @@ const ROUTES = {
   BUSINESS_STORE: "/business/store",
   BUSINESS_STORE_CREATE: "/business/store/create",
   BUSINESS_STORE_EDIT: (id: number | string) => `/business/store/edit/${id}`,
-  BUSINESS_STORE_CATEGORY: "/business/store/category",
-  BUSINESS_STORE_CATEGORY_CREATE: "/business/store/category/create",
+  BUSINESS_STORE_CATEGORY: "/business/catalogue/categories",
+  BUSINESS_STORE_CATEGORY_CREATE: "/business/catalogue/categories/add",
   BUSINESS_STORE_CATEGORY_EDIT: (id: number | string) =>
     `/business/store/category/edit/${id}`,
-  BUSINESS_STORE_ITEM: "/business/store/item",
-  BUSINESS_STORE_ITEM_CREATE: "/business/store/item/create",
+  BUSINESS_STORE_ITEM: "/business/catalogue/items",
+  BUSINESS_STORE_ITEM_CREATE: "/business/catalogue/items/add",
   BUSINESS_STORE_ITEM_EDIT: (id: number | string) =>
     `/business/store/item/edit/${id}`,
-  BUSINESS_STORE_MODIFIER: "/business/store/modifier",
-  BUSINESS_STORE_MODIFIER_CREATE: "/business/store/modifier/create",
+  BUSINESS_STORE_MODIFIER: "/business/catalogue/modifiers",
+  BUSINESS_STORE_MODIFIER_CREATE: "/business/catalogue/modifiers/add",
   BUSINESS_STORE_MODIFIER_EDIT: (id: number | string) =>
     `/business/store/modifier/edit/${id}`,
   BUSINESS_ACCOUNT_LOGO: "/business/account/logo",
@@ -75,31 +80,29 @@ const ROUTES = {
 };
 
 export const PUBLIC_ROUTES = [
-  // Landing, wallet & about routes
-  "/",
-  "/about-us",
-  "/wallet",
+  // Listing & non listing routes
+  ROUTES.HOME,
+  ROUTES.ABOUT_US,
+  ROUTES.OFFERS_AND_EVENTS,
+  ROUTES.OFFER_LISTING,
+  ROUTES.OFFER_LISTING,
+  ROUTES.DOWNLOAD_FYNDR,
 
   // Auth routes
-  "/sign-in",
-  "/sign-up",
-  "/api/auth/callback/google",
+  ROUTES.SIGN_IN,
+  ROUTES.SIGN_UP,
+  ROUTES.SIGN_UP_COMPLETE,
 
   // Legal routes
-  "/agreement",
-  "/privacy",
-  "/terms",
-
-  // Campaign routes
-  "/offers-and-events",
-  "/offer-listing",
-  "/offer-details/",
+  ROUTES.LEGAL_AGREEMENT,
+  ROUTES.LEGAL_TERMS,
+  ROUTES.LEGAL_PRIVACY,
 ];
 
 export const ROLE_BASED_ROUTES: RouteAccess[] = [
-  { path: ROUTES.BUSINESS_DASHBOARD, roles: ["BIZ_ADMIN", "SUPER_ADMIN"] },
+  { path: "/business", roles: ["BIZ_ADMIN"] },
   { path: "/admin", roles: ["SUPER_ADMIN"] },
-  { path: ROUTES.SUPPORT_DASHBOARD, roles: ["FYNDR_SUPPORT", "SUPER_ADMIN"] },
+  // { path: ROUTES.SUPPORT_DASHBOARD, roles: ["FYNDR_SUPPORT", "SUPER_ADMIN"] },
 ];
 
 export default ROUTES;

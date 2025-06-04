@@ -1,11 +1,10 @@
-// components/forms/configs/base-field.config.ts
-import { GENDER } from "@/constants";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   IndividualFormData,
   BusinessFormData,
 } from "@/components/forms/auth/sign-up/schema";
+import { GENDER } from "@/constants";
 
-// Generic field configuration interfaces
 export interface BaseFieldConfig<T = any> {
   name: keyof T;
   label: string;
@@ -97,6 +96,7 @@ export const getBaseFieldConfigs = <T>(
     required: true,
     placeholder: "Select your country",
     onValueChange: handlers.handleCountryChange,
+    disabled: !!states?.isBusiness,
   },
   {
     fieldType: "phone",
@@ -119,14 +119,15 @@ export const getBaseFieldConfigs = <T>(
   {
     fieldType: "input",
     name: "addressLine1" as keyof T,
-    label: "Address 1",
-    placeholder: "Address Line 1",
+    label: states?.isBusiness ? "Business Address 1" : "Address 1",
+    placeholder: "Address line 1",
+    required: states?.isBusiness,
   },
   {
     fieldType: "input",
     name: "addressLine2" as keyof T,
     label: "Address 2",
-    placeholder: "Address Line 2",
+    placeholder: "Address line 2",
   },
   {
     fieldType: "input",

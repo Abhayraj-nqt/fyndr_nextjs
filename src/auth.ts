@@ -11,7 +11,7 @@ import {
   signInAPI,
 } from "@/actions/auth.actions";
 
-import { SignInSchema } from "./components/forms/auth/schema";
+import { SignInSchema } from "./components/forms/auth/sign-in/schema";
 import { authConfig } from "./config/auth.config";
 import { Coordinates } from "./types/global";
 
@@ -70,11 +70,6 @@ declare module "next-auth/jwt" {
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  // session: {
-  //   strategy: "jwt",
-  //   maxAge: 72 * 60 * 60, // 72 hours // 3 days
-  // },
-
   ...authConfig,
   providers: [
     Credentials({

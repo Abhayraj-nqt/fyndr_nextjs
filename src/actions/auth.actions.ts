@@ -111,7 +111,7 @@ export const getAccountAPI: GetAccountAPIProps = async (payload) => {
   }
 
   let headers = {};
-  let next = undefined;
+  let next;
 
   if (payload?.accessToken) {
     headers = {

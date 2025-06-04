@@ -81,7 +81,7 @@ export function DataTablePagination<TData>({
     return pageButtons;
   };
 
-  const btnClassName = `size-10 rounded-lg border border-primary-500 bg-white p-4 text-primary-500 shadow-none hover:bg-white text-base font-medium`;
+  const btnClassName = `size-10 rounded-lg border border-primary bg-white p-4 text-primary shadow-none hover:bg-white text-base font-medium`;
   const pageButtons = getPageButtons();
 
   return (
@@ -127,7 +127,7 @@ export function DataTablePagination<TData>({
                 className={cn(
                   btnClassName,
                   page === btn
-                    ? "bg-primary-500 text-white hover:bg-primary-500 hover:text-white"
+                    ? "bg-primary text-white hover:bg-primary hover:text-white"
                     : ""
                 )}
               >
@@ -159,15 +159,15 @@ export function DataTablePagination<TData>({
                 table.setPageSize(Number(value));
               }}
             >
-              <SelectTrigger className="h-10 w-[114px] rounded-lg border-primary-500 text-base font-medium text-primary-500 shadow-none focus:ring-0">
+              <SelectTrigger className="h-10 w-[114px] rounded-lg border-primary text-base font-medium text-primary shadow-none focus:ring-0">
                 <SelectValue>{pageSize}/Page</SelectValue>
               </SelectTrigger>
-              <SelectContent className="text-base font-medium text-primary-500 hover:text-primary-500">
+              <SelectContent className="text-base font-medium text-primary hover:text-primary">
                 {pageSizeOptions.map((size) => (
                   <SelectItem
                     key={size}
                     value={size.toString()}
-                    className="data-[highlighted]:bg-primary-50 data-[highlighted]:text-primary-500"
+                    className="data-[highlighted]:bg-primary-10 data-[highlighted]:text-primary"
                   >
                     {size}
                   </SelectItem>

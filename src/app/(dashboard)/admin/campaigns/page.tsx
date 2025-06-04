@@ -1,5 +1,5 @@
 import { getCapaignDetails } from "@/actions/admin.actions";
-import { getSortingStateParser } from "@/lib/parsers";
+import { getSortingStateParser } from "@/lib/utils/table/parsers";
 import {
   CampaignDetail,
 } from "@/types/api-response/adminCampaign.response";

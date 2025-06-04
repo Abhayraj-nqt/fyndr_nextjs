@@ -1,5 +1,7 @@
 import React from "react";
+
 import { Input as ShadcnInput } from "@/components/ui/input";
+
 import InputWrapper from "./input-wrapper";
 
 type Props = React.InputHTMLAttributes<HTMLInputElement> & {
@@ -9,7 +11,8 @@ type Props = React.InputHTMLAttributes<HTMLInputElement> & {
   info?: React.ReactNode;
   className?: string;
   inputClassName?: string;
-  leftNode?: React.ReactNode;
+  rightNode?: React.ReactNode;
+  topRightNode?: React.ReactNode;
 };
 
 const Input = ({
@@ -19,7 +22,8 @@ const Input = ({
   label,
   showRequired,
   inputClassName,
-  leftNode,
+  rightNode,
+  topRightNode,
   ...inputProps
 }: Props) => {
   return (
@@ -29,7 +33,8 @@ const Input = ({
       info={info}
       label={label}
       showRequired={showRequired}
-      leftNode={leftNode}
+      rightNode={rightNode}
+      topRightNode={topRightNode}
     >
       <ShadcnInput
         className={`input-primary ${inputClassName}`}
@@ -40,6 +45,6 @@ const Input = ({
   );
 };
 
-// INPUT_PRIMARY: no-focus text-base font-normal py-[10px] px-3 placeholder border-none text-[#4D4D4D] shadow-none outline-none disabled:bg-[#F2F2F2] bg-white placeholder:text-[#999999] dark:placeholder:text-[#999999]
+// INPUT_PRIMARY: no-focus text-base font-normal py-[10px] px-3 placeholder border-none text-black-70 shadow-none outline-none disabled:bg-black-0.5 bg-white placeholder:text-black-40 dark:placeholder:text-black-40
 
 export default Input;

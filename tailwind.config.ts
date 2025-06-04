@@ -11,26 +11,44 @@ export default {
     extend: {
       colors: {
         primary: {
-          "50": "#E6F2FF",
-          "100": "#EAF2FC",
-          "400": "#4891D5",
-          "500": "#257CDB",
-          "600": "#2A5F91",
-          "700": "#113354",
-          "900": "#223369",
+          "0.5": "#F4F8FD",
+          DEFAULT: "#257CDB",
+          "10": "#EAF2FC",
+          "20": "#D3E5F8",
+          "30": "#BED8F5",
+          "40": "#A8CBF1",
+          "50": "#91BDEC",
+          "60": "#7CB0E9",
+          "70": "#67A4E6",
+          "80": "#5196E2",
+          "90": "#4F96E3",
         },
-        light: {
-          "300": "#64748B",
-          "400": "#858EAD",
-          "700": "#D3D6E1",
-          "800": "#F5F5F5",
-          "900": "#FFFFFF",
+        secondary: {
+          "0.5": "#F4F5F7",
+          DEFAULT: "#223369",
+          "10": "#F6F6F6",
+          "20": "#D3D6E1",
+          "30": "#BDC2D2",
+          "40": "#A7ADC3",
+          "50": "#9098B3",
+          "60": "#7A85A5",
+          "70": "#657196",
+          "80": "#4E5C87",
+          "90": "#394878",
         },
-        dark: {
-          "100": "#000000",
-          "200": "#1F2937",
-          "300": "#374151",
-          "400": "#6B7280",
+        black: {
+          DEFAULT: "#000000",
+          "0.5": "#F2F2F2",
+          "10": "#E6E6E6",
+          "20": "#CCCCCC",
+          "30": "#B3B3B3",
+          "40": "#999999",
+          "50": "#7F7F7F",
+          "60": "#666666",
+          "70": "#4D4D4D",
+          "80": "#333333",
+          "90": "#1A1A1A",
+          "100": "#1D1D1F",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
@@ -44,14 +62,18 @@ export default {
         },
       },
       borderRadius: {
-        "1.5": "6px",
-        "2": "8px",
+        "10": "10px",
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
       boxShadow: {
-        pagination: "0px -4px 11px 0px rgba(0, 0, 0, 0.05)",
+        pagination: "0px -4px 11px 0px #0000000D",
+        card: "0px 4px 4px 0px #0000001A",
+        switchUnchecked:
+          "-5px 0px 4px 0px #00000040 inset, 4px 0px 4px 0px #FFFFFF0F inset",
+        switchChecked:
+          "4px 0px 4px 0px #00000040 inset, -4px 0px 4px 0px #FFFFFF0F inset",
       },
       backgroundImage: {
         "offer-gradient":
@@ -61,7 +83,6 @@ export default {
         xs: "420px",
       },
       fontFamily: {
-        // inter: ["var(--font-inter)"],
         roboto: ["var(--font-roboto)"],
       },
     },

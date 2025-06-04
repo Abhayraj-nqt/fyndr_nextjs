@@ -1,7 +1,7 @@
 import { onGetUsers } from "@/actions/admin.actions";
 import UserDetailsTable from "./_components/user-details-table";
 import ContainerWrapper from "@/components/global/ContainerWrapper";
-import { getSortingStateParser } from "@/lib/parsers";
+import { getSortingStateParser } from "@/lib/utils/table/parsers";
 import { createSearchParamsCache, parseAsInteger, parseAsString, parseAsArrayOf } from "nuqs/server";
 import { AdminUserProps } from "@/types/api-response/user.response";
 import { RouteParams } from "@/types/global";

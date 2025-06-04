@@ -8,7 +8,7 @@ import AboutUsMap from "./aboutusmap";
 import Download from "./download";
 import Faq from "./faq";
 import ForFyndrBusiness from "./forfyndrbusiness";
-import ForFyndrIndv from "./forFyndrIndv";
+import ForFyndrIndv from "./ForFyndrIndv";
 
 const AboutUsTab = () => {
   const [activeTab, setActiveTab] = useState<"business" | "individual">(
@@ -24,8 +24,8 @@ const AboutUsTab = () => {
               value="business"
               className="relative text-[3.5vw] font-normal text-[#7a8086]
                after:absolute
-                after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-primary-500
-                after:transition-all after:duration-0 data-[state=active]:text-primary-500
+                after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-primary
+                after:transition-all after:duration-0 data-[state=active]:text-primary
                 data-[state=active]:after:w-full sm:text-[2vw]
     md:text-[2vw] lg:text-[1.5vw]"
               onClick={() => setActiveTab("business")}
@@ -36,8 +36,8 @@ const AboutUsTab = () => {
               value="individual"
               className="relative text-[3.5vw] font-normal text-[#7a8086] after:absolute after:bottom-0
     after:left-0
-    after:h-[2px] after:w-0 after:bg-primary-500 after:transition-all after:duration-0
-    data-[state=active]:text-primary-500 data-[state=active]:after:w-full sm:text-[2vw]
+    after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-0
+    data-[state=active]:text-primary data-[state=active]:after:w-full sm:text-[2vw]
     md:text-[2vw] lg:text-[1.5vw]"
               onClick={() => setActiveTab("individual")}
             >

@@ -1,5 +1,6 @@
-import Button from "@/components/global/buttons";
 import React from "react";
+
+import Button from "@/components/global/buttons";
 
 const ButtonTest = () => {
   return (

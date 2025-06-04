@@ -1,6 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { RotateCw } from "lucide-react";
 import React from "react";
 import { Control, FieldPath, FieldValues, Path } from "react-hook-form";
-import { RotateCw } from "lucide-react";
+
+import MobileVerificationModal from "@/app/(non-listing)/(auth)/sign-up/complete/_components/mobile-verification-modal";
+import Button from "@/components/global/buttons";
+import Input from "@/components/global/input";
+import Select from "@/components/global/input/select";
+import SelectCountry from "@/components/global/input/select-country";
 import {
   FormControl,
   FormField,
@@ -8,16 +15,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import Button from "@/components/global/buttons";
-import Input from "@/components/global/input";
-import Select from "@/components/global/input/select";
-import SelectCountry from "@/components/global/input/select-country";
-import MobileVerificationModal from "@/app/(non-listing)/(auth)/sign-up/complete/_components/mobile-verification-modal";
-import { FieldConfig } from "./config/base-field.config";
-import TagInput from "./tag-input";
-import SearchableSelect from "./searchable-select";
 
-// Make the interface generic
+import { FieldConfig } from "./config/base-field.config";
+import SearchableSelect from "./searchable-select";
+import TagInput from "./tag-input";
+
 interface FormFieldRendererProps<T extends FieldValues> {
   config: FieldConfig<T>;
   control: Control<T>;
@@ -27,7 +29,6 @@ interface FormFieldRendererProps<T extends FieldValues> {
   data: any;
 }
 
-// Make the component generic
 const FormFieldRenderer = <T extends FieldValues>({
   config,
   control,
@@ -44,12 +45,12 @@ const FormFieldRenderer = <T extends FieldValues>({
             control={control}
             name={config.name as Path<T>}
             render={({ field }) => (
-              <FormItem className="flex sm:flex-row flex-col gap-2 sm:items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormItem className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-black-70">
                   {config.label}{" "}
                   {config.required && <span className="text-red-600">*</span>}
                 </FormLabel>
-                <div className="w-full flex flex-col gap-1">
+                <div className="flex w-full flex-col gap-1">
                   <FormControl>
                     <Input
                       {...field}
@@ -73,12 +74,12 @@ const FormFieldRenderer = <T extends FieldValues>({
             control={control}
             name={config.name as Path<T>}
             render={({ field }) => (
-              <FormItem className="flex sm:flex-row flex-col gap-2 sm:items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormItem className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-black-70">
                   {config.label}{" "}
                   {config.required && <span className="text-red-600">*</span>}
                 </FormLabel>
-                <div className="w-full flex flex-col gap-1">
+                <div className="flex w-full flex-col gap-1">
                   <FormControl>
                     <Select
                       value={field.value || undefined}
@@ -100,12 +101,12 @@ const FormFieldRenderer = <T extends FieldValues>({
             control={control}
             name={config.name as Path<T>}
             render={({ field }) => (
-              <FormItem className="flex sm:flex-row flex-col gap-2 sm:items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormItem className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-black-70">
                   {config.label}{" "}
                   {config.required && <span className="text-red-600">*</span>}
                 </FormLabel>
-                <div className="w-full flex flex-col gap-1">
+                <div className="flex w-full flex-col gap-1">
                   <FormControl>
                     <SearchableSelect
                       value={field.value || ""}
@@ -128,17 +129,18 @@ const FormFieldRenderer = <T extends FieldValues>({
             control={control}
             name={config.name as Path<T>}
             render={({ field }) => (
-              <FormItem className="flex sm:flex-row flex-col gap-2 sm:items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormItem className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-black-70">
                   {config.label}{" "}
                   {config.required && <span className="text-red-600">*</span>}
                 </FormLabel>
-                <div className="w-full flex flex-col gap-1">
+                <div className="flex w-full flex-col gap-1">
                   <FormControl>
                     <SelectCountry
                       placeholder={config.placeholder}
                       value={field.value}
                       onValueChange={config.onValueChange}
+                      disabled={config?.disabled}
                     />
                   </FormControl>
                   <FormMessage />
@@ -150,24 +152,24 @@ const FormFieldRenderer = <T extends FieldValues>({
 
       case "phone":
         return (
-          <div className="flex sm:flex-row flex-col gap-2 sm:items-center">
-            <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base sm:hidden">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+            <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-black-70 sm:hidden">
               {config.label}{" "}
               {config.required && <span className="text-red-600">*</span>}
             </FormLabel>
-            <div className="flex flex-row gap-2 items-center w-full">
+            <div className="flex w-full flex-row items-center gap-2">
               <FormField
                 control={control}
                 name={config.countryCodeField as FieldPath<T>}
                 render={({ field }) => (
-                  <FormItem className="flex sm:flex-row flex-col gap-2 sm:items-center">
-                    <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base hidden sm:block">
+                  <FormItem className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                    <FormLabel className="paragraph-medium hidden w-40 min-w-40 text-base text-black-70 sm:block">
                       {config.label}{" "}
                       {config.required && (
                         <span className="text-red-600">*</span>
                       )}
                     </FormLabel>
-                    <div className="w-full flex flex-col gap-1">
+                    <div className="flex w-full flex-col gap-1">
                       <FormControl>
                         <Input {...field} className="w-20" disabled />
                       </FormControl>
@@ -180,15 +182,15 @@ const FormFieldRenderer = <T extends FieldValues>({
                 control={control}
                 name={config.name as Path<T>}
                 render={({ field }) => (
-                  <FormItem className="flex flex-row gap-2 items-center mt-2 w-full">
-                    <div className="w-full flex flex-col gap-1">
+                  <FormItem className="mt-2 flex w-full flex-row items-center gap-2">
+                    <div className="flex w-full flex-col gap-1">
                       <FormControl>
                         <Input
                           {...field}
                           disabled={config.disabled}
                           placeholder={config.placeholder}
                           type={config.type}
-                          leftNode={
+                          rightNode={
                             <MobileVerificationModal
                               email={data.email || ""}
                               countryCode={control._getWatch(
@@ -203,7 +205,7 @@ const FormFieldRenderer = <T extends FieldValues>({
                               <Button
                                 variant="primary"
                                 type="button"
-                                className={`${states.isMobileVerified ? "bg-green-500 hover:bg-green-500 cursor-not-allowed" : ""}`}
+                                className={`${states.isMobileVerified ? "cursor-not-allowed bg-green-500 hover:bg-green-500" : ""}`}
                               >
                                 {states.isMobileVerified
                                   ? "Verified"
@@ -218,7 +220,7 @@ const FormFieldRenderer = <T extends FieldValues>({
                     {states.isMobileVerified && (
                       <div
                         onClick={() => setters.setIsMobileVerified(false)}
-                        className="p-2 rounded-full bg-primary-500 text-white cursor-pointer"
+                        className="!m-0 cursor-pointer rounded-full bg-primary p-2 text-white"
                       >
                         <RotateCw size={15} />
                       </div>
@@ -232,50 +234,54 @@ const FormFieldRenderer = <T extends FieldValues>({
 
       case "referral":
         return (
-          <FormField
-            control={control}
-            name={config.name as Path<T>}
-            render={({ field }) => (
-              <FormItem className="flex sm:flex-row flex-col gap-2 sm:items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
-                  {config.label}
-                </FormLabel>
-                <div className="w-full flex flex-col gap-1">
-                  <FormControl>
-                    <Input
-                      {...field}
-                      value={field.value || ""}
-                      placeholder={config.placeholder}
-                      disabled={config.disabled}
-                      leftNode={
-                        <Button
-                          variant="primary"
-                          type="button"
-                          onClick={handlers.handleVerifyCode}
-                          className={`${states.isCodeVerified ? "bg-green-500 hover:bg-green-500 cursor-not-allowed" : ""} disabled:cursor-not-allowed`}
-                        >
-                          {states.isVerifyingCode
-                            ? "Verifying"
-                            : states.isCodeVerified
-                              ? "Verified"
-                              : "Verify"}
-                        </Button>
-                      }
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </div>
-                {states.isCodeVerified && (
-                  <div
-                    onClick={() => setters.setIsCodeVerified(false)}
-                    className="p-2 rounded-full bg-primary-500 text-white cursor-pointer"
-                  >
-                    <RotateCw size={15} />
+          <div className="w-full flex-row items-center gap-2">
+            <FormField
+              control={control}
+              name={config.name as Path<T>}
+              render={({ field }) => (
+                <FormItem className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                  <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-black-70">
+                    {config.label}
+                  </FormLabel>
+                  <div className="flex w-full flex-row items-center gap-2">
+                    <div className="flex w-full flex-col gap-1">
+                      <FormControl>
+                        <Input
+                          {...field}
+                          value={field.value || ""}
+                          placeholder={config.placeholder}
+                          disabled={config.disabled}
+                          rightNode={
+                            <Button
+                              variant="primary"
+                              type="button"
+                              onClick={handlers.handleVerifyCode}
+                              className={`${states.isCodeVerified ? "cursor-not-allowed bg-green-500 hover:bg-green-500" : ""} disabled:cursor-not-allowed`}
+                            >
+                              {states.isVerifyingCode
+                                ? "Verifying"
+                                : states.isCodeVerified
+                                  ? "Verified"
+                                  : "Verify"}
+                            </Button>
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                    {states.isCodeVerified && (
+                      <div
+                        onClick={() => setters.setIsCodeVerified(false)}
+                        className="!m-0 w-fit cursor-pointer rounded-full bg-primary p-2 text-white"
+                      >
+                        <RotateCw size={15} />
+                      </div>
+                    )}
                   </div>
-                )}
-              </FormItem>
-            )}
-          />
+                </FormItem>
+              )}
+            />
+          </div>
         );
 
       case "tag":
@@ -284,12 +290,12 @@ const FormFieldRenderer = <T extends FieldValues>({
             control={control}
             name={config.name as Path<T>}
             render={({ field }) => (
-              <FormItem className="flex sm:flex-row flex-col gap-2 sm:items-center">
-                <FormLabel className="paragraph-medium w-40 min-w-40 text-[#4D4D4D] text-base">
+              <FormItem className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-black-70">
                   {config.label}{" "}
                   {config.required && <span className="text-red-600">*</span>}
                 </FormLabel>
-                <div className="w-full flex flex-col gap-1">
+                <div className="flex w-full flex-col gap-1">
                   <FormControl>
                     <TagInput
                       value={field.value || []}

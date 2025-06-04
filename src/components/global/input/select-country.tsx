@@ -1,4 +1,6 @@
+import Image from "next/image";
 import React from "react";
+
 import {
   Select as ShadcnSelect,
   SelectContent,
@@ -6,8 +8,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import InputWrapper from "./input-wrapper";
 import { COUNTRIES } from "@/constants";
+
+import InputWrapper from "./input-wrapper";
 
 export type CountryData = {
   value: string;
@@ -70,18 +73,20 @@ const SelectCountry = ({
         disabled={disabled}
       >
         <SelectTrigger
-          className={`input-primary outline-none ring-0 border-none shadow-none focus:ring-0 ${inputClassName}`}
+          className={`input-primary border-none shadow-none outline-none ring-0 focus:ring-0 ${inputClassName}`}
         >
           <SelectValue
             placeholder={placeholder}
-            className="placeholder:text-[#999999]"
+            className="placeholder:text-black-40"
           >
             {selectedCountry && (
               <div className="flex items-center gap-2">
-                <img
+                <Image
                   src={selectedCountry.flagURL}
                   alt={`${selectedCountry.label} flag`}
-                  className="w-5 h-4 object-cover rounded-sm"
+                  height={20}
+                  width={20}
+                  className="h-4 w-5 rounded-sm object-cover"
                 />
                 <span>{selectedCountry.label}</span>
               </div>
@@ -97,10 +102,12 @@ const SelectCountry = ({
               className="cursor-pointer"
             >
               <div className="flex items-center gap-2">
-                <img
+                <Image
                   src={country.flagURL}
                   alt={`${country.label} flag`}
-                  className="w-5 h-4 object-cover rounded-sm"
+                  height={20}
+                  width={20}
+                  className="h-4 w-5 rounded-sm object-cover"
                 />
                 <span>{country.label}</span>
               </div>

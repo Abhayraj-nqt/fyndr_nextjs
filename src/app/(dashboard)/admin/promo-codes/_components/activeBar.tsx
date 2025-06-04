@@ -1,12 +1,6 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
+import { Card, CardContent } from "@/components/ui/card";
 import { ActivePromoResponse } from "@/types/api-response/promocode.response";
 import DateComponent from "@/components/global/date-component";
 type Props = {
@@ -14,16 +8,22 @@ type Props = {
   };
 const ActiveBar = ({data}:Props) => {
   return (
-    <div className="flex space-x-4 pb-4 relative w-full overflow-x-scroll">
+    <div className="relative flex w-full space-x-4 overflow-x-scroll pb-4">
       {data?.map((item) => (
-        
-        <Card key={item.id} className={ item.status =="INACTIVE" ? "bg-[#f0f0f0] filter grayscale w-[180px] flex-shrink-0": "w-[180px] flex-shrink-0"}>
+        <Card
+          key={item.id}
+          className={
+            item.status == "INACTIVE"
+              ? "w-[180px] shrink-0 bg-[#f0f0f0] grayscale"
+              : "w-[180px] shrink-0"
+          }
+        >
           <img
             src={item.imageUrl}
             alt="Card image"
-            className="w-full h-48 object-cover rounded-[10px]"
+            className="h-48 w-full rounded-10 object-cover"
           />
-          <CardContent className="p-4 flex flex-col justify-evenly">
+          <CardContent className="flex flex-col justify-evenly p-4">
             <p className="text-sm" style={{ color: "#257cdb" }}>
               {item.promoCode}
             </p>

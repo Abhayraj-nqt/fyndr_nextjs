@@ -1,15 +1,16 @@
 "use client";
 
-import { signInWithCredentials } from "@/actions/auth.actions";
-import AuthForm from "@/components/forms/auth/sign-in/auth-form";
-import { SignInSchema } from "@/components/forms/auth/sign-in/schema";
-import { Button } from "@/components/ui/button";
-import ROUTES from "@/constants/routes";
-import { useRegistrationStore } from "@/zustand/stores/registration.store";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import SignupForm from "@/components/forms/auth/sign-up-form";
+
+import { signInWithCredentials } from "@/actions/auth.actions";
+import AuthForm from "@/components/forms/auth/sign-in/auth-form";
+import { SignInSchema } from "@/components/forms/auth/sign-in/schema";
+import SignupForm from "@/components/forms/auth/sign-up/sign-up-form";
+import { Button } from "@/components/ui/button";
+import ROUTES from "@/constants/routes";
+import { useRegistrationStore } from "@/zustand/stores/registration.store";
 
 type Props = {
   formType: "SIGN_IN" | "SIGN_UP";
@@ -52,14 +53,14 @@ const AuthFormWrapper = ({ formType }: Props) => {
   };
 
   return (
-    <div className="w-full rounded-[10px] bg-dark-100 p-8 md:w-3/4 md:max-w-lg">
+    <div className="w-full rounded-10 bg-black p-8 md:w-3/4 md:max-w-lg">
       <h1 className="h1-bold">{heading}</h1>
       <div className="paragraph-regular">
         <span>{paragraphFirstWord} have an account?</span>
         <Button
           asChild
           variant={"ghost"}
-          className="bg-transparent p-2 text-primary-500 underline hover:bg-transparent hover:text-primary-500"
+          className="bg-transparent p-2 text-primary underline hover:bg-transparent hover:text-primary"
         >
           <Link href={link}>{linkText}</Link>
         </Button>
@@ -74,16 +75,16 @@ const AuthFormWrapper = ({ formType }: Props) => {
       ) : selectedUserType ? (
         <SignupForm userType={selectedUserType} onGoBack={handleGoBack} />
       ) : (
-        <div className="mt-8 w-full flex flex-col gap-4">
+        <div className="mt-8 flex w-full flex-col gap-4">
           <Button
             onClick={handleRegisterBusiness}
-            className="text-base font-normal min-h-12 w-full rounded-[10px] bg-primary-500 px-4 py-3 !text-light-900 hover:bg-primary-500"
+            className="min-h-12 w-full rounded-10 bg-primary px-4 py-3 text-base font-normal !text-white hover:bg-primary"
           >
             Register as a Business
           </Button>
           <Button
             onClick={handleRegisterIndividual}
-            className="text-base font-normal min-h-12 w-full rounded-[10px] bg-primary-500 px-4 py-3 !text-light-900 hover:bg-primary-500"
+            className="min-h-12 w-full rounded-10 bg-primary px-4 py-3 text-base font-normal !text-white hover:bg-primary"
           >
             Register as an Individual
           </Button>
@@ -96,7 +97,7 @@ const AuthFormWrapper = ({ formType }: Props) => {
           <Button
             asChild
             variant={"ghost"}
-            className="bg-transparent p-2 text-primary-500 underline hover:bg-transparent hover:text-primary-500"
+            className="bg-transparent p-2 text-primary underline hover:bg-transparent hover:text-primary"
           >
             <Link href={ROUTES.RESET_PASSWORD}>Reset Password</Link>
           </Button>
@@ -106,7 +107,7 @@ const AuthFormWrapper = ({ formType }: Props) => {
           <>
             <Button
               onClick={handleGoBack}
-              className="mt-4 mb-2 text-base font-normal min-h-12 w-full rounded-[10px] bg-transparent px-4 py-3 border border-white text-white hover:bg-transparent"
+              className="mb-2 mt-4 min-h-12 w-full rounded-10 border border-white bg-transparent px-4 py-3 text-base font-normal text-white hover:bg-transparent"
             >
               Go Back
             </Button>

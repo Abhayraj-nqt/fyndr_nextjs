@@ -102,7 +102,10 @@ export async function _get<T>(
   });
 }
 
-export async function _post<T, P extends object = Record<string, unknown>>(
+export async function _post<
+  T,
+  P extends object | unknown[] = Record<string, unknown>,
+>(
   url: string,
   payload: P = {} as P,
   options: Omit<FetchOptions, "method" | "body"> = {}

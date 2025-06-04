@@ -1,6 +1,7 @@
 import React from "react";
 
 import { ReviewOverviews } from "@/types/api-response/review.response";
+
 import ReviewStars from "./reviewstars";
 import Stars from "../ratings/stars";
 
@@ -11,7 +12,7 @@ type OverallReviewResponse = {
   text: string;
   totalRatings: string;
   onClick?: () => void;
-  onStarsClick?: () =>void
+  onStarsClick?: () => void;
 };
 
 const Overallreview: React.FC<OverallReviewResponse> = ({
@@ -21,11 +22,11 @@ const Overallreview: React.FC<OverallReviewResponse> = ({
   text,
   totalRatings,
   onClick,
-  onStarsClick
+  onStarsClick,
 }) => {
   console.log("inside compoent", reviewsOverview);
 
-  console.log("total rating ",totalRatings)
+  console.log("total rating ", totalRatings);
   return (
     <div>
       {reviewsOverview && (
@@ -36,23 +37,17 @@ const Overallreview: React.FC<OverallReviewResponse> = ({
               disable={disable}
               rating={rating}
             /> */}
-            <Stars 
-           
-             ratings={Number(rating)}
-            />
-
-            
-            
+            <Stars ratings={Number(rating)} />
           </div>
-          <div className="font-normal text-base leading-5 text-[#4d4d4d] pt-2 md:text-sm">
+          <div className="pt-2 text-base font-normal leading-5 text-black-70 md:text-sm">
             {rating}
             {text}
           </div>
           <div
             onClick={onClick}
-            className="font-normal text-base leading-5 text-[#257cdb] pt-2  cursor-pointer md:text-sm"
+            className="cursor-pointer pt-2 text-base font-normal leading-5  text-primary md:text-sm"
           >
-        {totalRatings}
+            {totalRatings}
           </div>
         </div>
       )}

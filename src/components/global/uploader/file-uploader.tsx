@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
+import { cn } from "@/lib/utils";
 import {
   AllowedFileType,
   FileWithPreview,
@@ -10,8 +11,7 @@ import {
   defaultAllowedFileTypes,
   processFiles,
   validateFiles,
-} from "@/lib/file-utils/upload.utils";
-import { cn } from "@/lib/utils";
+} from "@/lib/utils/files/upload.utils";
 
 export type FileUploaderProps = {
   /**
@@ -118,10 +118,10 @@ const FileUploader = ({
 
   const handleDrop = useCallback(
     async (acceptedFiles: File[]) => {
-      if (disabled || isProcessing) return;
+      if (disabled) return;
 
       try {
-        setIsProcessing(true);
+        // setIsProcessing(true);
 
         // Run additional validation if provided
         if (additionalValidation && !additionalValidation(acceptedFiles)) {
@@ -138,7 +138,7 @@ const FileUploader = ({
         });
 
         if (validFiles.length === 0) {
-          setIsProcessing(false);
+          // setIsProcessing(false);
           return;
         }
 
@@ -151,6 +151,7 @@ const FileUploader = ({
         // Ensure component is still mounted before updating state
         if (mountedRef.current) {
           onUpload?.(processed);
+          // setIsProcessing(false);
         }
       } catch (error) {
         console.error("File upload error:", error);
@@ -163,7 +164,7 @@ const FileUploader = ({
     },
     [
       disabled,
-      isProcessing,
+      // isProcessing,
       additionalValidation,
       allowedFileTypes,
       min,
@@ -178,7 +179,7 @@ const FileUploader = ({
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: handleDrop,
-    disabled: disabled || isProcessing,
+    disabled,
     accept: allowedFileTypes.reduce(
       (acc, type) => {
         acc[type] = [];
@@ -188,7 +189,7 @@ const FileUploader = ({
     ),
     multiple,
     maxFiles: multiple ? max : 1,
-    minFiles: min,
+    // minFiles: min,
   });
 
   return (
@@ -204,11 +205,11 @@ const FileUploader = ({
     >
       <input {...getInputProps()} />
       {children}
-      {isProcessing && (
+      {/* {isProcessing && (
         <div className="absolute inset-0 flex items-center justify-center bg-white/80 dark:bg-black/80">
           <div className="text-center">Processing...</div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

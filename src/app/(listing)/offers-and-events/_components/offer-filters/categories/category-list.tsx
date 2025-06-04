@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 import { Checkbox } from "@/components/ui/checkbox";
-import { removeKeysFromUrlQuery, formUrlQuery } from "@/lib/url";
+import { removeKeysFromUrlQuery, formUrlQuery } from "@/lib/utils/url";
 
 type Props = {
   categories: CategoryProps[];
@@ -67,7 +67,7 @@ const CategoryList = ({ categories }: Props) => {
         >
           <Checkbox
             id={`${category.objid}`}
-            className="data-[state=checked]:bg-primary-900"
+            className="data-[state=checked]:bg-secondary"
             value={category.objid}
             onCheckedChange={() => handleCheckboxChange(category.objid)}
             checked={selectedCategory.includes(category.objid)}

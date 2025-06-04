@@ -159,10 +159,6 @@ const CampaignsHeader = ({ data }: Props) => {
           </div>
 
           <div className="flex justify-center p-3 pb-6">
-            {/* <PieChartSection
-              chartData={statusChartData}
-              colors={["#82CC8B", "#92BEED", "#F7AB66"]}
-            /> */}
             <PieChartSection
             chartData={statusChartData}
             colors={[]}
@@ -202,10 +198,6 @@ const CampaignsHeader = ({ data }: Props) => {
           </div>
 
           <div className="flex justify-center p-3 pb-6">
-            {/* <PieChartSection
-              chartData={campaignTypeChartData}
-              colors={["#F7AB66", "#657196", "#92BEED", "#82CC8B"]}
-            /> */}
             <PieChartSection
             chartData={campaignTypeChartData}
             colors={[]}

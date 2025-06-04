@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@radix-ui/react-tabs";
 import React from "react";
 
@@ -41,8 +40,6 @@ const Transaction = async ({
   });
 
   if (!recvSuccess || !recvData) return null;
-
-  console.log("recData ", recvData?.invoices);
 
   return (
     <>

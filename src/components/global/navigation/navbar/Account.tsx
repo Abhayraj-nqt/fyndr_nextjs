@@ -49,7 +49,7 @@ const Account = async ({ className }: Props) => {
               </Link>
             </MenubarItem>
             <MenubarItem className="w-full">
-              <SignOutButton className="m-0 size-fit w-full justify-start bg-transparent p-0 font-normal text-dark-100 shadow-none hover:bg-transparent">
+              <SignOutButton className="m-0 size-fit w-full justify-start bg-transparent p-0 font-normal text-black shadow-none hover:bg-transparent">
                 Logout
               </SignOutButton>
             </MenubarItem>

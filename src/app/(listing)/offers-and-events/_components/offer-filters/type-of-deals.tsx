@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { TYPES_OF_DEALS } from "@/constants";
-import { formUrlQuery, removeKeysFromUrlQuery } from "@/lib/url";
+import { formUrlQuery, removeKeysFromUrlQuery } from "@/lib/utils/url";
 
 const TypeOfDeals = () => {
   const router = useRouter();
@@ -60,15 +60,13 @@ const TypeOfDeals = () => {
 
   return (
     <section>
-      <h4 className="paragraph-semibold mb-4 text-primary-900">
-        Type of deals
-      </h4>
+      <h4 className="paragraph-semibold mb-4 text-secondary">Type of deals</h4>
       <div className="space-y-4 px-2">
         {TYPES_OF_DEALS.map((item) => (
           <div key={item.label} className="body-medium flex items-center gap-2">
             <Checkbox
               id={item.label}
-              className="data-[state=checked]:bg-primary-900"
+              className="data-[state=checked]:bg-secondary"
               value={item.value}
               onCheckedChange={() => handleCheckboxChange(item.value)}
               checked={selectedDealTypes.includes(item.value)}

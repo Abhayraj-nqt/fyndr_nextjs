@@ -1,8 +1,10 @@
-import { DataTableColumnHeader } from "@/components/global/data-table/data-table-column-header";
-import { AdminUserProps } from "@/types/api-response/user.response";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ColumnDef } from "@tanstack/react-table";
+
 import Button from "@/components/global/buttons";
+import { DataTableColumnHeader } from "@/components/global/data-table/data-table-column-header";
 import { cn } from "@/lib/utils";
+import { AdminUserProps } from "@/types/api-response/user.response";
 import { DataTableRowAction } from "@/types/data-table";
 
 type Props = {
@@ -40,7 +42,7 @@ export function getUserDetailsTableColumns({
         <DataTableColumnHeader column={column} title="Address" />
       ),
       cell: ({ row }) => {
-        const addressObj :any = row.getValue("address");
+        const addressObj: any = row.getValue("address");
         const formattedAddress = cn(
           addressObj?.addressLine1 ? `${addressObj?.addressLine1}` : "",
           addressObj?.addressLine1 ? `, ${addressObj?.addressLine1}` : "",
@@ -69,8 +71,11 @@ export function getUserDetailsTableColumns({
         <DataTableColumnHeader column={column} title="Phone" />
       ),
       cell: ({ row }) => {
-        const phone = row.getValue("phone")?.phoneNumber;
-        const countryCode = row.getValue("phone")?.countryCode;
+        const phoneObj = row.getValue("phone") as
+          | { countryCode?: string; phoneNumber?: string }
+          | undefined;
+        const phone = phoneObj?.phoneNumber;
+        const countryCode = phoneObj?.countryCode;
         return <div>{phone ? `${countryCode}${phone}` : "NA"}</div>;
       },
       enableSorting: false,
