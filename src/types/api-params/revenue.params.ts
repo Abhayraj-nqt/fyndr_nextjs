@@ -7,6 +7,8 @@ export type RevenueProps =(
     },
     payload: {
         businessName: string,
-        country: string
+        country: string,
+        startDate:string,
+        endDate: string
     }
 ) => Promise<ActionResponse<RevenueResponse>>;

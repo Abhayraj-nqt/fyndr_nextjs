@@ -1,5 +1,6 @@
 "use client"
 
+import Button from "@/components/global/buttons";
 import { DataTableColumnHeader } from "@/components/global/data-table/data-table-column-header";
 import { DataTableRowAction } from "@/types/data-table";
 import { ColumnDef } from "@tanstack/react-table";
@@ -92,7 +93,7 @@ const getRevenueColumn = ({
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Action" />
       ),
-      cell: ({ row }) => <div> <Link href={"/admin/revenue"}>Login</Link> </div>,
+      cell: ({ row }) => <div> <Button variant={"primary"}>Login</Button></div>,
       enableSorting: false,
     },
   ];

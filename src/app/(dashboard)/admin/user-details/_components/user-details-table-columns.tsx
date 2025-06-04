@@ -21,7 +21,7 @@ export function getUserDetailsTableColumns({
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Name" />
       ),
-      cell: ({ row }) => <div>
+      cell: ({ row }) => <div className="p-0">
         {row.getValue("name")}
         </div>,
       enableSorting: false,
@@ -100,7 +100,7 @@ export function getUserDetailsTableColumns({
     {
       id: "actions",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Status" />
+        <DataTableColumnHeader column={column} title="Action" />
       ),
       cell: ({ row }) => (
         <div>

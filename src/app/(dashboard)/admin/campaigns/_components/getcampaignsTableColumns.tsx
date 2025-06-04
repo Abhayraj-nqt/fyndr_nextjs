@@ -76,7 +76,7 @@ const getcampaignsTableColumns = ({setRowAction,}: Props) : ColumnDef<CampaignDe
         header: ({column})=>(
             <DataTableColumnHeader column={column} title="Total Amount Sold" />
         ),
-        cell:({row}) => <div>{row.original.totalOfferSoldAmount}</div>,
+        cell:({row}) => <div>{row.original.currencySymbol}{row.original.totalOfferSoldAmount}</div>,
         enableSorting:false,
     },
     {
@@ -100,7 +100,7 @@ const getcampaignsTableColumns = ({setRowAction,}: Props) : ColumnDef<CampaignDe
     {
       id: "actions",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Status" />
+        <DataTableColumnHeader column={column} title="Action" />
       ),
       cell: ({ row }) => (
         <div>

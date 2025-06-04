@@ -30,7 +30,7 @@ const RevenueTable = ({ promises }: Props) => {
     shallow: false,
     clearOnDefault: true,
   })
-  return <div className="p-6">
+  return <div>
     <DataTable table={table} />
   </div>;
 };

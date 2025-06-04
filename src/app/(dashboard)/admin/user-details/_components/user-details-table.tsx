@@ -27,7 +27,6 @@ const UserDetailsTable = ({ dataResponse }: Props) => {
 
   const pageSize = Number(searchParams.get("pageSize")) || 10;
 
-  // const [{ data, success, error }] = React.use(promises);
 
   const [rowAction, setRowAction] =
     React.useState<DataTableRowAction<AdminUserProps> | null>(null);

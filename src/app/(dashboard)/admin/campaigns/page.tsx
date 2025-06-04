@@ -30,8 +30,10 @@ const Campaigns = async ({
 
   const data = await getCapaignDetails(
     {
-      pgStart: parsedParams.page,
-      pgSize: parsedParams.perPage,
+      // pgStart: parsedParams.page,
+      // pgSize: parsedParams.perPage,
+        pgStart : parsedParams?.page || 1,
+      pgSize: parsedParams?.perPage || 10,
     },
     {
       businessName: parsedParams.query,
@@ -48,7 +50,7 @@ const Campaigns = async ({
     
     <div className="p-6">
       <div>
-      <CampaignsHeader />
+      <CampaignsHeader data = {data} />
       </div>
         <CampaignsTable data={data} />
     </div>
