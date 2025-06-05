@@ -32,6 +32,7 @@ import {
 import GifteeDetails from "./giftedetails";
 import Invoicetotal from "./invoicetotal";
 import Offersdetails from "./offersdetails";
+import InvoicePromodetails from "./promodetails";
 
 type InvoiceViewProps = {
   inv?: fetchInvoice[] | null;
@@ -82,10 +83,14 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
   const bizid = user?.bizid ?? null;
   const indvid = user?.indvid ?? null;
   const userTimeZone = user?.userTimeZone;
+    console.log("selected type" ,type);
 
   // 4. Fetch invoice details hook - this must be called unconditionally
-  const { data: invoiceDetailsResp, isLoading: isInvoiceLoading } =
+  const { data: invoiceDetailsResp, isLoading: isInvoiceLoading  ,refetch} =
     useInvoiceDetails(objid, type, bizid, indvid);
+
+
+    console.log("this is the response final ",invoiceDetailsResp);
 
   // 5. Populate state when invoiceDetailsResp is updated
   useEffect(() => {
@@ -112,6 +117,8 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
     }
   }, [invoiceDetailsResp]);
 
+  console.log("this is vouchers", vouchers);
+
   const { data: reviewOverviewsresp, isLoading: reviewOverviewsLoading } =
     useUserReviewOverViews(invoiceDetailsResp?.biz?.bizid);
 
@@ -122,6 +129,8 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
     setBusinessId(reviewOverviewsresp?.bizId ?? null);
   }, [reviewOverviews]);
 
+  console.log("invoice : D", invoiceDetailsResp);
+   const startDate = invoiceDetails?.featured_start_date && new Date(invoiceDetails?.featured_start_date);
   const endDate =
     invoiceDetails?.featured_end_date &&
     new Date(invoiceDetails?.featured_end_date);
@@ -140,6 +149,14 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
   const DifferenceInDays = DifferenceInTime / (1000 * 3600 * 24);
   // ... continue JSX render below
 
+  console.log(type, "type ---");
+
+  console.log("dispute", disputeStatus);
+
+  console.log("details", invoiceDetails?.items || invoiceDetails?.offers);
+  console.log("review response", reviewOverviewsresp);
+
+  console.log("Overall rating" ,invoiceDetails?.overallRating);
   return (
     <>
       <div>
@@ -175,7 +192,7 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
             />
           </div>
         )}
-        <div className="flex rounded-[10px] border border-secondary-20 px-3 pt-2">
+        <div className="flex rounded-10 border border-secondary-20 px-3 pt-2">
           <div style={{ width: "100%" }}>
             <div className="mb-[8px] flex justify-between text-primary">
               <span className="text-base font-semibold">Invoiced to:</span>
@@ -215,102 +232,18 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
               </>
             )}
 
-            {(channel === "cmpn_promo" || channel === "promo") && (
-              <>
-                <div className="mb-[8px] flex justify-between">
-                  <span className="text-[14px] font-semibold leading-[20px] text-black-70">
-                    Campaign Name:
-                  </span>
-                  <span className="ml-4 flex-1 text-right text-[14px] font-semibold leading-[20px] text-black-80">
-                    {invoiceDetails?.title?.includes(":")
-                      ? getTruncatedTitle(
-                          invoiceDetails.title.split(":")[1].trim()
-                        )
-                      : getTruncatedTitle(invoiceDetails?.title)}
-                  </span>
-                </div>
+            <InvoicePromodetails 
+              channel= {channel}
+              title={invoiceDetails?.title}
+              promoChannels = {invoiceDetails?.promo_channels}
+              duration = {invoiceDetails?.duration}
+              startDate={startDate}
+              endDate = {endDate}
+              userTimeZone = {userTimeZone}
+              invoiceDt={invoiceDt}
+            />
 
-                {invoiceDetails?.promo_channels.includes("featured") && (
-                  <>
-                    <div className="mb-[8px] flex justify-between">
-                      <span className="text-[14px] font-semibold leading-[20px] text-black-70">
-                        Featured:
-                      </span>
-                      <span className="text-[14px] font-semibold leading-[20px] text-black-80">
-                        Yes
-                      </span>
-                    </div>
 
-                    <div className="mb-[8px] flex justify-between">
-                      <span className="text-[14px] font-semibold leading-[20px] text-black-70">
-                        Featured Duration:
-                      </span>
-                      <span className="text-[14px] font-semibold leading-[20px] text-black-80">
-                        {`${invoiceDetails?.duration} ${
-                          invoiceDetails?.duration === 1 ? "Month" : "Months"
-                        }`}
-                      </span>
-                    </div>
-
-                    <div className="mb-[8px] flex justify-between">
-                      <span className="text-[14px] font-semibold leading-[20px] text-black-70">
-                        Featured Start Date:
-                      </span>
-                      <span className="text-[14px] font-semibold leading-[20px] text-black-80">
-                        {/* {moment.tz(startDate, userTimeZone).format("MMM DD, YYYY")} */}
-                      </span>
-                    </div>
-
-                    <div className="mb-[8px] flex justify-between">
-                      <span className="text-[14px] font-semibold leading-[20px] text-black-70">
-                        Featured End Date:
-                      </span>
-                      <span className="text-[14px] font-semibold leading-[20px] text-black-80">
-                        {/* {moment.tz(endDate, userTimeZone).format("MMM DD, YYYY")} */}
-                      </span>
-                    </div>
-                  </>
-                )}
-
-                {(invoiceDetails?.promo_channels.includes("mobile_push") ||
-                  invoiceDetails?.promo_channels.includes("email")) && (
-                  <div className="mb-[8px] flex justify-between">
-                    <span className="text-[14px] font-semibold leading-[20px] text-black-70">
-                      Promotion type:
-                    </span>
-                    <span className="text-[14px] font-semibold leading-[20px] text-black-80">
-                      {invoiceDetails?.promo_channels
-                        .split(",")
-                        .filter(
-                          (ch: string) => ch !== "in_app" && ch !== "featured"
-                        )
-                        .map((ch: string) =>
-                          ch === "mobile_push" ? "Phone" : capitalize(ch)
-                        )
-                        .join(", ")}
-                    </span>
-                  </div>
-                )}
-
-                <div className="mb-[8px] flex justify-between">
-                  <span className="text-[14px] font-semibold leading-[20px] text-black-70">
-                    Promotion Date:
-                  </span>
-                  <span className="text-[14px] font-semibold leading-[20px] text-black-80">
-                    {dayjs.tz(invoiceDt, userTimeZone).format("MMM DD, YYYY")}
-                  </span>
-                </div>
-
-                <div className="mb-[8px] flex justify-between">
-                  <span className="text-[14px] font-semibold leading-[20px] text-black-70">
-                    Promotion Time:
-                  </span>
-                  <span className="text-[14px] font-semibold leading-[20px] text-black-80">
-                    {dayjs.tz(invoiceDt, userTimeZone).format("hh:mm A")}
-                  </span>
-                </div>
-              </>
-            )}
             <div className="mb-[8px] flex items-center justify-between">
               <span className="w-1/3 text-[14px] font-semibold leading-[20px] text-black-70">
                 Payment Status:
@@ -457,6 +390,8 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
             currencySymbol={currencySymbol}
             taxAmount={taxAmount}
             userTimeZone={userTimeZone ?? null}
+            type ={type}
+            refetch = {refetch}
           />
         )}
 

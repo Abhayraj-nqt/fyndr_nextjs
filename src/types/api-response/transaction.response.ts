@@ -1,3 +1,5 @@
+import { Remarks } from "../offersummary";
+
 export type InvoiceSummary = {
   totalAmountByInvoiceStatuses: {
     paid: number;
@@ -246,7 +248,7 @@ export type InvoiceOffer = {
   invoiceId: number;
   voucherCode: string;
   redeemptionStatus: string;
-  remarks: string | null;
+  remarks: Remarks[];
   paymentId: number;
   offerId: number;
   offerTitle: string;

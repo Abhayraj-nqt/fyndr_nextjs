@@ -12,14 +12,21 @@ const Stars = ({ ratings = 0, outOf = 5 }: Props) => {
 
   const remaining = outOf - ratings;
 
+  console.log(" Out of ",outOf);
+  console.log("rating",ratings);
+
+
   return (
     <div className="flex">
-      {Array.from({ length: ratings }, (_, index) => (
-        <Star key={index} varient="filled" />
-      ))}
-      {Array.from({ length: remaining }, (_, index) => (
-        <Star key={index} varient="empty" />
-      ))}
+     {Array.from({ length: outOf }, (_, index) => {
+        if (index + 1 <= ratings) {
+          return <Star key={index} varient="filled" />;
+        } else if (index < ratings && ratings % 1 !== 0 && index + 1 > Math.floor(ratings)) {
+          return <Star key={index} varient="half" />;
+        } else {
+          return <Star key={index} varient="empty" />;
+        }
+      })}
     </div>
   );
 };

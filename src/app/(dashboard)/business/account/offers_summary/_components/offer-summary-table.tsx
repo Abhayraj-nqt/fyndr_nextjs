@@ -1,30 +1,35 @@
 "use client";
 
-import React, { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import React from "react";
 
+import { onGetOfferSummary } from "@/actions/offersummary.actions";
 import { DataTable } from "@/components/global/data-table/data-table";
 import { useUser } from "@/hooks/auth";
 import { useDataTable } from "@/hooks/use-data-table";
 import { DataTableRowAction } from "@/types/data-table";
+import { OfferPurchaseProps } from "@/types/offersummary";
 
 import { getOfferSummaryDetailsColoumn } from "./offer-summary-details-coloumn";
+import ActionsDialog from "../../../../_components/redeemptionModal/actions-dialog";
 
-type OfferSummaryTableProps = {
-  data: OfferPurchaseProps[];
-  count: number;
-  currentPage: number;
-  pageSize: number;
+type Props = {
+  promises: Promise<[Awaited<ReturnType<typeof onGetOfferSummary>>]>;
 };
 
-const OfferSummaryTable: React.FC<OfferSummaryTableProps> = ({
-  data,
-  count,
-  currentPage,
-  pageSize,
-}) => {
+const OfferSummaryTable = ({ promises }: Props) => {
+  const searchParams = useSearchParams();
+  const pageSize = Number(searchParams.get("pageSize")) || 10;
+
+  const [{ data, success, error }] = React.use(promises);
+
   const { user } = useUser();
   const userTimeZone = user?.userTimeZone;
-  const [searchText, setSearchText] = useState<string>("");
+  const merchantId = user?.merchantId;
+  const fristName =  user?.firstName;
+  const lastName =  user?.lastName;
+  const indvid =  user?.indvid;
+
   const [rowAction, setRowAction] =
     React.useState<DataTableRowAction<OfferPurchaseProps> | null>(null);
 
@@ -33,12 +38,12 @@ const OfferSummaryTable: React.FC<OfferSummaryTableProps> = ({
     [userTimeZone]
   );
 
-  console.log("Table data length:", data?.length);
-  console.log("Current page in table:", currentPage);
-  console.log("Total count:", count);
+  if (!success || !data) return <div>Error</div>;
+
+  const { count, listOfferPurchasedOutDTO } = data.data;
 
   const { table } = useDataTable({
-    data: data || [],
+    data: listOfferPurchasedOutDTO || [],
     columns,
     pageCount: Math.ceil(count / pageSize),
     getRowId: (row) => `${row.objid}`,
@@ -48,19 +53,20 @@ const OfferSummaryTable: React.FC<OfferSummaryTableProps> = ({
 
   return (
     <>
-      {/* <div className="flex mb-8">
-          <div></div>
-          <div>
-            <Input type="search"
-             value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-            placeholder="Search by voucher code, name & phone no."
-
-            />
-            
-          </div>
-        </div> */}
+    
       <DataTable table={table} />
+      {/* If you have a dialog like ActionsDialog, you can include it here */}
+      <ActionsDialog
+        open={rowAction?.variant === "update"}
+        onOpenChange={() => setRowAction(null)}
+        type={"receivable"}
+        row={rowAction?.row.original ?? null}
+        merchantId = {merchantId as string}
+        fname = {fristName as string}
+        lname ={lastName as string}
+        indvid ={indvid}
+        title="Voucher"
+      />
     </>
   );
 };

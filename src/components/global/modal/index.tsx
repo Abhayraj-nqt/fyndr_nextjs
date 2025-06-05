@@ -235,7 +235,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 
             {shouldShowFooter && (
               <DialogFooter
-                className={`flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2  ${footerClassName}`}
+                className={`flex flex-col-reverse p-4 sm:flex-row sm:justify-end sm:space-x-2  ${footerClassName}`}
               >
                 {secondaryAction && (
                   <Button

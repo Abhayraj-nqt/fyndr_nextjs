@@ -26,6 +26,7 @@ const Overallreview: React.FC<OverallReviewResponse> = ({
 }) => {
   console.log("inside compoent", reviewsOverview);
 
+  console.log("rating",rating);
   console.log("total rating ", totalRatings);
   return (
     <div>

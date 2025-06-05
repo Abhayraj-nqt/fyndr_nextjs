@@ -12,9 +12,13 @@ export const useInvoiceDetails = (
   bizid: number | null,
   indvid: number | null
 ) => {
-  return useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["invoiceDetails", objid, type, bizid],
     enabled: !!objid && !!type,
+    refetchOnMount: "always",
+   
+    staleTime: 0,
+    notifyOnChangeProps: ['data', 'error', 'isLoading'],
     queryFn: async () => {
       const payload: InvoicePayload = { invoiceId: objid! };
 
@@ -29,7 +33,17 @@ export const useInvoiceDetails = (
       return data;
     },
   });
+
+  
+
+  return {
+    data,
+    isLoading,
+    isError,
+    refetch,
+  };
 };
+
 
 export const useUserReviewOverViews = (bizId?: number) => {
   return useQuery({

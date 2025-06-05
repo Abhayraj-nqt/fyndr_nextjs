@@ -1,8 +1,12 @@
 "use server";
 
+import ROUTES from "@/constants/routes";
 import { API_BASE_URL } from "@/environment";
 import { _post } from "@/lib/handlers/fetch";
-import { GetOfferSummaryParams } from "@/types/api-params/offersummary.params";
+import { GetOfferSummaryParams, UpdateOfferRedeemption } from "@/types/api-params/offersummary.params";
+import { OfferSummaryResponse } from "@/types/api-response/offersummary.response";
+import { OfferPurchaseProps } from "@/types/offersummary";
+import { revalidatePath } from "next/cache";
 
 export const onGetOfferSummary: GetOfferSummaryParams = async (params) => {
   const {
@@ -40,3 +44,20 @@ export const onGetOfferSummary: GetOfferSummaryParams = async (params) => {
     },
   });
 };
+
+
+export const  onUpdateOfferRedeemption : UpdateOfferRedeemption = async (payload) => {
+
+
+
+  const endpoint = `${API_BASE_URL}/invoice/voucher/update`;
+
+  console.log("this is payload", payload);
+   
+  revalidatePath(ROUTES.BUSINESS_ACCOUNT_OFFER_SUMMARY);
+  return _post<OfferPurchaseProps>(endpoint ,payload,{
+    requireAuth : true,
+  })
+  
+
+}
