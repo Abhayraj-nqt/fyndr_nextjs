@@ -86,7 +86,7 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
     console.log("selected type" ,type);
 
   // 4. Fetch invoice details hook - this must be called unconditionally
-  const { data: invoiceDetailsResp, isLoading: isInvoiceLoading } =
+  const { data: invoiceDetailsResp, isLoading: isInvoiceLoading  ,refetch} =
     useInvoiceDetails(objid, type, bizid, indvid);
 
 
@@ -391,6 +391,7 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
             taxAmount={taxAmount}
             userTimeZone={userTimeZone ?? null}
             type ={type}
+            refetch = {refetch}
           />
         )}
 

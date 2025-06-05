@@ -110,7 +110,7 @@ const Bizcard: React.FC<BizCardProps> = ({
         )}
       </div>
 
-      <div className="flex self-start text-right">
+      <div className="flex flex-col self-start text-right">
         <div className="flex justify-end">
           <span className="text-sm font-semibold leading-5 text-black-60 ">
             Invoice ID: {invoiceId}

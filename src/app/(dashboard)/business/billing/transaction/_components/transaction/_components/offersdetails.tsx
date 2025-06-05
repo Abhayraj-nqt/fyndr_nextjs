@@ -24,7 +24,6 @@ import { OfferPurchaseProps } from "@/types/offersummary";
 import ActionsDialog from "@/app/(dashboard)/_components/redeemptionModal/actions-dialog";
 import { useUser } from "@/hooks/auth";
 
-
 type OffersDetails = {
   offersDetails: Offer[];
   channel: ChannelOffer;
@@ -33,9 +32,9 @@ type OffersDetails = {
   currencySymbol: string;
   taxAmount: number;
   userTimeZone: string | null;
-  type : string
+  type: string;
+  refetch: () => void;
 };
-
 
 const Offersdetails: React.FC<OffersDetails> = ({
   offersDetails,
@@ -45,26 +44,21 @@ const Offersdetails: React.FC<OffersDetails> = ({
   currencySymbol,
   taxAmount,
   userTimeZone,
-  type
+  type,
+  refetch,
 }) => {
-
   const { user } = useUser();
-  
-    const firstName =  user?.firstName;
-    const lastName =  user?.lastName;
-    const indvid =  user?.indvid;
-  
 
-  console.log("this is voucher",vouchers);
-const [redeemOpen, setRedeemOpen] = useState<boolean>(false);
-const [selectedVoucher, setSelectedVoucher] = useState<InvoiceOffer|null>(null);
+  const firstName = user?.firstName;
+  const lastName = user?.lastName;
+  const indvid = user?.indvid;
 
-useEffect(() => {
-    (async () => {
-      await fetchInvoiceDetails();
-    })();
-  }, [voucherUpdated, inv]);
-// console.log("selected voucher" , selectedVoucher);
+
+  const [redeemOpen, setRedeemOpen] = useState<boolean>(false);
+  const [selectedVoucher, setSelectedVoucher] = useState<InvoiceOffer | null>(
+    null
+  );
+
   return (
     <>
       {offersDetails &&
@@ -76,15 +70,16 @@ useEffect(() => {
           } = row;
           type FilteredOffer = Offer | InvoiceOffer;
 
-const vhrs: FilteredOffer[] = channel === "events"
-  ? offersDetails.filter((offer) => offer.offer_id === offerId)
-  : vouchers?.filter((voucher) => voucher.offerId === offerId) || [];
-          
+          const vhrs: FilteredOffer[] =
+            channel === "events"
+              ? offersDetails.filter((offer) => offer.offer_id === offerId)
+              : vouchers?.filter((voucher) => voucher.offerId === offerId) ||
+                [];
 
           return (
             vhrs &&
             vhrs.map((vhrRaw, index) => {
-              const vhr = vhrRaw ;
+              const vhr = vhrRaw;
               let res;
 
               // if ("appointment" in vhr && vhr?.appointment && vhr?.appointment?.length > 0) {
@@ -99,14 +94,13 @@ const vhrs: FilteredOffer[] = channel === "events"
               //   vhr.currencySymbol = currencySymbol;
               let redeemptionStatus, validTill;
 
-if ('offerId' in vhr) {
-  // vhr is InvoiceOffer
-  redeemptionStatus = vhr.redeemptionStatus;
-  validTill = vhr.validTill;
-}
+              if ("offerId" in vhr) {
+                // vhr is InvoiceOffer
+                redeemptionStatus = vhr.redeemptionStatus;
+                validTill = vhr.validTill;
+              }
 
-
-              console.log("this is redeemp",redeemptionStatus);
+              console.log("this is redeemp", redeemptionStatus);
 
               console.log("start time", appointments);
 
@@ -129,7 +123,8 @@ if ('offerId' in vhr) {
                       {row?.title}
                     </span>
                   </div>
-                  {"appointment" in vhr && vhr?.appointment &&
+                  {"appointment" in vhr &&
+                    vhr?.appointment &&
                     vhr?.appointment[index] &&
                     Object.entries(vhr?.appointment[index]).map(
                       ([appointmentDate, timeObj]: any, i) => (
@@ -236,34 +231,34 @@ if ('offerId' in vhr) {
                         <span className="text-[14px] font-semibold text-[#4D4D4D]">
                           Fyndr Generated Voucher ID:
                         </span>
-                       <Button
-  className="text-[14px] text-blue-600 underline"
-  onClick={() => {
-    if ("objid" in vhr) {
-      setSelectedVoucher(vhr); 
-    } 
-    setRedeemOpen(true);
-  }}
->
-                          <div className="text-[14px] font-normal leading-[20px] text-black-80">
+                        <Button
+                          className="h-[46px] rounded-10 border border-[#257CDB] bg-[#F4F8FD] text-[#257CDB] hover:bg-[#F4F8FD]"
+                          onClick={() => {
+                            if ("objid" in vhr) {
+                              setSelectedVoucher(vhr);
+                            }
+                            setRedeemOpen(true);
+                          }}
+                        >
+                          <div className="text-[14px] font-normal leading-[20px] text-[#257CDB]">
                             {"objid" in vhr && vhr
                               ? `VHR-${(vhr.objid + "").padStart(10, 0)}`
                               : ""}
                           </div>
                         </Button>
                       </div>
-                      { "offer_id" in vhr && 
-  vhr.appointment &&
-  vhr.appointment.length > 0 &&
-  vhr.appointment[index] === undefined && (
-    <div className="mb-8 justify-between">
-      <div>
-        <span className="size-[16px] font-semibold text-primary">
-          Scheduled Later
-        </span>
-      </div>
-    </div>
-)}
+                      {"offer_id" in vhr &&
+                        vhr.appointment &&
+                        vhr.appointment.length > 0 &&
+                        vhr.appointment[index] === undefined && (
+                          <div className="mb-8 justify-between">
+                            <div>
+                              <span className="size-[16px] font-semibold text-primary">
+                                Scheduled Later
+                              </span>
+                            </div>
+                          </div>
+                        )}
                     </>
                   )}
                 </div>
@@ -271,18 +266,19 @@ if ('offerId' in vhr) {
             })
           );
         })}
-        
-       <ActionsDialog
-  open={redeemOpen}
-  onOpenChange={() => setRedeemOpen(false)}
-  type={type}
-  row={selectedVoucher}
-  title="Redeem Voucher"
-  currencySymbol ={currencySymbol}
-  fname = {firstName}
-  lname = {lastName}
-  indvid={indvid}
-/>
+
+      <ActionsDialog
+        open={redeemOpen}
+        onOpenChange={() => setRedeemOpen(false)}
+        type={type}
+        row={selectedVoucher}
+        title="Redeem Voucher"
+        currencySymbol={currencySymbol}
+        fname={firstName}
+        lname={lastName}
+        indvid={indvid}
+        refetch={refetch}
+      />
     </>
   );
 };

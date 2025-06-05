@@ -53,6 +53,7 @@ const OfferSummaryTable = ({ promises }: Props) => {
 
   return (
     <>
+    
       <DataTable table={table} />
       {/* If you have a dialog like ActionsDialog, you can include it here */}
       <ActionsDialog

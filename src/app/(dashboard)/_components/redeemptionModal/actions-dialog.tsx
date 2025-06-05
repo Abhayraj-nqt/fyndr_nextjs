@@ -16,6 +16,7 @@ import toast from "@/components/global/toast";
 import Button from "@/components/global/buttons";
 import { useOfferRedeemption } from "@/hooks/offers";
 import { InvoiceOffer } from "@/types/api-response/transaction.response";
+import Invoicefooter from "@/components/global/invoice/invoicefooter";
 
 interface ActionsDialogProps {
   row: OfferPurchaseProps | InvoiceOffer |  null;
@@ -29,6 +30,7 @@ interface ActionsDialogProps {
   indvid? :  number;
   title : string;
   currencySymbol? : string;
+  refetch?: ()=> void;
 }
 
 const ActionsDialog = ({
@@ -41,7 +43,8 @@ const ActionsDialog = ({
   lname,
   indvid,
   title,
-  currencySymbol
+  currencySymbol,
+  refetch
 }: ActionsDialogProps) => {
   const [status, setStatus] = useState<string>("");
   const [curVal, setCurVal] = useState<number>(0);
@@ -135,6 +138,7 @@ if (!(row?.objid && row?.invoiceId && indvid)) return;
       if(res.success){
       toast.success({message: "Voucher updated Successfully"})
       // Reset inputs or close modal here
+      refetch?.();
       setRemark("");
       setRedeemedAmt("");
       onOpenChange();
@@ -151,11 +155,10 @@ if (!(row?.objid && row?.invoiceId && indvid)) return;
   });
   
   };
- 
 
   return (
     <>
-      <Modal onOpenChange={onOpenChange} open={open} title={title}>
+      <Modal onOpenChange={onOpenChange} open={open} title={title} footerClassName="p-0" footerContent ={<Invoicefooter/>}>
         <div className="rounded-10 border border-[#D3D6E1] p-[12px_12px_0_12px]">
           <div className="flex justify-center align-middle">
             <QRCode
@@ -184,12 +187,14 @@ if (!(row?.objid && row?.invoiceId && indvid)) return;
               <span className="text-sm font-semibold leading-5 text-[#4D4D4D]">
                 Unused Value
               </span>
-            <span>{`${currencySymbol??currencySymbol??(row as OfferPurchaseProps)?.currencySymbol}${curVal}`}</span>
+           
+            <span>{`${currencySymbol ?? (row as OfferPurchaseProps)?.currencySymbol}${curVal}`}</span>
             </div>
           )}
 
         <RedeemRemarks
           remarks={row?.remarks}
+          currencySymbol={currencySymbol ?? (row as OfferPurchaseProps)?.currencySymbol}
           redemptionTime={(row as OfferPurchaseProps)?.redemptionTime}
         />
 
@@ -269,10 +274,10 @@ if (!(row?.objid && row?.invoiceId && indvid)) return;
           </>
         )}
         {type !== "receivable" && row?.redeemptionStatus !== "redeemed" && (
-              <div className="w-full justify-center align-middle">
+              <div className="w-full mt-3 justify-center align-middle">
                 <Button
                   type="button"
-                  className="h-[45px] w-[30%] rounded-10 bg-[#257CDB] text-white hover:bg-[#257CDB] "
+                  className="h-[45] w-[40%] rounded-10 bg-[#257CDB] text-white hover:bg-[#257CDB] "
                   onClick={() => voucherUpdate()}
                 >
                   Mark as redeemed
