@@ -208,7 +208,7 @@ export const BUSINESS_MENU: SubMenuProps[] = [
   },
   {
     icon: Gavel,
-    route: "",
+    route: ROUTES.BUSINESS_DISPUTE,
     label: "Dispute",
     hasSubMenu: false,
   },
