@@ -2,6 +2,7 @@ import {
   CampaignListResponse,
   CampaignResponse,
   CampaignsResponse,
+  LikeCampaignResponse,
 } from "../api-response/campaign.response";
 import { ActionResponse, Coordinates } from "../global";
 
@@ -39,3 +40,11 @@ export type GetCampaignsProps = (
 export type GetCampaignListProps = (params: {
   bizid: number;
 }) => Promise<ActionResponse<CampaignListResponse>>;
+
+export type LikeCampaignProps = (payload: {
+  bizId: number | null;
+  cmpnId: number | null;
+  indvId: number | null;
+  isDeleted: boolean | null;
+  objid: number | null;
+}) => Promise<ActionResponse<LikeCampaignResponse>>;

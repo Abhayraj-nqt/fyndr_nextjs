@@ -4,16 +4,20 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { removeKeysFromUrlQuery, formUrlQuery } from "@/lib/utils/url";
 
 type Props = {
   categories: CategoryProps[];
+  filterType: "checkbox" | "radio";
 };
 
-const CategoryList = ({ categories }: Props) => {
+const CategoryList = ({ categories, filterType }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const filterParams = searchParams.get("categories");
+  const query = searchParams.get("query");
 
   const initialSelected = filterParams
     ? filterParams
@@ -58,6 +62,44 @@ const CategoryList = ({ categories }: Props) => {
     router.push(newUrl);
   };
 
+  const handleRadioChange = (value: string) => {
+    const newUrl = formUrlQuery({
+      params: searchParams.toString(),
+      key: "query",
+      value,
+    });
+
+    router.push(newUrl);
+  };
+
+  if (filterType === "radio") {
+    return (
+      <RadioGroup
+        value={query || query?.toLowerCase() || undefined}
+        onValueChange={handleRadioChange}
+        className="space-y-4 px-2"
+      >
+        {categories.map((category) => (
+          <div
+            key={category.objid}
+            className="body-medium flex items-center gap-2"
+          >
+            <RadioGroupItem
+              value={category.name.toLowerCase()}
+              id={category.objid.toString()}
+            />
+            <Label
+              htmlFor={category.objid.toString()}
+              className="cursor-pointer"
+            >
+              {category.name}
+            </Label>
+          </div>
+        ))}
+      </RadioGroup>
+    );
+  }
+
   return (
     <div className="space-y-4 px-2">
       {categories.map((category) => (
@@ -72,12 +114,12 @@ const CategoryList = ({ categories }: Props) => {
             onCheckedChange={() => handleCheckboxChange(category.objid)}
             checked={selectedCategory.includes(category.objid)}
           />
-          <label
+          <Label
             htmlFor={`${category.objid}`}
-            className="cursor-pointer leading-none"
+            className="body-3 cursor-pointer leading-none text-black-80"
           >
             {category.name}
-          </label>
+          </Label>
         </div>
       ))}
     </div>

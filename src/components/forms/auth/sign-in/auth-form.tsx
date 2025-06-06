@@ -26,6 +26,8 @@ import {
 import ROUTES from "@/constants/routes";
 import { ActionResponse } from "@/types/global";
 
+import SocialAuthForm from "../social-auth-form";
+
 interface AuthFormProps<T extends FieldValues> {
   schema: ZodType<T>;
   defaultValues: T;
@@ -97,16 +99,20 @@ const AuthForm = <T extends FieldValues>({
             )}
           />
         ))}
-        <Button
-          disabled={form.formState.isSubmitting}
-          className="mt-10 min-h-12 w-full rounded-[10px] bg-primary px-4 py-3 text-base font-normal !text-white hover:bg-primary"
-        >
-          {form.formState.isSubmitting
-            ? buttonText === "Sign In"
-              ? "Signing In..."
-              : "Signing Up..."
-            : buttonText}
-        </Button>
+        <div className="flex-center !mt-10 gap-2 ">
+          <Button
+            disabled={form.formState.isSubmitting}
+            className="min-h-12 w-full rounded-10 bg-primary px-4 py-3 text-base font-normal !text-white hover:bg-primary"
+          >
+            {form.formState.isSubmitting
+              ? buttonText === "Sign In"
+                ? "Signing In..."
+                : "Signing Up..."
+              : buttonText}
+          </Button>
+          <span className="text-xs">OR</span>
+          <SocialAuthForm formType="SIGN_IN" />
+        </div>
       </form>
     </Form>
   );

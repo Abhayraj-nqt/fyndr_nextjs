@@ -109,8 +109,7 @@ const Select = ({
         >
           <SelectTrigger
             className={cn(
-              "input-primary border-none shadow-none outline-none ring-0 focus:ring-0",
-              inputClassName
+              `input-primary border-none shadow-none outline-none ring-0 focus:ring-0 ${inputClassName}`
             )}
           >
             <SelectValue placeholder={placeholder}>
@@ -119,7 +118,7 @@ const Select = ({
                 return selected ? (
                   <div className="flex items-center gap-2">
                     <OptionIcon icon={selected.icon} label={selected.label} />
-                    <span>{selected.label}</span>
+                    <span className="w-full truncate">{selected.label}</span>
                   </div>
                 ) : null;
               })()}
@@ -153,7 +152,7 @@ const Select = ({
       showRequired={showRequired}
     >
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
+        <PopoverTrigger asChild className="hover:bg-white">
           <Button
             ref={triggerRef}
             variant="outline"
@@ -161,6 +160,7 @@ const Select = ({
             aria-expanded={open}
             className={cn(
               "w-full justify-between text-left font-normal input-primary",
+              `input-primary border-none shadow-none outline-none ring-0 focus:ring-0 ${inputClassName}`,
               !currentValue && "text-muted-foreground",
               inputClassName
             )}

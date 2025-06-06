@@ -7,7 +7,7 @@ import InfiniteScrollContainer from "@/components/global/infinite-scroll-contain
 import { useInfiniteCampaigns } from "@/hooks/campaigns";
 import { Coordinates } from "@/types/global";
 
-import CampaignCard from "../CampaignCard";
+import CampaignCard from "../campaign-card";
 
 type Props = {
   location: Coordinates;
@@ -16,6 +16,8 @@ type Props = {
   categories: number[];
   distance: number;
   query?: string;
+  mode: string;
+  order: "asc" | "desc";
 };
 
 const CampaignsSection = ({
@@ -25,12 +27,14 @@ const CampaignsSection = ({
   distance = 50,
   indvId,
   query,
+  mode,
+  order = "asc",
 }: Props) => {
   const params = {
     search: query,
     page: 0,
     pageSize: 20,
-    orderBy: "ASC" as "ASC" | "DESC",
+    orderBy: order.toLocaleUpperCase() as "ASC" | "DESC",
   };
 
   const payload = {
@@ -40,7 +44,7 @@ const CampaignsSection = ({
     campaignType: dealTypes,
     categories,
     fetchById: "none",
-    fetchByGoal: "INSTORE",
+    fetchByGoal: mode === "offline" ? "INSTORE" : "ONLINE",
     locQRId: null,
   };
 
@@ -56,10 +60,8 @@ const CampaignsSection = ({
 
   // Refetch when filters change
   useEffect(() => {
-    console.log("USE EFFECT RUN");
-
     refetch();
-  }, [dealTypes, categories, distance, location, indvId, refetch]);
+  }, [dealTypes, categories, distance, location, indvId, refetch, mode]);
 
   // Flatten campaign data from all pages
   // const campaigns = data?.pages.flatMap((page) => page.campaigns) || [];
@@ -92,10 +94,14 @@ const CampaignsSection = ({
       {campaigns && campaigns.length > 0 && (
         <InfiniteScrollContainer
           onBottomReached={handleLoadMore}
-          className="grid gap-4 md:grid-cols-2"
+          className="grid gap-4 xl:grid-cols-2"
         >
           {campaigns.map((campaign) => (
-            <CampaignCard key={campaign.objid} campaign={campaign} />
+            <CampaignCard
+              key={campaign.objid}
+              campaign={campaign}
+              refetch={refetch}
+            />
           ))}
         </InfiniteScrollContainer>
       )}

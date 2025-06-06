@@ -60,10 +60,13 @@ const TypeOfDeals = () => {
 
   return (
     <section>
-      <h4 className="paragraph-semibold mb-4 text-secondary">Type of deals</h4>
+      <h4 className="body-1-medium mb-4 text-black-heading">Type of deals</h4>
       <div className="space-y-4 px-2">
         {TYPES_OF_DEALS.map((item) => (
-          <div key={item.label} className="body-medium flex items-center gap-2">
+          <div
+            key={item.label}
+            className="body-3 flex items-center gap-2 text-black-80"
+          >
             <Checkbox
               id={item.label}
               className="data-[state=checked]:bg-secondary"

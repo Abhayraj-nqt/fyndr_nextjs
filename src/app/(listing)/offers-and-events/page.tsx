@@ -6,7 +6,9 @@ import { DEFAULT_LOCATION, TYPES_OF_DEALS } from "@/constants";
 import { RouteParams } from "@/types/global";
 
 import OfferFilters from "./_components/offer-filters";
+import ListingContainer from "../_components/listing-container";
 import MobileFilters from "./_components/offer-filters/mobile-filters";
+import ActionBarSection from "./_components/sections/action-bar-section";
 // import CampaignsSection from "./_components/sections/campaigns-section";
 
 const CampaignsSection = dynamic(
@@ -24,6 +26,8 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
     categories = "",
     dist = 50,
     query,
+    mode = "offline",
+    order = "asc",
   } = await searchParams;
 
   const location = DEFAULT_LOCATION;
@@ -64,33 +68,25 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
       .sort((a, b) => a - b) || [];
 
   return (
-    <main className="relative w-full p-4">
-      <div className="relative flex flex-col flex-nowrap gap-4 md:flex-row">
-        <section className="hidden h-fit w-80 min-w-80 rounded-lg bg-white md:flex">
-          <OfferFilters />
-        </section>
-        <section className="z-20 flex md:hidden">
-          <MobileFilters />
-        </section>
-
-        <section className="mt-5 w-full rounded-lg bg-white p-4 md:mt-0">
-          <h1 className="base-semibold mb-4 text-secondary">
-            Offers and Events on Fyndr
-          </h1>
-
-          <Suspense fallback={<div>Loading...</div>}>
-            <CampaignsSection
-              location={location}
-              dealTypes={dealTypes}
-              categories={categoryIds}
-              distance={Math.max(Number(dist), 20)}
-              indvId={user?.id || null}
-              query={query}
-            />
-          </Suspense>
-        </section>
-      </div>
-    </main>
+    <ListingContainer
+      filters={<OfferFilters />}
+      heading="Offers and Events on Fyndr"
+      mobileFilters={<MobileFilters />}
+      actionBar={<ActionBarSection />}
+    >
+      <Suspense fallback={<div>Loading...</div>}>
+        <CampaignsSection
+          location={location}
+          dealTypes={dealTypes}
+          categories={categoryIds}
+          distance={Math.max(Number(dist), 20)}
+          indvId={user?.id || null}
+          query={query}
+          mode={mode}
+          order={order as "asc" | "desc"}
+        />
+      </Suspense>
+    </ListingContainer>
   );
 };
 

@@ -49,6 +49,7 @@ export default {
           "80": "#333333",
           "90": "#1A1A1A",
           "100": "#1D1D1F",
+          heading: "#3A3A3A",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
@@ -62,6 +63,7 @@ export default {
         },
       },
       borderRadius: {
+        "5": "5px",
         "10": "10px",
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",

@@ -1,11 +1,15 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+
+import ROUTES from "@/constants/routes";
 import { API_BASE_URL } from "@/environment";
-import { _get, _post } from "@/lib/handlers/fetch";
+import { _get, _post, _put } from "@/lib/handlers/fetch";
 import {
   GetCampaignByQrProps,
   GetCampaignListProps,
   GetCampaignsProps,
+  LikeCampaignProps,
 } from "@/types/api-params/campaign.params";
 import {
   CampaignListResponse,
@@ -51,5 +55,14 @@ export const onGetCampaignList: GetCampaignListProps = async (params) => {
   return _get<CampaignListResponse>(endpoint, {
     requireAuth: true,
     cache: "force-cache",
+  });
+};
+
+export const onLikeCampaign: LikeCampaignProps = async (payload) => {
+  const endpoint = `${API_BASE_URL}/campaign/indvcmpn`;
+
+  revalidatePath(ROUTES.OFFERS_AND_EVENTS);
+  return _put(endpoint, payload, {
+    requireAuth: true,
   });
 };

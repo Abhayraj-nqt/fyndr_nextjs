@@ -1,6 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { signIn } from "next-auth/react";
 import React, { useTransition } from "react";
 
 import { signInWithCredentials, signUp } from "@/actions/auth.actions";
@@ -11,6 +12,7 @@ import {
   BusinessSignUpPayload,
   IndividualSignUpPayload,
 } from "@/types/api-params/auth.params";
+import { RegModeProps } from "@/types/global";
 import { useRegistrationStore } from "@/zustand/stores/registration.store";
 
 import { BusinessForm, IndividualForm } from "./base-registration-form";
@@ -20,9 +22,13 @@ const SignUpCompleteForm = () => {
   const router = useRouter();
   const { isBusiness, pwd, regMode, password, reset } = useRegistrationStore();
   const [isLoading, startTransition] = useTransition();
+  const searchParams = useSearchParams();
+  const provider = searchParams.get("provider") || ("classic" as RegModeProps);
+
+  console.log({ provider });
 
   const validateRegistrationData = (): boolean => {
-    if (!pwd) {
+    if (!pwd && provider !== "google") {
       toast.error({
         message: "Password is not set. Please go back to the previous step.",
       });
@@ -41,6 +47,15 @@ const SignUpCompleteForm = () => {
   };
 
   const handleAutoSignIn = async (email: string) => {
+    console.log("Inside handleAutoSignIn()");
+
+    if (provider === "google") {
+      await signIn("google", {
+        redirectTo: ROUTES.CALLBACK_SIGN_IN,
+      });
+      return;
+    }
+
     if (!password) {
       router.replace(ROUTES.CALLBACK_SIGN_IN);
       return;
@@ -79,6 +94,11 @@ const SignUpCompleteForm = () => {
   const handleSignUp = async (
     payload: IndividualSignUpPayload | BusinessSignUpPayload
   ) => {
+    if (provider === "google") {
+      payload.regMode = provider as RegModeProps;
+      payload.pwd = null;
+    }
+
     const { success, data, error } = await signUp(payload);
 
     if (!success && error) {
@@ -104,7 +124,7 @@ const SignUpCompleteForm = () => {
     payload: IndividualFormData & { isBusiness: boolean }
   ) => {
     startTransition(async () => {
-      if (!validateRegistrationData() || !pwd || !regMode) {
+      if (!validateRegistrationData()) {
         return;
       }
 

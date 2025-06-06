@@ -43,7 +43,7 @@ interface RegistrationState {
   lng?: number;
 
   // Password (stored as array for consistency with your example)
-  pwd?: string[];
+  pwd?: string[] | null;
   password?: string;
 
   // Business specific info
@@ -103,7 +103,7 @@ export const useRegistrationStore = create<RegistrationState>()(
             regMode: "classic",
             lat: undefined,
             lng: undefined,
-            pwd: undefined,
+            pwd: null,
             bizInfo: undefined,
             accountStatus: undefined,
             findUsId: undefined,

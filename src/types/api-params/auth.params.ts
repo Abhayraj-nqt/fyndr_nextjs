@@ -1,6 +1,7 @@
 import {
   AccountResponse,
   ConfirmIdentityResponse,
+  GenerateTokenResponse,
   RefreshTokenResponse,
   SendMobileVerificationCodeResponse,
   VerifyCodeResponse,
@@ -25,7 +26,7 @@ type BaseSignupPayload = {
   promoCode: string | null;
   lat: number;
   lng: number;
-  pwd: string[];
+  pwd: string[] | null;
   regMode: RegModeProps;
   findUsId: number;
 };
@@ -100,3 +101,8 @@ export type VerifyCodeProps = (params: {
   countryId: number;
   codeType: "REGISTRATION" | string;
 }) => Promise<ActionResponse<VerifyCodeResponse>>;
+
+export type GenerateTokenProps = (payload: {
+  provider: RegModeProps;
+  token: string;
+}) => Promise<ActionResponse<GenerateTokenResponse>>;

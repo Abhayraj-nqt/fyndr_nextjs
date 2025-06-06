@@ -27,7 +27,7 @@ const Navbar = ({
   searchParam = "query",
 }: Props) => {
   return (
-    <nav className="flex-between sticky top-0 z-50 min-h-16 w-full gap-5 bg-primary p-2 px-4 xs:px-8">
+    <nav className="flex-between fixed inset-x-0 top-0 z-50 min-h-16 w-full gap-5 bg-primary p-2 px-4 xs:px-8">
       <Logo />
       <div className="relative flex w-full max-w-2xl items-center justify-end gap-2 md:justify-center lg:justify-end lg:gap-8">
         {searchbar && (
@@ -35,11 +35,10 @@ const Navbar = ({
             {searchNavigateTo ? (
               <VisibilityWrapper visibleHeight={200}>
                 <LocalSearch
-                  icon="/icons/search.svg"
                   placeholder="Search Offers, Events & Businesses"
                   route="/"
-                  className="size-full min-h-9 min-w-[50%] max-w-lg flex-1 xs:min-h-[45px] sm:w-full"
-                  inputClassName=""
+                  className="size-full min-h-9 min-w-[50%] max-w-lg flex-1 !gap-0 !px-3 xs:min-h-[45px] sm:w-full"
+                  inputClassName="!px-2"
                   navigateTo={searchNavigateTo}
                   navigateParam={searchParam}
                   isOnNavbar
@@ -47,7 +46,6 @@ const Navbar = ({
               </VisibilityWrapper>
             ) : (
               <LocalSearch
-                icon="/icons/search.svg"
                 placeholder="Search Offers, Events & Businesses"
                 route="/"
                 className="size-full min-h-9 min-w-[50%] max-w-lg flex-1 xs:min-h-[45px] sm:w-full"
