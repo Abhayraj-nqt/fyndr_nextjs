@@ -7,6 +7,21 @@ export type RefreshTokenResponse = {
   email: string;
 };
 
+export type Loction = {
+  country: string;
+  parentLocation: number;
+  qrCode: string;
+  city: string;
+  postalCode: string;
+  objid: number;
+  locName: string;
+  qrid: number;
+  addressLine1: string;
+  addressLine2: "";
+  catalogueName: string;
+  state: string;
+};
+
 export type AccountResponse = {
   accountStatus: "ACTIVE" | "DELETED" | string;
   addonUrl: string | null;
@@ -35,14 +50,14 @@ export type AccountResponse = {
   indvid: number;
   isBusiness: boolean;
   isSubscribedToFyndrPromoEmails: boolean;
-  locations: null | unknown;
+  locations: null | Loction[];
   mainLogo: null | unknown;
   merchantAllowed: boolean;
   merchantId: null | unknown;
   payoutsEnabled: null | unknown;
   pmethod: PaymentMethod[] | unknown;
   promoCode: null | unknown;
-  qrLogo: null | unknown;
+  qrLogo: string;
   qrid: number | unknown;
   referralCode: string | unknown;
   regMode: string | "classic";
