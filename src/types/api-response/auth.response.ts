@@ -70,7 +70,7 @@ export type AccountResponse = {
   payoutsEnabled: null | unknown;
   pmethod: PaymentMethod[] | null;
   promoCode: null | unknown;
-  qrLogo: null | unknown;
+  qrLogo: string;
   qrid: number | unknown;
   referralCode: string | unknown;
   regMode: RegModeProps;

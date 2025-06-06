@@ -4,7 +4,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
 
-import Account from "./account";
+import Account from "./Account";
 import Logo from "./logo";
 import MobileNavigation from "./mobile-navigation";
 import NavLinks from "./nav-links";
