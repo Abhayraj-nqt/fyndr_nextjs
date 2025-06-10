@@ -13,3 +13,12 @@ export type CampaignListResponse = {
   campaigns: CampaignProps[];
   last: boolean;
 };
+
+export type LikeCampaignResponse = {
+  indvId: number;
+  objid: number;
+  cmpnId: number;
+  bizId: number;
+  isDeleted: boolean;
+  likedCount: number;
+};

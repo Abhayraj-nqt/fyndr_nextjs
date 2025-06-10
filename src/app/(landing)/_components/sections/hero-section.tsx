@@ -32,7 +32,6 @@ const HeroSection = async ({ location }: Props) => {
         </Suspense>
       </div>
       <LocalSearch
-        icon="/icons/search.svg"
         placeholder="Search Offers, Events & Businesses"
         route={ROUTES.OFFER_LISTING}
         className="absolute m-2 min-h-[56px] w-11/12 max-w-lg flex-1 sm:w-full"

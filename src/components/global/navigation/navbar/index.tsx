@@ -4,71 +4,18 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
 
-import Account from "./Account";
+import Account from "./account";
 import Logo from "./logo";
 import MobileNavigation from "./mobile-navigation";
 import NavLinks from "./nav-links";
-import LocationSelector from "../../location-selector";
-import MobileLocationSelectorModal from "../../location-selector/mobile-location-selector-modal";
-import LocalSearch from "../../search/local-search";
-import VisibilityWrapper from "../../visibility-wrapper";
+import SearchAndLocationRenderer from "./search-and-location-renderer";
 
-type Props = {
-  searchbar?: boolean;
-  location?: boolean;
-  searchNavigateTo?: string;
-  searchParam?: string;
-};
-
-const Navbar = ({
-  location,
-  searchbar,
-  searchNavigateTo,
-  searchParam = "query",
-}: Props) => {
+const Navbar = () => {
   return (
-    <nav className="flex-between sticky top-0 z-50 min-h-16 w-full gap-5 bg-primary p-2 px-4 xs:px-8">
-      <Logo />
+    <nav className="flex-between fixed inset-x-0 top-0 z-50 min-h-16 w-full gap-2 bg-primary p-2 px-4 xs:px-8 sm:gap-4">
+      <Logo className="mr-2 md:mr-0" />
       <div className="relative flex w-full max-w-2xl items-center justify-end gap-2 md:justify-center lg:justify-end lg:gap-8">
-        {searchbar && (
-          <>
-            {searchNavigateTo ? (
-              <VisibilityWrapper visibleHeight={200}>
-                <LocalSearch
-                  icon="/icons/search.svg"
-                  placeholder="Search Offers, Events & Businesses"
-                  route="/"
-                  className="size-full min-h-9 min-w-[50%] max-w-lg flex-1 xs:min-h-[45px] sm:w-full"
-                  inputClassName=""
-                  navigateTo={searchNavigateTo}
-                  navigateParam={searchParam}
-                  isOnNavbar
-                />
-              </VisibilityWrapper>
-            ) : (
-              <LocalSearch
-                icon="/icons/search.svg"
-                placeholder="Search Offers, Events & Businesses"
-                route="/"
-                className="size-full min-h-9 min-w-[50%] max-w-lg flex-1 xs:min-h-[45px] sm:w-full"
-                inputClassName=""
-                navigateTo={searchNavigateTo}
-                navigateParam={searchParam}
-                isOnNavbar
-              />
-            )}
-          </>
-        )}
-        {location && (
-          <>
-            <LocationSelector
-              className="hidden w-full max-w-lg sm:flex"
-              inputClassName="w-full"
-            />
-            <div></div>
-            <MobileLocationSelectorModal />
-          </>
-        )}
+        <SearchAndLocationRenderer />
       </div>
 
       <div className="flex-between gap-5">

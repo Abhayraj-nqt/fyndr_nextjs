@@ -1,11 +1,22 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+/* eslint-disable max-lines */
+import {
+  useInfiniteQuery,
+  useQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { useMemo } from "react";
 
-import { onGetCampaigns } from "@/actions/campaign.action";
+import { onGetCampaigns, onLikeCampaign } from "@/actions/campaign.action";
+import toast from "@/components/global/toast";
 import { CAT_LIST_HOME } from "@/constants";
 import { API_BASE_URL } from "@/environment";
 import { _post } from "@/lib/handlers/fetch";
+import { CampaignsResponse } from "@/types/api-response/campaign.response";
 import { CampaignProps } from "@/types/campaign";
 import { Coordinates } from "@/types/global";
+
+// hooks/use-optimistic-like.ts
 
 export const useGetCampaigns = (
   params: {
@@ -139,8 +150,8 @@ export const useGetCampaigns = (
 
 type CampaignQueryParams = {
   search?: string;
-  page: number;
-  pageSize: number;
+  page?: number;
+  pageSize?: number;
   orderBy?: "ASC" | "DESC";
 };
 type CampaignQueryPayload = {
@@ -156,11 +167,12 @@ type CampaignQueryPayload = {
 
 export function useInfiniteCampaigns(
   params: CampaignQueryParams,
-  payload: CampaignQueryPayload
+  payload: CampaignQueryPayload,
+  initialData?: CampaignsResponse
 ) {
   return useInfiniteQuery({
     queryKey: ["campaigns", params, payload],
-    queryFn: async ({ pageParam = params.page }) => {
+    queryFn: async ({ pageParam }) => {
       const response = await onGetCampaigns(
         {
           page: pageParam,
@@ -177,15 +189,200 @@ export function useInfiniteCampaigns(
 
       return {
         ...response.data,
-        pageParam,
+        currentPage: pageParam,
       };
     },
-    initialPageParam: 0,
-    getNextPageParam: (lastPage) => {
-      return lastPage.last ? undefined : lastPage.pageParam + 1;
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      // If this is the last page, return undefined to stop fetching
+      if (lastPage.last) {
+        return undefined;
+      }
+      // Return the next page number (starts from 1, so next page is current length + 1)
+      return allPages.length + 1;
+    },
+    // Use initial data if provided (from server-side rendering)
+    ...(initialData && {
+      initialData: {
+        pages: [{ ...initialData, currentPage: 0 }],
+        pageParams: [0],
+      },
+    }),
+    // Optimizations
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes (formerly cacheTime)
+  });
+}
+
+export function useCampaignMapMarkers(
+  params: CampaignQueryParams,
+  payload: CampaignQueryPayload
+) {
+  // const queryKey = ["campaign-markers", payload];
+
+  const queryKey = useMemo(() => {
+    // Create a stable, serializable query key
+    const stablePayload = {
+      indvId: payload.indvId,
+      distance: payload.distance,
+      location: {
+        lat: Number(payload.location.lat.toFixed(6)), // Normalize to 6 decimal places
+        lng: Number(payload.location.lng.toFixed(6)),
+      },
+      campaignType: payload?.campaignType
+        ? [...payload?.campaignType].sort()
+        : [], // Sort for consistency
+      categories: [...payload.categories].sort((a, b) => a - b), // Sort for consistency
+      fetchById: payload.fetchById,
+      fetchByGoal: payload.fetchByGoal,
+      locQRId: payload.locQRId,
+    };
+
+    const stableParams = {
+      orderBy: params.orderBy,
+      search: params.search || null, // Normalize undefined to null
+    };
+
+    return ["campaign-markers", stableParams, stablePayload];
+  }, [params, payload]);
+
+  const { data, isError, isLoading, refetch } = useQuery({
+    queryKey,
+    queryFn: () => onGetCampaigns(params, payload),
+    staleTime: 5 * 60 * 1000, // Data considered fresh for 5 minutes
+    gcTime: 10 * 60 * 1000, // Keep in cache for 10 minutes (formerly cacheTime)
+    refetchOnWindowFocus: false, // Don't refetch when window regains focus
+    refetchOnMount: false, // Don't refetch on component mount if data exists and is fresh
+    refetchOnReconnect: false, // Don't refetch on network reconnection
+    retry: 2, // Retry failed requests 2 times
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff
+  });
+
+  const campaigns = data?.data?.campaigns;
+
+  return {
+    campaigns,
+    isLoading,
+    isError,
+    refetch,
+  };
+}
+
+type LikeCampaignParams = {
+  bizId: number;
+  cmpnId: number;
+  indvId: number;
+  isDeleted: boolean;
+  objid: number | null;
+};
+
+export function useOptimisticLike() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (params: LikeCampaignParams) => {
+      console.log({ likePayload: params });
+
+      const response = await onLikeCampaign(params);
+
+      console.log({ likeResponse: response });
+      if (!response.success) {
+        throw new Error("Failed to update like status");
+      }
+      return response;
     },
 
-    // Reset the query cache when the query params change
-    // refetchOnMount: true,
+    onMutate: async (variables) => {
+      // Cancel any outgoing refetches so they don't overwrite our optimistic update
+      await queryClient.cancelQueries({ queryKey: ["campaigns"] });
+
+      // Snapshot the previous value for rollback
+      const previousData = queryClient.getQueriesData({
+        queryKey: ["campaigns"],
+      });
+
+      // Optimistically update all campaign queries
+      queryClient.setQueriesData({ queryKey: ["campaigns"] }, (old: any) => {
+        if (!old) return old;
+
+        return {
+          ...old,
+          pages: old.pages.map((page: any) => ({
+            ...page,
+            campaigns: page.campaigns.map((campaign: CampaignProps) => {
+              if (campaign.objid === variables.cmpnId) {
+                // Calculate optimistic like count based on current state
+                const isCurrentlyLiked =
+                  campaign?.indvCmpn?.isDeleted === false &&
+                  campaign.indvCmpn?.objid;
+                const newLikedCount = variables.isDeleted
+                  ? Math.max(0, campaign.likedCount - 1) // If we're deleting the like (isDeleted: true), decrease count
+                  : campaign.likedCount + 1; // If we're adding the like (isDeleted: false), increase count
+
+                return {
+                  ...campaign,
+                  likedCount: newLikedCount,
+                  indvCmpn: {
+                    ...campaign.indvCmpn,
+                    isDeleted: variables.isDeleted,
+                    objid: variables.objid || campaign.indvCmpn?.objid || null,
+                  },
+                };
+              }
+              return campaign;
+            }),
+          })),
+        };
+      });
+
+      return { previousData };
+    },
+
+    onSuccess: (data, variables) => {
+      // Update with actual server response data
+      if (data.success && data.data) {
+        const serverResponse = data.data;
+
+        queryClient.setQueriesData({ queryKey: ["campaigns"] }, (old: any) => {
+          if (!old) return old;
+
+          return {
+            ...old,
+            pages: old.pages.map((page: any) => ({
+              ...page,
+              campaigns: page.campaigns.map((campaign: CampaignProps) => {
+                if (campaign.objid === variables.cmpnId) {
+                  return {
+                    ...campaign,
+                    likedCount: serverResponse.likedCount, // Use server's like count
+                    indvCmpn: {
+                      ...campaign.indvCmpn,
+                      isDeleted: serverResponse.isDeleted,
+                      objid: serverResponse.objid, // Use server's objid
+                    },
+                  };
+                }
+                return campaign;
+              }),
+            })),
+          };
+        });
+      }
+    },
+
+    onError: (_error, variables, context) => {
+      // Rollback on error
+      if (context?.previousData) {
+        context.previousData.forEach(([queryKey, data]) => {
+          queryClient.setQueryData(queryKey, data);
+        });
+      }
+
+      toast.error({
+        message: "Failed to update like status. Please try again.",
+      });
+    },
+
+    // Remove onSettled invalidation since we're handling success manually
   });
 }

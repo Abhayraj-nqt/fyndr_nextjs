@@ -53,6 +53,7 @@ type BaseModalProps = {
 
   footerClassName?: string;
   headerClassName?: string;
+  bodyClassName?: string;
 };
 
 type TriggeredModalProps = BaseModalProps & {
@@ -143,6 +144,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
       closeOnOutsideClick = true,
       footerClassName = "",
       headerClassName = "",
+      bodyClassName = "",
     },
     ref
   ) => {
@@ -230,37 +232,35 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
               </button>
             )}
           </div>
-          <div className="no-scrollbar max-h-[80vh] overflow-y-auto">
-            <div className="p-4">{children}</div>
+          <div className={`p-4 ${bodyClassName}`}>{children}</div>
 
-            {shouldShowFooter && (
-              <DialogFooter
-                className={`flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2  ${footerClassName}`}
-              >
-                {secondaryAction && (
-                  <Button
-                    variant={secondaryAction.variant || "outline"}
-                    onClick={secondaryAction.onClick}
-                    disabled={secondaryAction.disabled}
-                    className={`btn-primary-outlined ${secondaryAction.className}`}
-                  >
-                    {secondaryAction.label}
-                  </Button>
-                )}
-                {primaryAction && (
-                  <Button
-                    variant={primaryAction.variant || "default"}
-                    onClick={primaryAction.onClick}
-                    disabled={primaryAction.disabled || primaryAction.loading}
-                    className={`btn-primary ${primaryAction.className}`}
-                  >
-                    {primaryAction.loading ? "Loading..." : primaryAction.label}
-                  </Button>
-                )}
-                {footerContent}
-              </DialogFooter>
-            )}
-          </div>
+          {shouldShowFooter && (
+            <DialogFooter
+              className={`flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2  ${footerClassName}`}
+            >
+              {secondaryAction && (
+                <Button
+                  variant={secondaryAction.variant || "outline"}
+                  onClick={secondaryAction.onClick}
+                  disabled={secondaryAction.disabled}
+                  className={`btn-primary-outlined ${secondaryAction.className}`}
+                >
+                  {secondaryAction.label}
+                </Button>
+              )}
+              {primaryAction && (
+                <Button
+                  variant={primaryAction.variant || "default"}
+                  onClick={primaryAction.onClick}
+                  disabled={primaryAction.disabled || primaryAction.loading}
+                  className={`btn-primary ${primaryAction.className}`}
+                >
+                  {primaryAction.loading ? "Loading..." : primaryAction.label}
+                </Button>
+              )}
+              {footerContent}
+            </DialogFooter>
+          )}
         </DialogContent>
       </Dialog>
     );

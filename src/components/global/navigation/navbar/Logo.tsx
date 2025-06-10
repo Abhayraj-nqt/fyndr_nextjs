@@ -4,9 +4,16 @@ import React from "react";
 
 import ROUTES from "@/constants/routes";
 
-const Logo = () => {
+type Props = {
+  className?: string;
+};
+
+const Logo = ({ className }: Props) => {
   return (
-    <Link href={ROUTES.HOME} className="flex items-center gap-1 lg:w-[19rem]">
+    <Link
+      href={ROUTES.HOME}
+      className={`flex items-center gap-1 lg:w-[19rem] ${className}`}
+    >
       <Image
         src={"/images/site-logo.png"}
         width={100}
