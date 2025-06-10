@@ -17,14 +17,14 @@ const ListingContainer = ({
 }: Props) => {
   return (
     <main className="flex-center relative flex-1 p-4">
-      <div className="relative flex max-w-[1550px] flex-1 flex-col flex-nowrap gap-4">
+      <div className="relative flex max-w-[1550px] flex-1 flex-col flex-nowrap md:gap-4">
         {actionBar}
-        <div className="relative flex flex-1 flex-col flex-nowrap gap-4 md:flex-row">
+        <div className="relative flex flex-1 flex-col flex-nowrap md:flex-row md:gap-4">
           <section className="hidden h-fit w-80 min-w-80 rounded-10 bg-white md:flex">
             {filters}
           </section>
           <section className="z-20 flex md:hidden">{mobileFilters}</section>
-          <section className="w-full rounded-10 bg-white p-4">
+          <section className="mt-8 w-full rounded-10 bg-white p-4 md:mt-0">
             <h1 className="title-7-medium mb-4 text-black-heading">
               {heading}
             </h1>

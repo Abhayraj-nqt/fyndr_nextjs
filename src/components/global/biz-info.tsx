@@ -66,7 +66,7 @@ const BizInfo: React.FC<BizInfoProps> = ({
                 alert("this is store");
               }}
               variant="default"
-              className="mt-3 rounded-[5px] pl-2.5"
+              className="mt-3 rounded-5 pl-2.5"
             >
               <Image
                 src={"/images/invoice/Store.svg"}

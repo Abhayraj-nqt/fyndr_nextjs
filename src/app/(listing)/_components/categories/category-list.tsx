@@ -80,17 +80,14 @@ const CategoryList = ({ categories, filterType }: Props) => {
         className="space-y-4 px-2"
       >
         {categories.map((category) => (
-          <div
-            key={category.objid}
-            className="body-medium flex items-center gap-2"
-          >
+          <div key={category.objid} className="flex items-center gap-2">
             <RadioGroupItem
               value={category.name.toLowerCase()}
               id={category.objid.toString()}
             />
             <Label
               htmlFor={category.objid.toString()}
-              className="cursor-pointer"
+              className="body-3 cursor-pointer leading-none text-black-80"
             >
               {category.name}
             </Label>
@@ -103,10 +100,7 @@ const CategoryList = ({ categories, filterType }: Props) => {
   return (
     <div className="space-y-4 px-2">
       {categories.map((category) => (
-        <div
-          key={category.objid}
-          className="body-medium flex items-center gap-2"
-        >
+        <div key={category.objid} className="flex items-center gap-2">
           <Checkbox
             id={`${category.objid}`}
             className="data-[state=checked]:bg-secondary"

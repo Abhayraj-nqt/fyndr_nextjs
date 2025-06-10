@@ -9,6 +9,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
+import DealsOnMap from "./deals-on-map";
 import Distance from "./distance";
 
 import OfferFilters from ".";
@@ -34,12 +35,19 @@ const MobileFilters = () => {
         >
           <Distance className="" />
         </Modal>
-
-        <div className="flex-center h-full w-4/12 border-r border-secondary-20">
-          <div className="flex-center body-regular flex cursor-pointer gap-2">
-            <MapPinned size={18} /> <div>Map</div>
-          </div>
-        </div>
+        <Modal
+          trigger={
+            <div className="flex-center h-full w-4/12 border-r border-secondary-20">
+              <div className="flex-center body-regular flex cursor-pointer gap-2">
+                <MapPinned size={18} /> <div>Map</div>
+              </div>
+            </div>
+          }
+          title={<div className="text-left">Deals on map</div>}
+        >
+          <DealsOnMap showHeading={false} />
+          {/* Hello */}
+        </Modal>
       </div>
       <SheetContent side={"left"} className="border-none bg-white p-0">
         <SheetTitle className="hidden">Filters</SheetTitle>

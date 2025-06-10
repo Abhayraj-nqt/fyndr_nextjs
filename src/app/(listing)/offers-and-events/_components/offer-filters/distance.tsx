@@ -1,8 +1,7 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 import Select from "@/components/global/input/select/index";
 import { formUrlQuery } from "@/lib/utils/url";
@@ -22,18 +21,25 @@ const Distance = ({ className }: Props) => {
     { value: "desc", label: "Distance: Farthest to Closest" },
   ];
 
-  useEffect(() => {
-    handleOrderByChange();
-  }, [orderBy]);
+  // Debounce the URL update to prevent multiple rapid calls
+  const handleOrderByChange = useCallback(() => {
+    if (orderBy === currentOrder) return; // Prevent unnecessary updates
 
-  const handleOrderByChange = () => {
     const newUrl = formUrlQuery({
       params: searchParams.toString(),
       key: "order",
       value: orderBy,
     });
-    router.replace(newUrl);
-  };
+    router.replace(newUrl, { scroll: false }); // Use replace instead of push
+  }, [orderBy, currentOrder, searchParams, router]);
+
+  // Only update URL when orderBy actually changes and differs from current
+  useEffect(() => {
+    if (orderBy !== currentOrder) {
+      const timeoutId = setTimeout(handleOrderByChange, 300); // Debounce
+      return () => clearTimeout(timeoutId);
+    }
+  }, [orderBy, currentOrder, handleOrderByChange]);
 
   return (
     <Select

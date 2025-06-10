@@ -21,8 +21,8 @@ export type GetCampaignByQrProps = (
 export type GetCampaignsProps = (
   params: {
     search?: string;
-    page: number;
-    pageSize: number;
+    page?: number;
+    pageSize?: number;
     orderBy?: "ASC" | "DESC";
   },
   payload: {
@@ -36,6 +36,17 @@ export type GetCampaignsProps = (
     locQRId?: null;
   }
 ) => Promise<ActionResponse<CampaignsResponse>>;
+
+export type GetCampaignMarkerProps = (payload: {
+  indvId: number | null;
+  distance: number;
+  location: Coordinates;
+  categories: number[];
+  campaignType?: string[];
+  fetchById: string;
+  fetchByGoal: string;
+  locQRId?: null;
+}) => Promise<ActionResponse<CampaignsResponse>>;
 
 export type GetCampaignListProps = (params: {
   bizid: number;

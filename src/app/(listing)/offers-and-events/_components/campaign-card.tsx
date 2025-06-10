@@ -8,7 +8,6 @@ import { useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 
-import { onLikeCampaign } from "@/actions/campaign.action";
 import MailTo from "@/components/global/mail-to";
 import PhoneTo from "@/components/global/phone-to";
 import toast from "@/components/global/toast";
@@ -23,6 +22,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import ROUTES from "@/constants/routes";
+import { HOST } from "@/environment";
+import { useOptimisticLike } from "@/hooks/campaigns";
 import { parseAddress } from "@/lib/utils";
 import { CampaignProps } from "@/types/campaign";
 
@@ -33,11 +34,15 @@ type Props = {
   refetch?: () => void;
 };
 
-const CampaignCard = ({ campaign, refetch }: Props) => {
+const CampaignCard = ({ campaign }: Props) => {
   const searchParams = useSearchParams();
+
   const mode = searchParams.get("mode") || "offline";
   const [seeMore, setSeeMore] = useState<boolean>(false);
   const { data: session } = useSession();
+
+  // Use the optimistic like hook
+  const likeMutation = useOptimisticLike();
 
   const toggleSeeMore = () => setSeeMore((prev) => !prev);
 
@@ -51,24 +56,27 @@ const CampaignCard = ({ campaign, refetch }: Props) => {
       return;
     }
 
-    const { success } = await onLikeCampaign({
+    // Check current like status - if objid exists and isDeleted is false, it's liked
+    const isCurrentlyLiked =
+      campaign?.indvCmpn?.objid && campaign?.indvCmpn?.isDeleted === false;
+
+    // Determine the new state - if currently liked, we want to unlike (isDeleted: true)
+    // If not currently liked, we want to like (isDeleted: false)
+    const newIsDeleted = !!isCurrentlyLiked;
+
+    // Trigger optimistic update
+    likeMutation.mutate({
       bizId: campaign.biz.bizid,
       cmpnId: campaign.objid,
       indvId: Number(session.user.id),
-      isDeleted: !campaign?.indvCmpn?.isDeleted,
-      objid: campaign?.indvCmpn?.objid,
+      isDeleted: newIsDeleted,
+      objid: campaign?.indvCmpn?.objid || null, // This will be null for new likes
     });
-
-    if (!success) {
-      return toast.error({
-        message: "Something went wrong!",
-      });
-    } else {
-      if (refetch) {
-        refetch();
-      }
-    }
   };
+
+  // Determine current like state - liked if objid exists and isDeleted is false
+  const isLiked =
+    campaign?.indvCmpn?.objid && campaign?.indvCmpn?.isDeleted === false;
 
   return (
     <Card className="relative flex max-h-fit  flex-col gap-3 overflow-x-hidden rounded-10 border-secondary-20 p-3 shadow-none duration-100">
@@ -153,7 +161,9 @@ const CampaignCard = ({ campaign, refetch }: Props) => {
             )}
 
             {campaign.cmpnUrl || campaign.biz.website ? (
-              <WebsiteTo url={campaign.cmpnUrl || campaign.biz.website}>
+              <WebsiteTo
+                url={`https://${campaign.cmpnUrl || campaign.biz.website}`}
+              >
                 <Globe size={20} />
               </WebsiteTo>
             ) : (
@@ -164,27 +174,27 @@ const CampaignCard = ({ campaign, refetch }: Props) => {
               subject={`${campaign.biz.bizName}: ${campaign.title}`}
               body={`Found this deal on fyndr:\n${
                 campaign.title
-              }\n${ROUTES.OFFER_DETAILS(campaign.biz.bizName, campaign.qrCode)}`}
+              }\n${HOST}${ROUTES.OFFER_DETAILS(campaign.biz.bizName, campaign.qrCode)}`}
             >
               <Share2 size={20} />
             </MailTo>
             <div className="flex-center gap-1">
-              {campaign?.indvCmpn?.isDeleted === false &&
-              campaign.indvCmpn.objid ? (
-                <Heart
-                  fill="#ef4444"
-                  strokeWidth={0}
-                  size={20}
-                  className="cursor-pointer"
-                  onClick={handleLikeCampaign}
-                />
-              ) : (
-                <Heart
-                  size={20}
-                  className="cursor-pointer"
-                  onClick={handleLikeCampaign}
-                />
-              )}
+              <button
+                onClick={handleLikeCampaign}
+                disabled={likeMutation.isPending}
+                className="flex items-center transition-opacity disabled:opacity-50"
+              >
+                {isLiked ? (
+                  <Heart
+                    fill="#ef4444"
+                    strokeWidth={0}
+                    size={20}
+                    className="cursor-pointer"
+                  />
+                ) : (
+                  <Heart size={20} className="cursor-pointer" />
+                )}
+              </button>
               {campaign.likedCount > 0 ? <p>{campaign.likedCount}</p> : <></>}
             </div>
           </div>

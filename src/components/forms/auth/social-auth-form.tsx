@@ -5,7 +5,6 @@ import { signIn } from "next-auth/react";
 import React from "react";
 
 import toast from "@/components/global/toast";
-import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
 import { useRegistrationStore } from "@/zustand/stores/registration.store";
 

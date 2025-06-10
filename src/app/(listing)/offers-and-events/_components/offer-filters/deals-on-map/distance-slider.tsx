@@ -42,7 +42,7 @@ const DistanceSlider = () => {
 
   return (
     <div className="">
-      <p className="body-1-medium mb-4 flex flex-col text-black-heading">
+      <p className="body-1-medium my-4 flex flex-col text-black-heading">
         Range ({range} miles)
       </p>
       <div>

@@ -31,7 +31,7 @@ export function DataTable<TData>({
       {...props}
     >
       {children}
-      <div className="overflow-hidden rounded-[10px]">
+      <div className="overflow-hidden rounded-10">
         <Table>
           <TableHeader className="bg-primary hover:bg-primary">
             {table.getHeaderGroups().map((headerGroup) => (
@@ -67,7 +67,7 @@ export function DataTable<TData>({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className="rounded-b-[10px]">
+          <TableBody className="rounded-b-10">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow

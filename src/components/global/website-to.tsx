@@ -34,7 +34,7 @@ const WebsiteTo = ({ children, url }: Props) => {
           </span>
         </p>
         <div className="flex w-full justify-end gap-1">
-          <Link href={url}>
+          <Link target="_blank" href={url}>
             <Button
               variant="primary"
               className="body-3 h-7 !rounded-5 px-2 py-1"

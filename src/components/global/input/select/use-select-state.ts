@@ -21,7 +21,10 @@ export const useSelectState = ({
   );
 
   const currentValue = value !== undefined ? value : internalValue;
-  const currentValues = multi ? (currentValue as string[]) : [];
+  const currentValues = useMemo(
+    () => (multi ? (currentValue as string[]) : []),
+    [multi, currentValue]
+  );
   const currentSingleValue = multi ? "" : (currentValue as string);
 
   const selectedOptions = useMemo(() => {
