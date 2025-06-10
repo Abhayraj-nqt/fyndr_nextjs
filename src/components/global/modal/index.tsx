@@ -201,7 +201,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
         {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
         <DialogContent
           ref={ref}
-          className={cn("p-0 gap-0 rounded-10", contentClassName)}
+          className={cn("p-0 gap-0 rounded-10 max-w-[91vw]", contentClassName)}
           onPointerDownOutside={handleOutsideClick}
           onEscapeKeyDown={handleOutsideClick}
           {...customStyles}

@@ -20,7 +20,7 @@ const SearchAndLocationRenderer = () => {
         <>
           <VisibilityWrapper visibleHeight={200}>
             <LocalSearch
-              placeholder="Search Offers, Events & Businesses"
+              placeholder="Offers, Events & Coupons"
               route="/"
               className="size-full min-h-9 min-w-[50%] max-w-lg flex-1 !gap-0 !px-3 xs:min-h-[45px] sm:w-full"
               inputClassName="!px-2"
@@ -42,7 +42,7 @@ const SearchAndLocationRenderer = () => {
       return (
         <>
           <LocalSearch
-            placeholder="Search Offers, Events & Businesses"
+            placeholder="Offers, Events & Coupons"
             route={ROUTES.OFFERS_AND_EVENTS}
             className="size-full min-h-9 min-w-[50%] max-w-lg flex-1 !gap-0 !px-3 xs:min-h-[45px] sm:w-full md:!hidden"
             inputClassName="!px-2"
@@ -56,7 +56,7 @@ const SearchAndLocationRenderer = () => {
       return (
         <>
           <LocalSearch
-            placeholder="Search Offers, Events & Businesses"
+            placeholder="Offers, Events & Coupons"
             route="/"
             className="size-full min-h-9 min-w-[50%] max-w-lg flex-1 !gap-0 !px-3 xs:min-h-[45px] sm:w-full"
             inputClassName="!px-2"
