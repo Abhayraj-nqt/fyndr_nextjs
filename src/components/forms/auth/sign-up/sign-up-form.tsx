@@ -43,7 +43,7 @@ const SignUpForm = ({ userType, onGoBack }: SignupFormProps) => {
       {renderStep()}
       <Button
         onClick={handlePrevStep}
-        className="mb-2 mt-4 min-h-12 w-full rounded-10 border border-white bg-transparent px-4 py-3 text-base font-normal text-white hover:bg-transparent"
+        className="mb-2 mt-4 min-h-12 w-full !rounded-10 border border-white bg-transparent px-4 py-3 text-base font-normal text-white hover:bg-transparent"
       >
         Go Back
       </Button>

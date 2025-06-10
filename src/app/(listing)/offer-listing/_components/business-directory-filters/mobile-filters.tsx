@@ -13,7 +13,7 @@ import BusinessDirectoryFilters from ".";
 const MobileFilters = () => {
   return (
     <Sheet>
-      <div className="fixed  left-0 top-16 grid h-10 w-full grid-cols-2 justify-evenly gap-px border bg-secondary-20 text-secondary-80">
+      <div className="fixed left-0 top-16 grid h-10 w-full grid-cols-2 justify-evenly gap-px border bg-secondary-20 text-secondary-80">
         <SheetTrigger className="flex-center body-regular flex cursor-pointer gap-2 bg-white">
           <ListFilter size={18} /> <div>Filters</div>
         </SheetTrigger>

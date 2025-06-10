@@ -25,8 +25,6 @@ const SignUpCompleteForm = () => {
   const searchParams = useSearchParams();
   const provider = searchParams.get("provider") || ("classic" as RegModeProps);
 
-  console.log({ provider });
-
   const validateRegistrationData = (): boolean => {
     if (!pwd && provider !== "google") {
       toast.error({
@@ -42,6 +40,8 @@ const SignUpCompleteForm = () => {
       });
       return false;
     }
+
+    console.log("validateRegistrationData", { pwd, provider, regMode });
 
     return true;
   };
@@ -146,7 +146,7 @@ const SignUpCompleteForm = () => {
     payload: BusinessFormData & { isBusiness: boolean }
   ) => {
     startTransition(async () => {
-      if (!validateRegistrationData() || !pwd || !regMode) {
+      if (!validateRegistrationData()) {
         return;
       }
 

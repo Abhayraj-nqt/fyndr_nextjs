@@ -67,50 +67,50 @@ export const onGetCampaignByQr: GetCampaignByQrProps = async (
   });
 };
 
-// export const onGetCampaigns: GetCampaignsProps = async (params, payload) => {
-//   const baseUrl = `${API_BASE_URL}/campaign/v2/public/search`;
-//   const searchParams = new URLSearchParams();
-
-//   if (params.page !== undefined) {
-//     searchParams.append("pgStart", params.page.toString());
-//   }
-//   if (params.pageSize) {
-//     searchParams.append("pgSize", params.pageSize.toString());
-//   }
-//   if (params.search) {
-//     searchParams.append("text", params.search);
-//   }
-//   if (params.orderBy) {
-//     searchParams.append("orderBy", params.orderBy);
-//   }
-
-//   // Construct final endpoint
-//   const endpoint = searchParams.toString()
-//     ? `${baseUrl}?${searchParams.toString()}`
-//     : baseUrl;
-
-//   console.log({ endpoint });
-
-//   return _post<CampaignsResponse>(endpoint, payload, {
-//     timeout: 20000,
-//     // cache: "force-cache",
-//     // next: {
-//     //   revalidate: 10000,
-//     // },
-//   });
-// };
-
 export const onGetCampaigns: GetCampaignsProps = async (params, payload) => {
-  // Create a stable cache key based on params and payload
-  const cacheKey = JSON.stringify({ params, payload });
+  const baseUrl = `${API_BASE_URL}/campaign/v2/public/search`;
+  const searchParams = new URLSearchParams();
 
-  try {
-    return await getCachedCampaigns(params, payload);
-  } catch (error) {
-    console.error("Error in onGetCampaigns:", error);
-    throw error;
+  if (params.page !== undefined) {
+    searchParams.append("pgStart", params.page.toString());
   }
+  if (params.pageSize) {
+    searchParams.append("pgSize", params.pageSize.toString());
+  }
+  if (params.search) {
+    searchParams.append("text", params.search);
+  }
+  if (params.orderBy) {
+    searchParams.append("orderBy", params.orderBy);
+  }
+
+  // Construct final endpoint
+  const endpoint = searchParams.toString()
+    ? `${baseUrl}?${searchParams.toString()}`
+    : baseUrl;
+
+  console.log({ endpoint });
+
+  return _post<CampaignsResponse>(endpoint, payload, {
+    timeout: 20000,
+    cache: "force-cache",
+    next: {
+      revalidate: 10000,
+    },
+  });
 };
+
+// export const onGetCampaigns: GetCampaignsProps = async (params, payload) => {
+//   // Create a stable cache key based on params and payload
+//   const cacheKey = JSON.stringify({ params, payload });
+
+//   try {
+//     return await getCachedCampaigns(params, payload);
+//   } catch (error) {
+//     console.error("Error in onGetCampaigns:", error);
+//     throw error;
+//   }
+// };
 
 // export const onGetCampaignsInfinite = async (params, payload):  => {
 //   console.log({ params, payload });
