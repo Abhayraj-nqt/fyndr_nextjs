@@ -6,14 +6,12 @@ import { cn } from "@/lib/utils";
 interface OptionIconProps {
   icon?: string | React.ReactNode;
   label: string;
-  size?: "sm" | "md";
   className?: string;
 }
 
 export const OptionIcon: React.FC<OptionIconProps> = ({
   icon,
   label,
-  size = "md",
   className = "",
 }) => {
   if (!icon) return null;

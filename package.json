@@ -68,6 +68,7 @@
     "react-dropzone": "^14.3.8",
     "react-easy-crop": "^5.4.2",
     "react-hook-form": "^7.56.4",
+    "react-image-file-resizer": "^0.4.8",
     "react-intersection-observer": "^9.16.0",
     "react-native-md5": "^1.0.0",
     "react-qrcode-logo": "^3.0.0",
