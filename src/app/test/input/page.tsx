@@ -14,15 +14,15 @@ import { Label } from "@/components/ui/label";
 
 const InputTest = () => {
   const [selectedValue, setSelectedValue] = useState("");
-  const [selectedValues, setSelectedValues] = useState([]);
+  const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [checked, setChecked] = useState(false);
 
   console.log({ selectedValue, selectedValues });
 
   const options = [
-    { value: "option1", label: "Option 1", icon: <UserIcon /> },
-    { value: "option2", label: "Option 2", icon: <SettingsIcon /> },
-    { value: "option3", label: "Option 3", disabled: true, icon: <Facebook /> },
+    { value: "1", label: "User", icon: <UserIcon /> },
+    { value: "2", label: "Settings", icon: <SettingsIcon /> },
+    { value: "3", label: "Facebook", disabled: true, icon: <Facebook /> },
   ];
 
   return (
@@ -101,7 +101,7 @@ const InputTest = () => {
           />
           <NewSelect
             options={options}
-            onValueChange={setSelectedValues}
+            onValueChange={(values) => setSelectedValues(values)}
             multi
             // disabled
           />
