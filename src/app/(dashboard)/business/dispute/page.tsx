@@ -13,8 +13,8 @@ const Dispute = async () => {
   ]);
 
   return (
-    <ContainerWrapper title="Offer Summary">
-      <section className="mt-10">
+    <ContainerWrapper title="Dispute">
+      <section className="mt-1">
         <DisputeListTable promises={promises} />
       </section>
     </ContainerWrapper>

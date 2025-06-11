@@ -16,6 +16,7 @@ import { getCommonPinningStyles } from "@/lib/utils/table/data-table";
 interface DataTableProps<TData> extends React.ComponentProps<"div"> {
   table: TanstackTable<TData>;
   actionBar?: React.ReactNode;
+  showPagination?: boolean;
 }
 
 export function DataTable<TData>({
@@ -23,6 +24,7 @@ export function DataTable<TData>({
   actionBar,
   children,
   className,
+  showPagination = true,
   ...props
 }: DataTableProps<TData>) {
   return (
@@ -31,7 +33,7 @@ export function DataTable<TData>({
       {...props}
     >
       {children}
-      <div className="overflow-hidden rounded-[10px]">
+      <div className="overflow-hidden rounded-10">
         <Table>
           <TableHeader className="bg-primary hover:bg-primary">
             {table.getHeaderGroups().map((headerGroup) => (
@@ -67,7 +69,7 @@ export function DataTable<TData>({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className="rounded-b-[10px]">
+          <TableBody className="rounded-b-10">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
@@ -103,12 +105,16 @@ export function DataTable<TData>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex flex-col gap-2.5">
-        <DataTablePagination table={table} />
-        {actionBar &&
-          table.getFilteredSelectedRowModel().rows.length > 0 &&
-          actionBar}
-      </div>
+      {showPagination ? (
+        <div className="flex flex-col gap-2.5">
+          <DataTablePagination table={table} />
+          {actionBar &&
+            table.getFilteredSelectedRowModel().rows.length > 0 &&
+            actionBar}
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

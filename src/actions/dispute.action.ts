@@ -1,7 +1,7 @@
 "use server";
 
 import { API_BASE_URL, API_GATEWAY_URL } from "@/environment";
-import { _post } from "@/lib/handlers/fetch";
+import { _get, _post } from "@/lib/handlers/fetch";
 import { DisputeListParams } from "@/types/api-params/dispute.params";
 import { RefundDisputeParams } from "@/types/api-params/refundDispute.params";
 
@@ -12,7 +12,22 @@ export const onDisputeList: DisputeListParams = async (payload) => {
   });
 };
 export const onDisputeRefund: RefundDisputeParams = async (payload) => {
-  const endpoint = `${API_GATEWAY_URL}/secure/refund`;
+  const endpoint = `${API_GATEWAY_URL}/payment/secure/refund`;
+  // https://api-gateway.dev.fyndr.us/payment/secure/refund
+  return _post(endpoint, payload, {
+    requireAuth: true,
+  });
+};
+
+export const onDisputeCommentList = async (params) => {
+  const { disputeId } = params;
+  const endpoint = `${API_BASE_URL}/dispute/fetchComments/${disputeId}`;
+  return _get(endpoint, {
+    requireAuth: true,
+  });
+};
+export const onDisputeComment = async (payload) => {
+  const endpoint = `${API_BASE_URL}/dispute/comment`;
   return _post(endpoint, payload, {
     requireAuth: true,
   });

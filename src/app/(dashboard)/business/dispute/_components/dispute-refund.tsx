@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { onDisputeRefund } from "@/actions/dispute.action";
+import Input from "@/components/global/input";
 import { Modal } from "@/components/global/modal";
+import toast from "@/components/global/toast";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -10,8 +12,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useUser } from "@/hooks/auth";
 import { DisputeDetailsProps } from "@/types/api-response/dispute.response";
 
 interface DisputeRefundProps {
@@ -21,22 +23,39 @@ interface DisputeRefundProps {
 }
 
 const DisputeRefund = ({ row, onOpenChange, open }: DisputeRefundProps) => {
+  const { user } = useUser();
   const amount = row?.amount || 0;
   const [selectedReasonn, setSelectedReason] = useState<string | null>(null);
-  const [refundAmount, setRefundAmount] = useState<number>(row?.amount || 0);
+  const [refundAmount, setRefundAmount] = useState<number>(0);
+
   const [reverseTransferr, setReverseTransfer] = useState<boolean>(true);
   const [refundApplicationFeee, setRefundApplicationFee] =
     useState<boolean>(false);
   const [textArea, setTextArea] = useState<string>("");
-
+  console.log("row", row);
   const refundReasons = [
-    "Duplicate",
-    "Fraudulent",
-    "Customer Request",
-    "Other",
+    { value: "duplicate", label: "Duplicate" },
+    { value: "fraudulent", label: "Fraudulent" },
+    { value: "requested_by_customer", label: "Requested By Customer" },
+    { value: "Other", label: "Other" },
   ];
+  useEffect(() => {
+    if (row?.amount) {
+      setRefundAmount(row.amount);
+    }
+  }, [row]);
+  useEffect(() => {
+    if (!open) {
+      setSelectedReason(null);
+      setRefundAmount(refundAmount);
+      setReverseTransfer(true);
+      setRefundApplicationFee(false);
+      setTextArea("");
+    }
+  }, [open, row]);
 
   const refundDisputeApi = async (data) => {
+    console.log("data", data);
     const response = await onDisputeRefund({
       disputeId: data.disputeId,
       refundAmt: data.refundAmt,
@@ -46,54 +65,66 @@ const DisputeRefund = ({ row, onOpenChange, open }: DisputeRefundProps) => {
       reverseTransfer: data.reverseTransfer,
       remarks: data.remarks,
     });
-
     if (response.success) {
-      console.log("working");
+      toast.success({ message: "Refund processed successfully" });
+      onOpenChange(false);
+    } else {
+      toast.error({
+        message: response.error?.details?.message || "Refund failed",
+      });
     }
   };
 
   return (
     <div>
-      <Modal onOpenChange={onOpenChange} open={open} title={"Dispute Refund"}>
-        <div className="m-10">
+      <Modal onOpenChange={onOpenChange} open={open} title={"Refund Payment"}>
+        <div className="m-5">
           <div className="mb-5 w-full justify-center">
-            <div>Refunds take 5-10 days to appear on a customer’s</div>
-            <div>
+            <div className="flex w-full justify-center ">
+              Refunds take 5-10 days to appear on a customer’s
+            </div>
+            <div className="flex w-full justify-center ">
               statement. Stripe’s Fees for the original payment won’t be
             </div>
-            <div>
+            <div className="flex w-full justify-center ">
               returned, but there are no additional fees for the refund.
             </div>
           </div>
           <div className="w-full border border-gray-300" />
           <div className=" w-full border border-gray-300"></div>
           <div className="my-5 flex flex-row">
-            <div className="justify-center pr-5 align-middle "> Refund</div>
+            <div className="mt-1 justify-center pr-5 align-middle ">
+              {" "}
+              Refund
+            </div>
             <Input
               type="number"
               placeholder="Refund Amount"
               value={refundAmount}
+              rightNode={"USD"}
               onChange={(e) => setRefundAmount(Number(e.target.value))}
             />
           </div>
           <div>
-            <div className="flex flex-row">
+            <div className=" flex flex-row">
               <Checkbox
                 checked={reverseTransferr}
                 onCheckedChange={(checked) =>
                   setReverseTransfer(Boolean(checked))
                 }
+                className="mt-1"
               />
-              <span>Reverse the associated transfer</span>
+              <span className="pl-3">Reverse the associated transfer</span>
             </div>
-            <div className="flex flex-row">
+            <div className="flex flex-row ">
               <Checkbox
                 checked={refundApplicationFeee}
                 onCheckedChange={(checked) =>
                   setRefundApplicationFee(Boolean(checked))
                 }
+                className="mt-1"
               />
-              <span>Refund the application fee</span>
+              <span className="pl-3">Refund the application fee</span>
             </div>
           </div>
 
@@ -101,16 +132,18 @@ const DisputeRefund = ({ row, onOpenChange, open }: DisputeRefundProps) => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="w-full justify-between">
-                  {selectedReasonn || "Select refund reason"}
+                  {refundReasons.find((r) => r.value === selectedReasonn)
+                    ?.label || "Select refund reason"}
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+              <DropdownMenuContent align="start">
                 {refundReasons.map((reason) => (
                   <DropdownMenuItem
-                    key={reason}
-                    onClick={() => setSelectedReason(reason)}
+                    key={reason.value}
+                    onClick={() => setSelectedReason(reason.value)}
+                    className="w-60 cursor-pointer"
                   >
-                    {reason}
+                    {reason.label}
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
@@ -127,16 +160,42 @@ const DisputeRefund = ({ row, onOpenChange, open }: DisputeRefundProps) => {
           </div>
           <div className="flex justify-end">
             <Button
-              className="mr-5 mt-5 bg-primary"
+              variant="primary"
+              className="mr-5 mt-5 bg-primary text-white"
               onClick={() => {
-                resetFields();
-                onOpenChange(false); // close modal
+                onOpenChange(false);
               }}
             >
               Cancel
             </Button>
 
-            <Button className="mt-5 bg-primary" onClick={handleRefund}>
+            <Button
+              variant="primary"
+              className="mt-5 bg-primary text-white"
+              onClick={() => {
+                if (refundAmount === null || refundAmount <= 0) {
+                  toast.error({ message: "Amount must be greater than 0" });
+                } else if (refundAmount > amount) {
+                  toast.error({
+                    message: "Refund amount must not exceed actual amount",
+                  });
+                } else if (!selectedReasonn) {
+                  toast.error({ message: "Please select a refund reason" });
+                } else if (row) {
+                  refundDisputeApi({
+                    disputeId: row.disputeId,
+                    paymentId: row.paymentId,
+                    refundAmt: refundAmount,
+                    reason: selectedReasonn,
+                    reverseTransfer: reverseTransferr,
+                    refundApplicationFee: refundApplicationFeee,
+                    remarks: textArea,
+                  }).then(() => {
+                    onOpenChange(false);
+                  });
+                }
+              }}
+            >
               Refund
             </Button>
           </div>
