@@ -3,11 +3,19 @@
 import { useState, useMemo, useCallback } from "react";
 
 import {
-  Props,
   SelectOption,
   SingleSelectProps,
   MultiSelectProps,
 } from "./select.types";
+
+// Create a more flexible type for the hook parameters
+type UseSelectStateParams = {
+  value?: string | string[];
+  defaultValue?: string | string[];
+  multi: boolean;
+  onValueChange?: ((value: string) => void) | ((values: string[]) => void);
+  options: SelectOption[];
+};
 
 export const useSelectState = ({
   value,
@@ -15,7 +23,7 @@ export const useSelectState = ({
   multi = false,
   onValueChange,
   options,
-}: Props & { options: SelectOption[] }) => {
+}: UseSelectStateParams) => {
   const [internalValue, setInternalValue] = useState<string | string[]>(
     multi ? (defaultValue as string[]) || [] : (defaultValue as string) || ""
   );

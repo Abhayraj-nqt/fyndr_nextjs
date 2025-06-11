@@ -1,6 +1,12 @@
 "use client";
 
-import { UserIcon, SettingsIcon, Facebook } from "lucide-react";
+import {
+  UserIcon,
+  SettingsIcon,
+  Facebook,
+  Twitter,
+  Instagram,
+} from "lucide-react";
 import React, { useState } from "react";
 
 import Button from "@/components/global/buttons";
@@ -23,6 +29,22 @@ const InputTest = () => {
     { value: "1", label: "User", icon: <UserIcon /> },
     { value: "2", label: "Settings", icon: <SettingsIcon /> },
     { value: "3", label: "Facebook", disabled: true, icon: <Facebook /> },
+    { value: "4", label: "Instagram", icon: <Instagram /> },
+    {
+      value: "5",
+      label: "Twitter HHHHHHHHH HHHHHHHHHH HHHH",
+      icon: <Twitter />,
+    },
+    { value: "6", label: "Facebook GGGGGGG ", icon: <Facebook /> },
+    { value: "7", label: "Facebook MM", icon: <Facebook /> },
+    {
+      value: "8",
+      label: "Frequently asked questions",
+      disabled: true,
+      icon: <Facebook />,
+    },
+    { value: "9", label: "Facebook 1" },
+    { value: "10", label: "Facebook 2", icon: <Facebook /> },
   ];
 
   return (

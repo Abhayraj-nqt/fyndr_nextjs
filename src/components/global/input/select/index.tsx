@@ -1,4 +1,7 @@
-import { Check, ChevronsUpDown } from "lucide-react";
+/* eslint-disable max-lines */
+"use client";
+
+import { Check, ChevronDown } from "lucide-react";
 import React, { useState, useRef, useLayoutEffect } from "react";
 
 import InputWrapper from "@/components/global/input/input-wrapper";
@@ -92,6 +95,13 @@ const Select = ({
     return selectedOption;
   };
 
+  // Filter options based on search value (search by label, not value)
+  const filteredOptions = searchable
+    ? options.filter((option) =>
+        option.label.toLowerCase().includes(searchValue.toLowerCase())
+      )
+    : options;
+
   if (!searchable && !multi) {
     return (
       <InputWrapper
@@ -116,15 +126,21 @@ const Select = ({
               {(() => {
                 const selected = getDisplayValue();
                 return selected ? (
-                  <div className="flex items-center gap-2">
-                    <OptionIcon icon={selected.icon} label={selected.label} />
-                    <span className="w-full truncate">{selected.label}</span>
+                  <div className="flex min-w-0 items-center gap-2">
+                    <div className="flex items-center justify-center">
+                      <OptionIcon
+                        icon={selected.icon}
+                        label={selected.label}
+                        className=""
+                      />
+                    </div>
+                    <span className="truncate">{selected.label}</span>
                   </div>
                 ) : null;
               })()}
             </SelectValue>
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="">
             {options.map((option) => (
               <SelectItem
                 key={option.value}
@@ -132,8 +148,10 @@ const Select = ({
                 disabled={option.disabled}
               >
                 <div className="flex items-center gap-2">
-                  <OptionIcon icon={option.icon} label={option.label} />
-                  <span>{option.label}</span>
+                  <div className="flex items-center justify-center">
+                    <OptionIcon icon={option.icon} label={option.label} />
+                  </div>
+                  <span className="truncate">{option.label}</span>
                 </div>
               </SelectItem>
             ))}
@@ -178,9 +196,14 @@ const Select = ({
                 (() => {
                   const selected = getDisplayValue();
                   return selected ? (
-                    <div className="flex items-center gap-2">
-                      <OptionIcon icon={selected.icon} label={selected.label} />
-                      <span>{selected.label}</span>
+                    <div className="flex min-w-0 items-center gap-2">
+                      <div className="flex items-center justify-center">
+                        <OptionIcon
+                          icon={selected.icon}
+                          label={selected.label}
+                        />
+                      </div>
+                      <span className="truncate">{selected.label}</span>
                     </div>
                   ) : (
                     placeholder
@@ -188,7 +211,7 @@ const Select = ({
                 })()
               )}
             </div>
-            <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
+            <ChevronDown className="ml-2 size-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
 
@@ -197,7 +220,7 @@ const Select = ({
           align="start"
           style={{ width: popoverWidth }}
         >
-          <Command>
+          <Command shouldFilter={false}>
             {searchable && (
               <CommandInput
                 placeholder={searchPlaceholder}
@@ -207,8 +230,8 @@ const Select = ({
             )}
             <CommandList>
               <CommandEmpty>{noOptionsText}</CommandEmpty>
-              <CommandGroup>
-                {options.map((option) => {
+              <CommandGroup className="custom-scrollbar">
+                {filteredOptions.map((option) => {
                   const isSelected = multi
                     ? currentValues.includes(option.value)
                     : currentSingleValue === option.value;
