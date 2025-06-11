@@ -33,7 +33,7 @@ const MobileFilters = () => {
           }
           title={<div className="text-left">Sort</div>}
         >
-          <Distance className="" />
+          <Distance className="" type="mobile" />
         </Modal>
         {/* <Modal
           trigger={

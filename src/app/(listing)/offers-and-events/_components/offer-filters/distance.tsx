@@ -4,13 +4,16 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState, useCallback } from "react";
 
 import Select from "@/components/global/input/select/index";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { formUrlQuery } from "@/lib/utils/url";
 
 type Props = {
   className?: string;
+  type?: "mobile" | "desktop";
 };
 
-const Distance = ({ className }: Props) => {
+const Distance = ({ className, type = "desktop" }: Props) => {
   const searchParams = useSearchParams();
   const currentOrder = searchParams.get("order");
   const router = useRouter();
@@ -40,6 +43,30 @@ const Distance = ({ className }: Props) => {
       return () => clearTimeout(timeoutId);
     }
   }, [orderBy, currentOrder, handleOrderByChange]);
+
+  if (type === "mobile") {
+    return (
+      <>
+        <RadioGroup
+          value={orderBy}
+          onValueChange={setOrderBy}
+          className="space-y-2 px-2"
+        >
+          {DISTANCE_OPTIONS.map((option) => (
+            <div key={option.value} className="flex items-center gap-2">
+              <RadioGroupItem value={option.value} id={option.label} />
+              <Label
+                htmlFor={option.label}
+                className="body-3 cursor-pointer leading-none text-black-80"
+              >
+                {option.label}
+              </Label>
+            </div>
+          ))}
+        </RadioGroup>
+      </>
+    );
+  }
 
   return (
     <Select
