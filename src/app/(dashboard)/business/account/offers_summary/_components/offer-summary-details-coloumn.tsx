@@ -1,7 +1,5 @@
 "use client";
 
-import { time } from "console";
-
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";

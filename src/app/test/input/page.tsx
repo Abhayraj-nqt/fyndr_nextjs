@@ -92,7 +92,7 @@ const InputTest = () => {
             options={options}
             onValueChange={setSelectedValue}
           />
-          <NewSelect options={options} onValueChange={setSelectedValue} />
+          <NewSelect  options={options} onValueChange={setSelectedValue} />
           <NewSelect
             options={options}
             onValueChange={setSelectedValue}

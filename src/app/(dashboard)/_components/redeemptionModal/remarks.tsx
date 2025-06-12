@@ -13,13 +13,13 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 type RemarksProps = {
-  remarks?: Remarks[]; 
-  redemptionTime?: string | null; 
+  remarks?: Remarks[];
+  redemptionTime?: string | null;
   currencySymbol?: string;
 };
 
-const INVOICE_TEXT = "leading-5 text-[#4D4D4D] text-sm font-semibold";
-const INVOICE_VALUE = "text-[14px] leading-[20px] font-normal text-[#333333]";
+const INVOICE_TEXT = "leading-5 text-black-70 text-sm font-semibold";
+const INVOICE_VALUE = "body-3 leading-[20px] font-normal text-black-80";
 
 const RedeemRemarks = ({
   remarks,
@@ -35,10 +35,10 @@ const RedeemRemarks = ({
         remarks.map((remark, index) => (
           <div
             key={index}
-            className="mt-4 rounded-[10px] border border-[#D3D6E1] p-3"
+            className="mt-4 rounded-10 border border-secondary-20 p-3"
           >
             {remark?.time && userTimeZone && (
-              <span className="text-sm font-normal leading-4 text-[#333333]">
+              <span className="text-sm font-normal leading-4 text-black-80">
                 {getFormattedDtNew(remark.time, userTimeZone)}
               </span>
             )}

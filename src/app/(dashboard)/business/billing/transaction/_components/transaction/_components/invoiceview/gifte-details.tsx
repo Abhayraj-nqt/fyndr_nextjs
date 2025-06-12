@@ -1,7 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 import React, { useState } from "react";
 
-import DefaultCard from "@/components/global/cards/default-card";
 import { Button } from "@/components/ui/button";
 import { GiftDetails } from "@/types/api-response/transaction.response";
 
@@ -55,7 +54,12 @@ const GifteeDetails: React.FC<GifteeDetailsProps> = ({ giftDetails }) => {
 
           {giftDetails.message && (
             <div className="mt-4 flex justify-center">
-              <Button className="h-[46px] rounded-10 border border-[#257CDB] bg-[#F4F8FD] text-[#257CDB] hover:bg-[#F4F8FD]" onClick={() => setMsgVisible(true)}>View Message</Button>
+              <Button
+                className="h-[46px] rounded-10 border border-primary bg-primary-0.5 text-primary hover:bg-primary-0.5"
+                onClick={() => setMsgVisible(true)}
+              >
+                View Message
+              </Button>
             </div>
           )}
         </>

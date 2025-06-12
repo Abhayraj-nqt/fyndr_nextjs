@@ -8,7 +8,6 @@ import React from "react";
 
 import { onGetOfferSummary } from "@/actions/offersummary.actions";
 import { auth } from "@/auth";
-import DefaultCard from "@/components/global/cards/default-card";
 import ContainerWrapper from "@/components/global/ContainerWrapper";
 import { MultiSelect } from "@/components/global/multiselect-dropdown/multiselectDropdown";
 import PieChartSection from "@/components/global/piechart/piechart";
@@ -42,7 +41,7 @@ const OfferSummary = async ({
   const search = searchParamsCache.parse(params);
   const selectedStatuses = search.status;
   const orderBy = search.sort.map((item) => (item.desc ? "DESC" : "ASC"));
-  const { success, data } = await onGetOfferSummary({
+  const {  data } = await onGetOfferSummary({
     bizid,
     pgSize: search.pageSize,
     pgStart: search.page,
@@ -89,7 +88,7 @@ const OfferSummary = async ({
           </div>
         </div>
 
-        <div className="flex flex-col justify-end gap-2 pr-20 text-[14px]">
+        <div className="body-3 flex flex-col justify-end gap-2 pr-20">
           <div className="flex items-center">
             <span className="mr-2 inline-block size-4 rounded-full bg-current text-primary-80"></span>
             <span>Offers Unused</span>
@@ -115,7 +114,7 @@ const OfferSummary = async ({
               { label: "Partially Redeemed", value: "partially-redeemed" },
             ]}
             paramKey="status"
-            className="h-[40px] w-[250px] border border-light-700 bg-light-900 "
+            className="h-[40px] w-[250px] border  border-secondary-20 bg-white "
           />
         </div>
         <div>

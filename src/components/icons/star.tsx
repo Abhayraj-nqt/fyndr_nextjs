@@ -22,7 +22,7 @@ const Star = ({ varient }: Props) => {
 
         {/* Half-filled overlay */}
         <svg
-          className="absolute inset-0 text-yellow-300 overflow-hidden"
+          className="absolute inset-0 overflow-hidden text-yellow-300"
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
           viewBox="0 0 22 20"

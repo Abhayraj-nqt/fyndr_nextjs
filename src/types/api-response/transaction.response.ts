@@ -208,7 +208,6 @@ export type fetchInvoiceResponse = {
   last: boolean;
 };
 
-
 export type InvoiceOfferDetail = {
   offer_id: number;
   offer_price: number;
@@ -223,6 +222,7 @@ export type InvoiceOfferDetail = {
   row_tax: string;
   row_total: string;
   unit_tax: string;
+  appointment?: Appointment[];
 };
 
 export type InvoiceDetails = {
@@ -263,7 +263,19 @@ export type InvoiceOffer = {
   fyndrCash: number;
   isVoucher: boolean;
   customVoucherCode: string | null;
+  appointments?: Appointment[] | null;
+  index: number;
+  qty: number;
+  currencySymbol: string;
 };
+
+export type EnrichedInvoiceOffer = InvoiceOffer & {
+  appointment?: Appointment[];
+  qty?: number;
+  index?: number;
+  currencySymbol?: string;
+};
+
 export type Biz = {
   bizid: number;
   bizName: string;
@@ -285,7 +297,6 @@ export type Biz = {
   expo_code: string | null;
 };
 
-
 export type Address = {
   addressLine1: string;
   addressLine2: string;
@@ -302,7 +313,6 @@ export type GiftDetails = {
   countryCode: string;
   message: string;
 };
-
 
 export type invoiceDetailsResponse = {
   invoiceDt: string;
@@ -335,4 +345,3 @@ export type invoiceDetailsResponse = {
   dueDate: string | null;
   campaignName: string | null;
 };
-

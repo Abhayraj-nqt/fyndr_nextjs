@@ -10,10 +10,6 @@ type Props = {
 const Stars = ({ ratings = 0, outOf = 5 }: Props) => {
   if (ratings > outOf) ratings = outOf;
 
-  const remaining = outOf - ratings;
-
-  console.log(" Out of ",outOf);
-  console.log("rating",ratings);
 
 
   return (

@@ -61,7 +61,7 @@ type OfferPurchaseProps = {
 
 type OfferSummaryRedemption = {
   buyerId: number;
-  currentValue:  number;
+  currentValue:  string | number;
   customRemarks?: string | null;
   invoiceId: number
   lat: number | null;

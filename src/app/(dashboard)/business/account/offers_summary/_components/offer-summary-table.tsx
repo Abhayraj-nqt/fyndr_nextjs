@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
 import { useSearchParams } from "next/navigation";
@@ -21,7 +22,7 @@ const OfferSummaryTable = ({ promises }: Props) => {
   const searchParams = useSearchParams();
   const pageSize = Number(searchParams.get("pageSize")) || 10;
 
-  const [{ data, success, error }] = React.use(promises);
+  const [{ data, success}] = React.use(promises);
 
   const { user } = useUser();
   const userTimeZone = user?.userTimeZone;
@@ -40,6 +41,7 @@ const OfferSummaryTable = ({ promises }: Props) => {
 
   if (!success || !data) return <div>Error</div>;
 
+
   const { count, listOfferPurchasedOutDTO } = data.data;
 
   const { table } = useDataTable({
@@ -53,9 +55,7 @@ const OfferSummaryTable = ({ promises }: Props) => {
 
   return (
     <>
-    
       <DataTable table={table} />
-      {/* If you have a dialog like ActionsDialog, you can include it here */}
       <ActionsDialog
         open={rowAction?.variant === "update"}
         onOpenChange={() => setRowAction(null)}

@@ -199,7 +199,10 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
         {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
         <DialogContent
           ref={ref}
-          className={cn("p-0 gap-0 rounded-10", contentClassName)}
+          className={cn(
+            "p-0 max-h-[80vh] flex flex-col gap-0 rounded-10",
+            contentClassName
+          )}
           onPointerDownOutside={handleOutsideClick}
           onEscapeKeyDown={handleOutsideClick}
           {...customStyles}
@@ -230,37 +233,37 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
               </button>
             )}
           </div>
-          <div className="no-scrollbar max-h-[80vh] overflow-y-auto">
-            <div className="p-4">{children}</div>
-
-            {shouldShowFooter && (
-              <DialogFooter
-                className={`flex flex-col-reverse p-4 sm:flex-row sm:justify-end sm:space-x-2  ${footerClassName}`}
-              >
-                {secondaryAction && (
-                  <Button
-                    variant={secondaryAction.variant || "outline"}
-                    onClick={secondaryAction.onClick}
-                    disabled={secondaryAction.disabled}
-                    className={`btn-primary-outlined ${secondaryAction.className}`}
-                  >
-                    {secondaryAction.label}
-                  </Button>
-                )}
-                {primaryAction && (
-                  <Button
-                    variant={primaryAction.variant || "default"}
-                    onClick={primaryAction.onClick}
-                    disabled={primaryAction.disabled || primaryAction.loading}
-                    className={`btn-primary ${primaryAction.className}`}
-                  >
-                    {primaryAction.loading ? "Loading..." : primaryAction.label}
-                  </Button>
-                )}
-                {footerContent}
-              </DialogFooter>
-            )}
+          <div className="no-scrollbar flex-1 overflow-y-auto p-4">
+            {children}
           </div>
+
+          {shouldShowFooter && (
+            <DialogFooter
+              className={` flex  flex-col-reverse p-4 sm:flex-row sm:justify-end sm:space-x-2  ${footerClassName}`}
+            >
+              {secondaryAction && (
+                <Button
+                  variant={secondaryAction.variant || "outline"}
+                  onClick={secondaryAction.onClick}
+                  disabled={secondaryAction.disabled}
+                  className={`btn-primary-outlined ${secondaryAction.className}`}
+                >
+                  {secondaryAction.label}
+                </Button>
+              )}
+              {primaryAction && (
+                <Button
+                  variant={primaryAction.variant || "default"}
+                  onClick={primaryAction.onClick}
+                  disabled={primaryAction.disabled || primaryAction.loading}
+                  className={`btn-primary ${primaryAction.className}`}
+                >
+                  {primaryAction.loading ? "Loading..." : primaryAction.label}
+                </Button>
+              )}
+              {footerContent}
+            </DialogFooter>
+          )}
         </DialogContent>
       </Dialog>
     );

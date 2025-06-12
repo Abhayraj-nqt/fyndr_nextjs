@@ -1,7 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
 import dayjs from "dayjs";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
 import md5 from "react-native-md5";
 import { twMerge } from "tailwind-merge";
 
