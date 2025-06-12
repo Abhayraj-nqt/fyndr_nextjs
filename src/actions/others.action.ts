@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 
 import ROUTES from "@/constants/routes";
 import { API_BASE_URL, API_GATEWAY_URL } from "@/environment";
-import { _get, _post, _put } from "@/lib/handlers/fetch";
+import { _delete, _get, _post, _put } from "@/lib/handlers/fetch";
 import {
   AddLocationParams,
   BusinessLogoParams,
@@ -49,8 +49,16 @@ export const onQrLogoUpload: QrLogoUploadParams = async (payload) => {
 };
 
 export const onAddLocation: AddLocationParams = async (payload) => {
-  const endpoint = `${API_BASE_URL}identity/location`;
+  const endpoint = `${API_BASE_URL}/identity/location`;
+  console.log("endAddLocation", payload, endpoint);
   return _post(endpoint, payload, {
+    requireAuth: true,
+  });
+};
+
+export const onDeleteLocation: AddLocationParams = async (payload) => {
+  const endpoint = `${API_BASE_URL}/identity/location`;
+  return _delete(endpoint, payload, {
     requireAuth: true,
   });
 };

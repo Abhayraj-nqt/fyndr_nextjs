@@ -1,12 +1,16 @@
 "use server";
 
+import { Account, Profile, User } from "next-auth";
+
 import { signIn, signOut as authSignOut } from "@/auth";
+import toast from "@/components/global/toast";
 import { API_BASE_URL, API_GATEWAY_URL } from "@/environment";
 import handleError from "@/lib/handlers/error";
 import { _get, _post } from "@/lib/handlers/fetch";
 import { encryptPassword } from "@/lib/utils";
 import {
   ConfirmIdentityProps,
+  GenerateTokenProps,
   GetAccountAPIProps,
   RefreshAccessTokenAPIProps,
   SendMobileVerificationCodeProps,
@@ -96,7 +100,7 @@ export const signInAPI: SignInAPIProps = async (payload) => {
 export const getAccountAPI: GetAccountAPIProps = async (payload) => {
   const endpoint = `${API_BASE_URL}/identity/account`;
 
-  console.log({ payload });
+  // console.log({ payload });
 
   let newPayload: typeof payload = {
     email: payload.email,
@@ -142,3 +146,63 @@ export const getAllChannel = async()=> {
   const endpoint=`${API_BASE_URL}/identity/find_us`
   return _get<ChannelOptionsResponse>(endpoint)
 }
+
+export const handleGoogleAuth = async (
+  profile: Profile | undefined,
+  account: Account | null | undefined
+): Promise<User | null> => {
+  const getAccountResponse = await getAccountAPI({
+    email: profile?.email || "",
+    regMode: "google",
+  });
+
+  if (getAccountResponse.status === 404) {
+    return null;
+  }
+
+  const generateTokenResponse = await onGenerateToken({
+    provider: "google",
+    token: account?.access_token || "",
+  });
+
+  if (!generateTokenResponse.success) {
+    toast.error({
+      message:
+        generateTokenResponse?.error?.details?.message ||
+        "Something went wrong!",
+    });
+
+    throw new Error("Failed to generate token");
+  }
+
+  const user = getAccountResponse.data;
+
+  return {
+    email: user?.email,
+    entityRole: user?.entityRole,
+    entityType: user?.entityType,
+    id: user?.indvid.toString(),
+    image: profile?.picture,
+    location: {
+      lat: user?.address.lat,
+      lng: user?.address.lng,
+    },
+    name: profile?.name,
+    phone: user?.address.phone,
+    accountStatus: user?.accountStatus,
+    accessToken: generateTokenResponse.data?.accessCode,
+    refreshToken: generateTokenResponse.data?.refreshToken,
+  };
+};
+
+export const onGenerateToken: GenerateTokenProps = async (payload) => {
+  const { provider, token } = payload;
+  const endpoint = `${API_GATEWAY_URL}/v1/token/generate`;
+
+  const encodedString = Buffer.from(token || "").toString("base64");
+
+  return _post(endpoint, {
+    provider,
+    token: encodedString,
+  });
+};

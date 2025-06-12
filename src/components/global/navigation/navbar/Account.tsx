@@ -29,7 +29,7 @@ const Account = async ({ className }: Props) => {
           {session?.user?.email ? (
             <UserAvatar
               name={session.user?.name}
-              // imageUrl={"https://github.com/shadcn.png"}
+              imageUrl={session?.user.image}
             />
           ) : (
             <UserAvatar

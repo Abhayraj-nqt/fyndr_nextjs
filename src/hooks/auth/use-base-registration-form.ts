@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import {
   useForm,
@@ -86,6 +86,8 @@ export const useBaseRegistrationForm = <T extends BaseFormData>({
   const registrationData = useRegistrationStore();
   const { email, regMode } = registrationData;
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const queryEmail = searchParams.get("email") || "";
 
   const [isVerifyingCode, startVerifyingCode] = useTransition();
   const [isMobileVerified, setIsMobileVerified] = useState<boolean>(false);
@@ -94,7 +96,7 @@ export const useBaseRegistrationForm = <T extends BaseFormData>({
   const [agreeOnTerms, setAgreeOnTerms] = useState(false);
 
   const baseDefaults: DefaultValues<T> = {
-    email: registrationData.email || "",
+    email: queryEmail || registrationData.email,
     firstName: registrationData.firstName || "",
     lastName: registrationData.lastName || "",
     country: registrationData.country || "US",
@@ -270,13 +272,17 @@ export const useBaseRegistrationForm = <T extends BaseFormData>({
 
   useEffect(() => {
     if (!useRegistrationStore.persist.hasHydrated) return;
-    form.setValue("email" as FieldPath<T>, (email || "") as any);
+    registrationData.setData({
+      email: queryEmail || email,
+    });
+    form.setValue("email" as FieldPath<T>, (email || queryEmail) as any);
   }, [
     useRegistrationStore?.persist?.hasHydrated,
     email,
     isBusiness,
     regMode,
     router,
+    queryEmail,
   ]);
 
   return {

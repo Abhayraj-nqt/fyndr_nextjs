@@ -1,9 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 
 import { fetchLocations } from "@/actions/catalogue.actions";
-import { fetchLocationResponse } from "@/types/api-response/catalogue.response";
-
 import toast from "@/components/global/toast";
+import { fetchLocationResponse } from "@/types/api-response/catalogue.response";
 
 export const useFetchStoreLocation = (
   onSuccessCallback?: (data: fetchLocationResponse) => void

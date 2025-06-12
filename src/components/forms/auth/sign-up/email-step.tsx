@@ -20,6 +20,7 @@ import { useRegistrationStore } from "@/zustand/stores/registration.store";
 
 import { FormInput } from "../form-input";
 import { BaseUserSchema } from "./schema";
+import SocialAuthForm from "../social-auth-form";
 
 const EmailSchema = BaseUserSchema.pick({
   email: true,
@@ -103,13 +104,17 @@ const EmailStep = ({ userType, onNextStep }: EmailStepProps) => {
               </FormItem>
             )}
           />
-          <Button
-            type="submit"
-            disabled={isPending}
-            className="min-h-12 w-full rounded-[10px] bg-primary px-4 py-3 text-base font-normal !text-white hover:bg-primary"
-          >
-            {isPending ? "Proceeding" : "Proceed"}
-          </Button>
+          <div className="flex-center gap-2 ">
+            <Button
+              type="submit"
+              disabled={isPending}
+              className="min-h-12 w-full !rounded-10 bg-primary px-4 py-3 text-base font-normal !text-white hover:bg-primary"
+            >
+              {isPending ? "Proceeding" : "Proceed"}
+            </Button>
+            <span className="body-3 text-black-30">Or</span>
+            <SocialAuthForm formType="SIGN_UP" />
+          </div>
         </form>
       </Form>
     </>

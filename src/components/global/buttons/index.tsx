@@ -38,7 +38,7 @@ const Button = ({
   return (
     <ShadcnButton
       {...rest}
-      className={`self-center rounded-[10px] px-4 py-3 text-base font-normal shadow-none ${stdHeight ? "min-h-11" : ""} ${stdWidth ? "min-w-36" : ""} ${customClass} ${className ?? ""}`}
+      className={`self-center !rounded-10 px-4 py-3 text-base font-normal shadow-none ${stdHeight ? "min-h-11" : ""} ${stdWidth ? "min-w-36" : ""} ${customClass} ${className ?? ""}`}
     />
   );
 };

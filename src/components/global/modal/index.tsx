@@ -1,8 +1,8 @@
 "use client";
 
-import { X } from "lucide-react";
 import { ReactNode, forwardRef, useCallback, useState } from "react";
 
+import Close from "@/components/icons/close";
 import { Button, ButtonProps } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,72 +16,30 @@ import {
 import { cn } from "@/lib/utils";
 
 type BaseModalProps = {
-  /**
-   * Controls whether the modal is open
-   */
   open?: boolean;
-  /**
-   * Callback fired when open state changes
-   */
   onOpenChange?: (open: boolean) => void;
-  /**
-   * Modal body content
-   */
   children: ReactNode;
-  /**
-   * Whether to show a close button in the top right corner
-   * @default true
-   */
   showCloseButton?: boolean;
-  /**
-   * Custom close icon to replace the default X icon
-   */
   closeIcon?: ReactNode;
-  /**
-   * Additional classes for the modal content
-   */
   contentClassName?: string;
-  /**
-   * Custom width for the modal (e.g. "500px", "30rem", "50%")
-   */
   width?: string;
-  /**
-   * Whether to allow closing the modal when clicking outside
-   * @default true
-   */
   closeOnOutsideClick?: boolean;
-
   footerClassName?: string;
   headerClassName?: string;
+  bodyClassName?: string;
 };
 
 type TriggeredModalProps = BaseModalProps & {
-  /**
-   * Element that triggers the modal
-   */
   trigger: ReactNode;
 };
 
 type ModalWithTitleProps = {
-  /**
-   * Modal title
-   */
   title?: ReactNode;
-  /**
-   * Modal description
-   */
   description?: ReactNode;
-  /**
-   * Whether to show the header with title and description
-   * @default true when title is provided
-   */
   showHeader?: boolean;
 };
 
 type ModalWithActionsProps = {
-  /**
-   * Primary action button
-   */
   primaryAction?: {
     label: string;
     onClick: () => void;
@@ -90,9 +48,6 @@ type ModalWithActionsProps = {
     variant?: ButtonProps["variant"];
     className?: string;
   };
-  /**
-   * Secondary action button
-   */
   secondaryAction?: {
     label: string;
     onClick: () => void;
@@ -100,14 +55,7 @@ type ModalWithActionsProps = {
     variant?: ButtonProps["variant"];
     className?: string;
   };
-  /**
-   * Whether to show the footer with action buttons
-   * @default true when actions are provided
-   */
   showFooter?: boolean;
-  /**
-   * Additional footer content
-   */
   footerContent?: ReactNode;
 };
 
@@ -143,6 +91,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
       closeOnOutsideClick = true,
       footerClassName = "",
       headerClassName = "",
+      bodyClassName = "",
     },
     ref
   ) => {
@@ -199,7 +148,10 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
         {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
         <DialogContent
           ref={ref}
-          className={cn("p-0 gap-0 rounded-10", contentClassName)}
+          className={cn(
+            "p-0 gap-0 !rounded-10 max-w-[91vw] sm:max-w-lg",
+            contentClassName
+          )}
           onPointerDownOutside={handleOutsideClick}
           onEscapeKeyDown={handleOutsideClick}
           {...customStyles}
@@ -207,10 +159,10 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
           <div className="flex items-start justify-between">
             {shouldShowHeader && (
               <DialogHeader
-                className={`flex-1 border-b p-4 ${headerClassName}`}
+                className={`flex-1 border-b border-b-secondary-20 p-4 ${headerClassName}`}
               >
                 {title && (
-                  <DialogTitle className="h3-semibold font-medium text-secondary">
+                  <DialogTitle className="title-6-medium text-left text-secondary">
                     {title}
                   </DialogTitle>
                 )}
@@ -223,44 +175,43 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
               <button
                 type="button"
                 onClick={handleClose}
-                className="absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none"
+                className="absolute right-[12px] top-[9.5px] m-0 rounded-full p-0 focus:outline-none disabled:pointer-events-none"
                 aria-label="Close"
               >
-                {closeIcon || <X className="size-4" />}
+                {/* {closeIcon || <X className="size-4" />} */}
+                {closeIcon || <Close className="size-8 text-secondary" />}
               </button>
             )}
           </div>
-          <div className="no-scrollbar max-h-[80vh] overflow-y-auto">
-            <div className="p-4">{children}</div>
+          <div className={`p-4 ${bodyClassName}`}>{children}</div>
 
-            {shouldShowFooter && (
-              <DialogFooter
-                className={`flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2  ${footerClassName}`}
-              >
-                {secondaryAction && (
-                  <Button
-                    variant={secondaryAction.variant || "outline"}
-                    onClick={secondaryAction.onClick}
-                    disabled={secondaryAction.disabled}
-                    className={`btn-primary-outlined ${secondaryAction.className}`}
-                  >
-                    {secondaryAction.label}
-                  </Button>
-                )}
-                {primaryAction && (
-                  <Button
-                    variant={primaryAction.variant || "default"}
-                    onClick={primaryAction.onClick}
-                    disabled={primaryAction.disabled || primaryAction.loading}
-                    className={`btn-primary ${primaryAction.className}`}
-                  >
-                    {primaryAction.loading ? "Loading..." : primaryAction.label}
-                  </Button>
-                )}
-                {footerContent}
-              </DialogFooter>
-            )}
-          </div>
+          {shouldShowFooter && (
+            <DialogFooter
+              className={`flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2  ${footerClassName}`}
+            >
+              {secondaryAction && (
+                <Button
+                  variant={secondaryAction.variant || "outline"}
+                  onClick={secondaryAction.onClick}
+                  disabled={secondaryAction.disabled}
+                  className={`btn-primary-outlined ${secondaryAction.className}`}
+                >
+                  {secondaryAction.label}
+                </Button>
+              )}
+              {primaryAction && (
+                <Button
+                  variant={primaryAction.variant || "default"}
+                  onClick={primaryAction.onClick}
+                  disabled={primaryAction.disabled || primaryAction.loading}
+                  className={`btn-primary ${primaryAction.className}`}
+                >
+                  {primaryAction.loading ? "Loading..." : primaryAction.label}
+                </Button>
+              )}
+              {footerContent}
+            </DialogFooter>
+          )}
         </DialogContent>
       </Dialog>
     );
