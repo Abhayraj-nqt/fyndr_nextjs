@@ -77,6 +77,7 @@ const ROUTES = {
 
   // CAllback routes
   CALLBACK_SIGN_IN: "/callback/sign-in",
+  CALLBACK_AUTH: "/callback/auth",
 };
 
 export const PUBLIC_ROUTES = [

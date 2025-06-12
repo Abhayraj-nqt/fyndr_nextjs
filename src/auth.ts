@@ -4,15 +4,19 @@ import NextAuth, { AuthError, User } from "next-auth";
 import type { AdapterUser } from "next-auth/adapters";
 import type { JWT } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
 
 import {
   getAccountAPI,
+  handleGoogleAuth,
   refreshAccessTokenAPI,
   signInAPI,
 } from "@/actions/auth.actions";
 
 import { SignInSchema } from "./components/forms/auth/sign-in/schema";
 import { authConfig } from "./config/auth.config";
+import ROUTES from "./constants/routes";
+import handleError from "./lib/handlers/error";
 import { Coordinates } from "./types/global";
 
 class InvalidLoginError extends AuthError {
@@ -72,6 +76,20 @@ declare module "next-auth/jwt" {
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
   providers: [
+    Google,
+    // Google({
+    //   clientId: process.env.AUTH_GOOGLE_ID,
+    //   clientSecret: process.env.AUTH_GOOGLE_SECRET,
+    //   authorization: {
+    //     params: {
+    //       scope:
+    //         "profile email https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/business.manage",
+    //       // Note: cookiePolicy is typically handled by NextAuth internally
+    //       // but if you need to pass it, you can add it here
+    //       cookie_policy: "single_host_origin",
+    //     },
+    //   },
+    // }),
     Credentials({
       async authorize(credentials) {
         const validatedFields = SignInSchema.safeParse(credentials);
@@ -207,6 +225,32 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user = token.user as AdapterUser & UserSession;
       }
       return session;
+    },
+
+    signIn: async ({ user, account, profile }) => {
+      if (account?.type === "credentials") return true;
+      if (!account || !user) return false;
+
+      const provider = account.provider as "google";
+      if (provider === "google") {
+        try {
+          const googleUser = await handleGoogleAuth(profile, account);
+          if (googleUser) {
+            Object.assign(user, googleUser);
+            return true;
+            // return `${ROUTES.SIGN_UP_COMPLETE}?email=${encodeURIComponent(user.email!)}&provider=${account.provider}`;
+          } else {
+            // return `${ROUTES.SIGN_UP_COMPLETE}?email=${encodeURIComponent(user.email!)}&provider=${account.provider}`;
+            return `${ROUTES.CALLBACK_AUTH}?status=user_not_found&email=${encodeURIComponent(user.email!)}&provider=${account.provider}`;
+          }
+        } catch (error) {
+          handleError(error);
+          // return false;
+          return `${ROUTES.CALLBACK_AUTH}?status=error`;
+        }
+      }
+
+      return true;
     },
   },
 });

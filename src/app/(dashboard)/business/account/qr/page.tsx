@@ -1,28 +1,28 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
-import Image from "next/image";
+
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { QRCode } from "react-qrcode-logo";
 
-import { onBusinessLogoUpload, onQrLogoUpload } from "@/actions/others.action";
+import { onQrLogoUpload } from "@/actions/others.action";
 import ContainerWrapper from "@/components/global/ContainerWrapper";
 import toast from "@/components/global/toast";
 import ImageUploader from "@/components/global/uploader/image-uploader";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useUser } from "@/hooks/auth";
-import { ProcessedFileProps } from "@/lib/utils/files/upload.utils";
 import { cn } from "@/lib/utils";
+import { ProcessedFileProps } from "@/lib/utils/files/upload.utils";
 
 export const Qr = () => {
   const [uploadedFiles, setUploadedFiles] = useState<ProcessedFileProps[]>([]);
   const [checked, setChecked] = useState(false);
-  const { user, isLoading, error } = useUser();
   const [extension, setExtension] = useState("");
-  const handleFileUpload = (files: ProcessedFileProps[]) => {
-    setUploadedFiles(files);
-    console.log("files", files);
-  };
+  const { user } = useUser();
+  if (!user) return null;
+
   useEffect(() => {
     console.log("user?.qrLogo:", user?.qrLogo);
   }, [user]);
@@ -35,6 +35,11 @@ export const Qr = () => {
     }
     console.log("uploadedFiles", uploadedFiles, user?.qrLogo);
   }, [uploadedFiles]);
+  const handleFileUpload = (files: ProcessedFileProps[]) => {
+    setUploadedFiles(files);
+    console.log("files", files);
+  };
+
   const handleBusinessLogo = async () => {
     if (uploadedFiles.length === 0) {
       toast.error({
@@ -49,8 +54,8 @@ export const Qr = () => {
       });
     } else {
       const data = await onQrLogoUpload({
-        bizName: user?.bizName!,
-        bizid: user?.bizid!,
+        bizName: user.bizName!,
+        bizid: user.bizid!,
         extension,
         qrLogo: uploadedFiles[0].base64,
       });
@@ -79,12 +84,6 @@ export const Qr = () => {
               size={160}
               logoWidth={40}
               logoImage={
-                //   uploadImage?.indexOf("s3-us-west-1.amazonaws.com") > 0
-                //     ? uploadImage?.indexOf("qrLogo") > 0
-                //       ? `${uploadImage}?m=${new Date().getTime()}`
-                //       : ""
-                //     : uploadImage
-
                 uploadedFiles[0]?.base64Url ||
                 (user?.qrLogo ? `${user.qrLogo}?v=${Date.now()}` : undefined)
               }
@@ -127,12 +126,6 @@ export const Qr = () => {
         </div>
       </div>
     </ContainerWrapper>
-    // <div className="m-20 flex justify-center w-full">
-    //   <div className="w-full max-w-6xl h-full max-h-full">
-    //     <h2 className="text-blue-600 text-2xl mb-6">Customize QR logo</h2>
-
-    //   </div>
-    // </div>
   );
 };
 export default Qr;

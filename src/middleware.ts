@@ -4,39 +4,39 @@ import { auth } from "./auth";
 import ROUTES, { PUBLIC_ROUTES, ROLE_BASED_ROUTES } from "./constants/routes";
 
 export async function middleware(request: NextRequest) {
-  console.log("\nmiddleware start ----------------------");
+  // console.log("\nmiddleware start ----------------------");
   const { nextUrl } = request;
   const session = await auth();
-  console.log({
-    USER_DETAILS: {
-      name: session?.user.name,
-      email: session?.user.email,
-      entityRole: session?.user.entityRole,
-      type: session?.user.entityType,
-    },
-  });
+  // console.log({
+  //   USER_DETAILS: {
+  //     name: session?.user.name,
+  //     email: session?.user.email,
+  //     entityRole: session?.user.entityRole,
+  //     type: session?.user.entityType,
+  //   },
+  // });
 
   const isAuthenticated = !!session?.user;
   const userRole = session?.user?.entityRole as EntityRole | undefined;
 
-  console.log({
-    isAuthenticated,
-    pathname: nextUrl.pathname,
-    userRole,
-  });
+  // console.log({
+  //   isAuthenticated,
+  //   pathname: nextUrl.pathname,
+  //   userRole,
+  // });
 
   const isPublicRoute =
     !!PUBLIC_ROUTES.find((route) => nextUrl.pathname.startsWith(route)) ||
     nextUrl.pathname === ROUTES.HOME;
 
-  console.log({ isPublicRoute });
+  // console.log({ isPublicRoute });
 
   // Check if the route requires specific role access
   const restrictedRoute = ROLE_BASED_ROUTES.find((route) =>
     nextUrl.pathname.startsWith(route.path)
   );
 
-  console.log({ restrictedRoute });
+  // console.log({ restrictedRoute });
 
   // Handle authentication check
   if (!isAuthenticated && !isPublicRoute) {
@@ -57,7 +57,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  console.log("middleware end ----------------------\n");
+  // console.log("middleware end ----------------------\n");
 
   if (!isAuthenticated && !isPublicRoute) {
     return NextResponse.redirect(new URL(ROUTES.SIGN_IN, nextUrl));

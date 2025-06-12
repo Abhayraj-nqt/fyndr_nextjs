@@ -5,11 +5,12 @@ import React, { useState } from "react";
 
 import Button from "@/components/global/buttons";
 import Input from "@/components/global/input";
+import NewSelect from "@/components/global/input/select/index";
 import Switch from "@/components/global/input/switch";
 import toast from "@/components/global/toast";
 import { Label } from "@/components/ui/label";
 
-import NewSelect from "./_components/select/select";
+// import NewSelect from "./_components/select/select";
 
 const InputTest = () => {
   const [selectedValue, setSelectedValue] = useState("");

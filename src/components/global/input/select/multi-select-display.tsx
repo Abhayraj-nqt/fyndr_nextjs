@@ -44,9 +44,7 @@ export const MultiSelectDisplay: React.FC<MultiSelectDisplayProps> = ({
         </div>
       ))}
       {remainingCount > 0 && (
-        <span className="text-muted-foreground text-xs">
-          +{remainingCount} more
-        </span>
+        <span className="text-xs">+{remainingCount} more</span>
       )}
     </div>
   );

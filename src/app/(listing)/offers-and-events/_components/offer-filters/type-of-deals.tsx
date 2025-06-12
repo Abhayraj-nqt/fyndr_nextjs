@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { TYPES_OF_DEALS } from "@/constants";
@@ -11,9 +11,9 @@ const TypeOfDeals = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const filterParams = searchParams.get("types");
+  const [isPending, startTransition] = useTransition();
 
   const initialSelected = filterParams ? filterParams.split(",") : ["ALL"];
-
   const [selectedDealTypes, setSelectedDealTypes] =
     useState<string[]>(initialSelected);
 
@@ -38,38 +38,44 @@ const TypeOfDeals = () => {
 
     setSelectedDealTypes(newSelectedTypes);
 
-    let newUrl = "";
+    // Use startTransition to prevent blocking UI updates
+    startTransition(() => {
+      let newUrl = "";
 
-    if (newSelectedTypes.length === 0) {
-      // If no checkboxes are selected, remove the "types" query parameter
-      newUrl = removeKeysFromUrlQuery({
-        params: searchParams.toString(),
-        keysToRemove: ["types"],
-      });
-    } else {
-      // If checkboxes are selected, update the URL with the selected types
-      newUrl = formUrlQuery({
-        params: searchParams.toString(),
-        key: "types",
-        value: newSelectedTypes.join(","),
-      });
-    }
+      if (newSelectedTypes.length === 0) {
+        newUrl = removeKeysFromUrlQuery({
+          params: searchParams.toString(),
+          keysToRemove: ["types"],
+        });
+      } else {
+        newUrl = formUrlQuery({
+          params: searchParams.toString(),
+          key: "types",
+          value: newSelectedTypes.join(","),
+        });
+      }
 
-    router.push(newUrl);
+      // Use replace instead of push to avoid history pollution
+      router.replace(newUrl, { scroll: false });
+    });
   };
 
   return (
     <section>
-      <h4 className="paragraph-semibold mb-4 text-secondary">Type of deals</h4>
+      <h4 className="body-1-medium mb-4 text-black-heading">Type of deals</h4>
       <div className="space-y-4 px-2">
         {TYPES_OF_DEALS.map((item) => (
-          <div key={item.label} className="body-medium flex items-center gap-2">
+          <div
+            key={item.label}
+            className="body-3 flex items-center gap-2 text-black-80"
+          >
             <Checkbox
               id={item.label}
               className="data-[state=checked]:bg-secondary"
               value={item.value}
               onCheckedChange={() => handleCheckboxChange(item.value)}
               checked={selectedDealTypes.includes(item.value)}
+              disabled={isPending} // Prevent rapid clicking
             />
             <label htmlFor={item.label} className="cursor-pointer leading-none">
               {item.label}

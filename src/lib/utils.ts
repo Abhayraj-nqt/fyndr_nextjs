@@ -34,7 +34,9 @@ export const encryptPassword = async ({
   return pwd;
 };
 
-export const parseAddress = (addr: CampaignLocation | Biz) => {
+export const parseAddress = (
+  addr: CampaignLocation | Biz | BusinessDirectory
+) => {
   return addr
     ? `${addr?.addressLine1 !== null ? addr?.addressLine1 : ""}${
         addr?.addressLine2 !== null &&
