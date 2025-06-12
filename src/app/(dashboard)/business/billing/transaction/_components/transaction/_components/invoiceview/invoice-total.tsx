@@ -124,7 +124,7 @@ const Invoicetotal: React.FC<InvoiceTotalProps> = ({
 
       {channel === "catalog" && isBusiness && type === "receivable" && (
         <div className="mt-1 flex justify-between">
-          <span className="text-[15px] leading-[25px]">Delivery:</span>
+          <span className="body-2">Delivery:</span>
           <div>
             <RadioGroup
               //   value={fulfiled}

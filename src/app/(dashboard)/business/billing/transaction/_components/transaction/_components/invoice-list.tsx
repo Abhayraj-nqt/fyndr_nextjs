@@ -5,7 +5,7 @@ import React, { useState } from "react";
 
 import { fetchInvoice } from "@/types/api-response/transaction.response";
 
-import InvoiceModal from "./invoicemodal";
+import InvoiceModal from "./invoice-modal";
 
 type StatusImages = {
   [channel: string]: {
@@ -50,7 +50,7 @@ const InvoiceList = ({ rcptlist, type }: ListProps) => {
     <div className="space-y-3 py-4">
       {rcptlist.map((item) => {
         const {
-          invoiceDetails: { business_name },
+          invoiceDetails: { business_name: businessName },
           invoiceDt,
           currencySymbol,
           baseAmount,
@@ -62,10 +62,13 @@ const InvoiceList = ({ rcptlist, type }: ListProps) => {
           channel,
           buyerFname,
           buyerLname,
+          isVoucher,
+          isDisputed,
+          isOfferGifted,
         } = item;
         let rowTitle, body;
         if (type === "payable") {
-          rowTitle = business_name;
+          rowTitle = businessName;
           if ("cmpn_title" in invoiceDetails) {
             body = invoiceDetails.cmpn_title;
           } else if ("title" in invoiceDetails) {
@@ -159,23 +162,54 @@ const InvoiceList = ({ rcptlist, type }: ListProps) => {
             className="cursor-pointer rounded-lg border border-gray-200 p-4 shadow transition hover:shadow-md"
           >
             <div className="flex items-center justify-between gap-4">
-              <div className="flex w-72 min-w-12 items-center gap-2">
-                <Image src={statusIcon} alt="offer" height={48} width={48} />
-                <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold text-gray-800">
-                    {rowTitle}
-                  </p>
-                  <p className="truncate text-xs text-gray-500">{body}</p>
+              <div className="flex w-72 min-w-12 items-center justify-between gap-2">
+                <div className="flex gap-2">
+                  <Image src={statusIcon} alt="offer" height={48} width={48} />
+                  <div className="flex flex-col justify-center ">
+                    <p className="truncate text-sm font-semibold text-gray-800">
+                      {rowTitle}
+                    </p>
+                    <p className="truncate text-xs text-gray-500">{body}</p>
+                  </div>
+                </div>
+                <div>
+                  {isVoucher && (
+                    <Image
+                      src="/icons/invoice/voucherIcon2.png"
+                      alt="voucher"
+                      height={200}
+                      width={200}
+                      className="size-[45]"
+                    />
+                  )}
                 </div>
               </div>
               <div className="w-40 shrink-0 whitespace-nowrap text-center text-sm text-gray-800">
                 {formattedDate}
               </div>
-              <div className="w-36 shrink-0 whitespace-nowrap text-right">
+              <div className="w-24 shrink-0 whitespace-nowrap text-right">
                 <p className="text-sm font-medium text-gray-800">
                   {currencySymbol}
                   {totalAmount.toFixed(2)}
                 </p>
+              </div>
+              <div className="flex w-8 flex-col ">
+                {isOfferGifted && (
+                  <Image
+                    src="/icons/invoice/giftIcon.png"
+                    alt="gifted"
+                    height={24}
+                    width={24}
+                  />
+                )}
+                {isDisputed && (
+                  <Image
+                    src="/icons/invoice/disputeIcon.png"
+                    alt="disputed"
+                    height={24}
+                    width={24}
+                  />
+                )}
               </div>
             </div>
           </div>

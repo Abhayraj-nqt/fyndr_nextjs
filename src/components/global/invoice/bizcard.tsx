@@ -60,7 +60,7 @@ const Bizcard: React.FC<BizCardProps> = ({
           <div
             className={`${businessLogo ? "w-[55%]" : "w-full"} flex flex-col justify-between`}
           >
-            <p className="text-black text-base font-medium">{businessName}</p>
+            <p className="text-base font-medium text-black">{businessName}</p>
 
             {channel !== "cmpn_promo" && (
               <div className="flex ">{reviewRatings}</div>
@@ -69,7 +69,7 @@ const Bizcard: React.FC<BizCardProps> = ({
         </div>
 
         {channel !== "cmpn_promo" && channel !== "promo" && (
-          <div>
+          <div className="my-2">
             {businessWebsite && (
               <BizInfo
                 link={businessWebsite}
@@ -110,7 +110,7 @@ const Bizcard: React.FC<BizCardProps> = ({
         )}
       </div>
 
-      <div className="flex self-start text-right">
+      <div className="flex flex-col self-start text-right">
         <div className="flex justify-end">
           <span className="text-sm font-semibold leading-5 text-black-60 ">
             Invoice ID: {invoiceId}

@@ -9,6 +9,7 @@ import React from "react";
 import Button from "@/components/global/buttons";
 import { DataTableColumnHeader } from "@/components/global/data-table/data-table-column-header";
 import { DataTableRowAction } from "@/types/data-table";
+import { OfferPurchaseProps } from "@/types/offersummary";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -97,6 +98,7 @@ export function getOfferSummaryDetailsColoumn({
           </div>
         </>
       ),
+      enableHiding: false,
     },
     {
       accessorKey: "validTill",
@@ -110,6 +112,7 @@ export function getOfferSummaryDetailsColoumn({
             : "N/A"}
         </div>
       ),
+      enableHiding: false,
     },
     {
       accessorKey: "redemptionTime",
@@ -138,16 +141,19 @@ export function getOfferSummaryDetailsColoumn({
       enableSorting: false,
     },
     {
-      id: "actions",
-      header: "Action",
+      accessorKey: "status",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Status" />
+      ),
       cell: ({ row }) => (
         <Button
-          // onClick={() => setRowAction({ row, variant: "update" })}
+          onClick={() => setRowAction({ row, variant: "update" })}
           variant="primary"
         >
           Actions
         </Button>
       ),
+      enableSorting: false,
     },
   ];
 }

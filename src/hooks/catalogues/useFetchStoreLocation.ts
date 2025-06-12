@@ -23,6 +23,7 @@ export const useFetchStoreLocation = (
       toast.error({
         message: "Something went wrong",
         description: "Could not fetch the store locations.",
+       
       });
     },
   });

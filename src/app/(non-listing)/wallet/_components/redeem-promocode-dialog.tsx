@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 
-// import { onRedeemPromoCode } from "@/actions/promocode.action";
+
 import {
   onRedeemPromocode,
   onVerifyPromocode,

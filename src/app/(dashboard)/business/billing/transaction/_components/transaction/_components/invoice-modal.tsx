@@ -2,7 +2,7 @@ import Invoicefooter from "@/components/global/invoice/invoicefooter";
 import { Modal } from "@/components/global/modal";
 import { fetchInvoice } from "@/types/api-response/transaction.response";
 
-import Invoiceview from "./invoiceview";
+import Invoiceview from "./invoiceview/invoice-view";
 
 type InvoiceModalProps = {
   visible: boolean;
@@ -19,10 +19,9 @@ const InvoiceModal: React.FC<InvoiceModalProps> = ({
   onClose,
 }) => {
   const renderContent = () => {
-
-      if (!invoice || invoice.length === 0) {
-    return null; // or show a loading/safe message
-  }
+    if (!invoice || invoice.length === 0) {
+      return null; // or show a loading/safe message
+    }
 
     if (status !== "pending") {
       return <Invoiceview inv={invoice} type={type} />;
@@ -57,7 +56,9 @@ const InvoiceModal: React.FC<InvoiceModalProps> = ({
         if (!val) onClose(); // when modal tries to close, call parent’s close handler
       }}
       footerContent={<Invoicefooter />}
+      footerClassName="p-0"
       showFooter={true}
+      bodyClassName="max-h-[80vh] overflow-y-scroll no-scrollbar"
     >
       {renderContent()}
     </Modal>

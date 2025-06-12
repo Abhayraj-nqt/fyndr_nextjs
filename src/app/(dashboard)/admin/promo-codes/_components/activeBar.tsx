@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,15 +14,17 @@ const ActiveBar = ({ data }: Props) => {
         <Card
           key={item.id}
           className={
-            item.status == "INACTIVE"
+            item.status === "INACTIVE"
               ? "w-[180px] shrink-0 bg-[#f0f0f0] grayscale"
               : "w-[180px] shrink-0"
           }
         >
-          <img
+          <Image
             src={item.imageUrl}
             alt="Card image"
             className="h-48 w-full rounded-10 object-cover"
+            height={200}
+            width={200}
           />
           <CardContent className="flex flex-col justify-evenly p-4">
             <p className="text-sm" style={{ color: "#257cdb" }}>
@@ -29,7 +32,7 @@ const ActiveBar = ({ data }: Props) => {
             </p>
             <p className="text-xs">Valid till {item.endDate} </p>
             <p className="text-xs">
-              {item.promoCodeType == "REGISTRATION"
+              {item.promoCodeType === "REGISTRATION"
                 ? "Registrations: "
                 : "Redemptions: "}
               {item.userRegistered}
