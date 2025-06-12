@@ -1,5 +1,6 @@
+"use server"
 import { API_BASE_URL } from "@/environment";
-import { _get, _post } from "@/lib/handlers/fetch";
+import { _get, _patch, _post, _put } from "@/lib/handlers/fetch";
 import { adminCampaignParam } from "@/types/api-params/admincampaign.params";
 import { RevenueProps } from "@/types/api-params/revenue.params";
 import { ReviewReportParam } from "@/types/api-params/reviewReport.param";
@@ -11,6 +12,10 @@ import {
 import { GetUsersParams } from "@/types/api-params/user.params";
 import { campaignStatistics, revernueStatistics, userStatistics } from "@/types/api-response/adminStatistics.response";
 import { ExpiredList } from "@/types/api-response/promocode.response";
+import { RoleListResponse } from "@/types/api-response/adminUserManagement.response";
+import { userManagementParams } from "@/types/api-params/usermanagement.params";
+import { revalidatePath } from "next/cache";
+import ROUTES from "@/constants/routes";
 
 export const getActivePromos : GetActivePromoProps = async({search})=>{
     const endpoint = `${API_BASE_URL}/admin/promocode/list?text=${search}`;
@@ -97,3 +102,39 @@ export const onGetCountryList: GetCountryListParams = async () => {
     cache: "force-cache",
   });
 };
+
+export const getRoles = async()=>{
+  let endpoint = `${API_BASE_URL}/admin/user/fyndr_entity/roles`
+  return _get(endpoint, {
+    requireAuth: true,
+    cache:'force-cache'
+  })
+}
+
+export const getAllUsers:userManagementParams= async(params, payload)=>{
+  const { page, pageSize } = params;
+  let endpoint = `${API_BASE_URL}/admin/user/fyndr_entity?pgStart=${page}&pgSize=${pageSize}`
+  return _post(endpoint, payload, {
+    requireAuth: true,
+    cache: "force-cache",
+    next: {
+      revalidate: 600000,
+    },
+  })
+}
+
+export const updateStatus = async(id:number, payload:{})=>{
+  const endpoint = `${API_BASE_URL}/admin/user/status/${id}`;
+  revalidatePath(ROUTES.ADMIN_USER_DETAILS)
+  return _put(endpoint, payload,{
+    requireAuth:true,
+  });
+}
+
+export const updateBusinessName= async(id:number, payload:{})=>{
+  const endpoint = `${API_BASE_URL}/admin/user/business/name/${id}`;
+  revalidatePath(ROUTES.ADMIN_USER_DETAILS)
+  return _patch(endpoint, payload,{
+    requireAuth:true,
+  });
+}

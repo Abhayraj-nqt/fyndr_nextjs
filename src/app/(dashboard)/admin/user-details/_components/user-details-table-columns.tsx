@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import Button from "@/components/global/buttons";
 import { cn } from "@/lib/utils";
 import { DataTableRowAction } from "@/types/data-table";
+import DateComponent from "@/components/global/date-component";
 
 type Props = {
   setRowAction: React.Dispatch<
@@ -84,7 +85,7 @@ export function getUserDetailsTableColumns({
         <DataTableColumnHeader column={column} title="Registered On" />
       ),
       cell: ({ row }) => {
-        return <div>{row.getValue("registeredOn")}</div>;
+        return <div><DateComponent date= {row.getValue("registeredOn")} /></div>;
       },
       enableHiding: false,
     },
