@@ -51,6 +51,7 @@ const Select = ({
   searchPlaceholder = "Search options...",
   noOptionsText = "No options found",
   maxSelectedDisplay = 3,
+  iconClassName = "",
 }: Props) => {
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
@@ -131,7 +132,7 @@ const Select = ({
                       <OptionIcon
                         icon={selected.icon}
                         label={selected.label}
-                        className=""
+                        className={iconClassName}
                       />
                     </div>
                     <span className="truncate">{selected.label}</span>
@@ -149,7 +150,11 @@ const Select = ({
               >
                 <div className="flex items-center gap-2">
                   <div className="flex items-center justify-center">
-                    <OptionIcon icon={option.icon} label={option.label} />
+                    <OptionIcon
+                      icon={option.icon}
+                      label={option.label}
+                      className={iconClassName}
+                    />
                   </div>
                   <span className="truncate">{option.label}</span>
                 </div>
@@ -201,6 +206,7 @@ const Select = ({
                         <OptionIcon
                           icon={selected.icon}
                           label={selected.label}
+                          className={iconClassName}
                         />
                       </div>
                       <span className="truncate">{selected.label}</span>
@@ -245,7 +251,11 @@ const Select = ({
                       className="flex items-center gap-2"
                     >
                       <div className="flex flex-1 items-center gap-2">
-                        <OptionIcon icon={option.icon} label={option.label} />
+                        <OptionIcon
+                          icon={option.icon}
+                          label={option.label}
+                          className={iconClassName}
+                        />
                         <span className="truncate">{option.label}</span>
                       </div>
                       {isSelected && <Check className="size-4" />}

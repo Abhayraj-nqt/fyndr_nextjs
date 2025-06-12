@@ -130,7 +130,7 @@ export const MultiSelectDisplay: React.FC<MultiSelectDisplayProps> = ({
         <div
           key={option.value}
           data-item
-          className="inline-flex shrink-0 items-center gap-1 rounded-sm bg-black-10 p-2 text-sm"
+          className="inline-flex shrink-0 items-center gap-1 rounded-sm bg-black-10 p-2 py-1 text-sm"
         >
           <OptionIcon icon={option.icon} label={option.label} />
           <span className="max-w-[120px] truncate">{option.label}</span>
