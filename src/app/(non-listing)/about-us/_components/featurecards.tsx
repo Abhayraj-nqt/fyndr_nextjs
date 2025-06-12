@@ -18,20 +18,20 @@ const FeatureCard = ({ imgURL, title, description, index ,className ="", isFirst
   setHoveredIndex,}: Props) => {
 const isHovered = hoveredIndex === index;
   const isAnotherHovered = hoveredIndex !== null && !isHovered;
-   const cardWidth = isFirst
-    ? isAnotherHovered
-      ? "w-60" 
-      : "w-[25rem]" 
-    : isHovered
-      ? "w-[25rem]" 
-      : "w-60"; 
+  const cardWidth = isFirst
+  ? isAnotherHovered
+    ? "w-[25rem] md:w-60"
+    : "w-[25rem] md:w-[25rem]"
+  : isHovered
+    ? "w-[25rem] md:w-[25rem]"
+    : "w-[25rem] md:w-60";
   return (
     <div
-      className={clsx(
-        "w-[25rem]", // Default for mobile (screens < 768px)
-      "relative h-[25rem] shrink-0 cursor-pointer overflow-hidden rounded-lg transition-all duration-300 ease-in-out",
+    className={clsx(
+      "relative h-[25rem] shrink-0 cursor-pointer overflow-hidden rounded-lg",
+      "md:transition-all md:duration-300 md:ease-in-out",
       cardWidth
-      )}
+    )}
       onMouseEnter={() => setHoveredIndex(index)}
       onMouseLeave={() => setHoveredIndex(null)}
     >
