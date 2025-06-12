@@ -121,8 +121,8 @@ const OfferSummary = async ({
           <LocalSearch
             placeholder="Search by voucher code, name & phone no."
             route={ROUTES.BUSINESS_ACCOUNT_OFFER_SUMMARY}
-            direction="right"
             icon={"/images/aboutus/home-search-icon.svg"}
+            className="flex-reverse"
           />
         </div>
       </div>

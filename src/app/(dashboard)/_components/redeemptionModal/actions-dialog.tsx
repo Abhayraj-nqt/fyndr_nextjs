@@ -110,6 +110,7 @@ const ActionsDialog = ({
         title={title}
         footerClassName="p-0"
         footerContent={<Invoicefooter />}
+        bodyClassName="max-h-[80vh] overflow-y-scroll no-scrollbar"
       >
         <div className="rounded-10 border border-secondary-20 p-[12px_12px_0_12px]">
           <div className="flex justify-center align-middle">

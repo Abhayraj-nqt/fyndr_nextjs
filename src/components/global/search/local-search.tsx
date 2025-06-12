@@ -19,7 +19,6 @@ type Props = {
   navigateParam?: string;
   onSearch?: (query: string) => void;
   isOnNavbar?: boolean;
-   direction?: "right" | "top";
 };
 
 const LocalSearch = ({
@@ -33,7 +32,6 @@ const LocalSearch = ({
   navigateParam = "query",
   onSearch,
   isOnNavbar,
-  direction
 }: Props) => {
   const pathname = usePathname();
   const router = useRouter();
@@ -98,7 +96,7 @@ const LocalSearch = ({
     <div
       className={`flex min-h-[46px] grow items-center gap-1 rounded-10 border border-secondary-20 bg-white px-4 ${className}`}
     >
-       {(!direction || direction === "top") && getIcon()}
+      {getIcon()}
       <Input
         type="text"
         placeholder={placeholder}
@@ -107,7 +105,6 @@ const LocalSearch = ({
         onKeyDown={handleKeyDown}
         className={`input-primary ${inputClassName}`}
       />
-      {direction === "right" && getIcon()}
     </div>
   );
 };

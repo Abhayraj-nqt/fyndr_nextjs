@@ -58,6 +58,7 @@ const InvoiceModal: React.FC<InvoiceModalProps> = ({
       footerContent={<Invoicefooter />}
       footerClassName="p-0"
       showFooter={true}
+      bodyClassName="max-h-[80vh] overflow-y-scroll no-scrollbar"
     >
       {renderContent()}
     </Modal>

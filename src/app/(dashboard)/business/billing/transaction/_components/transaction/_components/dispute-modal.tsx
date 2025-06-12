@@ -114,6 +114,7 @@ const DisputeModal = ({
         open={disputeOpen}
         onOpenChange={() => setDisputeOpen(false)}
         title="Please Let Us Know More"
+       
       >
         <div className="flex flex-col">
           <div className="flex flex-col">
