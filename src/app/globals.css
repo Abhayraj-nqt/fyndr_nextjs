@@ -15,185 +15,185 @@ body {
 
   /*? body */
   .body-1 {
-    @apply font-normal text-[16px] leading-[100%] tracking-[0%];
+    @apply font-normal text-[16px] leading-[100%] tracking-[0%] !important;
   }
   .body-2 {
-    @apply font-normal text-[15px] leading-[24px] tracking-[0%];
+    @apply font-normal text-[15px] leading-[24px] tracking-[0%] !important;
   }
   .body-3 {
-    @apply font-normal text-[14px] leading-[20px] tracking-[0%];
+    @apply font-normal text-[14px] leading-[20px] tracking-[0%] !important;
   }
   .body-4 {
-    @apply font-normal text-[13px] leading-[18px] tracking-[0%];
+    @apply font-normal text-[13px] leading-[18px] tracking-[0%] !important;
   }
   .body-5 {
-    @apply font-normal text-[12px] leading-[16px] tracking-[0%];
+    @apply font-normal text-[12px] leading-[16px] tracking-[0%] !important;
   }
 
   .body-1-medium {
-    @apply font-medium text-[16px] leading-[22px] tracking-[0%];
+    @apply font-medium text-[16px] leading-[22px] tracking-[0%] !important;
   }
   .body-2-medium {
-    @apply font-medium text-[15px] leading-[24px] tracking-[0%];
+    @apply font-medium text-[15px] leading-[24px] tracking-[0%] !important;
   }
   .body-3-medium {
-    @apply font-medium text-[14px] leading-[22px] tracking-[0%];
+    @apply font-medium text-[14px] leading-[22px] tracking-[0%] !important;
   }
   .body-4-medium {
-    @apply font-medium text-[13px] leading-[18px] tracking-[0%];
+    @apply font-medium text-[13px] leading-[18px] tracking-[0%] !important;
   }
   .body-5-medium {
-    @apply font-medium text-[12px] leading-[16px] tracking-[0%];
+    @apply font-medium text-[12px] leading-[16px] tracking-[0%] !important;
   }
 
   .body-1-bold {
-    @apply font-bold text-[16px] leading-[22px] tracking-[0%];
+    @apply font-bold text-[16px] leading-[22px] tracking-[0%] !important;
   }
   .body-2-bold {
-    @apply font-bold text-[15px] leading-[24px] tracking-[0%];
+    @apply font-bold text-[15px] leading-[24px] tracking-[0%] !important;
   }
   .body-3-bold {
-    @apply font-bold text-[14px] leading-[22px] tracking-[0%];
+    @apply font-bold text-[14px] leading-[22px] tracking-[0%] !important;
   }
   .body-4-bold {
-    @apply font-bold text-[13px] leading-[18px] tracking-[0%];
+    @apply font-bold text-[13px] leading-[18px] tracking-[0%] !important;
   }
   .body-5-bold {
-    @apply font-bold text-[12px] leading-[16px] tracking-[0%];
+    @apply font-bold text-[12px] leading-[16px] tracking-[0%] !important;
   }
 
   /*? Title */
   .title-1 {
-    @apply font-normal text-[42px] leading-[150%] tracking-[0%];
+    @apply font-normal text-[42px] leading-[150%] tracking-[0%] !important;
   }
   .title-2 {
-    @apply font-normal text-[36px] leading-[150%] tracking-[0%];
+    @apply font-normal text-[36px] leading-[150%] tracking-[0%] !important;
   }
   .title-3 {
-    @apply font-normal text-[30px] leading-[150%] tracking-[0%];
+    @apply font-normal text-[30px] leading-[150%] tracking-[0%] !important;
   }
   .title-4 {
-    @apply font-normal text-[28px] leading-[150%] tracking-[0%];
+    @apply font-normal text-[28px] leading-[150%] tracking-[0%] !important;
   }
   .title-5 {
-    @apply font-normal text-[24px] leading-[100%] tracking-[0%];
+    @apply font-normal text-[24px] leading-[100%] tracking-[0%] !important;
   }
   .title-6 {
-    @apply font-normal text-[20px] leading-[100%] tracking-[0%];
+    @apply font-normal text-[20px] leading-[100%] tracking-[0%] !important;
   }
   .title-7 {
-    @apply font-normal text-[18px] leading-[100%] tracking-[0%];
+    @apply font-normal text-[18px] leading-[100%] tracking-[0%] !important;
   }
 
   .title-1-medium {
-    @apply font-medium text-[42px] leading-[100%] tracking-[0%];
+    @apply font-medium text-[42px] leading-[100%] tracking-[0%] !important;
   }
   .title-2-medium {
-    @apply font-medium text-[36px] leading-[100%] tracking-[0%];
+    @apply font-medium text-[36px] leading-[100%] tracking-[0%] !important;
   }
   .title-3-medium {
-    @apply font-medium text-[30px] leading-[100%] tracking-[0%];
+    @apply font-medium text-[30px] leading-[100%] tracking-[0%] !important;
   }
   .title-4-medium {
-    @apply font-medium text-[28px] leading-[100%] tracking-[0%];
+    @apply font-medium text-[28px] leading-[100%] tracking-[0%] !important;
   }
   .title-5-medium {
-    @apply font-medium text-[24px] leading-[100%] tracking-[0%];
+    @apply font-medium text-[24px] leading-[100%] tracking-[0%] !important;
   }
   .title-6-medium {
-    @apply font-medium text-[20px] leading-[100%] tracking-[0%];
+    @apply font-medium text-[20px] leading-[100%] tracking-[0%] !important;
   }
   .title-7-medium {
-    @apply font-medium text-[18px] leading-[100%] tracking-[0%];
+    @apply font-medium text-[18px] leading-[100%] tracking-[0%] !important;
   }
 
   .title-1-bold {
-    @apply font-bold text-[42px] leading-[100%] tracking-[0%];
+    @apply font-bold text-[42px] leading-[100%] tracking-[0%] !important;
   }
   .title-2-bold {
-    @apply font-bold text-[36px] leading-[100%] tracking-[0%];
+    @apply font-bold text-[36px] leading-[100%] tracking-[0%] !important;
   }
   .title-3-bold {
-    @apply font-bold text-[30px] leading-[100%] tracking-[0%];
+    @apply font-bold text-[30px] leading-[100%] tracking-[0%] !important;
   }
   .title-4-bold {
-    @apply font-bold text-[28px] leading-[100%] tracking-[0%];
+    @apply font-bold text-[28px] leading-[100%] tracking-[0%] !important;
   }
   .title-5-bold {
-    @apply font-bold text-[24px] leading-[100%] tracking-[0%];
+    @apply font-bold text-[24px] leading-[100%] tracking-[0%] !important;
   }
   .title-6-bold {
-    @apply font-bold text-[20px] leading-[100%] tracking-[0%];
+    @apply font-bold text-[20px] leading-[100%] tracking-[0%] !important;
   }
   .title-7-bold {
-    @apply font-bold text-[18px] leading-[100%] tracking-[0%];
+    @apply font-bold text-[18px] leading-[100%] tracking-[0%] !important;
   }
 
   /*? Heading */
   .heading-1 {
-    @apply font-normal text-[42px] leading-[150%] tracking-[0%];
+    @apply font-normal text-[42px] leading-[150%] tracking-[0%] !important;
   }
   .heading-2 {
-    @apply font-normal text-[36px] leading-[54px] tracking-[0%];
+    @apply font-normal text-[36px] leading-[54px] tracking-[0%] !important;
   }
   .heading-3 {
-    @apply font-normal text-[30px] leading-[45px] tracking-[0%];
+    @apply font-normal text-[30px] leading-[45px] tracking-[0%] !important;
   }
   .heading-4 {
-    @apply font-normal text-[28px] leading-[42px] tracking-[0%];
+    @apply font-normal text-[28px] leading-[42px] tracking-[0%] !important;
   }
   .heading-5 {
-    @apply font-normal text-[24px] leading-[36px] tracking-[0%];
+    @apply font-normal text-[24px] leading-[36px] tracking-[0%] !important;
   }
   .heading-6 {
-    @apply font-normal text-[20px] leading-[30px] tracking-[0%];
+    @apply font-normal text-[20px] leading-[30px] tracking-[0%] !important;
   }
   .heading-7 {
-    @apply font-normal text-[18px] leading-[27px] tracking-[0%];
+    @apply font-normal text-[18px] leading-[27px] tracking-[0%] !important;
   }
 
   .heading-1-medium {
-    @apply font-medium text-[42px] leading-[150%] tracking-[0%];
+    @apply font-medium text-[42px] leading-[150%] tracking-[0%] !important;
   }
   .heading-2-medium {
-    @apply font-medium text-[36px] leading-[54px] tracking-[0%];
+    @apply font-medium text-[36px] leading-[54px] tracking-[0%] !important;
   }
   .heading-3-medium {
-    @apply font-medium text-[30px] leading-[45px] tracking-[0%];
+    @apply font-medium text-[30px] leading-[45px] tracking-[0%] !important;
   }
   .heading-4-medium {
-    @apply font-medium text-[28px] leading-[42px] tracking-[0%];
+    @apply font-medium text-[28px] leading-[42px] tracking-[0%] !important;
   }
   .heading-5-medium {
-    @apply font-medium text-[24px] leading-[36px] tracking-[0%];
+    @apply font-medium text-[24px] leading-[36px] tracking-[0%] !important;
   }
   .heading-6-medium {
-    @apply font-medium text-[20px] leading-[30px] tracking-[0%];
+    @apply font-medium text-[20px] leading-[30px] tracking-[0%] !important;
   }
   .heading-7-medium {
-    @apply font-medium text-[18px] leading-[27px] tracking-[0%];
+    @apply font-medium text-[18px] leading-[27px] tracking-[0%] !important;
   }
 
   .heading-1-bold {
-    @apply font-bold text-[42px] leading-[150%] tracking-[0%];
+    @apply font-bold text-[42px] leading-[150%] tracking-[0%] !important;
   }
   .heading-2-bold {
-    @apply font-bold text-[36px] leading-[54px] tracking-[0%];
+    @apply font-bold text-[36px] leading-[54px] tracking-[0%] !important;
   }
   .heading-3-bold {
-    @apply font-bold text-[30px] leading-[45px] tracking-[0%];
+    @apply font-bold text-[30px] leading-[45px] tracking-[0%] !important;
   }
   .heading-4-bold {
-    @apply font-bold text-[28px] leading-[42px] tracking-[0%];
+    @apply font-bold text-[28px] leading-[42px] tracking-[0%] !important;
   }
   .heading-5-bold {
-    @apply font-bold text-[24px] leading-[36px] tracking-[0%];
+    @apply font-bold text-[24px] leading-[36px] tracking-[0%] !important;
   }
   .heading-6-bold {
-    @apply font-bold text-[20px] leading-[30px] tracking-[0%];
+    @apply font-bold text-[20px] leading-[30px] tracking-[0%] !important;
   }
   .heading-7-bold {
-    @apply font-bold text-[18px] leading-[27px] tracking-[0%];
+    @apply font-bold text-[18px] leading-[27px] tracking-[0%] !important;
   }
 
   /* ------------------------------------------------------------------------------------------------------------------------------------- */
@@ -321,7 +321,7 @@ body {
   }
 
   .input-primary {
-    @apply no-focus text-base font-normal py-[10px] px-2 placeholder border-none text-black-70 shadow-none outline-none disabled:bg-black-0.5 bg-white;
+    @apply no-focus body-1 md:body-1 font-normal py-[10px] px-2 placeholder border-none text-black-70 shadow-none outline-none disabled:bg-black-0.5 bg-white !important;
   }
 }
 
