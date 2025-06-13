@@ -3,7 +3,7 @@
 import { API_BASE_URL, API_GATEWAY_URL } from "@/environment";
 import { _get, _post } from "@/lib/handlers/fetch";
 import { DisputeListParams } from "@/types/api-params/dispute.params";
-import { RefundDisputeParams } from "@/types/api-params/refundDispute.params";
+import { RefundDisputeParams } from "@/types/api-params/refund-dispute.params";
 
 export const onDisputeList: DisputeListParams = async (payload) => {
   const endpoint = `${API_BASE_URL}/dispute/search?pgStart=1&pgSize=50`;

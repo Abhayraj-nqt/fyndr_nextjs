@@ -59,7 +59,7 @@ function CustomMail() {
         <div className="flex-1"></div>
         <div className="rounded-10 border border-gray-100">
           <Image
-            src={"/images/custom-email/email.svg"}
+            src={"/images/custom-email/email-img.svg"}
             width={500}
             height={500}
             alt="email"
