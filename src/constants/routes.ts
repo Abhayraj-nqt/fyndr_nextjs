@@ -53,6 +53,7 @@ const ROUTES = {
   BUSINESS_ACCOUNT_QR: "/business/account/qr",
   BUSINESS_ACCOUNT_LOCATION: "/business/account/location",
   BUSINESS_ACCOUNT_LOCATION_CREATE: "/business/account/location/create",
+
   BUSINESS_ACCOUNT_LOCATION_EDIT: (id: string | number) =>
     `/business/account/location/${id}`,
   BUSINESS_ACCOUNT_OFFER_SUMMARY: "/business/account/offer-summary",

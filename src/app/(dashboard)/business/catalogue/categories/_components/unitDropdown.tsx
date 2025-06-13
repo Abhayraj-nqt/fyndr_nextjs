@@ -1,5 +1,8 @@
 "use client";
 
+import { useState } from "react";
+import { useFormContext, Controller } from "react-hook-form";
+
 import Button from "@/components/global/buttons";
 import {
   DropdownMenu,
@@ -7,8 +10,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
-import { useFormContext, Controller } from "react-hook-form";
 
 const SelectOptions = [
   "each",
@@ -38,16 +39,16 @@ const UnitDropdown = () => {
           <DropdownMenuTrigger asChild>
             <Button
               type="button"
-              className="w-[96%] border border-gray-300 bg-white text-black hover:bg-white justify-start"
+              className="w-[96%] justify-start border border-gray-300 bg-white text-black hover:bg-white"
             >
               {field.value ? capitalize(field.value) : "Select Unit"}
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-full bg-white text-black border border-gray-200 shadow-md">
+          <DropdownMenuContent className="w-full border border-gray-200 bg-white text-black shadow-md">
             {SelectOptions.map((item) => (
               <DropdownMenuItem
                 key={item}
-                className="hover:bg-gray-100 text-black"
+                className="text-black hover:bg-gray-100"
                 onSelect={(e) => {
                   e.preventDefault();
                   field.onChange(item);
