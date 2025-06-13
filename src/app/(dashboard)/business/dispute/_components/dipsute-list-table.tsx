@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { format } from "date-fns";
-import { Calendar as CalendarIcon, X, XCircle } from "lucide-react";
+import { Calendar as CalendarIcon, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 import { onDisputeList } from "@/actions/dispute.action";
@@ -20,14 +21,22 @@ import {
 } from "@/components/ui/popover";
 import { useDataTable } from "@/hooks/use-data-table";
 import { cn } from "@/lib/utils";
-import { DisputeDetailsProps } from "@/types/api-response/dispute.response";
+import {
+  DisputeDetailsProps,
+  DisputeListResponse,
+} from "@/types/api-response/dispute.response";
 import { DataTableRowAction } from "@/types/data-table";
+import { ActionResponse } from "@/types/global";
 
 import DisputeCommentList from "./dispute-comment-list";
 import getDisputeListColumn from "./dispute-list-details-coloumn";
 import DisputeReasion from "./dispute-reasion";
 import DisputeRefund from "./dispute-refund";
-const DisputeListTable = () => {
+interface DisputeListTableProps {
+  promises: Promise<[ActionResponse<DisputeListResponse>]>;
+}
+const DisputeListTable = ({ promises }: DisputeListTableProps) => {
+  console.log("promises", promises);
   const statusColumn = [
     { value: "INITIATED", label: "Initiated" },
     { value: "CANCELED", label: "Canceled" },
@@ -50,15 +59,19 @@ const DisputeListTable = () => {
     setLoading(true);
     try {
       const result = await onDisputeList({
-        status: selectedReasons.map(
-          (r) => statusColumn.find((s) => s.label === r)?.value
-        ),
+        // status: selectedReasons.map(
+        //   (r) => statusColumn.find((s) => s.label === r)?.value
+        // ),
+        status: selectedReasons
+          .map((r) => statusColumn.find((s) => s.label === r)?.value)
+          .filter((value): value is string => value !== undefined),
+
         startDate: startDate ? startDate.toISOString() : "",
         endDate: endDate ? endDate.toISOString() : "",
       });
       if (result.success) {
         setDisputeData(result?.data?.disputeDetails || []);
-        setCount(result?.data?.count);
+        setCount(result?.data?.count ?? 0);
       }
     } catch (err) {
       console.error("Failed to fetch disputes:", err);
@@ -100,7 +113,7 @@ const DisputeListTable = () => {
           <div className="mb-5 flex flex-row flex-wrap gap-3">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <div className="min-w-12 cursor-pointer justify-between border border-[#E8E8E8] bg-white px-3 py-2 text-[#d9d9d9]">
+                <div className="min-w-12 cursor-pointer justify-between rounded-10 border border-[#E8E8E8] bg-white px-3 py-2 text-[#d9d9d9]">
                   {selectedReasons.length > 0 ? (
                     <div className="flex flex-wrap gap-1">
                       {selectedReasons.map((reason) => (
@@ -144,7 +157,7 @@ const DisputeListTable = () => {
                 <PopoverTrigger asChild>
                   <Button
                     variant="primary"
-                    className="w-52 justify-start rounded-none border border-[#d9d9d9] bg-[#FFF] font-normal text-black hover:bg-[#FFF]"
+                    className="w-52 justify-start  border border-[#d9d9d9] bg-[#FFF] font-normal text-black hover:bg-[#FFF]"
                   >
                     <CalendarIcon className="mr-2 size-4 text-[#d9d9d9]" />
                     {startDate ? (

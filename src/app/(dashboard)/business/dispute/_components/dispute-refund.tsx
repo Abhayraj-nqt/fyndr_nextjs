@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 
 import { onDisputeRefund } from "@/actions/dispute.action";
+import Button from "@/components/global/buttons";
 import Input from "@/components/global/input";
 import { Modal } from "@/components/global/modal";
 import toast from "@/components/global/toast";
-import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
@@ -13,7 +14,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Textarea } from "@/components/ui/textarea";
-import { useUser } from "@/hooks/auth";
 import { DisputeDetailsProps } from "@/types/api-response/dispute.response";
 
 interface DisputeRefundProps {
@@ -21,9 +21,16 @@ interface DisputeRefundProps {
   onOpenChange: (open: boolean) => void;
   open: boolean;
 }
-
+interface RefundDisputeData {
+  disputeId: number;
+  refundAmt: number;
+  paymentId: number;
+  reason: string;
+  refundApplicationFee: boolean;
+  reverseTransfer: boolean;
+  remarks: string;
+}
 const DisputeRefund = ({ row, onOpenChange, open }: DisputeRefundProps) => {
-  const { user } = useUser();
   const amount = row?.amount || 0;
   const [selectedReasonn, setSelectedReason] = useState<string | null>(null);
   const [refundAmount, setRefundAmount] = useState<number>(0);
@@ -54,7 +61,7 @@ const DisputeRefund = ({ row, onOpenChange, open }: DisputeRefundProps) => {
     }
   }, [open, row]);
 
-  const refundDisputeApi = async (data) => {
+  const refundDisputeApi = async (data: RefundDisputeData) => {
     console.log("data", data);
     const response = await onDisputeRefund({
       disputeId: data.disputeId,
@@ -131,7 +138,7 @@ const DisputeRefund = ({ row, onOpenChange, open }: DisputeRefundProps) => {
           <div className="my-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="w-full justify-between">
+                <Button variant="primary" className="w-full justify-between">
                   {refundReasons.find((r) => r.value === selectedReasonn)
                     ?.label || "Select refund reason"}
                 </Button>

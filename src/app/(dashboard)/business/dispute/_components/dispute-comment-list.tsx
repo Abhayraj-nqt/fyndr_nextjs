@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import React, { useEffect, useState } from "react";
 
@@ -24,10 +25,10 @@ const DisputeCommentList = ({
   onOpenChange,
   open,
 }: DisputeRefundProps) => {
-  const { isLoading, user, error } = useUser();
+  const { user } = useUser();
 
   const [disputeList, setDisputeList] =
-    React.useState<DisputeCommentsListResponse>([]);
+    React.useState<DisputeCommentsListResponse>();
   const [textArea, setTextArea] = useState<string>("");
 
   useEffect(() => {
@@ -38,7 +39,7 @@ const DisputeCommentList = ({
   const getDisputeList = async () => {
     const data = await onDisputeCommentList({ disputeId: row!.disputeId });
     if (data?.data) {
-      setDisputeList(data.data);
+      setDisputeList(data.data as DisputeCommentsListResponse);
     }
   };
 

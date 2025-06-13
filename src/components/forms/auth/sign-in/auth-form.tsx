@@ -13,8 +13,8 @@ import {
 import { z, ZodType } from "zod";
 
 import { FormInput } from "@/components/forms/auth/form-input";
+import Button from "@/components/global/buttons";
 import { toast } from "@/components/global/toast";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -25,6 +25,8 @@ import {
 } from "@/components/ui/form";
 import ROUTES from "@/constants/routes";
 import { ActionResponse } from "@/types/global";
+
+import SocialAuthForm from "../social-auth-form";
 
 interface AuthFormProps<T extends FieldValues> {
   schema: ZodType<T>;
@@ -71,7 +73,7 @@ const AuthForm = <T extends FieldValues>({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="mt-8 space-y-4"
+        className="mt-5 space-y-4"
       >
         {Object.keys(defaultValues).map((field) => (
           <FormField
@@ -97,16 +99,24 @@ const AuthForm = <T extends FieldValues>({
             )}
           />
         ))}
-        <Button
-          disabled={form.formState.isSubmitting}
-          className="mt-10 min-h-12 w-full rounded-[10px] bg-primary px-4 py-3 text-base font-normal !text-white hover:bg-primary"
-        >
-          {form.formState.isSubmitting
-            ? buttonText === "Sign In"
-              ? "Signing In..."
-              : "Signing Up..."
-            : buttonText}
-        </Button>
+        <div className="flex-center !mt-8 gap-2 ">
+          <Button
+            disabled={form.formState.isSubmitting}
+            // className="min-h-12 w-full rounded-10 bg-primary px-4 py-3 text-base font-normal !text-white hover:bg-primary"
+            variant="primary"
+            stdHeight
+            stdWidth
+            className="min-h-12 w-full !rounded-10"
+          >
+            {form.formState.isSubmitting
+              ? buttonText === "Sign In"
+                ? "Signing In..."
+                : "Signing Up..."
+              : buttonText}
+          </Button>
+          <span className="body-3 text-black-30">Or</span>
+          <SocialAuthForm formType="SIGN_IN" />
+        </div>
       </form>
     </Form>
   );

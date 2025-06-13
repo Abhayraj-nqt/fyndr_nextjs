@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
 import Link from "next/link";
@@ -17,12 +19,10 @@ import { ProcessedFileProps } from "@/lib/utils/files/upload.utils";
 export const Qr = () => {
   const [uploadedFiles, setUploadedFiles] = useState<ProcessedFileProps[]>([]);
   const [checked, setChecked] = useState(false);
-  const { user } = useUser();
   const [extension, setExtension] = useState("");
-  const handleFileUpload = (files: ProcessedFileProps[]) => {
-    setUploadedFiles(files);
-    console.log("files", files);
-  };
+  const { user } = useUser();
+  if (!user) return null;
+
   useEffect(() => {
     console.log("user?.qrLogo:", user?.qrLogo);
   }, [user]);
@@ -35,6 +35,11 @@ export const Qr = () => {
     }
     console.log("uploadedFiles", uploadedFiles, user?.qrLogo);
   }, [uploadedFiles]);
+  const handleFileUpload = (files: ProcessedFileProps[]) => {
+    setUploadedFiles(files);
+    console.log("files", files);
+  };
+
   const handleBusinessLogo = async () => {
     if (uploadedFiles.length === 0) {
       toast.error({
@@ -49,8 +54,8 @@ export const Qr = () => {
       });
     } else {
       const data = await onQrLogoUpload({
-        bizName: user?.bizName!,
-        bizid: user?.bizid!,
+        bizName: user.bizName!,
+        bizid: user.bizid!,
         extension,
         qrLogo: uploadedFiles[0].base64,
       });

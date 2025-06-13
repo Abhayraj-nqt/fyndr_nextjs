@@ -15,7 +15,7 @@ export type DisputeDetailsProps = {
   ];
   createDate: string;
 };
-export type AddDisputeListResponse = {
+export type DisputeListResponse = {
   last: boolean;
   disputeDetails: DisputeDetailsProps[];
   count: number;

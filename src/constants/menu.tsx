@@ -36,6 +36,7 @@ import {
   GlobeLock,
   Handshake,
   TableOfContents,
+  Mail,
 } from "lucide-react";
 import { StaticImageData } from "next/image";
 
@@ -172,6 +173,12 @@ export const BUSINESS_MENU: SubMenuProps[] = [
         icon: UserCheck,
         route: "",
         label: "My Appointments",
+      },
+      {
+        icon: Mail,
+        route: ROUTES.BUSINESS_ACCOUNT_CUSTOM_EMAIL,
+        // route: ROUTES.BUSINESS_ACCOUNT_QR,
+        label: "Custom Email",
       },
     ],
   },

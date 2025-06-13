@@ -19,14 +19,18 @@ export const onDisputeRefund: RefundDisputeParams = async (payload) => {
   });
 };
 
-export const onDisputeCommentList = async (params) => {
+export const onDisputeCommentList = async (params: { disputeId: number }) => {
   const { disputeId } = params;
   const endpoint = `${API_BASE_URL}/dispute/fetchComments/${disputeId}`;
   return _get(endpoint, {
     requireAuth: true,
   });
 };
-export const onDisputeComment = async (payload) => {
+export const onDisputeComment = async (payload: {
+  disputeId: number | undefined;
+  userId: number | undefined;
+  comment: string;
+}) => {
   const endpoint = `${API_BASE_URL}/dispute/comment`;
   return _post(endpoint, payload, {
     requireAuth: true,

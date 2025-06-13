@@ -16,14 +16,8 @@ import { ProcessedFileProps } from "@/lib/utils/files/upload.utils";
 const BusinessLogo = () => {
   const [uploadedFiles, setUploadedFiles] = useState<ProcessedFileProps[]>([]);
   const [checked, setChecked] = useState(false);
-  const { user } = useUser();
-
   const [extension, setExtension] = useState("");
 
-  const handleFileUpload = (files: ProcessedFileProps[]) => {
-    setUploadedFiles(files);
-    console.log("files", files);
-  };
   useEffect(() => {
     if (uploadedFiles.length > 0) {
       const name = uploadedFiles[0].name;
@@ -31,6 +25,12 @@ const BusinessLogo = () => {
       setExtension(ext);
     }
   }, [uploadedFiles]);
+  const { user } = useUser();
+  if (!user) return null;
+  const handleFileUpload = (files: ProcessedFileProps[]) => {
+    setUploadedFiles(files);
+    console.log("files", files);
+  };
 
   const handleBusinessLogo = async () => {
     if (uploadedFiles.length === 0) {
@@ -46,8 +46,8 @@ const BusinessLogo = () => {
       });
     } else {
       const data = await onBusinessLogoUpload({
-        bizName: user?.bizName!,
-        bizid: user?.bizid!,
+        bizName: user.bizName!,
+        bizid: user.bizid!,
         extension,
         mainLogo: uploadedFiles[0].base64,
       });

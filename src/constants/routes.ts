@@ -53,9 +53,10 @@ const ROUTES = {
   BUSINESS_ACCOUNT_QR: "/business/account/qr",
   BUSINESS_ACCOUNT_LOCATION: "/business/account/location",
   BUSINESS_ACCOUNT_LOCATION_CREATE: "/business/account/location/create",
+
   BUSINESS_ACCOUNT_LOCATION_EDIT: (id: string | number) =>
     `/business/account/location/${id}`,
-  BUSINESS_ACCOUNT_OFFER_SUMMARY: "/business/account/offer-summary",
+  BUSINESS_ACCOUNT_OFFER_SUMMARY: "/business/account/offer- summary",
   BUSINESS_ACCOUNT_APPOINTMENT: "/business/account/appointment",
   BUSINESS_ACCOUNT_CUSTOM_EMAIL: "/business/account/custom-email",
   BUSINESS_DISPUTE: "/business/dispute",
@@ -77,6 +78,7 @@ const ROUTES = {
 
   // CAllback routes
   CALLBACK_SIGN_IN: "/callback/sign-in",
+  CALLBACK_AUTH: "/callback/auth",
 };
 
 export const PUBLIC_ROUTES = [

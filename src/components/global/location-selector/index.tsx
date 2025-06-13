@@ -47,7 +47,7 @@ const LocationSelector = ({
 
   return (
     <div className={`relative flex flex-col ${className}`}>
-      <div className="relative flex min-h-[45px] grow items-center gap-1 rounded-lg border border-secondary-20 bg-white">
+      <div className="relative flex min-h-[46px] grow items-center gap-1 rounded-10 border border-secondary-20 bg-white">
         <Input
           placeholder={placeholder}
           value={input}

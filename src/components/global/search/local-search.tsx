@@ -1,5 +1,6 @@
 "use client";
 
+import { Search } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -24,7 +25,7 @@ const LocalSearch = ({
   route,
   placeholder,
   className,
-  icon: Icon,
+  icon: Icon = <Search className="text-black-40" />,
   param = "query",
   inputClassName,
   navigateTo,
@@ -93,7 +94,7 @@ const LocalSearch = ({
 
   return (
     <div
-      className={`flex min-h-[45px] grow items-center gap-1 rounded-lg border border-secondary-20 bg-white px-4 ${className}`}
+      className={`flex min-h-[46px] grow items-center gap-1 rounded-10 border border-secondary-20 bg-white px-4 ${className}`}
     >
       {getIcon()}
       <Input
@@ -102,7 +103,7 @@ const LocalSearch = ({
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         onKeyDown={handleKeyDown}
-        className={`no-focus paragraph-regular placeholder border-none text-black-70 shadow-none outline-none ${inputClassName}`}
+        className={`input-primary ${inputClassName}`}
       />
     </div>
   );

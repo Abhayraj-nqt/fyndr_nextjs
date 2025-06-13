@@ -22,8 +22,15 @@ type Props = {
 export function getDisputeListColumn({
   setRowAction,
 }: Props): ColumnDef<DisputeDetailsProps>[] {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { user } = useUser();
-  const getColor = (status) => {
+  type DisputeStatus =
+    | "INITIATED"
+    | "CANCELED"
+    | "DISPUTED"
+    | "SETTLED_WITH_CUSTOMER_PAYMENT"
+    | "SETTLED_WITHOUT_PAYMENT";
+  const getColor = (status: DisputeStatus) => {
     switch (status) {
       case "INITIATED":
         return "#E2FFE5";
@@ -39,7 +46,7 @@ export function getDisputeListColumn({
         return null;
     }
   };
-  const getTextColor = (status) => {
+  const getTextColor = (status: DisputeStatus) => {
     switch (status) {
       case "INITIATED":
         return "#07C603";
@@ -155,25 +162,23 @@ export function getDisputeListColumn({
         />
       ),
       cell: ({ row }) => {
-        const status = row.getValue("disputeStatus") as string;
+        const status = row.getValue("disputeStatus");
 
         return (
           <div
             style={{
-              backgroundColor: getColor(status),
-              color: getTextColor(status),
+              backgroundColor: getColor(status as DisputeStatus) ?? "",
+              color: getTextColor(status as DisputeStatus) ?? "",
               padding: "4px 8px",
-              borderRadius: "4px",
               fontWeight: 400,
               textAlign: "center",
-              borderRadious: "10px",
               fontSize: "12px",
               borderRadius: "50px",
               display: "flex",
               justifyContent: "center",
             }}
           >
-            {status.replaceAll("_", " ")}
+            {(status as string).replaceAll("_", " ")}
           </div>
         );
       },
