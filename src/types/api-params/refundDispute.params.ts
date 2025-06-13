@@ -1,7 +1,7 @@
 import {
   DisputeCommentsListResponse,
   RefundDisputeResponse,
-} from "../api-response/refundDispute.response";
+} from "../api-response/refund-dispute.response";
 import { ActionResponse } from "../global";
 
 export type RefundDisputeParams = (payload: {

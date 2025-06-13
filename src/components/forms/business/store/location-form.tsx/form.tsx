@@ -3,7 +3,7 @@ interface FormProps {
   isActive: boolean;
   onCancel: () => void;
 }
-const Form = ({ isActive, onCancel }: FormProps) => {
+const Form = ({ onCancel }: FormProps) => {
   return (
     <div className="mx-auto max-w-7xl">
       {/* Header */}

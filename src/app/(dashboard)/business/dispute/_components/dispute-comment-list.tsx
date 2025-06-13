@@ -12,7 +12,7 @@ import toast from "@/components/global/toast";
 import { Textarea } from "@/components/ui/textarea";
 import { useUser } from "@/hooks/auth";
 import { DisputeDetailsProps } from "@/types/api-response/dispute.response";
-import { DisputeCommentsListResponse } from "@/types/api-response/refundDispute.response";
+import { DisputeCommentsListResponse } from "@/types/api-response/refund-dispute.response";
 
 interface DisputeRefundProps {
   row: DisputeDetailsProps | null;
