@@ -1,6 +1,12 @@
 "use client";
 
-import { UserIcon, SettingsIcon, Facebook } from "lucide-react";
+import {
+  UserIcon,
+  SettingsIcon,
+  Facebook,
+  Twitter,
+  Instagram,
+} from "lucide-react";
 import React, { useState } from "react";
 
 import Button from "@/components/global/buttons";
@@ -14,15 +20,31 @@ import { Label } from "@/components/ui/label";
 
 const InputTest = () => {
   const [selectedValue, setSelectedValue] = useState("");
-  const [selectedValues, setSelectedValues] = useState([]);
+  const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [checked, setChecked] = useState(false);
 
   console.log({ selectedValue, selectedValues });
 
   const options = [
-    { value: "option1", label: "Option 1", icon: <UserIcon /> },
-    { value: "option2", label: "Option 2", icon: <SettingsIcon /> },
-    { value: "option3", label: "Option 3", disabled: true, icon: <Facebook /> },
+    { value: "1", label: "User", icon: <UserIcon /> },
+    { value: "2", label: "Settings", icon: <SettingsIcon /> },
+    { value: "3", label: "Facebook", disabled: true, icon: <Facebook /> },
+    { value: "4", label: "Instagram", icon: <Instagram /> },
+    {
+      value: "5",
+      label: "Twitter HHHHHHHHH HHHHHHHHHH HHHH",
+      icon: <Twitter />,
+    },
+    { value: "6", label: "Facebook GGGGGGG ", icon: <Facebook /> },
+    { value: "7", label: "Facebook MM", icon: <Facebook /> },
+    {
+      value: "8",
+      label: "Frequently asked questions",
+      disabled: true,
+      icon: <Facebook />,
+    },
+    { value: "9", label: "Facebook 1" },
+    { value: "10", label: "Facebook 2", icon: <Facebook /> },
   ];
 
   return (
@@ -101,7 +123,7 @@ const InputTest = () => {
           />
           <NewSelect
             options={options}
-            onValueChange={setSelectedValues}
+            onValueChange={(values) => setSelectedValues(values)}
             multi
             // disabled
           />
