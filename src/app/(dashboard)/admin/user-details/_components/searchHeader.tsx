@@ -17,6 +17,9 @@ import { getAllPromoCode } from "@/types/api-response/promocode.response";
 import DateRangePicker from "./range-calendar";
 import { getAllChannel } from "@/actions/auth.actions";
 import { DropDownOprions } from "@/types/api-response/findUsChannel.response";
+// import Select from "@/components/global/input/select";
+import Select from "@/components/global/input/select/index";
+import { SelectOption } from "@/components/global/input/select/select.types";
 
 const statusOptions = [
   { label: "Active", value: "ACTIVE" },
@@ -47,30 +50,32 @@ export const SearchHeader = ({ userCount = 0 }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  
-  const [promoList, setPromoList] = useState<getAllPromoCode[]>([]);
+  const [promoList, setPromoList] = useState<SelectOption[]>([]);
   const [channelList, setChannelList] = useState<DropDownOprions[]>([]);
   const [stateData, setStateData] = useState<
     { value: string; label: string }[]
   >([]);
-  
+
   const [promoCode, setPromoCode] = useState(
     searchParams.get("promoCode") || ""
   );
   const [country, setCountry] = useState(searchParams.get("country") || "");
   const [state, setState] = useState(searchParams.get("state") || "");
 
-  const updateSingleParam = useCallback((key: string, value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    
-    if (value) {
-      params.set(key, value);
-    } else {
-      params.delete(key);
-    }
-    
-    router.push(`${pathname}?${params.toString()}`);
-  }, [searchParams, pathname, router]);
+  const updateSingleParam = useCallback(
+    (key: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+
+      if (value) {
+        params.set(key, value);
+      } else {
+        params.delete(key);
+      }
+
+      router.push(`${pathname}?${params.toString()}`);
+    },
+    [searchParams, pathname, router]
+  );
 
   useEffect(() => {
     if (!country) {
@@ -79,7 +84,7 @@ export const SearchHeader = ({ userCount = 0 }: Props) => {
       updateSingleParam("state", "");
       return;
     }
-    
+
     (async () => {
       try {
         const raw = await State.getStatesOfCountry(country);
@@ -123,7 +128,13 @@ export const SearchHeader = ({ userCount = 0 }: Props) => {
       try {
         const res = await getAllPromoCodes();
         if (res.success && res.data) {
-          setPromoList(res.data);
+          const options: SelectOption[] = res.data.map((item: any) => ({
+            value: item.id.toString(),
+            label: item.promoCode,
+          }));
+
+          console.log("promocodelist", options);
+          setPromoList(options);
         }
       } catch (err) {
         console.error("Failed to load promo codes", err);
@@ -148,7 +159,7 @@ export const SearchHeader = ({ userCount = 0 }: Props) => {
     const urlPromoCode = searchParams.get("promoCode") || "";
     const urlCountry = searchParams.get("country") || "";
     const urlState = searchParams.get("state") || "";
-    
+
     if (urlPromoCode !== promoCode) setPromoCode(urlPromoCode);
     if (urlCountry !== country) setCountry(urlCountry);
     if (urlState !== state) setState(urlState);
@@ -161,7 +172,7 @@ export const SearchHeader = ({ userCount = 0 }: Props) => {
 
   const handleCountryChange = (newCountry: string) => {
     setCountry(newCountry);
-    setState(""); 
+    setState("");
     updateSingleParam("country", newCountry);
     updateSingleParam("state", "");
   };
@@ -201,12 +212,9 @@ export const SearchHeader = ({ userCount = 0 }: Props) => {
           className="flex-1 rounded-[10px]"
         />
 
-        <DateRangePicker
-          placeholder="Select date"
-          className="flex-1"
-        />
+        <DateRangePicker placeholder="Select date" className="flex-1" />
 
-        <DropdownMenu>
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild className="flex-1">
             <Input
               readOnly
@@ -234,7 +242,9 @@ export const SearchHeader = ({ userCount = 0 }: Props) => {
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
+
+        <Select options={promoList} onValueChange={handlePromoCodeChange} searchable={true} />
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild className="flex-1">
