@@ -7,7 +7,7 @@ import toast from "@/components/global/toast";
 import { API_BASE_URL, API_GATEWAY_URL } from "@/environment";
 import handleError from "@/lib/handlers/error";
 import { _get, _post } from "@/lib/handlers/fetch";
-import { encryptPassword } from "@/lib/utils";
+import { encryptPassword } from "@/lib/utils/auth";
 import {
   ConfirmIdentityProps,
   GenerateTokenProps,

@@ -29,6 +29,7 @@ const FeatureCard = ({
             : // For others: narrow by default, expand on hover
               "w-60 hover:w-[25rem]"
         }
+        ${className}
       `}
     >
       <Image

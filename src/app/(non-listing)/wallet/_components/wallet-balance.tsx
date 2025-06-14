@@ -67,7 +67,7 @@ const WalletBalance = async ({ className }: Props) => {
       </p>
 
       <RedeemPromocodeDialog>
-        <Button className="self-start rounded-[10px] bg-white py-6 text-black hover:bg-white">
+        <Button className="self-start rounded-10 bg-white py-6 text-black hover:bg-white">
           Redeem Promo Code
         </Button>
       </RedeemPromocodeDialog>

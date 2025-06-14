@@ -3,7 +3,7 @@ import React from "react";
 
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
-import { parseAddress } from "@/lib/utils";
+import { parseAddress } from "@/lib/utils/address";
 import { CampaignProps } from "@/types/campaign";
 
 import FeaturedFyndsCard from "../app/(landing)/_components/cards/featured-fynds-card";
@@ -29,11 +29,7 @@ const FeaturedCampaigns = ({ onGetFeaturedCampaigns }: Props) => {
                 bizName={campaign.biz.bizName}
                 currencySymbol={campaign.cmpnOffers[0]?.currencySymbol}
                 title={campaign.title}
-                address={`${
-                  campaign?.cmpnLocs[0]?.distance
-                    ? campaign?.cmpnLocs[0]?.distance.toFixed(1)
-                    : "0"
-                } miles, ${parseAddress(campaign?.cmpnLocs[0])}`}
+                address={parseAddress(campaign?.cmpnLocs[0])}
                 imageURL={
                   (campaign.images &&
                     campaign.images.length > 0 &&

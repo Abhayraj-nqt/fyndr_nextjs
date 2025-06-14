@@ -1,64 +1,34 @@
-/* eslint-disable max-lines */
 import {
-  ShoppingCart,
-  Gavel,
-  ReceiptText,
-  MessageSquareWarning,
-  LockKeyhole,
-  Building2,
-  Landmark,
-  Store,
-  CircleDollarSign,
-  ChartPie,
-  QrCode,
-  UserCheck,
-  Users,
-  UserPen,
-  CircleUser,
   Logs,
-  ChartColumnStacked,
+  ShoppingCart,
+  BadgePlus,
+  Shapes,
+  Users,
+  CircleDollarSign,
+  Wallet,
+  CreditCard,
+  Store,
+  ArchiveRestore,
   Blocks,
   PackagePlus,
-  CreditCard,
-  Shapes,
+  Building2,
+  ReceiptText,
   IdCard,
-  LucideIcon,
+  QrCode,
+  Landmark,
+  ChartPie,
+  UserCheck,
+  CircleUser,
+  UserPen,
+  LockKeyhole,
+  MessageSquareWarning,
   BookCheck,
-  ArchiveRestore,
-  Wallet,
-  BadgePlus,
-  BookMarked,
-  Megaphone,
-  Gift,
-  UserCog,
-  ArrowDownToLine,
-  Contact,
-  GlobeLock,
-  Handshake,
-  TableOfContents,
+  Gavel,
 } from "lucide-react";
-import { StaticImageData } from "next/image";
 
-import ROUTES from "./routes";
+import ROUTES from "../routes";
 
-export interface MenuProps {
-  imgURL?: string;
-  icon?: LucideIcon;
-  route: string;
-  label: string;
-}
-export interface SubMenuProps extends MenuProps {
-  subMenu?: MenuProps[];
-  hasSubMenu?: boolean;
-}
-
-export interface FooterMenuProps {
-  icon: string | LucideIcon | StaticImageData;
-  label: string;
-  url: string;
-}
-
-export const INDIVIDUAL_MENU: MenuProps[] = [];
+import { SubMenuProps } from ".";
 
 export const BUSINESS_MENU: SubMenuProps[] = [
   {
@@ -211,112 +181,5 @@ export const BUSINESS_MENU: SubMenuProps[] = [
     route: "",
     label: "Dispute",
     hasSubMenu: false,
-  },
-];
-
-export const ADMIN_MENU: SubMenuProps[] = [
-  {
-    icon: Logs,
-    route: "/admin/dashboard",
-    label: "Dashboard",
-  },
-  {
-    icon: Users,
-    route: "/admin/user-details",
-    label: "User Details",
-  },
-  {
-    icon: UserCog,
-    route: "/admin/user-management",
-    label: "User Management",
-  },
-  {
-    icon: BookMarked,
-    route: "/admin/registration-records",
-    label: "Registration Records",
-  },
-  {
-    icon: Gift,
-    route: "/admin/promo-codes",
-    label: "Promo Codes",
-  },
-  {
-    icon: Megaphone,
-    route: "/admin/dashboard/campaigns",
-    label: "Campaign",
-  },
-  {
-    icon: CircleDollarSign,
-    route: "/admin/dashboard/revenue",
-    label: "Revenue",
-  },
-  {
-    icon: Gavel,
-    route: "/admin/dispute",
-    label: "Dispute",
-  },
-  {
-    icon: ChartColumnStacked,
-    route: "/admin/platform-variables",
-    label: "Platform variables",
-  },
-  {
-    icon: MessageSquareWarning,
-    route: "/admin/reviews-reports",
-    label: "Reviews Reports",
-  },
-];
-
-export const NAVBAR_MENU: MenuProps[] = [
-  {
-    imgURL: "/icons/home.svg",
-    route: ROUTES.HOME,
-    label: "Home",
-    icon: Store,
-  },
-  {
-    imgURL: "/icons/wallet.svg",
-    route: ROUTES.WALLET,
-    label: "Wallet",
-    icon: Wallet,
-  },
-  {
-    imgURL: "/icons/users.svg",
-    route: ROUTES.ABOUT_US,
-    label: "About Us",
-    icon: Users,
-  },
-];
-
-export const FOOTER_MENU: FooterMenuProps[] = [
-  {
-    icon: ArrowDownToLine,
-    label: "Download Fyndr",
-    url: ROUTES.DOWNLOAD_FYNDR,
-  },
-  {
-    icon: Contact,
-    label: "Contact Us",
-    url: "",
-  },
-  {
-    icon: ReceiptText,
-    label: "Term of use",
-    url: ROUTES.LEGAL_TERMS,
-  },
-  {
-    icon: GlobeLock,
-    label: "Privacy Policy",
-    url: ROUTES.LEGAL_PRIVACY,
-  },
-  {
-    icon: Handshake,
-    label: "Business Agremnent",
-    url: ROUTES.LEGAL_AGREEMENT,
-  },
-  {
-    icon: TableOfContents,
-    label: "FAQ",
-    url: `${ROUTES.ABOUT_US}#faq`,
   },
 ];

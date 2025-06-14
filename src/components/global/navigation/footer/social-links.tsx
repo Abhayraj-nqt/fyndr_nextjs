@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-import { COMPANY } from "@/constants";
+import { SITE } from "@/constants/site";
 
 interface Props {
   className?: string;
@@ -11,7 +11,7 @@ interface Props {
 const SocialLinks = ({ className }: Props) => {
   return (
     <div className={`flex gap-4 ${className}`}>
-      {COMPANY.socialLinks.map(({ icon, label, url }) => (
+      {SITE.socialLinks.map(({ icon, label, url }) => (
         <Link
           href={url}
           key={label}

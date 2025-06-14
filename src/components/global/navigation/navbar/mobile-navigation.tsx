@@ -41,7 +41,7 @@ const MobileNavigation = async () => {
             <section className="flex h-full flex-col gap-10 pt-16">
               <NavLinks
                 isMobileNav
-                className="flex items-center gap-4 rounded-[10px] p-4 text-xl text-white transition-colors duration-200 hover:bg-white hover:text-secondary"
+                className="flex items-center gap-4 rounded-10 p-4 text-xl text-white transition-colors duration-200 hover:bg-white hover:text-secondary"
               />
 
               {userId ? (
@@ -56,7 +56,7 @@ const MobileNavigation = async () => {
                     }
                     key={"Account"}
                     className={
-                      "flex items-center gap-4 rounded-[10px] p-4 text-xl text-white transition-colors duration-200 hover:bg-white hover:text-secondary"
+                      "flex items-center gap-4 rounded-10 p-4 text-xl text-white transition-colors duration-200 hover:bg-white hover:text-secondary"
                     }
                   >
                     <CircleUser />
@@ -66,7 +66,7 @@ const MobileNavigation = async () => {
                     href={ROUTES.MY_OFFERS}
                     key={"My Offers"}
                     className={
-                      "flex items-center gap-4 rounded-[10px] p-4 text-xl text-white transition-colors duration-200 hover:bg-white hover:text-secondary"
+                      "flex items-center gap-4 rounded-10 p-4 text-xl text-white transition-colors duration-200 hover:bg-white hover:text-secondary"
                     }
                   >
                     <TicketPercent />
@@ -82,7 +82,7 @@ const MobileNavigation = async () => {
           <div className="flex flex-col gap-3">
             {userId ? (
               <div className="flex-center">
-                <SignOutButton className="min-h-11 w-full min-w-36 self-center rounded-[10px] bg-white text-base font-normal text-secondary shadow-none">
+                <SignOutButton className="min-h-11 w-full min-w-36 self-center rounded-10 bg-white text-base font-normal text-secondary shadow-none">
                   <LogOut className="size-5" />
                   <span className="">Logout</span>
                 </SignOutButton>

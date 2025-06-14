@@ -5,7 +5,8 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { getRemaining, parseDiscount, toTwoDecimalPlaces } from "@/lib/utils";
+import { getRemaining } from "@/lib/utils";
+import { parseAmount, parseDiscount } from "@/lib/utils/parser/index";
 import { CampaignOfferProps } from "@/types/campaign";
 
 type Props = {
@@ -43,11 +44,11 @@ const OfferCard = ({ offer }: Props) => {
             <div className="flex gap-3">
               <p className="text-sm text-black-30 line-through">
                 {offer.currencySymbol}
-                {toTwoDecimalPlaces(offer.retailPrice)}
+                {parseAmount(offer.retailPrice)}
               </p>
               <p className="text-base font-medium text-primary">
                 {offer.currencySymbol}
-                {toTwoDecimalPlaces(offer.offerPrice)}
+                {parseAmount(offer.offerPrice)}
               </p>
             </div>
             <div className="body-semibold rounded bg-green-500 px-3 py-1 capitalize text-white">

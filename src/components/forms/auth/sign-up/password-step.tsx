@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/form";
 import ROUTES from "@/constants/routes";
 import { useTimer } from "@/hooks/use-timer";
-import { encryptPassword } from "@/lib/utils";
+import { encryptPassword } from "@/lib/utils/auth";
 import { useRegistrationStore } from "@/zustand/stores/registration.store";
 
 import { FormInput } from "../form-input";

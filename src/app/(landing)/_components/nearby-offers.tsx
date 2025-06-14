@@ -3,7 +3,8 @@ import React from "react";
 
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
-import { getLowestPriceOffer, parseAddress } from "@/lib/utils";
+import { parseAddress } from "@/lib/utils/address";
+import { getLowestOfferPrice } from "@/lib/utils/campaign";
 import { CampaignProps } from "@/types/campaign";
 
 import NonFeaturedFyndsCard from "./cards/non-featured-fynds-card";
@@ -26,7 +27,7 @@ const NearbyOffers = ({ campaigns: nearbyOffers }: Props) => {
               bizName={item.biz.bizName}
               currencySymbol={item.cmpnOffers[0]?.currencySymbol}
               title={item.title}
-              address={`${item?.cmpnLocs[0]?.distance ? item?.cmpnLocs[0]?.distance.toFixed(1) : "0"} miles, ${parseAddress(item?.cmpnLocs[0])}`}
+              address={`${parseAddress(item?.cmpnLocs[0])}`}
               imageURL={
                 (item.images &&
                   item.images.length > 0 &&
@@ -34,7 +35,7 @@ const NearbyOffers = ({ campaigns: nearbyOffers }: Props) => {
                 "/images/grayPlaceholderFyn.png"
               }
               discountType={item.cmpnOffers[0]?.discountType}
-              discount={getLowestPriceOffer(item.cmpnOffers)?.amount}
+              discount={getLowestOfferPrice(item.cmpnOffers)?.amount}
               offerPrice={item.cmpnOffers[0]?.offerPrice}
               retailPrice={item.cmpnOffers[0]?.retailPrice}
             />

@@ -1,4 +1,41 @@
-export const COMPANY = {
+import { LucideIcon } from "lucide-react";
+import { StaticImageData } from "next/image";
+
+type SocialLinksProps = {
+  label: string;
+  icon: string | LucideIcon | StaticImageData;
+  url: string;
+};
+
+type SiteProps = {
+  name: string;
+  email: string;
+  phone: string;
+  socialLinks: SocialLinksProps[];
+  location: unknown;
+};
+
+type SiteAboutDataProps = {
+  imgURL: string;
+  title: string;
+  imgDir: "right" | "left";
+  content: string;
+};
+
+type SiteAboutProps = {
+  aboutAndMission: SiteAboutDataProps[];
+  features: {
+    imgURL: string;
+    title: string;
+    description: string;
+  }[];
+  howToUse: {
+    individual: SiteAboutDataProps[];
+    business: SiteAboutDataProps[];
+  };
+};
+
+export const SITE: SiteProps = {
   name: "Fyndr",
   email: "admin@fyndr.us",
   phone: "(480) 564-6565",
@@ -20,6 +57,9 @@ export const COMPANY = {
     },
   ],
   location: {},
+};
+
+export const SITE_ABOUT: SiteAboutProps = {
   aboutAndMission: [
     {
       imgURL: "/images/about-fyndr.png",
@@ -116,7 +156,7 @@ export const COMPANY = {
   },
 };
 
-export const FAQ = {
+export const SITE_FAQ = {
   business: [],
   individual: [],
 };

@@ -13,7 +13,7 @@ import {
   getNearbyDiningExperiences,
   getNearbyEvents,
   getNearbyOffers,
-} from "@/lib/utils";
+} from "@/lib/utils/campaign";
 
 import FeaturedCampaigns from "../featured-campaigns2";
 import NearbyCampaigns from "../nearby-campaigns";

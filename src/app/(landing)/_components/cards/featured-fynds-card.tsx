@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { parseAddress } from "@/lib/utils";
+import { parseAddress } from "@/lib/utils/address";
 import { CampaignProps } from "@/types/campaign";
 
 type Props = {
@@ -58,11 +58,12 @@ const FeatureFyndsCard = ({ campaign }: Props) => {
           </div>
         </div>
         <CardDescription className="body-regular line-clamp-2 h-10 text-secondary-80">
-          {`${
-            campaign?.cmpnLocs[0]?.distance
-              ? campaign?.cmpnLocs[0]?.distance.toFixed(1)
-              : "0"
-          } miles, ${parseAddress(campaign?.cmpnLocs[0])}`}
+          {
+            parseAddress(campaign?.cmpnLocs[0], {
+              compactMode: true,
+              includeDistance: true,
+            }).formatted
+          }
         </CardDescription>
       </CardContent>
       <CardFooter className="items-end justify-between p-0">

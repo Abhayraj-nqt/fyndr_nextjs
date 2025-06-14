@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 
 import { CATEGORY_ICON } from "@/constants";
-import { cn, getCategoryIcon } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { getCategoryIcon } from "@/lib/utils/campaign";
 
 import CategoryCard from "./cards/category-card";
 import { Button } from "../../../components/ui/button";

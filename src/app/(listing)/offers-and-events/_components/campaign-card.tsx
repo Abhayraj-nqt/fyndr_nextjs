@@ -24,7 +24,7 @@ import {
 import ROUTES from "@/constants/routes";
 import { HOST } from "@/environment";
 import { useOptimisticLike } from "@/hooks/campaigns";
-import { parseAddress } from "@/lib/utils";
+import { parseAddress } from "@/lib/utils/address";
 import { CampaignProps } from "@/types/campaign";
 
 import SeeMoreSection from "./sections/see-more-section";
@@ -140,11 +140,12 @@ const CampaignCard = ({ campaign }: Props) => {
             </CardTitle>
             {mode === "offline" ? (
               <CardDescription className="body-5 line-clamp-2 h-[30px] text-black-60">
-                {`${
-                  campaign?.cmpnLocs[0]?.distance
-                    ? campaign?.cmpnLocs[0]?.distance.toFixed(1)
-                    : "0"
-                } miles, ${parseAddress(campaign?.cmpnLocs[0])}`}
+                {
+                  parseAddress(campaign?.cmpnLocs[0], {
+                    compactMode: true,
+                    includeDistance: true,
+                  }).formatted
+                }
               </CardDescription>
             ) : (
               <></>

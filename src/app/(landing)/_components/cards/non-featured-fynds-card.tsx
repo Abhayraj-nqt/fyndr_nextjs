@@ -1,7 +1,8 @@
 import React from "react";
 
 import PlaceholderImage from "@/components/global/placeholder-image";
-import { getLowestPriceOffer, parseAddress } from "@/lib/utils";
+import { parseAddress } from "@/lib/utils/address";
+import { getLowestOfferPrice } from "@/lib/utils/campaign";
 import { CampaignProps } from "@/types/campaign";
 
 import {
@@ -16,7 +17,7 @@ type Props = {
 };
 
 const NonFeaturedFyndsCard = ({ campaign }: Props) => {
-  const lowestPriceOffer = getLowestPriceOffer(campaign.cmpnOffers);
+  const lowestPriceOffer = getLowestOfferPrice(campaign.cmpnOffers);
 
   return (
     <Card className="relative w-full cursor-pointer rounded-md border-secondary-10 p-0 shadow-none transition duration-500 hover:scale-105 sm:max-w-80">
@@ -38,7 +39,14 @@ const NonFeaturedFyndsCard = ({ campaign }: Props) => {
           <h4 className="paragraph-regular line-clamp-2 h-11 text-black">
             {campaign.title}
           </h4>
-          <p className="line-clamp-2 h-10 text-secondary-80">{`${campaign?.cmpnLocs[0]?.distance ? campaign?.cmpnLocs[0]?.distance.toFixed(1) : "0"} miles, ${parseAddress(campaign?.cmpnLocs[0])}`}</p>
+          <p className="line-clamp-2 h-10 text-secondary-80">
+            {
+              parseAddress(campaign?.cmpnLocs[0], {
+                compactMode: true,
+                includeDistance: true,
+              }).formatted
+            }
+          </p>
         </CardDescription>
         <CardFooter className="flex-between flex p-0">
           {campaign.cmpnType !== "coupons" && (

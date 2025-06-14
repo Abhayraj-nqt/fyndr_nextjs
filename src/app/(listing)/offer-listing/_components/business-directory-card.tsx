@@ -13,7 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import ROUTES from "@/constants/routes";
-import { parseAddress } from "@/lib/utils";
+import { parseAddress } from "@/lib/utils/address";
 
 type Props = {
   businessDirectory: BusinessDirectory;
@@ -51,11 +51,12 @@ const BusinessDirectoryCard = ({ businessDirectory }: Props) => {
         </CardHeader>
         <CardContent className="flex flex-col gap-4 p-0">
           <CardDescription className="body-1 text-secondary-80">
-            {`${
-              businessDirectory?.distance
-                ? businessDirectory?.distance.toFixed(1)
-                : "0"
-            } miles, ${parseAddress(businessDirectory)}`}
+            {
+              parseAddress(businessDirectory, {
+                compactMode: true,
+                includeDistance: true,
+              }).formatted
+            }
           </CardDescription>
           <div className="flex items-center gap-4 text-black-80">
             <Phone size={20} />

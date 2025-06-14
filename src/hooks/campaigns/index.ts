@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-lines */
 import {
   useInfiniteQuery,
@@ -15,8 +16,6 @@ import { _post } from "@/lib/handlers/fetch";
 import { CampaignsResponse } from "@/types/api-response/campaign.response";
 import { CampaignProps } from "@/types/campaign";
 import { Coordinates } from "@/types/global";
-
-// hooks/use-optimistic-like.ts
 
 export const useGetCampaigns = (
   params: {
@@ -312,9 +311,9 @@ export function useOptimisticLike() {
             campaigns: page.campaigns.map((campaign: CampaignProps) => {
               if (campaign.objid === variables.cmpnId) {
                 // Calculate optimistic like count based on current state
-                const isCurrentlyLiked =
-                  campaign?.indvCmpn?.isDeleted === false &&
-                  campaign.indvCmpn?.objid;
+                // const isCurrentlyLiked =
+                //   campaign?.indvCmpn?.isDeleted === false &&
+                //   campaign.indvCmpn?.objid;
                 const newLikedCount = variables.isDeleted
                   ? Math.max(0, campaign.likedCount - 1) // If we're deleting the like (isDeleted: true), decrease count
                   : campaign.likedCount + 1; // If we're adding the like (isDeleted: false), increase count
@@ -382,7 +381,5 @@ export function useOptimisticLike() {
         message: "Failed to update like status. Please try again.",
       });
     },
-
-    // Remove onSettled invalidation since we're handling success manually
   });
 }
