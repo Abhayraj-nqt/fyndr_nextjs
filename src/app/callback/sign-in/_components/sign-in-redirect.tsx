@@ -1,7 +1,6 @@
 "use client";
 
-import Image from "next/image";
-
+import FyndrLoading from "@/components/global/loading/fyndr-loading";
 import ROUTES from "@/constants/routes";
 
 type Props = {
@@ -31,17 +30,7 @@ const SignInRedirect = ({ entityRole }: Props) => {
       break;
   }
 
-  return (
-    <div className="fixed left-0 top-0 z-50 flex h-screen w-full items-center justify-center bg-[#0000004d]">
-      <Image
-        src={"/gifs/loader-icon.gif"}
-        alt="Loading..."
-        height={50}
-        width={50}
-        className="size-14 rounded-full"
-      />
-    </div>
-  );
+  return <FyndrLoading loading={true} />;
 };
 
 export default SignInRedirect;

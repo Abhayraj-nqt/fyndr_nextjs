@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-import { CATEGORY_ICON } from "@/constants";
+import { CATEGORY_ICON_MAP } from "@/constants";
 import { cn } from "@/lib/utils";
 import { getCategoryIcon } from "@/lib/utils/campaign";
 
@@ -37,7 +37,7 @@ const Categories = ({ categories }: Props) => {
             <CategoryCard
               key={category.objid}
               categoryName={category.name}
-              icon={CATEGORY_ICON.get(category.name.toLowerCase())}
+              icon={CATEGORY_ICON_MAP.get(category.name.toLowerCase())}
             />
           ))}
       <Button

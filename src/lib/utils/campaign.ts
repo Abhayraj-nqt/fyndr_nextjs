@@ -1,4 +1,4 @@
-import { CAT_LIST_HOME, CATEGORY_ICON } from "@/constants";
+import { CAT_LIST_HOME, CATEGORY_ICON_MAP } from "@/constants";
 import { CampaignOfferProps, CampaignProps } from "@/types/campaign";
 
 // Home page filtered campaigns
@@ -131,7 +131,7 @@ export const getNearbyBeautyFinds = (campaigns: CampaignProps[]) => {
 
 export const getCategoryIcon = (category: string) => {
   return (
-    CATEGORY_ICON.get(category.toLowerCase()) || "/icons/category/other.svg"
+    CATEGORY_ICON_MAP.get(category.toLowerCase()) || "/icons/category/other.svg"
   );
 };
 

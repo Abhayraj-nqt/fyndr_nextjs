@@ -1,5 +1,7 @@
 import React from "react";
 
+import ASSETS from "@/constants/assets";
+
 type Props = {
   children: React.ReactNode;
   title: string;
@@ -19,7 +21,7 @@ const AuthContainerWrapper = ({ children, title, description }: Props) => {
           className="absolute inset-0 size-full object-cover"
           aria-hidden="true"
         >
-          <source src="/videos/auth-overlay-web.mp4" type="video/mp4" />
+          <source src={ASSETS.VIDEOS.AUTH.OVERLAY_WEB} type="video/mp4" />
           {/* Fallback for browsers that don't support video */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-purple-700" />
         </video>
