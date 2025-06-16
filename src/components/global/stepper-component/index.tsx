@@ -50,8 +50,8 @@ const StepperComponent = ({
             >
               {!isLast && (
                 <div
-                  className={`absolute -right-1/2 left-1/2 top-4 z-0 h-0.5 rounded-full
-                    ${state === "completed" ? "bg-primary-400" : "bg-gray-300"}`}
+                  className={`absolute -right-1/2 left-1/2 top-4 z-0 h-px rounded-full
+                    ${state === "completed" ? "bg-primary" : "bg-gray-300"}`}
                 />
               )}
 
@@ -68,8 +68,8 @@ const StepperComponent = ({
                     }
                     size="icon"
                     className={`z-10 flex size-8 items-center justify-center rounded-full text-base text-gray-400
-                      ${state === "active" ? "bg-white ring-2 ring-offset-2" : ""}
-                      ${state === "completed" ? "bg-primary-400 text-white" : ""}`}
+                      ${state === "active" ? "bg-white ring-2 ring-offset-2 hover:bg-white" : ""}
+                      ${state === "completed" ? "bg-primary text-white hover:bg-primary" : ""}`}
                     onClick={() => onStepClick?.(step.step)}
                   >
                     {step.step}
@@ -78,7 +78,7 @@ const StepperComponent = ({
 
                 <div className="mt-2 w-full max-w-[70px] text-center">
                   <StepperTitle
-                    className={`text-sm font-normal ${state === "active" ? "text-primary-400" : ""}`}
+                    className={`font-roboto text-sm ${state === "active" ? "text-primary" : ""}  ${state === "completed" ? "text-primary" : "text-black-40"}`}
                   >
                     {step.title}
                   </StepperTitle>

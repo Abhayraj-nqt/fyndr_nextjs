@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { onAddCategories, onEditCategories } from "@/actions/catalogue.actions";
+import { onAddModifiers, onEditModifiers } from "@/actions/catalogue.actions";
 import Button from "@/components/global/buttons";
 import CustomEditor from "@/components/global/editor/customEditor";
 import Input from "@/components/global/input";
@@ -21,63 +21,61 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import ROUTES from "@/constants/routes";
 import { ProcessedFileProps } from "@/lib/utils/files/upload.utils";
-import { StoreCategory } from "@/types/api-response/catalogue.response";
-import { useCategoryStore } from "@/zustand/stores/storeCategory.store";
+import {
+  StoreModifier,
+  UploadedImageData,
+} from "@/types/api-response/catalogue.response";
+import { useModifierStore } from "@/zustand/stores/storeModifier.store";
 
-import { categorySchema } from "./schema";
-
-type CategoryFormValues = z.infer<typeof categorySchema>;
-const defaultValues: CategoryFormValues = {
-  name: "",
+import { modifierSchema } from "./schema";
+type ModifierFormValues = z.infer<typeof modifierSchema>;
+const defaultValues: ModifierFormValues = {
+  modName: "",
   description: "",
   image: [],
-};
-
-type UploadedImageData = {
-  img: string;
-  index: number;
-  extn: string;
-  imgUri: string;
+  modType: "whole",
 };
 
 type Props = {
-  bizid?: number;
-  categoryId?: number;
+  bizid: number;
+  modifierId?: number;
 };
 
-const CategoryAddForm = ({ bizid, categoryId }: Props) => {
-  const getCategoryById = useCategoryStore((state) => state.getCategoryById);
-  const [category, setCategory] = useState<StoreCategory | null>(null);
+const ModifierAddForm = ({ modifierId, bizid }: Props) => {
+  const getModifierById = useModifierStore((state) => state.getModifierById);
+  const [modifier, setModifier] = useState<StoreModifier | null>(null);
   const router = useRouter();
   if (typeof bizid !== "number") {
     throw new Error("bizid is required and must be a number");
   }
 
   useEffect(() => {
-    if (categoryId !== undefined) {
-      const data = getCategoryById(categoryId);
-      setCategory(data || null);
+    if (modifierId !== undefined) {
+      const data = getModifierById(modifierId);
+      setModifier(data || null);
     }
-  }, [categoryId, getCategoryById]);
-  const form = useForm<CategoryFormValues>({
-    resolver: zodResolver(categorySchema),
+  }, [modifierId, getModifierById, setModifier]);
+  const form = useForm<ModifierFormValues>({
+    resolver: zodResolver(modifierSchema),
     defaultValues,
   });
   useEffect(() => {
-    if (categoryId && category) {
+    if (modifierId && modifier) {
       form.reset({
-        name: category.name,
-        description: category.description ?? "",
+        modName: modifier.modName,
+        description: modifier.description ?? "",
         image:
-          category.images?.map((img, index) => ({
+          modifier.images?.map((img, index) => ({
             imgUri: img.img_url,
             index: img.index ?? index,
           })) ?? [],
+        modType: modifier.modType,
       });
       const processedFiles =
-        category.images?.map((img, index) => ({
+        modifier.images?.map((img, index) => ({
           name: `image-${index}`,
           type: "image/*",
           base64: "",
@@ -86,7 +84,7 @@ const CategoryAddForm = ({ bizid, categoryId }: Props) => {
         })) ?? [];
       setUploadedFiles(processedFiles);
     }
-  }, [categoryId, category, form]);
+  }, [modifierId, modifier, form]);
 
   const [uploadedFiles, setUploadedFiles] = useState<ProcessedFileProps[]>([]);
 
@@ -112,23 +110,23 @@ const CategoryAddForm = ({ bizid, categoryId }: Props) => {
 
   const onSubmit = async (data: any) => {
     const payload = {
-      name: data?.name,
-      description: data?.description,
-      images: data?.image,
+      modName: data.modName,
+      description: data.description ?? "",
+      images: data.image,
+      modType: data.modType,
       bizid,
-      ...(categoryId && { objid: categoryId }),
+      ...(modifierId && { objid: modifierId }),
     };
-    const { success } = categoryId
-      ? await onEditCategories(payload)
-      : await onAddCategories([payload]);
-
-    if (success) {
+    const resp = modifierId
+      ? await onEditModifiers(payload)
+      : await onAddModifiers([payload]);
+    if (resp?.success) {
       toast.success({
-        message: categoryId
-          ? "Category Updated Successfully"
-          : "Category Added Successfully",
+        message: modifierId
+          ? "Modifier Updated Successfully"
+          : "Modifier Added Successfully",
       });
-      router.push(ROUTES.BUSINESS_STORE_CATEGORY);
+      router.push(ROUTES.BUSINESS_STORE_MODIFIER);
     } else {
       toast.error({
         message: "Something went wrong",
@@ -136,7 +134,7 @@ const CategoryAddForm = ({ bizid, categoryId }: Props) => {
     }
   };
   const onCancel = () => {
-    router.push(ROUTES.BUSINESS_STORE_CATEGORY);
+    router.push(ROUTES.BUSINESS_STORE_MODIFIER);
   };
 
   return (
@@ -147,7 +145,43 @@ const CategoryAddForm = ({ bizid, categoryId }: Props) => {
       >
         <FormField
           control={form.control}
-          name="name"
+          name="modType"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-center gap-4">
+              <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-black-70">
+                Type:
+              </FormLabel>
+              <div className="flex w-full flex-col gap-1">
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue="whole"
+                    value={field.value}
+                    className="flex gap-4"
+                  >
+                    <div className="flex items-center gap-2">
+                      <RadioGroupItem value="whole" id="whole" />
+                      <label htmlFor="whole" className="text-sm">
+                        whole
+                      </label>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <RadioGroupItem value="addon" id="addon" />
+                      <label htmlFor="addon" className="text-sm">
+                        add on
+                      </label>
+                    </div>
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage className="text-red-500" />
+              </div>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="modName"
           render={({ field }) => (
             <FormItem className="flex flex-row items-center gap-4">
               <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-black-70">
@@ -155,7 +189,7 @@ const CategoryAddForm = ({ bizid, categoryId }: Props) => {
               </FormLabel>
               <div className="flex w-full flex-col gap-1">
                 <FormControl>
-                  <Input {...field} placeholder="Enter category name" />
+                  <Input {...field} placeholder="Enter modifier name" />
                 </FormControl>
                 <FormMessage className="text-red-500" />
               </div>
@@ -213,7 +247,6 @@ const CategoryAddForm = ({ bizid, categoryId }: Props) => {
 
         <div className="flex justify-end gap-4">
           <Button
-            type="button"
             onClick={onCancel}
             className="rounded bg-gray-300 px-4 py-2 text-black"
           >
@@ -231,4 +264,4 @@ const CategoryAddForm = ({ bizid, categoryId }: Props) => {
   );
 };
 
-export default CategoryAddForm;
+export default ModifierAddForm;

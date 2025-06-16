@@ -3,7 +3,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@radix-ui/react-popover";
-import { Info, Store } from "lucide-react";
+import { Info } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 

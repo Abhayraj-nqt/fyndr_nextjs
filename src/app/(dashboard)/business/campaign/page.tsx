@@ -2,7 +2,7 @@ import React from "react";
 
 import { onGetCampaignList } from "@/actions/campaign.action";
 import { auth } from "@/auth";
-import ContainerWrapper from "@/components/global/ContainerWrapper";
+import ContainerWrapper from "@/components/global/container-wrapper";
 
 import Campaigns from "./_components";
 

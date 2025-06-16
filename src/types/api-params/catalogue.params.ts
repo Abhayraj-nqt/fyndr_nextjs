@@ -5,6 +5,7 @@ import {
   StoreCategoryResponse,
   StoreItem,
   StoreItemResponse,
+  StoreModifier,
   StoreModifierDelete,
   StoreModifierResponse,
   UpdateURLResponse,
@@ -98,3 +99,22 @@ export type EditItem = (payload: {
   unit: string;
   objid?: number;
 }) => Promise<ActionResponse<StoreItem>>;
+
+export type AddModifier = (
+  payload: Array<{
+    bizid: number;
+    description: string;
+    modName: string;
+    images: string[];
+    modType: string;
+  }>
+) => Promise<ActionResponse<StoreModifier>>;
+
+export type EditModifier = (payload: {
+  bizid: number;
+  description: string;
+  modName: string;
+  images: string[];
+  modType: string;
+  objid?: number;
+}) => Promise<ActionResponse<StoreModifier>>;

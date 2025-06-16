@@ -27,7 +27,7 @@ const StepperSeparator = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "h-0.5 w-full bg-muted data-[state=completed]:bg-primary",
+      "h-[1px] w-full bg-muted data-[state=completed]:bg-primary",
       className
     )}
     {...props}

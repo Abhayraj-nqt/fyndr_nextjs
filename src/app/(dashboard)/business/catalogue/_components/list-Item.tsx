@@ -8,7 +8,7 @@ import { Modal } from "@/components/global/modal";
 import { Button } from "@/components/ui/button";
 import { API_BASE_URL } from "@/environment";
 
-import StoreUrl from "../list/_components/copyStoreUrl";
+import StoreUrl from "../list/_components/copy-store-url";
 
 interface ListItemProps {
   deletePress?: () => void;

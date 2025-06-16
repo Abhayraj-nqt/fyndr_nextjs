@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import ContainerWrapper from "@/components/global/ContainerWrapper";
+import ContainerWrapper from "@/components/global/container-wrapper";
 
 const StripePage = () => {
   return (

@@ -3,7 +3,7 @@ import { useState, useMemo } from "react";
 
 import { CampaignProps } from "@/types/campaign";
 
-import CampaignList from "./campaign_list";
+import CampaignList from "./campaign-list";
 import Indicators from "./indicators";
 
 type Props = {

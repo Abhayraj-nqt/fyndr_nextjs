@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import CategoryAddForm from "@/components/forms/business/store/category-form";
+import ModifierAddForm from "@/components/forms/business/store/modifier-form";
 import ContainerWrapper from "@/components/global/container-wrapper";
 
 const AddCategoryPage = async () => {
@@ -8,7 +8,7 @@ const AddCategoryPage = async () => {
   if (!bizid) throw new Error("BizId is required");
   return (
     <ContainerWrapper title="Add Category">
-      <CategoryAddForm bizid={bizid} />
+      <ModifierAddForm bizid={bizid} />
     </ContainerWrapper>
   );
 };

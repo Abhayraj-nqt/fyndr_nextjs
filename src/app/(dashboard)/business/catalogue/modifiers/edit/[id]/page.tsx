@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import ItemAddForm from "@/components/forms/business/store/item-form";
+import ModifierAddForm from "@/components/forms/business/store/modifier-form";
 import ContainerWrapper from "@/components/global/container-wrapper";
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
   };
 };
 
-export default async function EditItem({ params }: Props) {
+export default async function EditModifier({ params }: Props) {
   const param = await params;
   const id = Number(param.id);
   const session = await auth();
@@ -17,8 +17,8 @@ export default async function EditItem({ params }: Props) {
 
   return (
     <>
-      <ContainerWrapper title="Edit Item">
-        <ItemAddForm bizid={bizid} itemId={id} />
+      <ContainerWrapper title="Edit Category">
+        <ModifierAddForm modifierId={id} bizid={bizid} />
       </ContainerWrapper>
     </>
   );

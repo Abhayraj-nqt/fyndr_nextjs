@@ -30,7 +30,7 @@ const ContainerWrapper: React.FC<ContainerWrapperProps> = ({
         >
           {title && (
             <h2
-              className={`text-2xl font-normal text-blue-400 ${!headerOption ? "mb-8" : ""}`}
+              className={`text-2xl font-normal text-primary ${!headerOption ? "mb-8" : ""}`}
             >
               {title}
             </h2>
@@ -39,7 +39,7 @@ const ContainerWrapper: React.FC<ContainerWrapperProps> = ({
         </div>
 
         <div
-          className={`${noPadding ? "" : "p-10"} rounded-[10px] bg-white shadow-sm`}
+          className={`${noPadding ? "" : "p-10"} rounded-10 bg-white shadow-sm`}
         >
           <div className="rounded-lg bg-white shadow-sm">
             <div className={`${!featured ? "" : ""}`}>{children}</div>

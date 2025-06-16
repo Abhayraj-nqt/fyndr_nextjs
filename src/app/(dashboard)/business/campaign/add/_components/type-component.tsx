@@ -11,7 +11,7 @@ import OfferBtnIcon from "../../../../../../components/icons/offer-btn-Icon";
 const TypeComponent = () => {
   const cmpnTypes = ["offers", "events", "coupons"];
   return (
-    <DefaultCard className="flex-center m-4 min-h-[134px] w-full max-w-[497px] flex-col rounded-2 border-solid bg-white p-2 outline-black">
+    <DefaultCard className="flex-center m-4 min-h-[134px] w-full max-w-[497px] flex-col border-solid bg-white p-2 outline-black">
       <div className="flex flex-row gap-6">
         {cmpnTypes.map((item, index) => (
           <Button

@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 import { onBusinessLogoUpload } from "@/actions/others.action";
-import ContainerWrapper from "@/components/global/ContainerWrapper";
+import ContainerWrapper from "@/components/global/container-wrapper";
 import toast from "@/components/global/toast";
 import ImageUploader from "@/components/global/uploader/image-uploader";
 import { Button } from "@/components/ui/button";

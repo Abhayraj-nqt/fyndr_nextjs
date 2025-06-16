@@ -138,3 +138,10 @@ export type StoreModifierResponse = {
 export type StoreModifierDelete = {
   success: boolean;
 };
+
+export type UploadedImageData = {
+  img: string;
+  index: number;
+  extn: string;
+  imgUri: string;
+};
