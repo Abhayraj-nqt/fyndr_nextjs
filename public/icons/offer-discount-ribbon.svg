@@ -1,0 +1,13 @@
+<svg
+                                    width="40"
+                                    height="70"
+                                    viewBox="0 0 39 70"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="offer_cards--ribbon"
+                                  >
+                                    <path
+                                      d="M0 0H22.9C28.5949 0 31.4424 0 33.6097 1.12587C35.4362 2.07462 36.9254 3.56382 37.8741 5.39026C39 7.55764 39 10.4051 39 16.1V70L19.5 45.3704L0 70V0Z"
+                                      fill="#FFE606"
+                                    />
+                                  </svg>

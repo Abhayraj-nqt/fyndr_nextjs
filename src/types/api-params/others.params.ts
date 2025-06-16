@@ -37,9 +37,8 @@ export type QrLogoUploadParams = (payload: {
 
 export type AddLocationParams = (payload: {
   locName: string;
-  ctryCode: number;
-  phone: number;
-  postalcode: number;
+  ctryCode: string;
+  phone: string;
   addressLine1: string;
   addressLine2: string;
   city: string;
@@ -48,12 +47,12 @@ export type AddLocationParams = (payload: {
   lng: number;
   country: string;
   bizid: number;
-  postalCode: number;
+  postalCode: string;
   parentLocation: number;
   timeZone: string;
   workingHours: string;
   deliveryOptions: string;
-  deliveryWithin: string;
+  deliveryWithin: number;
   workingHoursAndSlots: {
     workingHours: {
       MONDAY: [];
@@ -64,12 +63,17 @@ export type AddLocationParams = (payload: {
       SATURDAY: [];
       SUNDAY: [];
     };
-    slotDurationInMin: string;
+    slotDurationInMin: number;
     slotCapacity: number;
     catalogueAppointmentType: string;
     isCampaignBookingEnabled: boolean;
   };
 }) => Promise<ActionResponse<AddLocation>>;
+
+export type DeleteLocationParams = (payload: {
+  objid: number;
+  bizid: number;
+}) => Promise<ActionResponse<DeleteLocationParams>>;
 export type GetFindUsOptionsProps = () => Promise<
   ActionResponse<FindUsOptionsResponse>
 >;

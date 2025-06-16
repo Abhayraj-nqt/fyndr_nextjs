@@ -53,9 +53,9 @@ const AuthFormWrapper = ({ formType }: Props) => {
   };
 
   return (
-    <div className="w-full rounded-10 bg-black p-8 md:w-3/4 md:max-w-lg">
-      <h1 className="h1-bold">{heading}</h1>
-      <div className="paragraph-regular">
+    <div className="w-full rounded-10 bg-black/80 p-4 backdrop-blur-sm sm:p-8">
+      <h1 className="title-6-medium sm:heading-3-medium">{heading}</h1>
+      <div className="body-3 text-black-30">
         <span>{paragraphFirstWord} have an account?</span>
         <Button
           asChild
@@ -75,16 +75,16 @@ const AuthFormWrapper = ({ formType }: Props) => {
       ) : selectedUserType ? (
         <SignupForm userType={selectedUserType} onGoBack={handleGoBack} />
       ) : (
-        <div className="mt-8 flex w-full flex-col gap-4">
+        <div className="mt-6 flex w-full flex-col gap-4">
           <Button
             onClick={handleRegisterBusiness}
-            className="min-h-12 w-full rounded-10 bg-primary px-4 py-3 text-base font-normal !text-white hover:bg-primary"
+            className="min-h-12 w-full !rounded-10 bg-primary px-4 py-3 text-base font-normal !text-white hover:bg-primary"
           >
             Register as a Business
           </Button>
           <Button
             onClick={handleRegisterIndividual}
-            className="min-h-12 w-full rounded-10 bg-primary px-4 py-3 text-base font-normal !text-white hover:bg-primary"
+            className="min-h-12 w-full !rounded-10 bg-primary px-4 py-3 text-base font-normal !text-white hover:bg-primary"
           >
             Register as an Individual
           </Button>
@@ -92,7 +92,7 @@ const AuthFormWrapper = ({ formType }: Props) => {
       )}
 
       {formType === "SIGN_IN" ? (
-        <div className="body-regular mt-2 text-center">
+        <div className="body-3 mt-4 text-center text-black-30">
           <span>Forgot your password?</span>
           <Button
             asChild
@@ -107,7 +107,7 @@ const AuthFormWrapper = ({ formType }: Props) => {
           <>
             <Button
               onClick={handleGoBack}
-              className="mb-2 mt-4 min-h-12 w-full rounded-10 border border-white bg-transparent px-4 py-3 text-base font-normal text-white hover:bg-transparent"
+              className="mb-2 mt-4 min-h-12 w-full !rounded-10 border border-white bg-transparent px-4 py-3 text-base font-normal text-white hover:bg-transparent"
             >
               Go Back
             </Button>
