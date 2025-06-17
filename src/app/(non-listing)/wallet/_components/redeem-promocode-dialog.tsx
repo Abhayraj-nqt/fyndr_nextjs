@@ -7,7 +7,7 @@ import { ChangeEvent, useState } from "react";
 import {
   onRedeemPromocode,
   onVerifyPromocode,
-} from "@/actions/promocode.action";
+} from "@/actions/promo-code.action";
 import { Modal } from "@/components/global/modal";
 import { toast } from "@/components/global/toast";
 import { Button } from "@/components/ui/button";

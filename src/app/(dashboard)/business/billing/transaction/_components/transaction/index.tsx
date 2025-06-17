@@ -3,8 +3,12 @@ import React from "react";
 
 import { fetchPayables, fetchReceivables } from "@/actions/transaction.action";
 
+
 import InvoiceList from "./_components/invoice-list";
 import CommonHeader from "./common-header";
+import Orders from "../orders/page";
+import { RouteParams } from "@/types/global";
+
 type Props = {
   bizid: number;
   months: string;
@@ -12,6 +16,8 @@ type Props = {
   channel: string;
   indvid: number;
   search: string;
+  searchParams: RouteParams["searchParams"];
+
 };
 
 const Transaction = async ({
@@ -21,6 +27,7 @@ const Transaction = async ({
   channel,
   indvid,
   search,
+  searchParams
 }: Props) => {
   const { success, data } = await fetchPayables({
     criteria: "individual",
@@ -84,6 +91,9 @@ const Transaction = async ({
               No purchases found.
             </p>
           )}
+        </TabsContent>
+        <TabsContent value="order">
+           <Orders searchParams={searchParams} />
         </TabsContent>
       </Tabs>
     </>

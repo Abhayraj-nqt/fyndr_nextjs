@@ -6,10 +6,9 @@ import {
 } from "nuqs/server";
 import React from "react";
 
-import { onGetOfferSummary } from "@/actions/offersummary.actions";
+import { onGetOfferSummary } from "@/actions/offer-summary.actions";
 import { auth } from "@/auth";
 import ContainerWrapper from "@/components/global/ContainerWrapper";
-import { MultiSelect } from "@/components/global/multiselect-dropdown/multiselectDropdown";
 import PieChartSection from "@/components/global/piechart/piechart";
 import LocalSearch from "@/components/global/search/local-search";
 import ROUTES from "@/constants/routes";
@@ -18,6 +17,7 @@ import { RouteParams } from "@/types/global";
 import { OfferPurchaseProps } from "@/types/offersummary";
 
 import OfferSummaryTable from "./_components/offer-summary-table";
+import { MultiSelect } from "@/components/global/multiselect-dropdown/multiselectDropdown";
 
 const OfferSummary = async ({
   searchParams,
@@ -41,7 +41,7 @@ const OfferSummary = async ({
   const search = searchParamsCache.parse(params);
   const selectedStatuses = search.status;
   const orderBy = search.sort.map((item) => (item.desc ? "DESC" : "ASC"));
-  const {  data } = await onGetOfferSummary({
+  const { data } = await onGetOfferSummary({
     bizid,
     pgSize: search.pageSize,
     pgStart: search.page,

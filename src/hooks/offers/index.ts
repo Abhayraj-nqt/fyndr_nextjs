@@ -1,6 +1,6 @@
 import { useMutation} from "@tanstack/react-query";
 
-import { onUpdateOfferRedeemption } from "@/actions/offersummary.actions";
+import { onUpdateOfferRedeemption } from "@/actions/offer-summary.actions";
 import toast from "@/components/global/toast";
 import { InvoiceOffer } from "@/types/api-response/transaction.response";
 import {

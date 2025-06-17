@@ -4,7 +4,7 @@
 import { useSearchParams } from "next/navigation";
 import React from "react";
 
-import { onGetOfferSummary } from "@/actions/offersummary.actions";
+import { onGetOfferSummary } from "@/actions/offer-summary.actions";
 import { DataTable } from "@/components/global/data-table/data-table";
 import { useUser } from "@/hooks/auth";
 import { useDataTable } from "@/hooks/use-data-table";

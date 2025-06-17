@@ -1,0 +1,196 @@
+"use client ";
+
+import { ColumnDef } from "@tanstack/react-table";
+import dayjs from "dayjs";
+
+import { DataTableColumnHeader } from "@/components/global/data-table/data-table-column-header";
+import { DataTableRowAction } from "@/types/data-table";
+type Props = {
+  setRowAction: React.Dispatch<
+    React.SetStateAction<DataTableRowAction<OrdersResponse> | null>
+  >;
+  userTimeZone?: string;
+};
+
+export function getOrdersDetailsColoumn({
+  setRowAction,
+  userTimeZone,
+}: Props): ColumnDef<OrdersResponse>[] {
+  return [
+    {
+      accessorKey: "invoiceId",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Invoice ID" />
+      ),
+      cell: ({ row }) => <div>{row.original.invoiceId}</div>,
+    },
+    {
+      accessorKey: "invoicedTo",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Invoice To" />
+      ),
+      cell: ({ row }) => <div>{row.original.invoicedTo}</div>,
+    },
+    {
+      accessorKey: "deliveryType",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Type" />
+      ),
+      cell: ({ row }) => {
+        const type = row.original.deliveryType;
+        return (
+          <p>{type ? type.charAt(0).toUpperCase() + type.slice(1) : "-"}</p>
+        );
+      },
+    },
+    {
+      accessorKey: "orderDeliveryTime",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Order Prep Time" />
+      ),
+      cell: ({ row }) => {
+        const data = row.original.orderDeliveryTime;
+        return data
+          ? data.slice(0, 12) +
+              " " +
+              data.charAt(13).toUpperCase() +
+              data.charAt(14).toUpperCase()
+          : "-";
+      },
+    },
+    {
+      accessorKey: "location",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Location" />
+      ),
+      cell: ({ row }) => <p>{row.original.location || "-"}</p>,
+    },
+    {
+      accessorKey: "deliveryStatus",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Delivery Type" />
+      ),
+      cell: ({ row }) => {
+        const record = row.original;
+        const data = record.deliveryStatus;
+        return <p>{data}</p>;
+        // (
+        //   <DropdownComponent
+        //     bordered={false}
+        //     value={data}
+        //     options={deliveryType}
+        //     onChange={(value) => {
+        //       setColor(getColorText(value));
+        //       setBgColor(getDeliveryColor(value));
+        //       setDeliveryDropdown(value);
+        //       updateDeliveryStatusFunction(value, record.invoiceId);
+        //     }}
+        //     style={{
+        //       width: "100%",
+        //       borderRadius: "1rem",
+        //       color: getColorText(data),
+        //       backgroundColor: getDeliveryColor(data),
+        //     }}
+        //   />
+        // );
+      },
+    },
+    {
+      accessorKey: "orderTime",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Ordered Time" />
+      ),
+      cell: ({ row }) => {
+        const data = row.original.orderTime;
+        return data
+          ? dayjs
+              .tz(data, userTimeZone || dayjs.tz.guess())
+              .format("MM-DD-YYYY , h:mm A")
+          : "-";
+      },
+    },
+    {
+      accessorKey: "paymentStatus",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Payment" />
+      ),
+      cell: ({ row }) => {
+        const item = row.original.paymentStatus;
+        // const record = row.original;
+        return <p>{item}</p>;
+        // const commonProps = {
+        //   value: item.charAt(0).toUpperCase() + item.slice(1),
+        //   bordered: false,
+        //   style: {
+        //     width: "100%",
+        //     borderRadius: "1rem",
+        //     color: getTextColor(item),
+        //     backgroundColor: getColor(item),
+        //   },
+        // };
+
+        // return item === "pending" ? (
+        //   <DropdownComponent
+        //     {...commonProps}
+        //     options={paymentStatusDropdown}
+        //     onChange={(value) => {
+        //       setSelectedUser(value);
+        //       handleOnChange(value, record);
+        //       if (value === "canceled") {
+        //         UpdateStatusFunction(value, record);
+        //       }
+        //     }}
+        //   />
+        // ) : (
+        //   <DropdownComponent
+        //     {...commonProps}
+        //     disabled={true}
+        //     newclassnmae={item === "canceled" ? "dropdownRed" : "dropdown"}
+        //   />
+        // );
+      },
+    },
+    {
+      accessorKey: "disputeStatus",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Dispute Status" />
+      ),
+      cell: ({ row }) => {
+        const data = row.original.disputeStatus;
+        return (
+          <p>{data ? data.charAt(0) + data.slice(1).toLowerCase() : "-"}</p>
+        );
+      },
+    },
+    {
+      id: "actions",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Actions" />
+      ),
+      cell: ({ row }) => {
+        const record = row.original;
+        // return (
+        //   <Space size="middle">
+        //     <Button
+        //       type="link"
+        //       onClick={() => {
+        //         setSelectedUser(record);
+        //         getInvoiceDetailsApiCall(record);
+        //       }}
+        //     >
+        //       Print
+        //     </Button>
+        //     {record.paymentStatus !== "paid" && (
+        //       <Button
+        //         onClick={() => getInvoiceDetailsApiCall(record, true)}
+        //         type="link"
+        //       >
+        //         Edit
+        //       </Button>
+        //     )}
+        //   </Space>
+        // );
+      },
+    },
+  ];
+}

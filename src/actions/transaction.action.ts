@@ -5,6 +5,7 @@ import { _post } from "@/lib/handlers/fetch";
 import {
   GetInvoiceDetailProps,
   GetInvoiceSummaryProps,
+  GetOrdersDetailsProps,
   GetPayableProps,
   GetReceivableProps,
 } from "@/types/api-params/transaction.params";
@@ -51,5 +52,25 @@ export const onGetInvoiceDetails :  GetInvoiceDetailProps =  async (payload) => 
       requireAuth : true,
       
     })
+   
+}
+
+export const onGetOrdersDetails : GetOrdersDetailsProps = async(params , payload) => {
+
+  const {page,pageSize ,businessId} = params;
+
+  console.log("payload",payload);
+
+  console.log("params", params)
+
+  const endpoint = `${API_BASE_URL}/order/details/${businessId}?pgStart=${page}&pgSize=${pageSize}`;
+
+  return _post(endpoint, payload, {
+    requireAuth: true,
+   
+    cache: "no-store", 
+  });
+
+  
    
 }
