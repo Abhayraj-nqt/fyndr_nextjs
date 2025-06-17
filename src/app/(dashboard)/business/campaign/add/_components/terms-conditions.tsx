@@ -1,7 +1,7 @@
 import React from "react";
 
 import DefaultCard from "@/components/global/cards/default-card";
-import CustomEditor from "@/components/global/editor/customEditor";
+import CustomEditor from "@/components/global/editor/custom-editor";
 
 const TermsAndConditions = () => {
   return (

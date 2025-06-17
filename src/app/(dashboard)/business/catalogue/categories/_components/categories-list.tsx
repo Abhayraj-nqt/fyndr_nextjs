@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { onDeleteCategory } from "@/actions/catalogue.actions";
 import toast from "@/components/global/toast";
 import { StoreCategory } from "@/types/api-response/catalogue.response";
-import { useCategoryStore } from "@/zustand/stores/storeCategory.store";
+import { useCategoryStore } from "@/zustand/stores/store-category.store";
 
 import List from "../../../_components/list";
 import ListItem from "../../_components/list-Item";

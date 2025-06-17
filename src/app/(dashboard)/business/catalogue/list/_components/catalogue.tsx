@@ -6,8 +6,8 @@ import { useState } from "react";
 import { Modal } from "@/components/global/modal";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useFetchStoreLocation } from "@/hooks/catalogues/use-Fetch-Store-Location";
-import { useUpdateStoreURL } from "@/hooks/catalogues/use-Update-Store-URL";
+import { useFetchStoreLocation } from "@/hooks/catalogues/use-fetch-store-location";
+import { useUpdateStoreURL } from "@/hooks/catalogues/use-update-store-url";
 import {
   CatalogueItem,
   storeLocations,

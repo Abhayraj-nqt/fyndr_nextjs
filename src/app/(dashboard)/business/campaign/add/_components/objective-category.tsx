@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 
 import { onGetCategories } from "@/actions/category.action";
 import DefaultCard from "@/components/global/cards/default-card";
-import Select from "@/components/global/input/select/select";
+import Select from "@/components/global/input/select/index";
 import InfoTooltip from "@/components/global/tooltip/info-tooltip";
+
 type CategoryOption = {
   value: string;
   label: string;

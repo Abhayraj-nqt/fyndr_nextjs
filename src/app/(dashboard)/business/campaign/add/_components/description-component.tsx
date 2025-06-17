@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import DefaultCard from "@/components/global/cards/default-card";
 import DatePicker from "@/components/global/date-picker";
-import CustomEditor from "@/components/global/editor/customEditor";
+import CustomEditor from "@/components/global/editor/custom-editor";
 import Input from "@/components/global/input";
 import InputWrapper from "@/components/global/input/input-wrapper";
 

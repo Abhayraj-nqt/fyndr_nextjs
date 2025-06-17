@@ -15,7 +15,7 @@ import {
   StoreItem,
   UploadedImageData,
 } from "@/types/api-response/catalogue.response";
-import { useItemStore } from "@/zustand/stores/storeItem.store";
+import { useItemStore } from "@/zustand/stores/store-item.store";
 
 import ItemFormContent from "./item-form-content";
 import { itemSchema } from "./schema";

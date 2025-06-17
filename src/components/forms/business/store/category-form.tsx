@@ -9,7 +9,7 @@ import { z } from "zod";
 
 import { onAddCategories, onEditCategories } from "@/actions/catalogue.actions";
 import Button from "@/components/global/buttons";
-import CustomEditor from "@/components/global/editor/customEditor";
+import CustomEditor from "@/components/global/editor/custom-editor";
 import Input from "@/components/global/input";
 import toast from "@/components/global/toast";
 import ImageUploader from "@/components/global/uploader/image-uploader";
@@ -24,7 +24,7 @@ import {
 import ROUTES from "@/constants/routes";
 import { ProcessedFileProps } from "@/lib/utils/files/upload.utils";
 import { StoreCategory } from "@/types/api-response/catalogue.response";
-import { useCategoryStore } from "@/zustand/stores/storeCategory.store";
+import { useCategoryStore } from "@/zustand/stores/store-category.store";
 
 import { categorySchema } from "./schema";
 

@@ -4,7 +4,7 @@ import { UseFormReturn } from "react-hook-form";
 
 import UnitDropdown from "@/app/(dashboard)/business/catalogue/categories/_components/unit-dropdown";
 import Button from "@/components/global/buttons";
-import CustomEditor from "@/components/global/editor/customEditor";
+import CustomEditor from "@/components/global/editor/custom-editor";
 import Input from "@/components/global/input";
 import Switch from "@/components/global/input/switch";
 import ImageUploader from "@/components/global/uploader/image-uploader";

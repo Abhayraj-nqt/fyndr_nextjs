@@ -9,7 +9,7 @@ import { z } from "zod";
 
 import { onAddModifiers, onEditModifiers } from "@/actions/catalogue.actions";
 import Button from "@/components/global/buttons";
-import CustomEditor from "@/components/global/editor/customEditor";
+import CustomEditor from "@/components/global/editor/custom-editor";
 import Input from "@/components/global/input";
 import toast from "@/components/global/toast";
 import ImageUploader from "@/components/global/uploader/image-uploader";
@@ -28,7 +28,7 @@ import {
   StoreModifier,
   UploadedImageData,
 } from "@/types/api-response/catalogue.response";
-import { useModifierStore } from "@/zustand/stores/storeModifier.store";
+import { useModifierStore } from "@/zustand/stores/store-modifier.store";
 
 import { modifierSchema } from "./schema";
 type ModifierFormValues = z.infer<typeof modifierSchema>;
