@@ -8,7 +8,8 @@ import React from "react";
 
 import { onGetOfferSummary } from "@/actions/offer-summary.actions";
 import { auth } from "@/auth";
-import ContainerWrapper from "@/components/global/ContainerWrapper";
+import ContainerWrapper from "@/components/global/container-wrapper";
+import { MultiSelect } from "@/components/global/multiselect-dropdown/multiselectDropdown";
 import PieChartSection from "@/components/global/piechart/piechart";
 import LocalSearch from "@/components/global/search/local-search";
 import ROUTES from "@/constants/routes";
@@ -17,7 +18,6 @@ import { RouteParams } from "@/types/global";
 import { OfferPurchaseProps } from "@/types/offersummary";
 
 import OfferSummaryTable from "./_components/offer-summary-table";
-import { MultiSelect } from "@/components/global/multiselect-dropdown/multiselectDropdown";
 
 const OfferSummary = async ({
   searchParams,

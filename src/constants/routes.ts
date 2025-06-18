@@ -55,7 +55,7 @@ const ROUTES = {
   BUSINESS_ACCOUNT_LOCATION_CREATE: "/business/account/location/create",
   BUSINESS_ACCOUNT_LOCATION_EDIT: (id: string | number) =>
     `/business/account/location/${id}`,
-  BUSINESS_ACCOUNT_OFFER_SUMMARY: "/business/account/offers-summary",
+  BUSINESS_ACCOUNT_OFFER_SUMMARY: "/business/account/offer-summary",
   BUSINESS_ACCOUNT_APPOINTMENT: "/business/account/appointment",
   BUSINESS_ACCOUNT_CUSTOM_EMAIL: "/business/account/custom-email",
   BUSINESS_DISPUTE: "/business/dispute",
