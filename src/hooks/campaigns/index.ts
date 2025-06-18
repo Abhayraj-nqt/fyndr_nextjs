@@ -1,16 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-lines */
+"use client";
+
 import {
   useInfiniteQuery,
   useQuery,
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
+import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 
 import { onGetCampaigns, onLikeCampaign } from "@/actions/campaign.action";
 import toast from "@/components/global/toast";
 import { CAT_LIST_HOME } from "@/constants";
+import ROUTES from "@/constants/routes";
 import { API_BASE_URL } from "@/environment";
 import { _post } from "@/lib/handlers/fetch";
 import { CampaignsResponse } from "@/types/api-response/campaign.response";
@@ -277,6 +281,16 @@ type LikeCampaignParams = {
 
 export function useOptimisticLike() {
   const queryClient = useQueryClient();
+  const pathname = usePathname();
+
+  const isWishlistPage = pathname === ROUTES.MY_OFFERS;
+
+  const getQueryKey = () => {
+    if (isWishlistPage) {
+      return ["my-offers"];
+    }
+    return ["campaigns"];
+  };
 
   return useMutation({
     mutationFn: async (params: LikeCampaignParams) => {
@@ -292,17 +306,42 @@ export function useOptimisticLike() {
     },
 
     onMutate: async (variables) => {
+      const queryKey = getQueryKey();
       // Cancel any outgoing refetches so they don't overwrite our optimistic update
-      await queryClient.cancelQueries({ queryKey: ["campaigns"] });
+      // await queryClient.cancelQueries({ queryKey: ["campaigns"] });
+      await queryClient.cancelQueries({ queryKey });
 
       // Snapshot the previous value for rollback
       const previousData = queryClient.getQueriesData({
-        queryKey: ["campaigns"],
+        // queryKey: ["campaigns"],
+        queryKey,
       });
 
       // Optimistically update all campaign queries
-      queryClient.setQueriesData({ queryKey: ["campaigns"] }, (old: any) => {
+      // queryClient.setQueriesData({ queryKey: ["campaigns"] }, (old: any) => {
+      queryClient.setQueriesData({ queryKey }, (old: any) => {
         if (!old) return old;
+
+        if (isWishlistPage) {
+          // if (variables.isDeleted) {
+          return {
+            ...old,
+            pages:
+              old.pages?.map((page: any) => ({
+                ...page,
+                campaigns:
+                  page.campaigns?.filter(
+                    (campaign: CampaignProps) =>
+                      campaign.objid !== variables.cmpnId
+                  ) || [],
+              })) ||
+              old.campaigns?.filter(
+                (campaign: CampaignProps) => campaign.objid !== variables.cmpnId
+              ) ||
+              old,
+          };
+          // }
+        }
 
         return {
           ...old,
@@ -338,12 +377,18 @@ export function useOptimisticLike() {
     },
 
     onSuccess: (data, variables) => {
+      const queryKey = getQueryKey();
       // Update with actual server response data
       if (data.success && data.data) {
         const serverResponse = data.data;
 
-        queryClient.setQueriesData({ queryKey: ["campaigns"] }, (old: any) => {
+        // queryClient.setQueriesData({ queryKey: ["campaigns"] }, (old: any) => {
+        queryClient.setQueriesData({ queryKey }, (old: any) => {
           if (!old) return old;
+
+          if (isWishlistPage) {
+            return old;
+          }
 
           return {
             ...old,

@@ -1,5 +1,8 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+
+import ROUTES from "@/constants/routes";
 import { API_BASE_URL } from "@/environment";
 import { _get, _post, _put } from "@/lib/handlers/fetch";
 import {
@@ -14,6 +17,7 @@ import {
   CampaignResponse,
   CampaignsResponse,
 } from "@/types/api-response/campaign.response";
+import { GetLikedCampaigns } from "@/types/campaign/campaign.action.types";
 
 export const onGetCampaignByQr: GetCampaignByQrProps = async (
   params,
@@ -55,10 +59,10 @@ export const onGetCampaigns: GetCampaignsProps = async (params, payload) => {
 
   return _post<CampaignsResponse>(endpoint, payload, {
     timeout: 20000,
-    cache: "force-cache",
-    next: {
-      revalidate: 10000,
-    },
+    // cache: "force-cache",
+    // next: {
+    //   revalidate: 10000,
+    // },
   });
 };
 
@@ -89,6 +93,28 @@ export const onLikeCampaign: LikeCampaignProps = async (payload) => {
     return _put(endpoint, payload, {
       requireAuth: true,
     });
+  }
+
+  // revalidatePath(ROUTES.OFFERS_AND_EVENTS);
+  // revalidatePath(ROUTES.MY_OFFERS);
+  return _post(endpoint, payload, {
+    requireAuth: true,
+  });
+};
+
+export const onGetLikedCampaigns: GetLikedCampaigns = async ({
+  params,
+  payload,
+}) => {
+  const { search, orderBy, page, pageSize } = params;
+  let endpoint = `${API_BASE_URL}/campaign/liked/${payload.userId}?pgStart=${page}&pgSize=${pageSize}`;
+
+  if (search) {
+    endpoint = `${endpoint}&text=${search}`;
+  }
+
+  if (orderBy) {
+    endpoint = `${endpoint}&orderBy=${orderBy}`;
   }
 
   return _post(endpoint, payload, {

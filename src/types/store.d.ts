@@ -1,3 +1,13 @@
+type BusinessWorkingHourProps = {
+  Sunday?: string[];
+  Monday?: string[];
+  Tuesday?: string[];
+  Wednesday?: string[];
+  Thursday?: string[];
+  Friday?: string[];
+  Saturday?: string[];
+};
+
 type BusinessDirectory = {
   addressLine1: string;
   addressLine2: string;
@@ -18,17 +28,8 @@ type BusinessDirectory = {
   objid: number;
   qrid: number;
 
-  businessWorkingHours:
-    | {
-        Sunday?: string[];
-        Monday?: string[];
-        Tuesday?: string[];
-        Wednesday?: string[];
-        Thursday?: string[];
-        Friday?: string[];
-        Saturday?: string[];
-      }
-    | unknown;
+  businessWorkingHours: BusinessWorkingHourProps;
+
   catImg: null | unknown;
   catalogueId: null | unknown;
   deliveryOptions: string;

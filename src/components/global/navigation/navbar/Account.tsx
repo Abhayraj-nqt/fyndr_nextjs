@@ -9,6 +9,7 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from "@/components/ui/menubar";
+import ROUTES from "@/constants/routes";
 
 import SignOutButton from "../../buttons/sign-out-button";
 
@@ -43,9 +44,7 @@ const Account = async ({ className }: Props) => {
               <Link href={"/business/billing/transaction"}>Account</Link>
             </MenubarItem>
             <MenubarItem asChild>
-              <Link href={`/account/${session.user.id}/my-offers`}>
-                My Offers
-              </Link>
+              <Link href={ROUTES.MY_OFFERS}>My Offers</Link>
             </MenubarItem>
             <MenubarItem className="w-full">
               <SignOutButton className="m-0 size-fit w-full justify-start bg-transparent p-0 font-normal text-black shadow-none hover:bg-transparent">

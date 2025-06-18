@@ -155,7 +155,7 @@ const CampaignCard = ({ campaign }: Props) => {
           <div className="flex items-center gap-4 text-black-60">
             {campaign?.cmpnLocs[0]?.phone ? (
               <PhoneTo phone={campaign?.cmpnLocs[0]?.phone}>
-                <Phone size={20} />
+                <Phone size={20} className="cursor-pointer" />
               </PhoneTo>
             ) : (
               <></>

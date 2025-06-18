@@ -246,7 +246,7 @@ const GoogleMap2: React.FC<GoogleMapProps> = ({
   if (loadError) {
     return (
       <div
-        className="flex items-center justify-center rounded-lg border border-red-200 bg-red-50"
+        className="flex items-center justify-center rounded-10 border border-red-200 bg-red-50"
         style={containerStyle}
       >
         <div className="text-center text-red-600">

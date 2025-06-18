@@ -16,6 +16,7 @@ const IMAGES = {
     GOOGLE_PLAY_STORE: `${PREFIX}`,
     APPLE_APP_STORE: `${PREFIX}`,
   },
+  CROWN: `${PREFIX}/crown.png`,
 } as const;
 
 export default IMAGES;

@@ -2,6 +2,7 @@ import {
   CampaignListResponse,
   CampaignResponse,
   CampaignsResponse,
+  GetLikedCampaignsResponse,
   LikeCampaignResponse,
 } from "../api-response/campaign.response";
 import { ActionResponse, Coordinates } from "../global";
@@ -59,3 +60,16 @@ export type LikeCampaignProps = (payload: {
   isDeleted: boolean | null;
   objid: number | null;
 }) => Promise<ActionResponse<LikeCampaignResponse>>;
+
+export type GetLikedCampaigns = (args: {
+  params: {
+    search?: string;
+    page?: number;
+    pageSize?: number;
+    orderBy?: "ASC" | "DESC";
+  };
+  payload: {
+    location: Coordinates;
+    userId: number;
+  };
+}) => Promise<ActionResponse<GetLikedCampaignsResponse>>;

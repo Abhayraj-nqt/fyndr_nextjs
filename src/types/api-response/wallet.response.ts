@@ -1,6 +1,6 @@
 import { Currency, CurrencySymbol } from "../global";
 
-export type WalletTransactionsResponse = {
+export type GetWalletTransactionsResponse = {
   balance: number;
   count: number;
   currency: Currency;

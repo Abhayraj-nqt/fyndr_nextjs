@@ -22,3 +22,8 @@ export type LikeCampaignResponse = {
   isDeleted: boolean;
   likedCount: number;
 };
+
+export type GetLikedCampaignsResponse = {
+  campaigns: CampaignProps[];
+  last: boolean;
+};

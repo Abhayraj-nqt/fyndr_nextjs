@@ -3,7 +3,7 @@ import { ActionResponse, Coordinates } from "../global";
 
 export type GetStoreProps = (
   params: {
-    search: string;
+    search?: string;
     page: number;
     pageSize: number;
   },

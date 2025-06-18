@@ -157,7 +157,7 @@ const CampaignMarkerMap = () => {
   const queryParams = useMemo(
     () => ({
       // orderBy: searchParamsData.order.toUpperCase() as "ASC" | "DESC",
-      orderBy: "DESC",
+      orderBy: "DESC" as const,
       search: searchParamsData.query || undefined,
     }),
     // [searchParamsData.order, searchParamsData.query]

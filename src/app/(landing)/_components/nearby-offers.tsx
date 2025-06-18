@@ -16,7 +16,7 @@ type Props = {
 const NearbyOffers = ({ campaigns: nearbyOffers }: Props) => {
   return (
     <section className="mt-10 flex flex-col">
-      <h2 className="h2-semibold">Offers Near You</h2>
+      <h2 className="heading-6-medium text-black-80">Offers Near You</h2>
       <div className="my-6 grid place-items-center gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
         {nearbyOffers.map((item) => (
           <Link
