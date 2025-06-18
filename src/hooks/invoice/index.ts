@@ -10,9 +10,9 @@ type InvoicePayload = Parameters<GetInvoiceDetailProps>[0];
 
 export const useInvoiceDetails = (
   objid: number | null,
-  type: string | null,
   bizid: number | null,
-  indvid: number | null
+  indvid: number | null,
+  type: string | null,
 ) => {
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["invoiceDetails", objid, type, bizid],
