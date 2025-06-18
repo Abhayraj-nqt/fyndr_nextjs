@@ -17,7 +17,7 @@ type BizCardProps = {
   businessAddonUrl: string;
   businessAddress: string;
   businessPhone: string;
-  channel: ChannelOffer;
+  channel: ChannelOffer | string;
   vouchers: InvoiceOffer[] | null;
   giftDetails: GiftDetails | null;
   invoiceId: number | null;

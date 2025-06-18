@@ -143,7 +143,7 @@ export function getOfferSummaryDetailsColoumn({
     {
       accessorKey: "status",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Status" />
+        <DataTableColumnHeader column={column} title="Actions" />
       ),
       cell: ({ row }) => (
         <Button

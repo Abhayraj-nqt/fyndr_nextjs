@@ -14,12 +14,8 @@ import ROUTES from "@/constants/routes";
 import { RouteParams } from "@/types/global";
 
 import OrdersTable from "./_components/orders-table";
-
-import SelectPayment from "./_components/select-orders/select-payment";
-
 import SelectDelivery from "./_components/select-orders/select-delivery";
-
-import Input from "@/components/global/input";
+import SelectPayment from "./_components/select-orders/select-payment";
 
 const Orders = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
   const session = await auth();
@@ -37,9 +33,6 @@ const Orders = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
   });
 
   const search = searchParamsCache.parse(params);
-
-  console.log("📄 Parsed search params:", search);
-  console.log("🎯 Final page value being sent to API:", search?.page);
   const selectedPyamentStatus = search.paymentstatus;
   const selectedDeliveryStatus = search.deliverystatus;
 
@@ -73,7 +66,6 @@ const Orders = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
 
           <SelectPayment />
           <SelectDelivery />
-          <Input type="date" />
         </div>
         <section className="mt-10">
           <Suspense fallback={<div>Loading orders...</div>}>

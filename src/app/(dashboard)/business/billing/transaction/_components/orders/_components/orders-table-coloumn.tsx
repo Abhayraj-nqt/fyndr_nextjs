@@ -2,7 +2,9 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
+import { Space } from "lucide-react";
 
+import Button from "@/components/global/buttons";
 import { DataTableColumnHeader } from "@/components/global/data-table/data-table-column-header";
 import { DataTableRowAction } from "@/types/data-table";
 type Props = {
@@ -23,6 +25,8 @@ export function getOrdersDetailsColoumn({
         <DataTableColumnHeader column={column} title="Invoice ID" />
       ),
       cell: ({ row }) => <div>{row.original.invoiceId}</div>,
+      enableSorting: false,
+      enableHiding: false,
     },
     {
       accessorKey: "invoicedTo",
@@ -30,6 +34,8 @@ export function getOrdersDetailsColoumn({
         <DataTableColumnHeader column={column} title="Invoice To" />
       ),
       cell: ({ row }) => <div>{row.original.invoicedTo}</div>,
+      enableSorting: false,
+      enableHiding: false,
     },
     {
       accessorKey: "deliveryType",
@@ -42,6 +48,8 @@ export function getOrdersDetailsColoumn({
           <p>{type ? type.charAt(0).toUpperCase() + type.slice(1) : "-"}</p>
         );
       },
+      enableSorting: false,
+      enableHiding: false,
     },
     {
       accessorKey: "orderDeliveryTime",
@@ -57,6 +65,8 @@ export function getOrdersDetailsColoumn({
               data.charAt(14).toUpperCase()
           : "-";
       },
+      enableSorting: false,
+      enableHiding: false,
     },
     {
       accessorKey: "location",
@@ -64,6 +74,8 @@ export function getOrdersDetailsColoumn({
         <DataTableColumnHeader column={column} title="Location" />
       ),
       cell: ({ row }) => <p>{row.original.location || "-"}</p>,
+      enableSorting: false,
+      enableHiding: false,
     },
     {
       accessorKey: "deliveryStatus",
@@ -94,6 +106,8 @@ export function getOrdersDetailsColoumn({
         //   />
         // );
       },
+      enableSorting: false,
+      enableHiding: false,
     },
     {
       accessorKey: "orderTime",
@@ -108,6 +122,8 @@ export function getOrdersDetailsColoumn({
               .format("MM-DD-YYYY , h:mm A")
           : "-";
       },
+      enableSorting: false,
+      enableHiding: false,
     },
     {
       accessorKey: "paymentStatus",
@@ -149,6 +165,8 @@ export function getOrdersDetailsColoumn({
         //   />
         // );
       },
+      enableSorting: false,
+      enableHiding: false,
     },
     {
       accessorKey: "disputeStatus",
@@ -161,6 +179,8 @@ export function getOrdersDetailsColoumn({
           <p>{data ? data.charAt(0) + data.slice(1).toLowerCase() : "-"}</p>
         );
       },
+      enableSorting: false,
+      enableHiding: false,
     },
     {
       id: "actions",
@@ -169,28 +189,29 @@ export function getOrdersDetailsColoumn({
       ),
       cell: ({ row }) => {
         const record = row.original;
-        // return (
-        //   <Space size="middle">
-        //     <Button
-        //       type="link"
-        //       onClick={() => {
-        //         setSelectedUser(record);
-        //         getInvoiceDetailsApiCall(record);
-        //       }}
-        //     >
-        //       Print
-        //     </Button>
-        //     {record.paymentStatus !== "paid" && (
-        //       <Button
-        //         onClick={() => getInvoiceDetailsApiCall(record, true)}
-        //         type="link"
-        //       >
-        //         Edit
-        //       </Button>
-        //     )}
-        //   </Space>
-        // );
+        return (
+          <>
+            <div className="flex gap-2">
+              <Button
+                variant="primary"
+                onClick={() => setRowAction({ row, variant: "print" })}
+              >
+                Print
+              </Button>
+              {record.paymentStatus !== "paid" && (
+                <Button
+                  onClick={() => setRowAction({ row, variant: "update" })}
+                  variant="primary-outlined"
+                >
+                  Edit
+                </Button>
+              )}
+            </div>
+          </>
+        );
       },
+      enableSorting: false,
+      enableHiding: false,
     },
   ];
 }

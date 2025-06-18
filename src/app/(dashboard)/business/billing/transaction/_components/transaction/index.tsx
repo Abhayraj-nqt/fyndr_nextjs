@@ -2,12 +2,11 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@radix-ui/react-tabs";
 import React from "react";
 
 import { fetchPayables, fetchReceivables } from "@/actions/transaction.action";
-
+import { RouteParams } from "@/types/global";
 
 import InvoiceList from "./_components/invoice-list";
 import CommonHeader from "./common-header";
 import Orders from "../orders/page";
-import { RouteParams } from "@/types/global";
 
 type Props = {
   bizid: number;
@@ -17,7 +16,6 @@ type Props = {
   indvid: number;
   search: string;
   searchParams: RouteParams["searchParams"];
-
 };
 
 const Transaction = async ({
@@ -27,7 +25,7 @@ const Transaction = async ({
   channel,
   indvid,
   search,
-  searchParams
+  searchParams,
 }: Props) => {
   const { success, data } = await fetchPayables({
     criteria: "individual",
@@ -93,7 +91,7 @@ const Transaction = async ({
           )}
         </TabsContent>
         <TabsContent value="order">
-           <Orders searchParams={searchParams} />
+          <Orders searchParams={searchParams} />
         </TabsContent>
       </Tabs>
     </>

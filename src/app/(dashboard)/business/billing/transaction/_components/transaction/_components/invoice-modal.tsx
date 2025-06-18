@@ -2,7 +2,7 @@ import Invoicefooter from "@/components/global/invoice/invoicefooter";
 import { Modal } from "@/components/global/modal";
 import { fetchInvoice } from "@/types/api-response/transaction.response";
 
-import Invoiceview from "./invoiceview/invoice-view";
+import Invoiceview from "./invoice-view";
 
 type InvoiceModalProps = {
   visible: boolean;

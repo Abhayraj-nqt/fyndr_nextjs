@@ -10,6 +10,8 @@ import { useDataTable } from "@/hooks/use-data-table";
 import { DataTableRowAction } from "@/types/data-table";
 
 import { getOrdersDetailsColoumn } from "./orders-table-coloumn";
+import PrintAction from "./actions-orders/print-action";
+import EditAction from "./actions-orders/edit-action";
 
 type Props = {
   promises: Promise<[Awaited<ReturnType<typeof onGetOrdersDetails>>]>;
@@ -46,6 +48,15 @@ const OrdersTable = ({ promises }: Props) => {
   return (
     <div>
       <DataTable table={table} />
+      <PrintAction 
+        open = {rowAction?.variant ==="print"}
+        onOpenChange ={()=>setRowAction(null)}
+        row ={rowAction?.row.original ?? null}
+        title = "Invoice Details"
+      />
+
+      <EditAction/>
+
     </div>
   );
 };

@@ -12,38 +12,36 @@ export const useInvoiceDetails = (
   objid: number | null,
   bizid: number | null,
   indvid: number | null,
+<<<<<<< Updated upstream
   type: string | null,
+=======
+  type?: string | null
+>>>>>>> Stashed changes
 ) => {
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["invoiceDetails", objid, type, bizid],
-    enabled: !!objid && !!type,
+    enabled: !!objid,
     refetchOnMount: "always",
-
     staleTime: 0,
     notifyOnChangeProps: ["data", "error", "isLoading"],
     queryFn: async () => {
       const payload: InvoicePayload = { invoiceId: objid! };
 
-      if (type === "receivable") {
+      if (type && type === "receivable") {
         payload.bizid = bizid!;
       } else {
         payload.buyerId = indvid!;
       }
 
       const { success, data } = await onGetInvoiceDetails(payload);
-
       console.log("invoice details data", data);
+      
       if (!success) throw new Error("Failed to fetch invoice details");
       return data;
     },
   });
 
-  return {
-    data,
-    isLoading,
-    isError,
-    refetch,
-  };
+  return { data, isLoading, isError, refetch };
 };
 
 export const useUserReviewOverViews = (bizId?: number) => {

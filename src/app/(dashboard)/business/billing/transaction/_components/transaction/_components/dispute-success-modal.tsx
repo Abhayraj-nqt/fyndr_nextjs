@@ -1,8 +1,8 @@
 import { motion } from "motion/react";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 import React from "react";
 
-import { email } from "@/common/config";
 import { Modal } from "@/components/global/modal";
 
 type DisputeSuccessModalProps = {
@@ -15,6 +15,8 @@ const DisputeSuccessModal = ({
 
   open,
 }: DisputeSuccessModalProps) => {
+  const user = useSession();
+  const email = user?.data?.user?.email;
   return (
     <Modal open={open} onOpenChange={onOpenChange} title="Success">
       <div className="flex h-60 flex-col items-center justify-center">
