@@ -1,14 +1,15 @@
 "use client";
 
-import { deleteCategory } from "@/actions/catalogue.actions";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
+import { onDeleteCategory } from "@/actions/catalogue.actions";
+import toast from "@/components/global/toast";
 import { StoreCategory } from "@/types/api-response/catalogue.response";
+import { useCategoryStore } from "@/zustand/stores/store-category.store";
 
 import List from "../../../_components/list";
-import ListItem from "../../_components/listItem";
-import { useCategoryStore } from "@/zustand/stores/storeCategory.store";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import toast from "@/components/global/toast";
+import ListItem from "../../_components/list-Item";
 
 type Props = {
   categories: StoreCategory[];
@@ -31,7 +32,7 @@ const CategoriesList = ({ categories, bizid }: Props) => {
     name: string,
     description: string
   ) => {
-    await deleteCategory({ objid, bizid, name, description });
+    await onDeleteCategory({ objid, bizid, name, description });
     toast.success({
       message: "Category deleted Successfully",
     });

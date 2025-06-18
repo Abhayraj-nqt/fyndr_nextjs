@@ -3,7 +3,7 @@ import React from "react";
 
 import { onGetOfferSummary } from "@/actions/offersummary.actions";
 import { auth } from "@/auth";
-import ContainerWrapper from "@/components/global/ContainerWrapper";
+import ContainerWrapper from "@/components/global/container-wrapper";
 import PieChartSection from "@/components/global/piechart/piechart";
 import { RouteParams } from "@/types/global";
 

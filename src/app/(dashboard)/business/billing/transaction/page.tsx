@@ -1,6 +1,6 @@
 import { getAccountAPI } from "@/actions/auth.actions";
 import { auth } from "@/auth";
-import ContainerWrapper from "@/components/global/ContainerWrapper";
+import ContainerWrapper from "@/components/global/container-wrapper";
 import { RouteParams } from "@/types/global";
 
 import Summary from "./_components/summary/index";
