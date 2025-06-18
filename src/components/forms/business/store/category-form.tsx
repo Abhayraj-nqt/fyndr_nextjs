@@ -1,9 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Input from "@/components/global/input";
 
+import { onAddCategories, onEditCategories } from "@/actions/catalogue.actions";
+import Button from "@/components/global/buttons";
+import CustomEditor from "@/components/global/editor/custom-editor";
+import Input from "@/components/global/input";
+import toast from "@/components/global/toast";
+import ImageUploader from "@/components/global/uploader/image-uploader";
 import {
   Form,
   FormControl,
@@ -12,33 +21,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import Button from "@/components/global/buttons";
-import { useRouter } from "next/navigation";
 import ROUTES from "@/constants/routes";
-import CustomEditor from "@/components/global/editor/customEditor";
-import ImageUploader from "@/components/global/uploader/image-uploader";
-import { ProcessedFileProps } from "@/lib/file-utils/upload.utils";
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import { AddCategories, EditCategories } from "@/actions/catalogue.actions";
-import toast from "@/components/global/toast";
-import { useCategoryStore } from "@/zustand/stores/storeCategory.store";
+import { ProcessedFileProps } from "@/lib/utils/files/upload.utils";
 import { StoreCategory } from "@/types/api-response/catalogue.response";
+import { useCategoryStore } from "@/zustand/stores/store-category.store";
 
-const categorySchema = z.object({
-  name: z.string().min(1, "Please Enter Name"),
-  description: z.string().optional(),
-  image: z
-    .array(
-      z.object({
-        img: z.any(),
-        index: z.number(),
-        extn: z.string(),
-        imgUri: z.string(),
-      })
-    )
-    .optional(),
-});
+import { categorySchema } from "./schema";
 
 type CategoryFormValues = z.infer<typeof categorySchema>;
 const defaultValues: CategoryFormValues = {
@@ -68,7 +56,7 @@ const CategoryAddForm = ({ bizid, categoryId }: Props) => {
   }
 
   useEffect(() => {
-    if (categoryId != undefined) {
+    if (categoryId !== undefined) {
       const data = getCategoryById(categoryId);
       setCategory(data || null);
     }
@@ -131,8 +119,8 @@ const CategoryAddForm = ({ bizid, categoryId }: Props) => {
       ...(categoryId && { objid: categoryId }),
     };
     const { success } = categoryId
-      ? await EditCategories(payload)
-      : await AddCategories([payload]);
+      ? await onEditCategories(payload)
+      : await onAddCategories([payload]);
 
     if (success) {
       toast.success({
@@ -155,23 +143,19 @@ const CategoryAddForm = ({ bizid, categoryId }: Props) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4 min-w-[100%] p-8"
+        className="min-w-full space-y-4 p-8"
       >
         <FormField
           control={form.control}
           name="name"
           render={({ field }) => (
-            <FormItem className="flex flex-row gap-4 items-center">
-              <FormLabel className="paragraph-medium w-40 min-w-40 text-black-70 text-base">
+            <FormItem className="flex flex-row items-center gap-4">
+              <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-black-70">
                 Name:
               </FormLabel>
-              <div className="w-full flex flex-col gap-1">
+              <div className="flex w-full flex-col gap-1">
                 <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="Enter category name"
-                    className="input-field"
-                  />
+                  <Input {...field} placeholder="Enter category name" />
                 </FormControl>
                 <FormMessage className="text-red-500" />
               </div>
@@ -184,10 +168,10 @@ const CategoryAddForm = ({ bizid, categoryId }: Props) => {
           name="description"
           render={({ field }) => (
             <FormItem className="flex flex-row gap-4">
-              <FormLabel className="paragraph-medium w-40 min-w-40 text-black-70 text-base mt-2">
+              <FormLabel className="paragraph-medium mt-2 w-40 min-w-40 text-base text-black-70">
                 Description:
               </FormLabel>
-              <div className="w-full flex flex-col">
+              <div className="flex w-full flex-col">
                 <FormControl>
                   <CustomEditor value={field.value} onChange={field.onChange} />
                 </FormControl>
@@ -200,9 +184,9 @@ const CategoryAddForm = ({ bizid, categoryId }: Props) => {
         <FormField
           control={form.control}
           name="image"
-          render={({ field }) => (
+          render={() => (
             <FormItem className="flex-center">
-              <FormLabel className="paragraph-medium w-40 min-w-40 text-black-70 text-base"></FormLabel>
+              <FormLabel className="paragraph-medium w-40 min-w-40 text-base text-black-70"></FormLabel>
               <div className="flex-between gap-5">
                 {uploadedFiles.map((item) => (
                   <Image
@@ -227,17 +211,17 @@ const CategoryAddForm = ({ bizid, categoryId }: Props) => {
           )}
         />
 
-        <div className="flex gap-4 justify-end">
+        <div className="flex justify-end gap-4">
           <Button
             type="button"
             onClick={onCancel}
-            className="bg-gray-300 text-black px-4 py-2 rounded"
+            className="rounded bg-gray-300 px-4 py-2 text-black"
           >
             Cancel
           </Button>
           <Button
             type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded"
+            className="rounded bg-blue-600 px-4 py-2 text-white"
           >
             Save
           </Button>

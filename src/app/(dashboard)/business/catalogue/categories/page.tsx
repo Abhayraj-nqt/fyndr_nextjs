@@ -1,16 +1,16 @@
-import { fetchStoreCategory } from "@/actions/catalogue.actions";
+import { onGetStoreCategory } from "@/actions/catalogue.actions";
 import { auth } from "@/auth";
-import ContainerWrapper from "@/components/global/ContainerWrapper";
+import ContainerWrapper from "@/components/global/container-wrapper";
 
-import AddCategory from "./_components/addCategoryButton";
-import CategoriesList from "./_components/categoriesList";
+import AddCategory from "./_components/add-category-button";
+import CategoriesList from "./_components/categories-list";
 
 const Categories = async () => {
   const session = await auth();
   const bizid = session?.user?.bizid;
   if (!bizid) throw new Error("BizId is required");
 
-  const { success, data } = await fetchStoreCategory({ bizid });
+  const { success, data } = await onGetStoreCategory({ bizid });
   if (!success || !data) return null;
 
   return (

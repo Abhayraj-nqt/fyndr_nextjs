@@ -6,15 +6,15 @@ import { useState } from "react";
 import { Modal } from "@/components/global/modal";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useFetchStoreLocation } from "@/hooks/catalogues/useFetchStoreLocation";
-import { useUpdateStoreURL } from "@/hooks/catalogues/useUpdateStoreURL";
+import { useFetchStoreLocation } from "@/hooks/catalogues/use-store-location";
+import { useUpdateStoreURL } from "@/hooks/catalogues/use-update-store-urls";
 import {
   CatalogueItem,
   storeLocations,
 } from "@/types/api-response/catalogue.response";
 
 import List from "../../../_components/list";
-import ListItem from "../../_components/listItem";
+import ListItem from "../../_components/list-Item";
 
 type Props = {
   data: CatalogueItem[];

@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import ContainerWrapper from "@/components/global/ContainerWrapper";
+import ContainerWrapper from "@/components/global/container-wrapper";
 
 const StripePage = () => {
   return (
@@ -51,7 +51,7 @@ const StripePage = () => {
               </div>
             </div>
 
-            <div className="text-black-800 flex flex-col items-center gap-2 text-sm">
+            <div className="flex flex-col items-center gap-2 text-sm text-black">
               {/* <ImCross className="text-red-600 mt-1" /> */}
               <p>
                 If you have any questions or need assistance, please get in

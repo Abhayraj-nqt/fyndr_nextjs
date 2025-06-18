@@ -1,13 +1,14 @@
 "use client";
-import { deleteItem } from "@/actions/catalogue.actions";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
+import { onDeleteItem } from "@/actions/catalogue.actions";
+import toast from "@/components/global/toast";
 import { StoreItem } from "@/types/api-response/catalogue.response";
+import { useItemStore } from "@/zustand/stores/store-item.store";
 
 import List from "../../../_components/list";
-import ListItem from "../../_components/listItem";
-import toast from "@/components/global/toast";
-import { useRouter } from "next/navigation";
-import { useItemStore } from "@/zustand/stores/storeItem.store";
-import { useEffect } from "react";
+import ListItem from "../../_components/list-Item";
 
 type Props = {
   items: StoreItem[];
@@ -26,7 +27,7 @@ const ItemList = ({ items, bizid }: Props) => {
   };
 
   const handleDelete = async (objid: number) => {
-    await deleteItem({ objid, bizid });
+    await onDeleteItem({ objid, bizid });
     toast.success({
       message: "Item deleted Successfully",
     });

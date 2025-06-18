@@ -1,4 +1,3 @@
-import React, { useRef, useState, useEffect } from "react";
 import {
   Bold,
   Italic,
@@ -20,6 +19,7 @@ import {
   Baseline,
   PaintBucket,
 } from "lucide-react";
+import React, { useRef, useState, useEffect } from "react";
 
 interface ActiveFormats {
   bold: boolean;
