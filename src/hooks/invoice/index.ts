@@ -12,11 +12,8 @@ export const useInvoiceDetails = (
   objid: number | null,
   bizid: number | null,
   indvid: number | null,
-<<<<<<< Updated upstream
-  type: string | null,
-=======
   type?: string | null
->>>>>>> Stashed changes
+
 ) => {
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["invoiceDetails", objid, type, bizid],
