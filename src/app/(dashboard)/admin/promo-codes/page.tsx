@@ -1,7 +1,7 @@
 import React from "react";
 
 import { getActivePromos, getExpiredPromos } from "@/actions/admin.actions";
-import ContainerWrapper from "@/components/global/ContainerWrapper";
+import ContainerWrapper from "@/components/global/container-wrapper";
 import LocalSearch from "@/components/global/search/local-search";
 
 import ActiveBar from "./_components/activeBar";

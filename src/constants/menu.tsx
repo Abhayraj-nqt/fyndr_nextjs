@@ -75,7 +75,7 @@ export const BUSINESS_MENU: SubMenuProps[] = [
     subMenu: [
       {
         icon: BadgePlus,
-        route: "",
+        route: "/business/campaign/add/1",
         label: "Create Campaign",
       },
       {

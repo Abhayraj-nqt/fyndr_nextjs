@@ -2,11 +2,19 @@
 
 import { ImageIcon } from "lucide-react";
 import React from "react";
+import Resizer from "react-image-file-resizer";
 
 import { ProcessedFileProps } from "@/lib/utils/files/upload.utils";
 
 import ImageCropper from "../image-cropper";
 import FileUploader from "./file-uploader";
+
+type ThumbnailProps = {
+  thumbnailBase64?: string;
+  thumbnailBase64Url?: string;
+};
+
+export type ImageUploaderOutput = ProcessedFileProps & ThumbnailProps;
 
 type Props = {
   children?: React.ReactNode;
@@ -14,11 +22,34 @@ type Props = {
   className?: string;
   maxFileSizeMB: number;
   aspectRatio?: number;
-  onImageUpload: (files: ProcessedFileProps[]) => void;
+  onImageUpload: (files: ImageUploaderOutput[]) => void;
   canUploadVideo?: boolean;
   minZoom?: number;
   maxZoom?: number;
   restrictPosition?: boolean;
+};
+
+type ResizeOptions = {
+  maxWidth: number;
+  maxHeight: number;
+  quality: number;
+  format: string;
+  rotation: number;
+};
+
+const DEFAULT_RESIZE_OPTIONS: Required<ResizeOptions> = {
+  maxWidth: 1920,
+  maxHeight: 1080,
+  quality: 100,
+  format: "image/jpeg",
+  rotation: 0,
+};
+const THUMBNAIL_RESIZE_OPTIONS: Required<ResizeOptions> = {
+  maxWidth: 200,
+  maxHeight: 200,
+  quality: 100,
+  format: "image/jpeg",
+  rotation: 0,
 };
 
 let ALLOWED_FILE_TYPES = [
@@ -34,6 +65,34 @@ let ALLOWED_FILE_TYPES = [
   "image/heif",
   "image/heic",
 ];
+
+const resize = ({
+  file,
+  maxHeight,
+  maxWidth,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  format,
+  quality,
+  rotation,
+}: ResizeOptions & { file: File }): Promise<
+  string | File | Blob | ProgressEvent<FileReader>
+> => {
+  return new Promise((resolve) => {
+    Resizer.imageFileResizer(
+      file,
+      maxWidth,
+      maxHeight,
+      // format,
+      "JPEG",
+      quality,
+      rotation,
+      (uri) => {
+        resolve(uri);
+      },
+      "base64"
+    );
+  });
+};
 
 const ImageUploader = ({
   children,
@@ -67,8 +126,38 @@ const ImageUploader = ({
     ];
   }
 
-  const handleImageUpload = (files: ProcessedFileProps[]) => {
-    onImageUpload(files);
+  const handleImageUpload = async (files: ImageUploaderOutput[]) => {
+    const processedFiles = await Promise.all(
+      files.map(async (fileItem) => {
+        if (fileItem.type.startsWith("video")) {
+          return { ...fileItem };
+        }
+
+        const thumbnail = (await resize({
+          ...THUMBNAIL_RESIZE_OPTIONS,
+          file: fileItem.orgFile!,
+        })) as string;
+
+        const image = (await resize({
+          ...DEFAULT_RESIZE_OPTIONS,
+          file: fileItem.orgFile!,
+        })) as string;
+
+        return {
+          name: fileItem.name,
+          type: DEFAULT_RESIZE_OPTIONS.format,
+          orgFile: fileItem.orgFile,
+          base64: image.substring(image.indexOf("base64,") + 7),
+          base64Url: image,
+          thumbnailBase64: thumbnail.substring(
+            thumbnail.indexOf("base64,") + 7
+          ),
+          thumbnailBase64Url: thumbnail,
+        };
+      })
+    );
+
+    onImageUpload(processedFiles);
   };
 
   return (
