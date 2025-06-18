@@ -316,7 +316,7 @@ export type GiftDetails = {
 
 export type invoiceDetailsResponse = {
   invoiceDt: string;
-  invoiceDetails: InvoiceDetails;
+  invoiceDetails: InvoiceDetails | CatalogResponse;
   taxAmount: number;
   baseAmount: number;
   discountAmount: number;

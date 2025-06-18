@@ -8,6 +8,7 @@ import {
   Address,
   Biz,
   fetchInvoice,
+  invoiceDetailsResponse,
   InvoiceOfferDetail,
   Item,
   Offer,
@@ -493,7 +494,7 @@ export const getFormattedDtNew = (tm: string, timeZone: string): string => {
   return dayjs.tz(tm, timeZone).utc().format("MMMM DD, YYYY");
 };
 
-export const getchannelBought = (channel: ChannelOffer): string => {
+export const getchannelBought = (channel: ChannelOffer | string): string => {
   switch (channel) {
     case "offers":
     case "offer_appointment":

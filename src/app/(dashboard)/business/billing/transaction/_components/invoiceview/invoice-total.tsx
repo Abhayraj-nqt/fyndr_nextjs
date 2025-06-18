@@ -17,7 +17,7 @@ import {
 } from "@/types/api-response/transaction.response";
 
 type InvoiceTotalProps = {
-  channel: ChannelOffer;
+  channel: ChannelOffer | string;
   invoiceDetails: OfferResponse | CatalogResponse;
   currencySymbol: string;
   baseAmount: number;
@@ -28,7 +28,7 @@ type InvoiceTotalProps = {
   isBusiness: boolean;
   type: string | null;
   itemsDetails: Offer[] | Item[];
-  endDate: string;
+  endDate?: string;
 };
 
 const Invoicetotal: React.FC<InvoiceTotalProps> = ({
@@ -45,6 +45,7 @@ const Invoicetotal: React.FC<InvoiceTotalProps> = ({
   itemsDetails,
   endDate,
 }) => {
+  console.log(endDate, "end Daye");
   return (
     <>
       {!endDate && sumQuantities(itemsDetails) !== 0 && (
@@ -55,9 +56,9 @@ const Invoicetotal: React.FC<InvoiceTotalProps> = ({
 
           <span className="text-sm font-normal leading-5 text-black-80">
             {sumQuantities(
-              "offers" in invoiceDetails
+              invoiceDetails && "offers" in invoiceDetails
                 ? invoiceDetails.offers
-                : invoiceDetails.items
+                : (invoiceDetails?.items ?? [])
             )}
           </span>
         </div>
@@ -126,7 +127,7 @@ const Invoicetotal: React.FC<InvoiceTotalProps> = ({
         <div className="mt-1 flex justify-between">
           <span className="body-2">Delivery:</span>
           <div>
-            <RadioGroup
+            {/* <RadioGroup
               //   value={fulfiled}
               //   onValueChange={fulfilInvoice}
               className="flex gap-4"
@@ -146,7 +147,7 @@ const Invoicetotal: React.FC<InvoiceTotalProps> = ({
                   Partially Fulfilled
                 </Label>
               </div>
-            </RadioGroup>
+            </RadioGroup> */}
           </div>
         </div>
       )}

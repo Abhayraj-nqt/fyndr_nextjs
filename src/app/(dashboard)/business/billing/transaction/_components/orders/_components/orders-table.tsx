@@ -53,6 +53,7 @@ const OrdersTable = ({ promises }: Props) => {
         onOpenChange ={()=>setRowAction(null)}
         row ={rowAction?.row.original ?? null}
         title = "Invoice Details"
+        type  = {"receivable"}
       />
 
       <EditAction/>

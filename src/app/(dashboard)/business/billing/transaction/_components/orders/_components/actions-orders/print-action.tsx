@@ -2,12 +2,14 @@ import { channel } from "diagnostics_channel";
 
 import React, { useEffect, useState } from "react";
 
+import Buttons from "@/components/global/buttons/invoice-buttons";
 import Bizcard from "@/components/global/invoice/bizcard";
+import Invoicefooter from "@/components/global/invoice/invoicefooter";
 import Overallreview from "@/components/global/invoice/overallreview";
 import { Modal } from "@/components/global/modal";
 import { useUser } from "@/hooks/auth";
 import { useInvoiceDetails, useUserReviewOverViews } from "@/hooks/invoice";
-import { ChannelOffer, parseAddress } from "@/lib/utils";
+import { parseAddress } from "@/lib/utils";
 import { ReviewOverviews } from "@/types/api-response/review.response";
 import {
   Address,
@@ -17,16 +19,25 @@ import {
   InvoiceOffer,
   Offer,
 } from "@/types/api-response/transaction.response";
+
 import InvoiceBasicInfo from "../../../invoiceview/invoice-basic-info";
+import Invoicetotal from "../../../invoiceview/invoice-total";
 
 type PrintActionProps = {
   row: OrdersResponse | null;
   onOpenChange: () => void;
   open: boolean;
   title: string;
+  type: string;
 };
 
-const PrintAction = ({ row, onOpenChange, open, title }: PrintActionProps) => {
+const PrintAction = ({
+  row,
+  onOpenChange,
+  open,
+  title,
+  type,
+}: PrintActionProps) => {
   const [biz, setBiz] = useState<Biz | null>(null);
   const [billingAddress, setBillingAddress] = useState<Address | null>(null);
   const [brand, setBrand] = useState<string>("");
@@ -36,18 +47,18 @@ const PrintAction = ({ row, onOpenChange, open, title }: PrintActionProps) => {
   const [disputeStatus, setDisputeStatus] = useState<string | null>(null);
   const [gifteeDetails, setGifteeDetails] = useState<GiftDetails | null>(null);
   const [vouchers, setVouchers] = useState<InvoiceOffer[] | null>(null);
-  const [appointment, setAppointment] = useState<Offer[] | null>(null);
   const [fyndrCash, setFyndrCash] = useState<number>(0);
   const [businessId, setBusinessId] = useState<number | null>(null);
   const [promoImage, setPromoImage] = useState<string>("");
   const [invoiceId, setInvoiceId] = useState<number | null>(null);
   const [reviewOverviews, setReviewOverviews] = useState<ReviewOverviews>();
-  const [disputeOpen, setDisputeOpen] = useState<boolean>(false);
   const [channel, setChannel] = useState<string>("");
-  const [buyerFname ,setBuyerFname] = useState<string>("");
-  const [buyerLname ,setBuyerLname] = useState<string>("");
-  const [invoiceDt , setInvoiceDt] = useState<string>("");
-  const [invoiceDetails , setInvoiceDetails] =  useState<CatalogResponse>({});
+  const [buyerFname, setBuyerFname] = useState<string>("");
+  const [buyerLname, setBuyerLname] = useState<string>("");
+  const [invoiceDt, setInvoiceDt] = useState<string>("");
+  const [invoiceDetails, setInvoiceDetails] = useState<CatalogResponse | null>(
+    null
+  );
 
   const { user, isLoading: isUserLoading, error } = useUser();
 
@@ -55,17 +66,23 @@ const PrintAction = ({ row, onOpenChange, open, title }: PrintActionProps) => {
   const indvid = user?.indvid ?? null;
   const userTimeZone = user?.userTimeZone;
 
-  const objid = row?.invoiceId ?? null;
+  const objid = row ? row.invoiceId : null;
 
   console.log(objid, "objid");
   console.log(indvid, "indcid");
   const {
     data: invoiceDetailsResp,
     isLoading: isInvoiceLoading,
-    refetch,
+
   } = useInvoiceDetails(objid, bizid, indvid, "receivable");
+   
+  if(isInvoiceLoading)
+  {
+    <div>Loading....</div>
+  }
 
   console.log("invoice details resp in orders", invoiceDetailsResp);
+  console.log("invocice details");
 
   useEffect(() => {
     if (!invoiceDetailsResp) return;
@@ -85,10 +102,7 @@ const PrintAction = ({ row, onOpenChange, open, title }: PrintActionProps) => {
     setBuyerFname(invoiceDetailsResp?.buyerFname);
     setBuyerLname(invoiceDetailsResp?.buyerLname);
     setInvoiceDt(invoiceDetailsResp?.invoiceDt);
-    setInvoiceDetails(invoiceDetailsResp?.invoiceDetails);
-    setAppointment(
-      (invoiceDetailsResp.invoiceDetails?.offers as Offer[]) ?? null
-    );
+    setInvoiceDetails(invoiceDetailsResp?.invoiceDetails as CatalogResponse);
 
     if (invoiceDetailsResp.payments) {
       setBrand(invoiceDetailsResp.payments.cardBrand);
@@ -100,14 +114,37 @@ const PrintAction = ({ row, onOpenChange, open, title }: PrintActionProps) => {
     invoiceDetailsResp?.biz?.bizid
   );
 
+  const status = invoiceDetailsResp?.status ?? "";
+  const baseAmount = invoiceDetailsResp?.baseAmount ?? 0;
+  const taxAmount = invoiceDetailsResp?.taxAmount ?? 0;
+  const tipAmount = invoiceDetailsResp?.tipAmount ?? 0;
+
+  const itemsDetails =
+    (invoiceDetailsResp?.invoiceDetails as CatalogResponse)?.items ?? [];
+  const date1 = new Date(invoiceDt);
+  const date2 = new Date();
+
+  const DifferenceInTime = date2.getTime() - date1.getTime();
+  const DifferenceInDays = DifferenceInTime / (1000 * 3600 * 24);
+
+  console.log(itemsDetails);
   useEffect(() => {
     if (!reviewOverviews) return;
 
     setReviewOverviews(reviewOverviewsresp);
     setBusinessId(reviewOverviewsresp?.bizId ?? null);
   }, [reviewOverviews]);
+
   return (
-    <Modal open={open} onOpenChange={onOpenChange} title={title}>
+    <Modal
+      open={open}
+      onOpenChange={onOpenChange}
+      title={title}
+      footerContent={<Invoicefooter />}
+      footerClassName="p-0"
+      showFooter={true}
+      bodyClassName="max-h-[80vh] overflow-y-scroll no-scrollbar"
+    >
       {biz && (
         <Bizcard
           businessLogo={channel !== "cmpn_promo" ? biz?.mainLogo : promoImage}
@@ -135,27 +172,47 @@ const PrintAction = ({ row, onOpenChange, open, title }: PrintActionProps) => {
       )}
 
       <InvoiceBasicInfo
-          buyerFname={buyerFname}
-          buyerLname={buyerLname}
+        buyerFname={buyerFname}
+        buyerLname={buyerLname}
+        channel={channel}
+        gifteeDetails={gifteeDetails}
+        status={status}
+        invoiceDetails={invoiceDetails as CatalogResponse}
+        userTimeZone={userTimeZone}
+        invoiceDt={invoiceDt}
+        brand={brand}
+        billingEmail={billingEmail}
+        billingAddress={billingAddress}
+        purchaseLoc={purchaseLoc}
+        disputeStatus={disputeStatus}
+        objid={objid}
+      />
+
+      <div className="mt-3 rounded-10 border border-secondary-20 p-3">
+        <Invoicetotal
           channel={channel}
-          gifteeDetails={gifteeDetails}
-          fulfiled={fulfiled}
-          status={status}
-          endDate={endDate}
-          startDate={startDate}
-          invoiceDetails={invoiceDetails}
-          userTimeZone={userTimeZone}
-          invoiceDt={invoiceDt}
-          brand={brand}
-          billingEmail={billingEmail}
-          billingAddress={billingAddress}
-          purchaseLoc={purchaseLoc}
+          invoiceDetails={invoiceDetails as CatalogResponse}
+          currencySymbol={invoiceDetailsResp?.currencySymbol ?? ""}
+          baseAmount={baseAmount}
+          taxAmount={taxAmount}
+          fyndrCash={fyndrCash}
+          tipAmount={tipAmount}
+          totalAmount={0}
+          isBusiness={user?.isBusiness ?? false}
           type={type}
-          disputeStatus={disputeStatus}
-          objid={inv?.[0]?.objid}
+          itemsDetails={itemsDetails}
         />
+      </div>
 
-
+      <Buttons
+        btn1="Print"
+        onClick1={() => window.print()}
+        showPopover={
+          Math.round(DifferenceInDays) > 30 ||
+          disputeStatus !== null ||
+          businessId === user?.bizid
+        }
+      />
     </Modal>
   );
 };

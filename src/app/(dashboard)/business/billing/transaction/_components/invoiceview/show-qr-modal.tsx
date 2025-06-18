@@ -8,8 +8,8 @@ import { Modal } from "@/components/global/modal";
 type ShowQrModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  objid: number;
-  fulfiled: string | null;
+  objid: number | null;
+  fulfiled?: string | null;
 };
 
 const ShowQrModal = ({
