@@ -71,7 +71,7 @@ const getUserColumns = ({ setRowAction }: Props): ColumnDef<UserDetail>[] => {
       ),
       cell: ({ row }) => (
         <div>
-          {row.original.phone}
+         {row.original.countryCode}{" "} {row.original.phone}
         </div>
       ),
       enableSorting: false,

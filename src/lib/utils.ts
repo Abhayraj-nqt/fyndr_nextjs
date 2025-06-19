@@ -16,6 +16,7 @@ import {
 } from "@/types/api-response/transaction.response";
 import { CampaignOfferProps, CampaignProps } from "@/types/campaign";
 import { CurrencySymbol, DiscountType } from "@/types/global";
+import { State } from "country-state-city";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -557,4 +558,41 @@ export const getTotal = (rec: fetchInvoice): string => {
 export const getTruncatedTitle = (title: string, limit = 50) => {
   if (!title) return "";
   return title.length > limit ? `${title.slice(0, limit)}...` : title;
+};
+
+export const getFilteredStatesByCountry = async (countryCode: string) => {
+  try {
+    const raw = await State.getStatesOfCountry(countryCode);
+    const mapped = raw.map(({ isoCode: value, name: label, ...rest }) => ({
+      value,
+      label,
+      ...rest,
+    }));
+
+    if (countryCode === "US") {
+      const toRemove = [
+        "American Samoa",
+        "Baker Island",
+        "Guam",
+        "Howland Island",
+        "Jarvis Island",
+        "Johnston Atoll",
+        "Kingman Reef",
+        "Midway Atoll",
+        "Navassa Island",
+        "Northern Mariana Islands",
+        "Palmyra Atoll",
+        "Puerto Rico",
+        "United States Minor Outlying Islands",
+        "United States Virgin Islands",
+        "Wake Island",
+      ];
+      return mapped.filter((s) => !toRemove.includes(s.label));
+    }
+
+    return mapped;
+  } catch (error) {
+    console.error("Failed to load states:", error);
+    return [];
+  }
 };

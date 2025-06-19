@@ -65,12 +65,12 @@ const UserDetais = async ({
   );
 
   return (
-    <ContainerWrapper>
+      <div className="py-8 px-10" >
+        <div className="p-4 bg-white rounded-5">
       <SearchHeader userCount={dataResponse.data?.data.count ?? 0} />
-      <section>
         <UserDetailsTable dataResponse={dataResponse} />
-      </section>
-    </ContainerWrapper>
+        </div>
+      </div>
   );
 };
 

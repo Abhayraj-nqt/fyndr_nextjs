@@ -1,25 +1,16 @@
 "use client";
 
-import { MultiSelect } from "@/components/global/multiselect-dropdown/multiselectDropdown";
 import LocalSearch from "@/components/global/search/local-search";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { State } from "country-state-city";
-import { Input } from "@/components/ui/input";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 import { getAllPromoCodes } from "@/actions/promocode.action";
-import { getAllPromoCode } from "@/types/api-response/promocode.response";
 import DateRangePicker from "./range-calendar";
 import { getAllChannel } from "@/actions/auth.actions";
 import { DropDownOprions } from "@/types/api-response/findUsChannel.response";
-// import Select from "@/components/global/input/select";
 import Select from "@/components/global/input/select/index";
 import { SelectOption } from "@/components/global/input/select/select.types";
+import { getFilteredStatesByCountry } from "@/lib/utils";
+import { COUNTRIES } from "@/constants";
 
 const statusOptions = [
   { label: "Active", value: "ACTIVE" },
@@ -27,21 +18,10 @@ const statusOptions = [
   { label: "Deleted", value: "DELETED" },
   { label: "Suspended", value: "SUSPENDED" },
 ];
-
 const customerOption = [
   { label: "Individual", value: "INDIVIDUAL" },
   { label: "Business", value: "BUSINESS" },
 ];
-
-const countryOptions = [
-  { value: "US", label: "United States" },
-  { value: "IN", label: "India" },
-  { value: "AU", label: "Australia" },
-  { value: "CA", label: "Canada" },
-  { value: "GB", label: "United Kingdom" },
-  { value: "NZ", label: "New Zealand" },
-];
-
 type Props = {
   userCount?: number;
 };
@@ -55,23 +35,18 @@ export const SearchHeader = ({ userCount = 0 }: Props) => {
   const [stateData, setStateData] = useState<
     { value: string; label: string }[]
   >([]);
-
-  const [promoCode, setPromoCode] = useState(
-    searchParams.get("promoCode") || ""
-  );
-  const [country, setCountry] = useState(searchParams.get("country") || "");
+  const [promoCode, setPromoCode] = useState(searchParams.get("promoCode") || "");
+  const [country, setCountry] = useState(searchParams.get("country") || "US");
   const [state, setState] = useState(searchParams.get("state") || "");
 
   const updateSingleParam = useCallback(
     (key: string, value: string) => {
       const params = new URLSearchParams(searchParams.toString());
-
       if (value) {
         params.set(key, value);
       } else {
         params.delete(key);
       }
-
       router.push(`${pathname}?${params.toString()}`);
     },
     [searchParams, pathname, router]
@@ -84,42 +59,9 @@ export const SearchHeader = ({ userCount = 0 }: Props) => {
       updateSingleParam("state", "");
       return;
     }
-
     (async () => {
-      try {
-        const raw = await State.getStatesOfCountry(country);
-        const mapped = raw.map(({ isoCode: value, name: label, ...rest }) => ({
-          value,
-          label,
-          ...rest,
-        }));
-
-        if (country === "US") {
-          const toRemove = [
-            "American Samoa",
-            "Baker Island",
-            "Guam",
-            "Howland Island",
-            "Jarvis Island",
-            "Johnston Atoll",
-            "Kingman Reef",
-            "Midway Atoll",
-            "Navassa Island",
-            "Northern Mariana Islands",
-            "Palmyra Atoll",
-            "Puerto Rico",
-            "United States Minor Outlying Islands",
-            "United States Virgin Islands",
-            "Wake Island",
-          ];
-          setStateData(mapped.filter((s) => !toRemove.includes(s.label)));
-        } else {
-          setStateData(mapped);
-        }
-      } catch (error) {
-        console.error("Failed to load states:", error);
-        setStateData([]);
-      }
+      const states = await getFilteredStatesByCountry(country);
+      setStateData(states);
     })();
   }, [country]);
 
@@ -167,27 +109,64 @@ export const SearchHeader = ({ userCount = 0 }: Props) => {
 
   const handlePromoCodeChange = (newPromoCode: string) => {
     setPromoCode(newPromoCode);
-    updateSingleParam("promoCode", newPromoCode);
+    const params = new URLSearchParams(searchParams.toString());
+    if (newPromoCode) {
+      params.set("promoCode", newPromoCode);
+    } else {
+      params.delete("promoCode");
+    }
+    router.replace(`?${params.toString()}`, { scroll: false });
   };
 
   const handleCountryChange = (newCountry: string) => {
     setCountry(newCountry);
     setState("");
-    updateSingleParam("country", newCountry);
-    updateSingleParam("state", "");
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("country", newCountry);
+    params.delete("state");
+    router.replace(`?${params.toString()}`, { scroll: false });
   };
 
   const handleStateChange = (newState: string) => {
     setState(newState);
-    updateSingleParam("state", newState);
+    const params = new URLSearchParams(searchParams.toString());
+    if (newState) {
+      params.set("state", newState);
+    } else {
+      params.delete("state");
+    }
+    router.replace(`?${params.toString()}`, { scroll: false });
   };
 
-  const handlePromoCodeClear = () => handlePromoCodeChange("");
-  const handleCountryClear = () => {
-    handleCountryChange("");
-    setState("");
+  const handleCustomerChange = (values: string[]) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (values.length > 0) {
+      params.set("customer", values.join(","));
+    } else {
+      params.delete("customer");
+    }
+    router.replace(`?${params.toString()}`, { scroll: false });
   };
-  const handleStateClear = () => handleStateChange("");
+
+  const handleStatusChange = (values: string[]) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (values.length > 0) {
+      params.set("status", values.join(","));
+    } else {
+      params.delete("status");
+    }
+    router.replace(`?${params.toString()}`, { scroll: false });
+  };
+
+  const handleChannelChange = (values: string[]) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (values.length > 0) {
+      params.set("channel", values.join(","));
+    } else {
+      params.delete("channel");
+    }
+    router.replace(`?${params.toString()}`, { scroll: false });
+  };
 
   return (
     <>
@@ -195,133 +174,59 @@ export const SearchHeader = ({ userCount = 0 }: Props) => {
         <LocalSearch
           route={pathname}
           placeholder="Search"
-          className="flex-1 text-[#333] text-left h-[46px] rounded-[10px] pl-0"
+          className="flex-1 text-[#333] text-left h-[46px] rounded-[10px] "
         />
-
-        <MultiSelect
-          placeholder="Status"
+        <Select
           options={statusOptions}
-          paramKey="status"
+          placeholder="Status"
+          placeholderClassName="text-blue-500"
+          onValueChange={handleStatusChange}
+          multi
           className="flex-1"
         />
 
-        <MultiSelect
-          placeholder="Customer Type"
+        <Select
           options={customerOption}
-          paramKey="customer"
-          className="flex-1 rounded-[10px]"
+          onValueChange={handleCustomerChange}
+          placeholder="Customer Type"
+          multi
+          className="flex-1"
         />
 
         <DateRangePicker placeholder="Select date" className="flex-1" />
 
-        {/* <DropdownMenu>
-          <DropdownMenuTrigger asChild className="flex-1">
-            <Input
-              readOnly
-              value={
-                promoList.find((p) => p.id.toString() === promoCode)
-                  ?.promoCode || "Select Promo Code"
-              }
-              className={`cursor-pointer bg-white min-w-[150px] h-[46px] rounded-[10px] ${
-                !promoCode ? "text-[#999]" : "text-black"
-              }`}
-            />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="max-h-60 overflow-y-auto">
-            {promoCode && (
-              <DropdownMenuItem onSelect={handlePromoCodeClear}>
-                <span className="text-red-500">Clear Selection</span>
-              </DropdownMenuItem>
-            )}
-            {promoList.map((p) => (
-              <DropdownMenuItem
-                key={p.id}
-                onSelect={() => handlePromoCodeChange(p.id.toString())}
-              >
-                {p.promoCode}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu> */}
+        <Select
+          options={promoList}
+          placeholder="Promo Codes"
+          onValueChange={handlePromoCodeChange}
+          searchable={true}
+          className="flex-1"
+        />
 
-        <Select options={promoList} onValueChange={handlePromoCodeChange} searchable={true} />
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild className="flex-1">
-            <Input
-              readOnly
-              value={
-                countryOptions.find((c) => c.value === country)?.label ||
-                "Select Country"
-              }
-              className={`cursor-pointer bg-white min-w-[150px] text-left h-[46px] rounded-[10px] ${
-                !country ? "text-[#999]" : "text-black"
-              }`}
-            />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            {country && (
-              <DropdownMenuItem onSelect={handleCountryClear}>
-                <span className="text-red-500">Clear Selection</span>
-              </DropdownMenuItem>
-            )}
-            {countryOptions.map((opt) => (
-              <DropdownMenuItem
-                key={opt.value}
-                onSelect={() => handleCountryChange(opt.value)}
-              >
-                {opt.label}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild className="flex-1">
-            <Input
-              readOnly
-              value={
-                stateData.find((s) => s.value === state)?.label ||
-                "Select State"
-              }
-              className={`cursor-pointer bg-white min-w-[150px] text-left h-[46px] rounded-[10px] ${
-                !state ? "text-[#999]" : "text-black"
-              }`}
-            />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="max-h-60 overflow-y-auto">
-            {stateData.length > 0 ? (
-              <>
-                {state && (
-                  <DropdownMenuItem onSelect={handleStateClear}>
-                    <span className="text-red-500">Clear Selection</span>
-                  </DropdownMenuItem>
-                )}
-                {stateData.map((s) => (
-                  <DropdownMenuItem
-                    key={s.value}
-                    onSelect={() => handleStateChange(s.value)}
-                  >
-                    {s.label}
-                  </DropdownMenuItem>
-                ))}
-              </>
-            ) : (
-              <div className="px-2 py-1 text-sm text-gray-500">
-                {!country ? "Select a country first" : "Loading states..."}
-              </div>
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
-
-        <MultiSelect
-          placeholder="Channel"
+        <Select
+          options={COUNTRIES}
+          value={country}
+          onValueChange={(newCountry) => handleCountryChange(newCountry)}
+          searchable
+          className="flex-1"
+          placeholder="Country"
+        />
+        <Select
+          options={stateData}
+          placeholder="State"
+          value={state}
+          onValueChange={handleStateChange}
+          className="flex-1"
+        />
+        <Select
           options={channelList}
-          paramKey="channel"
-          className="flex-1 rounded-[10px] text-[#999]"
+          placeholder="Channel"
+          multi
+          searchable
+          onValueChange={handleChannelChange}
+          className="flex-1"
         />
       </div>
-
       <div className="py-6 flex gap-6">
         <p className="font-medium text-base leading-[22px] text-[rgb(37,124,219)]">
           Total Registered Users: {userCount}

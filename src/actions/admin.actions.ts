@@ -16,6 +16,7 @@ import { RoleListResponse } from "@/types/api-response/adminUserManagement.respo
 import { userManagementParams } from "@/types/api-params/usermanagement.params";
 import { revalidatePath } from "next/cache";
 import ROUTES from "@/constants/routes";
+import { log } from "console";
 
 export const getActivePromos : GetActivePromoProps = async({search})=>{
     const endpoint = `${API_BASE_URL}/admin/promocode/list?text=${search}`;
@@ -137,4 +138,8 @@ export const updateBusinessName= async(id:number, payload:{})=>{
   return _patch(endpoint, payload,{
     requireAuth:true,
   });
+}
+
+export const addUser = async (payload:{})=>{
+console.log("o", payload)
 }

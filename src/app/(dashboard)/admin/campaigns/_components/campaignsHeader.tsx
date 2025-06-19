@@ -13,6 +13,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import DateRangePicker from "../../user-details/_components/range-calendar";
 import PieChartSection from "@/components/global/piechart/piechart";
 import { getCapaignDetails } from "@/actions/admin.actions";
+import Select from "@/components/global/input/select/index";
+import { ADMIN_COUNTRY } from "@/constants";
 
 const statusoptions = [
   { value: "INACTIVE", label: "Inactive" },
@@ -22,10 +24,6 @@ const statusoptions = [
 { value: "PENDING_REVIEW", label: "Pending Review" },
 ];
 
-const countryOptions = [
-  { value: "US", label: "US" },
-  { value: "IN", label: "IN" },
-];
 
 const campaignOption = [
   { value: "offers", label: "Offers" },
@@ -101,7 +99,7 @@ const CampaignsHeader = ({ data }: Props) => {
           className="pl-0"
         />
         
-        <DropdownMenu>
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Input
               readOnly
@@ -124,7 +122,9 @@ const CampaignsHeader = ({ data }: Props) => {
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
+
+        <Select options={ADMIN_COUNTRY} placeholder="Country"/>
 
         <MultiSelect
           options={statusoptions}

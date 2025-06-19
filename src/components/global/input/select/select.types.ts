@@ -22,6 +22,8 @@ export type BaseProps = {
   searchPlaceholder?: string;
   noOptionsText?: string;
   maxSelectedDisplay?: number;
+  iconClassName?: string;
+  placeholderClassName?: string;
 };
 
 export type SingleSelectProps = BaseProps & {

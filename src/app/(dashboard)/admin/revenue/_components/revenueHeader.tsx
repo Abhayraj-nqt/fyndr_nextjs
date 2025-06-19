@@ -21,10 +21,8 @@ const RevenueHeader = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // Only manage country locally since LocalSearch and DateRangePicker handle their own URL params
   const [country, setCountry] = useState(searchParams.get("country") || "");
 
-  // Only update URL for country (other params are handled by their respective components)
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
     
@@ -49,7 +47,7 @@ const RevenueHeader = () => {
       <LocalSearch
         route={pathname}
         placeholder="Search Business"
-        className="pl-0 flex-1"
+        className="flex-1"
       />
 
       <DropdownMenu>

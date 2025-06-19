@@ -333,3 +333,18 @@ export const GENDER = [
     label: "Do not want to disclose",
   },
 ];
+
+export const ADMIN_COUNTRY =[
+  {
+    value: "US",
+    label: "United States",
+    flagURL: "/icons/country/us.svg",
+    countryCode: "+1",
+  },
+  {
+    value: "IN",
+    label: "India",
+    flagURL: "/icons/country/in.svg",
+    countryCode: "+91",
+  },
+]

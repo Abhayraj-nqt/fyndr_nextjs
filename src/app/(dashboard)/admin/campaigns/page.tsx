@@ -30,8 +30,6 @@ const Campaigns = async ({
 
   const data = await getCapaignDetails(
     {
-      // pgStart: parsedParams.page,
-      // pgSize: parsedParams.perPage,
         pgStart : parsedParams?.page || 1,
       pgSize: parsedParams?.perPage || 10,
     },
