@@ -6,11 +6,12 @@ import Button from "@/components/global/buttons";
 import { CATEGORY_ICON_MAP } from "@/constants";
 import { cn } from "@/lib/utils";
 import { getCategoryIcon } from "@/lib/utils/campaign";
+import { Category } from "@/types/category/category.types";
 
 import CategoryCard from "./cards/category-card";
 
 type Props = {
-  categories: CategoryProps[];
+  categories: Category[];
 };
 
 const Categories = ({ categories }: Props) => {

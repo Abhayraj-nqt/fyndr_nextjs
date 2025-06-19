@@ -4,6 +4,7 @@ import React from "react";
 import DateComponent from "@/components/global/date-component";
 import { WALET_TRANSACTION_DATA } from "@/constants/wallet";
 import { parseAmount } from "@/lib/utils/parser/index";
+import { WalletTransactionsProps } from "@/types/wallet/wallet.types";
 
 type Props = {
   transaction: WalletTransactionsProps;

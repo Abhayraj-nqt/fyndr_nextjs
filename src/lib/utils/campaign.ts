@@ -1,8 +1,8 @@
 import { CAT_LIST_HOME, CATEGORY_ICON_MAP } from "@/constants";
-import { CampaignOfferProps, CampaignProps } from "@/types/campaign";
+import { Campaign, CampaignOffer } from "@/types/campaign/campaign.types";
 
 // Home page filtered campaigns
-const getPopularCampaigns = (campaigns: CampaignProps[]) => {
+const getPopularCampaigns = (campaigns: Campaign[]) => {
   const popularOffers = campaigns.filter(
     (i) =>
       i?.category?.name !== CAT_LIST_HOME[0]?.keyword &&
@@ -13,7 +13,7 @@ const getPopularCampaigns = (campaigns: CampaignProps[]) => {
   return popularOffers;
 };
 
-export const getFeaturedCampaigns = (campaigns: CampaignProps[]) => {
+export const getFeaturedCampaigns = (campaigns: Campaign[]) => {
   const featured = false;
 
   const featuredCampaigns =
@@ -24,7 +24,7 @@ export const getFeaturedCampaigns = (campaigns: CampaignProps[]) => {
   return featuredCampaigns;
 };
 
-export const getNearbyOffers = (campaigns: CampaignProps[]) => {
+export const getNearbyOffers = (campaigns: Campaign[]) => {
   const popularOffers = getPopularCampaigns(campaigns);
 
   const catOneData = campaigns
@@ -84,7 +84,7 @@ export const getNearbyOffers = (campaigns: CampaignProps[]) => {
   return nearbyOffers;
 };
 
-export const getNearbyEvents = (campaigns: CampaignProps[]) => {
+export const getNearbyEvents = (campaigns: Campaign[]) => {
   const popularOffers = getPopularCampaigns(campaigns);
 
   const popularEvents = popularOffers?.filter(
@@ -93,7 +93,7 @@ export const getNearbyEvents = (campaigns: CampaignProps[]) => {
   return popularEvents;
 };
 
-export const getNearbyActivities = (campaigns: CampaignProps[]) => {
+export const getNearbyActivities = (campaigns: Campaign[]) => {
   const nearbyActivities = campaigns?.filter(
     (item) =>
       item.cmpnType !== "events" &&
@@ -105,7 +105,7 @@ export const getNearbyActivities = (campaigns: CampaignProps[]) => {
   return nearbyActivities;
 };
 
-export const getNearbyDiningExperiences = (campaigns: CampaignProps[]) => {
+export const getNearbyDiningExperiences = (campaigns: Campaign[]) => {
   const nearbyDiningExperiences = campaigns?.filter(
     (item) =>
       item.cmpnType !== "events" &&
@@ -117,7 +117,7 @@ export const getNearbyDiningExperiences = (campaigns: CampaignProps[]) => {
   return nearbyDiningExperiences;
 };
 
-export const getNearbyBeautyFinds = (campaigns: CampaignProps[]) => {
+export const getNearbyBeautyFinds = (campaigns: Campaign[]) => {
   const nearbyBeautyFinds = campaigns?.filter(
     (item) =>
       item.cmpnType !== "events" &&
@@ -135,7 +135,7 @@ export const getCategoryIcon = (category: string) => {
   );
 };
 
-export const getLowestOfferPrice = (offers: CampaignOfferProps[]) => {
+export const getLowestOfferPrice = (offers: CampaignOffer[]) => {
   const lowestPrice = offers?.reduce(
     (prev, current) =>
       prev?.offerPrice < current?.offerPrice ? prev : current,

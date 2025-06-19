@@ -5,12 +5,13 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import ASSETS from "@/constants/assets";
 import { getRemaining } from "@/lib/utils";
 import { parseAmount, parseDiscount } from "@/lib/utils/parser/index";
-import { CampaignOfferProps } from "@/types/campaign";
+import { CampaignOffer } from "@/types/campaign/campaign.types";
 
 type Props = {
-  offer: CampaignOfferProps;
+  offer: CampaignOffer;
 };
 
 const OfferCard = ({ offer }: Props) => {
@@ -20,7 +21,7 @@ const OfferCard = ({ offer }: Props) => {
         src={
           offer.imageFilePath
             ? offer.imageFilePath
-            : "/images/fyndr-placeholder-gray.svg"
+            : ASSETS.IMAGES.PLACEHOLDER.FYNDR
         }
         alt={offer.title}
         height={150}

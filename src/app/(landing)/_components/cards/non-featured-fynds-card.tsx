@@ -1,19 +1,19 @@
 import React from "react";
 
 import PlaceholderImage from "@/components/global/placeholder-image";
-import { parseAddress } from "@/lib/utils/address";
-import { getLowestOfferPrice } from "@/lib/utils/campaign";
-import { CampaignProps } from "@/types/campaign";
-
 import {
   Card,
   CardDescription,
   CardFooter,
   CardTitle,
-} from "../../../../components/ui/card";
+} from "@/components/ui/card";
+import ASSETS from "@/constants/assets";
+import { parseAddress } from "@/lib/utils/address";
+import { getLowestOfferPrice } from "@/lib/utils/campaign";
+import { Campaign } from "@/types/campaign/campaign.types";
 
 type Props = {
-  campaign: CampaignProps;
+  campaign: Campaign;
 };
 
 const NonFeaturedFyndsCard = ({ campaign }: Props) => {
@@ -26,14 +26,15 @@ const NonFeaturedFyndsCard = ({ campaign }: Props) => {
           (campaign.images &&
             campaign.images?.length > 0 &&
             campaign?.images[0]?.img_url) ||
-          "/images/fyndr-placeholder-gray.svg"
+          ASSETS.IMAGES.PLACEHOLDER.FYNDR
         }
         alt={`${campaign.title}: Book on Fyndr now!`}
         width={600}
         height={300}
         className={`aspect-[2/1] rounded-t-10 object-cover`}
       />
-      <div className="flex min-h-[204px] flex-col gap-4 rounded-b-10 bg-primary-0.5 p-4">
+      {/* <div className="flex min-h-[204px] flex-col gap-4 rounded-b-10 bg-primary-0.5 p-4"> */}
+      <div className="flex min-h-[187px] flex-col gap-4 rounded-b-10 bg-primary-0.5 p-4">
         <CardTitle className="h-6">
           <h3 className="body-1 text-black-80">{campaign.biz.bizName}</h3>
         </CardTitle>

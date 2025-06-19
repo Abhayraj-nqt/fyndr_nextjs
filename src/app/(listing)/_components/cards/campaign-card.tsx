@@ -25,12 +25,13 @@ import ROUTES from "@/constants/routes";
 import { HOST } from "@/environment";
 import { useOptimisticLike } from "@/hooks/campaigns";
 import { parseAddress } from "@/lib/utils/address";
-import { CampaignProps } from "@/types/campaign";
+import { Campaign } from "@/types/campaign/campaign.types";
 
 import SeeMoreSection from "../sections/see-more-section";
+import ASSETS from "@/constants/assets";
 
 type Props = {
-  campaign: CampaignProps;
+  campaign: Campaign;
   refetch?: () => void;
   onLikeAction?: () => void;
 };
@@ -110,7 +111,7 @@ const CampaignCard = ({ campaign }: Props) => {
             src={
               campaign?.images && campaign?.images.length > 0
                 ? campaign?.images[0]?.img_url
-                : "/fyndr-placeholder-gray.svg"
+                : ASSETS.IMAGES.PLACEHOLDER.FYNDR
             }
             alt="img/alt"
             width={200}

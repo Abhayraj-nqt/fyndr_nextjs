@@ -6,7 +6,7 @@ import React, { useEffect, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { getAccountAPI, onConfirmIdentity } from "@/actions/auth.actions";
+import { onGetAccount, onConfirmIdentity } from "@/actions/auth.actions";
 import toast from "@/components/global/toast";
 import { Button } from "@/components/ui/button";
 import {
@@ -111,9 +111,11 @@ const PasswordStep = ({ requireVerification }: PasswordStepProps) => {
 
       if (requireVerification) {
         const { success, error } = await onConfirmIdentity({
-          email,
-          isBusiness: true,
-          token: verificationToken,
+          payload: {
+            email,
+            isBusiness: true,
+            token: verificationToken,
+          },
         });
 
         if (!success && error) {
@@ -138,10 +140,12 @@ const PasswordStep = ({ requireVerification }: PasswordStepProps) => {
       return;
     }
     startSendingToken(async () => {
-      const { status, data } = await getAccountAPI({
-        email,
-        regMode: "classic",
-        isBusiness: requireVerification,
+      const { status, data } = await onGetAccount({
+        payload: {
+          email,
+          regMode: "classic",
+          isBusiness: requireVerification,
+        },
       });
 
       if (!data && (status === 200 || status === 404)) {

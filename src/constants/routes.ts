@@ -1,4 +1,5 @@
 import { slugify } from "@/lib/utils/url";
+import { RouteAccess } from "@/types/auth/auth.types";
 
 const ROUTES = {
   HOME: "/",

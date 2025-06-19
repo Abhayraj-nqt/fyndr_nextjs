@@ -1,10 +1,11 @@
 import React from "react";
 
 import { Modal } from "@/components/global/modal";
+import { BusinessWorkingHour } from "@/types/store/store.types";
 
 type Props = {
   trigger: React.ReactNode;
-  workingHours: BusinessWorkingHourProps;
+  workingHours: BusinessWorkingHour;
 };
 
 const WorkingHourModal = ({ trigger, workingHours }: Props) => {
@@ -52,7 +53,7 @@ const WorkingHourModal = ({ trigger, workingHours }: Props) => {
     >
       <div className="space-y-3">
         {dayOrder.map((day) => {
-          const dayKey = day as keyof BusinessWorkingHourProps;
+          const dayKey = day as keyof BusinessWorkingHour;
           const timeSlots = workingHours[dayKey];
 
           return (

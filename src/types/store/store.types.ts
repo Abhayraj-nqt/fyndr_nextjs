@@ -1,4 +1,4 @@
-export type BusinessWorkingHourProps = {
+export type BusinessWorkingHour = {
   Sunday?: string[];
   Monday?: string[];
   Tuesday?: string[];
@@ -8,7 +8,7 @@ export type BusinessWorkingHourProps = {
   Saturday?: string[];
 };
 
-export type BusinessDirectoryProps = {
+export type BusinessDirectory = {
   addressLine1: string;
   addressLine2: string;
   city: string;
@@ -28,7 +28,7 @@ export type BusinessDirectoryProps = {
   objid: number;
   qrid: number;
 
-  businessWorkingHours: BusinessWorkingHourProps;
+  businessWorkingHours: BusinessWorkingHour;
 
   catImg: null | unknown;
   catalogueId: null | unknown;

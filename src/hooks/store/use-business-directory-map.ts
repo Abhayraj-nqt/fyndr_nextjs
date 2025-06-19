@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 
-import { onGetStores } from "@/actions/store.action";
+import { onGetBusinessDirectory } from "@/actions/store.action";
 import { Coordinates } from "@/types/global";
 
 type Params = {
@@ -47,7 +47,7 @@ export function useBusinessDirectoryMap({
 
   const { data, isError, isLoading, refetch } = useQuery({
     queryKey,
-    queryFn: () => onGetStores(params, payload),
+    queryFn: () => onGetBusinessDirectory({ params, payload }),
     staleTime: 5 * 60 * 1000, // Data considered fresh for 5 minutes
     gcTime: 10 * 60 * 1000, // Keep in cache for 10 minutes (formerly cacheTime)
     refetchOnWindowFocus: false, // Don't refetch when window regains focus

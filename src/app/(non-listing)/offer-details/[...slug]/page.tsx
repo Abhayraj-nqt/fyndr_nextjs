@@ -46,10 +46,12 @@ const Offer = async ({ params, searchParams }: RouteParams & Props) => {
 
   const [, qrCode] = slug;
 
-  const { success, data } = await onGetCampaignByQr(
-    { qrCode },
-    locationPayload
-  );
+  const { success, data } = await onGetCampaignByQr({
+    params: {
+      qrCode,
+    },
+    payload: locationPayload,
+  });
 
   if (!success || !data) return null;
 

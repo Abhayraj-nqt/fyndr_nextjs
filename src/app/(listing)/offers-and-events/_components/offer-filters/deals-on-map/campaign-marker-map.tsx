@@ -14,6 +14,7 @@ import GoogleMap3 from "@/components/global/google-map/google-map3";
 import { DEFAULT_LOCATION, TYPES_OF_DEALS } from "@/constants";
 import ROUTES from "@/constants/routes";
 import { useCampaignMapMarkers } from "@/hooks/campaigns";
+import ASSETS from "@/constants/assets";
 
 const CampaignMarkerMap = () => {
   const searchParams = useSearchParams();
@@ -221,7 +222,7 @@ const CampaignMarkerMap = () => {
             imgURL:
               campaign.images?.[0]?.thumbnail_url ||
               campaign.biz?.mainLogo ||
-              "/images/fyndr-placeholder-gray.svg",
+              ASSETS.IMAGES.PLACEHOLDER.FYNDR,
             href: ROUTES.OFFER_DETAILS(campaign.biz.bizName, campaign.qrCode),
             campaign, // Include full campaign data if needed
           },

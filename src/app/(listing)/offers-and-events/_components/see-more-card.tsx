@@ -2,11 +2,12 @@ import Image from "next/image";
 import React from "react";
 
 import { Card } from "@/components/ui/card";
-import { CampaignOfferProps } from "@/types/campaign";
+import { CampaignOffer } from "@/types/campaign/campaign.types";
+import ASSETS from "@/constants/assets";
 
 type Props = {
   className?: string;
-  offer: CampaignOfferProps;
+  offer: CampaignOffer;
 };
 
 const SeeMoreCard = ({ offer, className }: Props) => {
@@ -41,7 +42,7 @@ const SeeMoreCard = ({ offer, className }: Props) => {
         )}
 
         <Image
-          src={offer?.imageFilePath || "/fyndr-placeholder-gray.svg"}
+          src={offer?.imageFilePath || ASSETS.IMAGES.PLACEHOLDER.FYNDR}
           alt="img/alt"
           width={200}
           height={100}

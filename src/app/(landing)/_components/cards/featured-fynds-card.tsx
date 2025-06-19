@@ -12,10 +12,10 @@ import {
 } from "@/components/ui/card";
 import ASSETS from "@/constants/assets";
 import { parseAddress } from "@/lib/utils/address";
-import { CampaignProps } from "@/types/campaign";
+import { Campaign } from "@/types/campaign/campaign.types";
 
 type Props = {
-  campaign: CampaignProps;
+  campaign: Campaign;
 };
 
 const FeatureFyndsCard = ({ campaign }: Props) => {
@@ -41,7 +41,7 @@ const FeatureFyndsCard = ({ campaign }: Props) => {
               (campaign.images &&
                 campaign.images.length > 0 &&
                 campaign?.images[0]?.img_url) ||
-              "/images/fyndr-placeholder-gray.svg"
+              ASSETS.IMAGES.PLACEHOLDER.FYNDR
             }
             alt={`${campaign.title}: Book now on Fyndr`}
             width={600}

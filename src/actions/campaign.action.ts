@@ -1,39 +1,30 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-
-import ROUTES from "@/constants/routes";
 import { API_BASE_URL } from "@/environment";
 import { _get, _post, _put } from "@/lib/handlers/fetch";
 import {
-  GetCampaignByQrProps,
-  GetCampaignListProps,
-  GetCampaignMarkerProps,
-  GetCampaignsProps,
-  LikeCampaignProps,
-} from "@/types/api-params/campaign.params";
-import {
-  CampaignListResponse,
-  CampaignResponse,
-  CampaignsResponse,
-} from "@/types/api-response/campaign.response";
-import { GetLikedCampaigns } from "@/types/campaign/campaign.action.types";
+  GetBusinessCampaigns,
+  GetCampaignByQr,
+  GetCampaigns,
+  GetLikedCampaigns,
+  LikeCampaign,
+} from "@/types/campaign/campaign.action.types";
 
-export const onGetCampaignByQr: GetCampaignByQrProps = async (
+export const onGetCampaignByQr: GetCampaignByQr = async ({
   params,
-  payload
-) => {
+  payload,
+}) => {
   const { qrCode, orderBy = "ASC", sortedBy = "PRICE" } = params;
 
   const endpoint = `${API_BASE_URL}/campaign/v2/public/fetchByQR/${qrCode}?orderBy=${orderBy}&sortedBy=${sortedBy}`;
 
-  return _post<CampaignResponse>(endpoint, payload, {
+  return _post(endpoint, payload, {
     requireAuth: true,
     cache: "force-cache",
   });
 };
 
-export const onGetCampaigns: GetCampaignsProps = async (params, payload) => {
+export const onGetCampaigns: GetCampaigns = async ({ params, payload }) => {
   const baseUrl = `${API_BASE_URL}/campaign/v2/public/search`;
   const searchParams = new URLSearchParams();
 
@@ -50,43 +41,31 @@ export const onGetCampaigns: GetCampaignsProps = async (params, payload) => {
     searchParams.append("orderBy", params.orderBy);
   }
 
-  // Construct final endpoint
   const endpoint = searchParams.toString()
     ? `${baseUrl}?${searchParams.toString()}`
     : baseUrl;
 
-  console.log({ endpoint });
-
-  return _post<CampaignsResponse>(endpoint, payload, {
+  return _post(endpoint, payload, {
     timeout: 20000,
-    // cache: "force-cache",
-    // next: {
-    //   revalidate: 10000,
-    // },
   });
 };
 
-export const onGetCampaignMarkers: GetCampaignMarkerProps = async (payload) => {
-  const endpoint = `${API_BASE_URL}/campaign/v2/public/search`;
-  return _post<CampaignsResponse>(endpoint, payload, {
-    timeout: 20000,
-    cache: "force-cache",
-    next: {
-      revalidate: 10000,
-    },
-  });
-};
+// ? -----------------------------------------------------------------------------------------------------------------------
+// ? Why we have hardcoaded this pgStart=0&pgSize=100&status=ALL
 
-export const onGetCampaignList: GetCampaignListProps = async (params) => {
+export const onGetBusinessCampaigns: GetBusinessCampaigns = async ({
+  params,
+}) => {
   const endpoint = `${API_BASE_URL}/campaign/fetch/business/${params.bizid}?pgStart=0&pgSize=100&status=ALL`;
 
-  return _get<CampaignListResponse>(endpoint, {
+  return _get(endpoint, {
     requireAuth: true,
     cache: "force-cache",
   });
 };
+// ? -----------------------------------------------------------------------------------------------------------------------
 
-export const onLikeCampaign: LikeCampaignProps = async (payload) => {
+export const onLikeCampaign: LikeCampaign = async ({ payload }) => {
   const endpoint = `${API_BASE_URL}/campaign/indvcmpn`;
 
   if (payload.objid) {
@@ -95,8 +74,6 @@ export const onLikeCampaign: LikeCampaignProps = async (payload) => {
     });
   }
 
-  // revalidatePath(ROUTES.OFFERS_AND_EVENTS);
-  // revalidatePath(ROUTES.MY_OFFERS);
   return _post(endpoint, payload, {
     requireAuth: true,
   });

@@ -1,12 +1,12 @@
 import React from "react";
 
-import { CampaignOfferProps } from "@/types/campaign";
+import { CampaignOffer } from "@/types/campaign/campaign.types";
 
 import SeeMoreCard from "../cards/see-more-card";
 
 type Props = {
   className?: string;
-  offers: CampaignOfferProps[];
+  offers: CampaignOffer[];
 };
 
 const SeeMoreSection = ({ className, offers }: Props) => {

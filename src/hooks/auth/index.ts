@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 
-import { getAccountAPI } from "@/actions/auth.actions";
+import { onGetAccount } from "@/actions/auth.actions";
 import { useUserStore } from "@/zustand/stores/user.store";
 
 export const USER_QUERY_KEY = "userData";
@@ -30,10 +30,12 @@ export function useUser() {
         return null;
       }
 
-      const { success, data } = await getAccountAPI({
-        email: session.user.email,
-        regMode: "classic",
-        accessToken: session.accessToken,
+      const { success, data } = await onGetAccount({
+        payload: {
+          email: session.user.email,
+          regMode: "classic",
+          accessToken: session.accessToken,
+        },
       });
 
       if (!success || !data) {

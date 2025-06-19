@@ -1,4 +1,3 @@
-// !Refactor
 export type PromocodeTypesProps =
   | "CASHBACK"
   | "PROMOCODE"

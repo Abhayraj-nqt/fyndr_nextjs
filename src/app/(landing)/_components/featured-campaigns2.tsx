@@ -3,12 +3,12 @@ import React from "react";
 
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
-import { CampaignProps } from "@/types/campaign";
+import { Campaign } from "@/types/campaign/campaign.types";
 
 import FeaturedFyndsCard from "./cards/featured-fynds-card";
 
 type Props = {
-  campaigns?: CampaignProps[];
+  campaigns?: Campaign[];
 };
 
 const FeaturedCampaigns = async ({ campaigns: featuredCampaigns }: Props) => {

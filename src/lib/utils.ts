@@ -11,6 +11,8 @@ import {
   Item,
   Offer,
 } from "@/types/api-response/transaction.response";
+import { CampaignLocation } from "@/types/campaign/campaign.types";
+import { BusinessDirectory } from "@/types/store/store.types";
 
 // !deprecated
 export function cn(...inputs: ClassValue[]) {

@@ -3,14 +3,12 @@ import React from "react";
 
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
-import { parseAddress } from "@/lib/utils/address";
-import { getLowestOfferPrice } from "@/lib/utils/campaign";
-import { CampaignProps } from "@/types/campaign";
+import { Campaign } from "@/types/campaign/campaign.types";
 
 import NonFeaturedFyndsCard from "./cards/non-featured-fynds-card";
 
 type Props = {
-  campaigns: CampaignProps[];
+  campaigns: Campaign[];
 };
 
 const NearbyOffers = ({ campaigns: nearbyOffers }: Props) => {
@@ -23,22 +21,7 @@ const NearbyOffers = ({ campaigns: nearbyOffers }: Props) => {
             key={item.objid}
             href={ROUTES.OFFER_DETAILS(item.biz.bizName, item.qrCode)}
           >
-            <NonFeaturedFyndsCard
-              bizName={item.biz.bizName}
-              currencySymbol={item.cmpnOffers[0]?.currencySymbol}
-              title={item.title}
-              address={`${parseAddress(item?.cmpnLocs[0])}`}
-              imageURL={
-                (item.images &&
-                  item.images.length > 0 &&
-                  item?.images[0]?.img_url) ||
-                "/images/grayPlaceholderFyn.png"
-              }
-              discountType={item.cmpnOffers[0]?.discountType}
-              discount={getLowestOfferPrice(item.cmpnOffers)?.amount}
-              offerPrice={item.cmpnOffers[0]?.offerPrice}
-              retailPrice={item.cmpnOffers[0]?.retailPrice}
-            />
+            <NonFeaturedFyndsCard campaign={item} />
           </Link>
         ))}
       </div>

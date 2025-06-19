@@ -1,22 +1,22 @@
 import { Currency, CurrencySymbol, DiscountType, OfferStatus } from "../global";
 
-type CampaignTypeProps = "offers" | "events" | "coupons" | "brochure";
-type CampaignStatusProps = "ACTIVE";
-type CampaignStatusProps2 = "active" | "inactive";
+export type CampaignTypeProps = "offers" | "events" | "coupons" | "brochure";
+export type CampaignStatusProps = "ACTIVE";
+export type CampaignStatusProps2 = "active" | "inactive";
 
-type CampaignImageProps = {
+export type CampaignImage = {
   img_url: string;
   thumbnail_url: string;
   order: number;
 };
 
-type CampaignCategoryProps = {
+export type CampaignCategory = {
   categoryId: number;
   isActive: boolean;
   name: string;
 };
 
-type CampaignIndvProps = {
+export type CampaignIndv = {
   indvId: number;
   objid: number;
   cmpnId: number;
@@ -25,7 +25,7 @@ type CampaignIndvProps = {
   likedCount: null | number;
 };
 
-type CampaignBizProps = {
+export type CampaignBiz = {
   addonUrl: unknown;
   addressLine1: string;
   addressLine2: string;
@@ -46,7 +46,7 @@ type CampaignBizProps = {
   website: string;
 };
 
-type CampaignOfferProps = {
+export type CampaignOffer = {
   objid: number;
   amount: number;
   isBookingEnabled: boolean;
@@ -76,7 +76,7 @@ type CampaignOfferProps = {
   thumbnailFilePath: string | null;
 };
 
-type CampaignLocationProps = {
+export type CampaignLocation = {
   addressLine1: string;
   addressLine2: string;
   campaignBookingEnabled: boolean;
@@ -96,7 +96,7 @@ type CampaignLocationProps = {
   status: string;
 };
 
-type PaymentSubscriptionProps = {
+export type PaymentSubscriptionProps = {
   id: number;
   defaultPaymentId: string;
   createdDt: string;
@@ -106,7 +106,7 @@ type PaymentSubscriptionProps = {
   updatedDuration: number;
 };
 
-export type CampaignProps = {
+export type Campaign = {
   qrCode: string;
   startDt: string;
   endDt: string;
@@ -131,15 +131,15 @@ export type CampaignProps = {
   stdTax: null | unknown;
   taxPercent: null | number;
 
-  images: CampaignImageProps[] | null;
-  cmpnLocs: CampaignLocationProps[];
-  cmpnOffers: CampaignOfferProps[];
-  category: CampaignCategoryProps;
-  indvCmpn: CampaignIndvProps;
+  images: CampaignImage[] | null;
+  cmpnLocs: CampaignLocation[];
+  cmpnOffers: CampaignOffer[];
+  category: CampaignCategory;
+  indvCmpn: CampaignIndv;
   cmpnType: CampaignTypeProps;
   campaignStatus: CampaignStatusProps;
   status: CampaignStatusProps2;
-  biz: CampaignBizProps;
+  biz: CampaignBiz;
 
   videos: null | unknown;
   campaignLocationCount: null | number;

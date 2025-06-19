@@ -2,10 +2,10 @@ import { Phone, Store } from "lucide-react";
 import React from "react";
 
 import { Button } from "@/components/ui/button";
-import { CampaignLocationProps } from "@/types/campaign";
+import { CampaignLocation } from "@/types/campaign/campaign.types";
 
 type Props = {
-  location: CampaignLocationProps;
+  location: CampaignLocation;
 };
 
 const LocationCard = ({ location }: Props) => {

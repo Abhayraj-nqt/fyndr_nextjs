@@ -18,9 +18,11 @@ import {
 } from "@/components/ui/card";
 import ROUTES from "@/constants/routes";
 import { parseAddress } from "@/lib/utils/address";
+import { BusinessDirectory } from "@/types/store/store.types";
 
 import BusinessLocationMapModal from "./business-location-map-modal";
 import WorkingHourModal from "./working-hour-modal";
+import ASSETS from "@/constants/assets";
 
 type Props = {
   businessDirectory: BusinessDirectory;
@@ -46,7 +48,7 @@ const BusinessDirectoryCard = ({ businessDirectory }: Props) => {
             src={
               businessDirectory?.mainLogo
                 ? businessDirectory.mainLogo
-                : "/fyndr-placeholder-gray.svg"
+                : ASSETS.IMAGES.PLACEHOLDER.FYNDR
             }
             alt={`${businessDirectory.bizName} on Fyndr Now!`}
             width={400}

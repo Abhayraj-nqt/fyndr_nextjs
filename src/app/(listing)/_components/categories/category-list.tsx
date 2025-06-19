@@ -8,9 +8,10 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import ROUTES from "@/constants/routes";
 import { removeKeysFromUrlQuery, formUrlQuery } from "@/lib/utils/url";
+import { Category } from "@/types/category/category.types";
 
 type Props = {
-  categories: CategoryProps[];
+  categories: Category[];
   filterType: "checkbox" | "radio";
 };
 

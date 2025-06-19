@@ -2,12 +2,12 @@ import Link from "next/link";
 import React from "react";
 
 import ROUTES from "@/constants/routes";
-import { CampaignProps } from "@/types/campaign";
+import { Campaign } from "@/types/campaign/campaign.types";
 
 import NonFeaturedFyndsCard from "./cards/non-featured-fynds-card";
 
 type Props = {
-  campaigns: CampaignProps[];
+  campaigns: Campaign[];
   title: string;
 };
 
