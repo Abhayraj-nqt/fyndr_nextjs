@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
   // typescript: { ignoreBuildErrors: true },
   images: {
     remotePatterns: [
+      { protocol: "https", hostname: "biz-logo.s3.us-west-1.amazonaws.com", port: "" },
       { protocol: "https", hostname: "s3.us-west-1.amazonaws.com", port: "" },
       { protocol: "https", hostname: "s3-us-west-1.amazonaws.com", port: "" },
       { protocol: "https", hostname: "lh3.googleusercontent.com", port: "" },

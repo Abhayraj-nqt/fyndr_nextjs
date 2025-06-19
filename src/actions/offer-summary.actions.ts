@@ -1,8 +1,14 @@
 "use server";
+import { revalidatePath } from "next/cache";
 
+import ROUTES from "@/constants/routes";
 import { API_BASE_URL } from "@/environment";
 import { _post } from "@/lib/handlers/fetch";
-import { GetOfferSummaryParams } from "@/types/api-params/offersummary.params";
+import {
+  GetOfferSummaryParams,
+  UpdateOfferRedeemption,
+} from "@/types/api-params/offersummary.params";
+import { OfferPurchaseProps } from "@/types/offersummary";
 
 export const onGetOfferSummary: GetOfferSummaryParams = async (params) => {
   const {
@@ -16,7 +22,7 @@ export const onGetOfferSummary: GetOfferSummaryParams = async (params) => {
   } = params;
   let endpoint = `${API_BASE_URL}/campaign/offer_purchase/business/${bizid}?pgStart=${pgStart}&pgSize=${pgSize}`;
 
-   if (orderBy) {
+  if (orderBy) {
     endpoint += `&orderBy=${orderBy}`;
   }
 
@@ -38,5 +44,17 @@ export const onGetOfferSummary: GetOfferSummaryParams = async (params) => {
     next: {
       revalidate: 0,
     },
+  });
+};
+
+export const onUpdateOfferRedeemption: UpdateOfferRedeemption = async (
+  payload
+) => {
+  const endpoint = `${API_BASE_URL}/invoice/voucher/update`;
+
+  console.log("this is payload", payload);
+  revalidatePath(ROUTES.BUSINESS_ACCOUNT_OFFER_SUMMARY);
+  return _post<OfferPurchaseProps>(endpoint, payload, {
+    requireAuth: true,
   });
 };

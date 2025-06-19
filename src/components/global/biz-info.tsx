@@ -28,9 +28,9 @@ const BizInfo: React.FC<BizInfoProps> = ({
   showStore,
 }) => {
   return (
-    <div className="mb-3 max-w-[96%]">
+    <div className="max-w-[96%]">
       <div className="flex justify-between">
-        <div className="mt-2 flex">
+        <div className="mt-2 flex gap-1">
           <span>{icon}</span>
           {link !== null && link !== undefined && (
             <ExternalLinkConfirm link={link} />
@@ -48,7 +48,7 @@ const BizInfo: React.FC<BizInfoProps> = ({
           {showInfo && (
             <Popover>
               <PopoverTrigger asChild>
-                <span className="ml-2 cursor-pointer text-blue-600">
+                <span className="ml-2 cursor-pointer text-primary">
                   <Info className="size-4" />
                 </span>
               </PopoverTrigger>

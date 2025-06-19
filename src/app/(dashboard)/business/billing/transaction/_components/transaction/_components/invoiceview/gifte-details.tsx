@@ -1,7 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 import React, { useState } from "react";
 
-import DefaultCard from "@/components/global/cards/default-card";
 import { Button } from "@/components/ui/button";
 import { GiftDetails } from "@/types/api-response/transaction.response";
 
@@ -19,7 +18,7 @@ const GifteeDetails: React.FC<GifteeDetailsProps> = ({ giftDetails }) => {
   };
 
   return (
-    <DefaultCard className=" mb-4 rounded-10 border border-secondary-20 p-3">
+    <div className="my-4 w-full rounded-lg border border-secondary-20 p-4">
       {!msgVisible ? (
         <>
           <div className="mb-2 text-lg font-semibold text-black-80">
@@ -55,7 +54,12 @@ const GifteeDetails: React.FC<GifteeDetailsProps> = ({ giftDetails }) => {
 
           {giftDetails.message && (
             <div className="mt-4 flex justify-center">
-              <Button onClick={() => setMsgVisible(true)}>View Message</Button>
+              <Button
+                className="h-[46px] rounded-10 border border-primary bg-primary-0.5 text-primary hover:bg-primary-0.5"
+                onClick={() => setMsgVisible(true)}
+              >
+                View Message
+              </Button>
             </div>
           )}
         </>
@@ -63,10 +67,10 @@ const GifteeDetails: React.FC<GifteeDetailsProps> = ({ giftDetails }) => {
         <>
           <Button
             variant="link"
-            className="mb-2 p-0 text-sm"
+            className="mb-2 p-0 text-sm text-primary"
             onClick={() => setMsgVisible(false)}
           >
-            <ArrowLeft className="mr-1 size-4" />
+            <ArrowLeft className="size-4" />
             Message
           </Button>
           <div className="text-sm font-medium text-black-80">
@@ -74,7 +78,7 @@ const GifteeDetails: React.FC<GifteeDetailsProps> = ({ giftDetails }) => {
           </div>
         </>
       )}
-    </DefaultCard>
+    </div>
   );
 };
 

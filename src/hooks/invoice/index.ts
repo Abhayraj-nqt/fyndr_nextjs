@@ -1,8 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
+import { onGetDisputeReasons, onRaiseDispute } from "@/actions/invoice.actions";
 import { fetchReviewsOverview } from "@/actions/review.actions";
 import { onGetInvoiceDetails } from "@/actions/transaction.action";
 import { GetInvoiceDetailProps } from "@/types/api-params/transaction.params";
+import { RaiseDisputePayload } from "@/types/dispute-response";
 
 type InvoicePayload = Parameters<GetInvoiceDetailProps>[0];
 
@@ -12,9 +14,13 @@ export const useInvoiceDetails = (
   bizid: number | null,
   indvid: number | null
 ) => {
-  return useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["invoiceDetails", objid, type, bizid],
     enabled: !!objid && !!type,
+    refetchOnMount: "always",
+
+    staleTime: 0,
+    notifyOnChangeProps: ["data", "error", "isLoading"],
     queryFn: async () => {
       const payload: InvoicePayload = { invoiceId: objid! };
 
@@ -25,10 +31,19 @@ export const useInvoiceDetails = (
       }
 
       const { success, data } = await onGetInvoiceDetails(payload);
+
+      console.log("invoice details data", data);
       if (!success) throw new Error("Failed to fetch invoice details");
       return data;
     },
   });
+
+  return {
+    data,
+    isLoading,
+    isError,
+    refetch,
+  };
 };
 
 export const useUserReviewOverViews = (bizId?: number) => {
@@ -42,6 +57,29 @@ export const useUserReviewOverViews = (bizId?: number) => {
       console.log("inside action  review ", response);
       return response.data;
     },
-    enabled: !!bizId, 
+    enabled: !!bizId,
+  });
+};
+
+export const useDisputeReasons = () => {
+  return useQuery({
+    queryKey: ["disputeReasons"],
+    queryFn: async () => {
+      const response = await onGetDisputeReasons();
+      return response.data;
+    },
+  });
+};
+
+export const useUpdateDisputeStatus = () => {
+  return useMutation({
+    mutationKey: ["updateDisputeStatus"],
+    mutationFn: async ({
+      invoiceId,
+      payload,
+    }: {
+      invoiceId: number;
+      payload: RaiseDisputePayload;
+    }) => onRaiseDispute(invoiceId, payload),
   });
 };

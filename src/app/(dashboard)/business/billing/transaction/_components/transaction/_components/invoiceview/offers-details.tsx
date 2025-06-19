@@ -1,9 +1,12 @@
-import dayjs from "dayjs";
-import { Underline } from "lucide-react";
-import React from "react";
+"use client";
 
-import DefaultCard from "@/components/global/cards/default-card";
-import { Button } from "@/components/ui/button";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import React, { useState } from "react";
+
+import ActionsDialog from "@/app/(dashboard)/_components/redeemptionModal/actions-dialog";
+import Button from "@/components/global/buttons";
+import { useUser } from "@/hooks/auth";
 import {
   capitalize,
   ChannelOffer,
@@ -19,6 +22,8 @@ import {
   Offer,
 } from "@/types/api-response/transaction.response";
 
+dayjs.extend(customParseFormat);
+
 type OffersDetails = {
   offersDetails: Offer[];
   channel: ChannelOffer;
@@ -27,13 +32,10 @@ type OffersDetails = {
   currencySymbol: string;
   taxAmount: number;
   userTimeZone: string | null;
+  type: string | null;
+  refetch: () => void;
 };
 
-interface ExtendedInvoiceOffer extends InvoiceOffer {
-  appointments?: Appointment[];
-  index?: number;
-  qty?: number | boolean;
-}
 const Offersdetails: React.FC<OffersDetails> = ({
   offersDetails,
   channel,
@@ -42,7 +44,20 @@ const Offersdetails: React.FC<OffersDetails> = ({
   currencySymbol,
   taxAmount,
   userTimeZone,
+  type,
+  refetch,
 }) => {
+  const { user } = useUser();
+
+  const firstName = user?.firstName;
+  const lastName = user?.lastName;
+  const indvid = user?.indvid;
+
+  const [redeemOpen, setRedeemOpen] = useState<boolean>(false);
+  const [selectedVoucher, setSelectedVoucher] = useState<InvoiceOffer | null>(
+    null
+  );
+
   return (
     <>
       {offersDetails &&
@@ -52,28 +67,44 @@ const Offersdetails: React.FC<OffersDetails> = ({
             retail_price: retailPrice,
             offer_price: offerPrice,
           } = row;
-          const vhrs =
+          type FilteredOffer = Offer | InvoiceOffer;
+
+          const vhrs: FilteredOffer[] =
             channel === "events"
               ? offersDetails.filter((offer) => offer.offer_id === offerId)
-              : vouchers?.filter((voucher) => voucher.offerId === offerId);
+              : vouchers?.filter((voucher) => voucher.offerId === offerId) ||
+                [];
 
           return (
             vhrs &&
             vhrs.map((vhrRaw, index) => {
-              const vhr = vhrRaw as ExtendedInvoiceOffer;
-              let res;
+              const vhr: FilteredOffer & {
+                appointment?: Appointment[];
+                qty?: number ;
+                index?: number;
+                currencySymbol?: string;
+              } = { ...vhrRaw };
 
-              if (appointments && appointments?.length > 0) {
-                res = appointments.filter(
-                  (item) => item.offer_id === vhr.offerId
-                );
-                vhr.appointments = res[0]?.appointment;
-                vhr.index = index;
-                vhr.qty = channel !== "events" && res[0]?.qty;
+              let redeemptionStatus: string | undefined;
+              let validTill: string = "";
+
+              const res =
+                appointments && appointments.length > 0
+                  ? appointments.filter((item) => item.offer_id === offerId)
+                  : [];
+
+              vhr.appointment = res[0]?.appointment;
+              vhr.index = index;
+              if (channel !== "events") {
+                vhr.qty = res[0]?.qty ?? 0;
               }
+              vhr.currencySymbol = currencySymbol;
 
-              //   vhr.currencySymbol = currencySymbol;
-              const { redeemptionStatus, validTill } = vhr;
+
+              if ("offerId" in vhr) {
+                redeemptionStatus = vhr.redeemptionStatus;
+                validTill = vhr.validTill;
+              }
 
               return (
                 <div
@@ -90,56 +121,58 @@ const Offersdetails: React.FC<OffersDetails> = ({
                     <span className="text-[14px] font-semibold text-black-70">
                       {capitalize(getChannelName(channel))} Name:
                     </span>
-                    <span className="text-[14px] text-black-80">
+                    <span className="body-3 text-black-80">
                       {row?.title}
                     </span>
                   </div>
-                  {vhr?.appointments &&
-                    vhr?.appointments[index] &&
-                    Object.entries(vhr?.appointments[index]).map(
-                      ([appointmentDate, timeObj]: any, i) => (
-                        <div key={`appointment-${i}`} className="w-full">
-                          <div className="mb-2 flex justify-between">
-                            <span className="text-[14px] font-semibold text-black-70">
-                              Appointment:
-                            </span>
-                            <span className="text-[14px] text-black-80">
-                              {dayjs(appointmentDate).format("MMM DD, YYYY")}
-                            </span>
+                  {"appointment" in vhr &&
+                    vhr?.appointment &&
+                    vhr?.appointment[index] &&
+                    Object.entries(vhr?.appointment[index]).map(
+                      ([appointmentDate, timeObj]: any, i) => {
+                        console.log(timeObj, "timeObj");
+                        console.log("startTime:", timeObj?.startTime);
+                        console.log("endTime:", timeObj?.endTime);
+                        return (
+                          <div key={`appointment-${i}`} className="w-full">
+                            <div className="mb-2 flex justify-between">
+                              <span className="text-[14px] font-semibold text-black-70">
+                                Appointment:
+                              </span>
+                              <span className="body-3 text-black-80">
+                                {dayjs(appointmentDate).format("MMM DD, YYYY")}
+                              </span>
+                            </div>
+                            <div className="mb-2 flex justify-between">
+                              <span className="text-[14px] font-semibold text-black-70">
+                                Start Time:
+                              </span>
+                              <span className="body-3 text-black-80">
+                                {dayjs(timeObj?.startTime, "HH:mm:ss").format(
+                                  "hh:mm A"
+                                )}
+                              </span>
+                            </div>
+                            <div className="mb-2 flex justify-between">
+                              <span className="text-[14px] font-semibold text-black-70">
+                                End Time:
+                              </span>
+                              <span className="text-[14px] text-black-80">
+                                {dayjs(timeObj?.endTime, "HH:mm:ss").format(
+                                  "hh:mm A"
+                                )}
+                              </span>
+                            </div>
                           </div>
-                          =
-                          <div className="mb-2 flex justify-between">
-                            <span className="text-[14px] font-semibold text-black-70">
-                              Start Time:
-                            </span>
-                            <span className="text-[14px] text-black-80">
-                              {dayjs(
-                                timeObj?.startTime?.slice(0, 5),
-                                "HH:mm"
-                              ).format("hh:mm A")}
-                            </span>
-                          </div>
-                          =
-                          <div className="mb-2 flex justify-between">
-                            <span className="text-[14px] font-semibold text-black-70">
-                              End Time:
-                            </span>
-                            <span className="text-[14px] text-black-80">
-                              {dayjs(
-                                timeObj?.endTime?.slice(0, 5),
-                                "HH:mm"
-                              ).format("hh:mm A")}
-                            </span>
-                          </div>
-                        </div>
-                      )
+                        );
+                      }
                     )}
 
                   <div className="mb-2 flex justify-between">
                     <span className="text-[14px] font-semibold text-black-70">
                       Retail Price:
                     </span>
-                    <span className="text-[14px] text-black-80">
+                    <span className="body-3 text-black-80">
                       {currencySymbol}
                       {retailPrice}
                     </span>
@@ -148,7 +181,7 @@ const Offersdetails: React.FC<OffersDetails> = ({
                     <span className="text-[14px] font-semibold text-black-70">
                       Offer Price:
                     </span>
-                    <span className="text-[14px] text-black-80">
+                    <span className="body-3 text-black-80">
                       {currencySymbol}
                       {offerPrice}
                     </span>
@@ -157,7 +190,7 @@ const Offersdetails: React.FC<OffersDetails> = ({
                     <span className="text-[14px] font-semibold text-black-70">
                       Tax:
                     </span>
-                    <span className="text-[14px] text-black-80">
+                    <span className="body-3 text-black-80">
                       {currencySymbol}
                       {taxAmount}
                     </span>
@@ -182,17 +215,17 @@ const Offersdetails: React.FC<OffersDetails> = ({
                         <span className="text-[14px] font-semibold text-black-70">
                           Valid Till:
                         </span>
-                        <span className="text-[14px] text-[#ED0C10]">
+                        <span className="body-3 text-[#ED0C10]">
                           {getFormattedDtNew(validTill, userTimeZone ?? "UTC")}
                         </span>
                       </div>
 
-                      {vhr.isVoucher && (
+                      {"isVoucher" in vhr && vhr.isVoucher && (
                         <div className="mb-2 flex justify-between">
                           <span className="text-[14px] font-semibold text-black-70">
                             Business Generated Voucher ID:
                           </span>
-                          <span className="text-[14px] text-black-80">
+                          <span className="body-3 text-black-80">
                             {vhr?.customVoucherCode}
                           </span>
                         </div>
@@ -203,23 +236,26 @@ const Offersdetails: React.FC<OffersDetails> = ({
                         <span className="text-[14px] font-semibold text-black-70">
                           Fyndr Generated Voucher ID:
                         </span>
-                        {/* <Button
-                          className="text-[14px] text-blue-600 underline"
+                        <Button
+                          className="h-[46px] rounded-10 border border-primary bg-primary-0.5 text-primary hover:bg-primary-0.5"
                           onClick={() => {
-                            setSelectedVoucher(vhr);
-                            setScreen("edit");
+                            if ("objid" in vhr) {
+                              setSelectedVoucher(vhr);
+                            }
+                            setRedeemOpen(true);
                           }}
                         >
-                          <div className="text-[14px] font-normal leading-[20px] text-black-80">
-                            {vhr
+                          <div className="body-3 text-primary">
+                            {"objid" in vhr && vhr
                               ? `VHR-${(vhr.objid + "").padStart(10, 0)}`
                               : ""}
                           </div>
-                        </Button> */}
+                        </Button>
                       </div>
-                      {vhr.appointments &&
-                        vhr.appointments.length > 0 &&
-                        vhr.appointments[index] === undefined && (
+                      {"offer_id" in vhr &&
+                        vhr.appointment &&
+                        vhr.appointment.length > 0 &&
+                        vhr.appointment[index] === undefined && (
                           <div className="mb-8 justify-between">
                             <div>
                               <span className="size-[16px] font-semibold text-primary">
@@ -235,6 +271,19 @@ const Offersdetails: React.FC<OffersDetails> = ({
             })
           );
         })}
+
+      <ActionsDialog
+        open={redeemOpen}
+        onOpenChange={() => setRedeemOpen(false)}
+        type={type}
+        row={selectedVoucher}
+        title="Redeem Voucher"
+        currencySymbol={currencySymbol}
+        fname={firstName}
+        lname={lastName}
+        indvid={indvid}
+        refetch={refetch}
+      />
     </>
   );
 };

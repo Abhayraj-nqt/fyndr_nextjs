@@ -3,8 +3,12 @@ import React from "react";
 
 import { fetchPayables, fetchReceivables } from "@/actions/transaction.action";
 
-import InvoiceList from "./_components/invoicelist";
+
+import InvoiceList from "./_components/invoice-list";
 import CommonHeader from "./common-header";
+import Orders from "../orders/page";
+import { RouteParams } from "@/types/global";
+
 type Props = {
   bizid: number;
   months: string;
@@ -12,6 +16,8 @@ type Props = {
   channel: string;
   indvid: number;
   search: string;
+  searchParams: RouteParams["searchParams"];
+
 };
 
 const Transaction = async ({
@@ -21,6 +27,7 @@ const Transaction = async ({
   channel,
   indvid,
   search,
+  searchParams
 }: Props) => {
   const { success, data } = await fetchPayables({
     criteria: "individual",
@@ -47,19 +54,19 @@ const Transaction = async ({
         <TabsList className="flex-between">
           <TabsTrigger
             value="receivable"
-            className="px-4 py-2 text-sm font-medium text-gray-600 data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-600"
+            className="px-4 py-2 text-sm font-medium text-gray-600 data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary"
           >
             Receivables
           </TabsTrigger>
           <TabsTrigger
             value="payable"
-            className="px-4 py-2 text-sm font-medium text-gray-600 data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-600"
+            className="px-4 py-2 text-sm font-medium text-gray-600 data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary"
           >
             My Purchase
           </TabsTrigger>
           <TabsTrigger
             value="order"
-            className="px-4 py-2 text-sm font-medium text-gray-600 data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-600"
+            className="px-4 py-2 text-sm font-medium text-gray-600 data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary"
           >
             Orders
           </TabsTrigger>
@@ -84,6 +91,9 @@ const Transaction = async ({
               No purchases found.
             </p>
           )}
+        </TabsContent>
+        <TabsContent value="order">
+           <Orders searchParams={searchParams} />
         </TabsContent>
       </Tabs>
     </>

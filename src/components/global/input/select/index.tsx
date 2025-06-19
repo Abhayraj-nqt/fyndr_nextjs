@@ -123,7 +123,7 @@ const Select = ({
               `input-primary border-none shadow-none outline-none ring-0 focus:ring-0 ${inputClassName}`
             )}
           >
-            <SelectValue placeholder={placeholder}>
+            <SelectValue  placeholder={placeholder}>
               {(() => {
                 const selected = getDisplayValue();
                 return selected ? (

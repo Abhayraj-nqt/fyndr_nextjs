@@ -1,8 +1,10 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 
+import ReviewModal from "@/app/(dashboard)/_components/reviewModal/review-modal";
 import { ReviewOverviews } from "@/types/api-response/review.response";
 
-import ReviewStars from "./reviewstars";
+
 import Stars from "../ratings/stars";
 
 type OverallReviewResponse = {
@@ -16,42 +18,46 @@ type OverallReviewResponse = {
 };
 
 const Overallreview: React.FC<OverallReviewResponse> = ({
-  disable,
+
   reviewsOverview,
   rating,
   text,
   totalRatings,
-  onClick,
-  onStarsClick,
-}) => {
-  console.log("inside compoent", reviewsOverview);
 
-  console.log("total rating ", totalRatings);
+}) => {
+  const [reviewModal, setReviewModal] = useState<boolean>(false);
+  const handleViewReviews = () => {
+    setReviewModal(true);
+  };
   return (
-    <div>
-      {reviewsOverview && (
-        <div className="flex flex-col ">
-          <div>
-            {/* <ReviewStars
-              onStarsClick={onStarsClick}
-              disable={disable}
-              rating={rating}
-            /> */}
-            <Stars ratings={Number(rating)} />
+    <>
+      <div>
+        {reviewsOverview && (
+          <div className="flex flex-col ">
+            <div>
+              <Stars ratings={Number(rating)} />
+            </div>
+            <div className="flex gap-1 ">
+              <div className="pt-2 text-base font-normal leading-5 text-black-70 md:text-sm">
+                {rating}
+                {text}
+              </div>
+              <div
+                onClick={handleViewReviews}
+                className="cursor-pointer pt-2 text-base font-normal leading-5  text-primary md:text-sm"
+              >
+                {totalRatings}
+              </div>
+            </div>
           </div>
-          <div className="pt-2 text-base font-normal leading-5 text-black-70 md:text-sm">
-            {rating}
-            {text}
-          </div>
-          <div
-            onClick={onClick}
-            className="cursor-pointer pt-2 text-base font-normal leading-5  text-primary md:text-sm"
-          >
-            {totalRatings}
-          </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+
+      <ReviewModal 
+       open = {reviewModal}
+       onOpenChange={setReviewModal}
+      />
+    </>
   );
 };
 

@@ -1,7 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
 import dayjs from "dayjs";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
 import md5 from "react-native-md5";
 import { twMerge } from "tailwind-merge";
 
@@ -482,6 +480,7 @@ export const statusList = [
 ];
 
 export const getDisplayStatus = (status: Status): string => {
+
   try {
     if (status === "unused") return "Unused";
     return statusList.find((row) => row.value === status)?.display || "";

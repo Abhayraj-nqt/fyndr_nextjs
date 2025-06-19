@@ -25,7 +25,7 @@ const ExternalLinkConfirm = ({ link }: ExternalLinkConfirmProps) => {
             e.preventDefault()
             setOpen(true)
           }}
-          className="text-blue-500 underline max-w-[80%] inline-block text-start break-words"
+          className="text-blue-500 underline max-w-[100%] inline-block text-start break-words"
         >
           {link}
         </a>
