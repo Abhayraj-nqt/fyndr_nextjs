@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import React, { useTransition } from "react";
 
-import { signInWithCredentials, signUp } from "@/actions/auth.actions";
+import { onSignInWithCredentials, onSignUp } from "@/actions/auth.actions";
 import FyndrLoading from "@/components/global/loading/fyndr-loading";
 import toast from "@/components/global/toast";
 import ROUTES from "@/constants/routes";
@@ -61,7 +61,9 @@ const SignUpCompleteForm = () => {
       return;
     }
 
-    const result = await signInWithCredentials({ email, password });
+    const result = await onSignInWithCredentials({
+      payload: { email, password },
+    });
 
     if (result.success) {
       toast.success({
@@ -99,7 +101,7 @@ const SignUpCompleteForm = () => {
       payload.pwd = null;
     }
 
-    const { success, data, error } = await signUp(payload);
+    const { success, data, error } = await onSignUp({ payload });
 
     if (!success && error) {
       toast.error({

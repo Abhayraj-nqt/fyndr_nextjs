@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
 import ROUTES from "@/constants/routes";
@@ -12,10 +12,13 @@ import VisibilityWrapper from "../../visibility-wrapper";
 
 const SearchAndLocationRenderer = () => {
   const pathname = usePathname();
+  const router = useRouter();
   const { HOME, OFFERS_AND_EVENTS, OFFER_LISTING } = ROUTES;
 
-  switch (pathname) {
-    case HOME:
+  const isOfferListingRoute = pathname.startsWith(OFFER_LISTING);
+
+  switch (true) {
+    case pathname === HOME:
       return (
         <>
           <VisibilityWrapper visibleHeight={200}>
@@ -25,7 +28,7 @@ const SearchAndLocationRenderer = () => {
               className="size-full min-h-9 min-w-[50%] max-w-lg flex-1 !gap-0 !px-3 xs:min-h-[45px] sm:w-full"
               inputClassName="!px-2"
               navigateTo={ROUTES.OFFER_LISTING}
-              navigateParam={"query"}
+              pathVariable="category"
               isOnNavbar
             />
           </VisibilityWrapper>
@@ -38,7 +41,7 @@ const SearchAndLocationRenderer = () => {
         </>
       );
 
-    case OFFERS_AND_EVENTS:
+    case pathname === OFFERS_AND_EVENTS:
       return (
         <>
           <LocalSearch
@@ -52,7 +55,7 @@ const SearchAndLocationRenderer = () => {
         </>
       );
 
-    case OFFER_LISTING:
+    case isOfferListingRoute:
       return (
         <>
           <LocalSearch
@@ -61,8 +64,11 @@ const SearchAndLocationRenderer = () => {
             className="size-full min-h-9 min-w-[50%] max-w-lg flex-1 !gap-0 !px-3 xs:min-h-[45px] sm:w-full"
             inputClassName="!px-2"
             navigateTo={ROUTES.OFFER_LISTING}
-            navigateParam={"query"}
+            pathVariable="category"
             isOnNavbar
+            onEmpty={() => {
+              router.push(ROUTES.OFFER_LISTING);
+            }}
           />
           <LocationSelector
             className="hidden w-full max-w-lg sm:flex"

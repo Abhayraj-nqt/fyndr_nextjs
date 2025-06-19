@@ -1,12 +1,12 @@
 import React from "react";
 
 import DefaultCard from "@/components/global/cards/default-card";
-import { CampaignOfferProps } from "@/types/campaign";
+import { CampaignOffer } from "@/types/campaign/campaign.types";
 
 import OfferCard from "./offer-card";
 
 type Props = {
-  offers: CampaignOfferProps[];
+  offers: CampaignOffer[];
 };
 
 const Offers = ({ offers }: Props) => {

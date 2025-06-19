@@ -7,28 +7,30 @@ import toast from "@/components/global/toast";
 import { API_BASE_URL, API_GATEWAY_URL } from "@/environment";
 import handleError from "@/lib/handlers/error";
 import { _get, _post } from "@/lib/handlers/fetch";
-import { encryptPassword } from "@/lib/utils";
-import {
-  ConfirmIdentityProps,
-  GenerateTokenProps,
-  GetAccountAPIProps,
-  RefreshAccessTokenAPIProps,
-  SendMobileVerificationCodeProps,
-  SignInAPIProps,
-  SignInWithCredentials,
-  SignOutProps,
-  SignUpProps,
-  VerifyCodeProps,
-  VerifyMobileProps,
-} from "@/types/api-params/auth.params";
+import { encryptPassword } from "@/lib/utils/auth";
 import {
   AccountResponse,
   RefreshTokenResponse,
 } from "@/types/api-response/auth.response";
+import {
+  ConfirmIdentity,
+  GenerateToken,
+  GetAccount,
+  RefreshToken,
+  SendMobileVerificationCode,
+  SignIn,
+  SignInWithCredentials,
+  SignUp,
+  VerifyCode,
+  VerifyMobile,
+} from "@/types/auth/auth.action.types";
+import { SignOut } from "@/types/auth/auth.params";
 import { ErrorResponse } from "@/types/global";
 
-export const signInWithCredentials: SignInWithCredentials = async (params) => {
-  const { email, password } = params;
+export const onSignInWithCredentials: SignInWithCredentials = async ({
+  payload,
+}) => {
+  const { email, password } = payload;
 
   try {
     await signIn("credentials", {
@@ -43,11 +45,11 @@ export const signInWithCredentials: SignInWithCredentials = async (params) => {
   }
 };
 
-export const signUp: SignUpProps = async (payload) => {
+export const onSignUp: SignUp = async ({ payload }) => {
   return _post(`${API_BASE_URL}/identity/signup`, payload);
 };
 
-export const signOut: SignOutProps = async () => {
+export const onSignOut: SignOut = async () => {
   try {
     await authSignOut({ redirectTo: "/" });
   } catch (error) {
@@ -55,51 +57,31 @@ export const signOut: SignOutProps = async () => {
   }
 };
 
-export const onConfirmIdentity: ConfirmIdentityProps = async (payload) => {
+export const onConfirmIdentity: ConfirmIdentity = async ({ payload }) => {
   const endpoint = `${API_BASE_URL}/identity/confirmIdentity`;
   return _post(endpoint, payload);
 };
 
-export const onSendMobileVerificationCode: SendMobileVerificationCodeProps =
-  async (payload) => {
-    const endpoint = `${API_BASE_URL}/identity/verify/sendVerificationCode?type=phone`;
-    return _post(endpoint, payload);
-  };
+export const onSendMobileVerificationCode: SendMobileVerificationCode = async ({
+  payload,
+}) => {
+  const endpoint = `${API_BASE_URL}/identity/verify/sendVerificationCode?type=phone`;
+  return _post(endpoint, payload);
+};
 
-export const onVerifyMobile: VerifyMobileProps = async (payload) => {
+export const onVerifyMobile: VerifyMobile = async ({ payload }) => {
   const endpoint = `${API_BASE_URL}/identity/verify/verifyVerificationCode?type=phone`;
   return _post(endpoint, payload);
 };
 
-export const onVerifyCode: VerifyCodeProps = async (params) => {
+export const onVerifyCode: VerifyCode = async ({ params }) => {
   const { isBusiness, code, countryId, codeType } = params;
   const endpoint = `${API_BASE_URL}/identity/verify?isBusiness=${isBusiness}&code=${code}&countryId=${countryId}&codeType=${codeType}`;
   return _get(endpoint);
 };
 
-// !Don't use these functions other than auth.ts file
-
-export const signInAPI: SignInAPIProps = async (payload) => {
-  const { email, password, mode } = payload;
-  const endpoint = `${API_BASE_URL}/identity/signin`;
-
-  const encryptedPassword = Array.from(
-    await encryptPassword({ email, password })
-  );
-
-  const newPayload = {
-    email,
-    pwd: encryptedPassword,
-    mode,
-  };
-
-  return _post(endpoint, newPayload);
-};
-
-export const getAccountAPI: GetAccountAPIProps = async (payload) => {
+export const onGetAccount: GetAccount = async ({ payload }) => {
   const endpoint = `${API_BASE_URL}/identity/account`;
-
-  // console.log({ payload });
 
   let newPayload: typeof payload = {
     email: payload.email,
@@ -134,20 +116,54 @@ export const getAccountAPI: GetAccountAPIProps = async (payload) => {
   });
 };
 
-export const refreshAccessTokenAPI: RefreshAccessTokenAPIProps = async (
-  payload
-) => {
+// !Don't use these functions other than auth.ts file
+
+export const onSignIn: SignIn = async ({ payload }) => {
+  const { email, password, mode } = payload;
+  const endpoint = `${API_BASE_URL}/identity/signin`;
+
+  const encryptedPassword = Array.from(
+    await encryptPassword({ email, password })
+  );
+
+  const newPayload = {
+    email,
+    pwd: encryptedPassword,
+    mode,
+  };
+
+  return _post(endpoint, newPayload);
+};
+
+export const onRefreshToken: RefreshToken = async ({ payload }) => {
   const endpoint = `${API_GATEWAY_URL}/v1/token/generateFromRefreshToken`;
   return _post<RefreshTokenResponse>(endpoint, payload);
 };
 
-export const handleGoogleAuth = async (
-  profile: Profile | undefined,
-  account: Account | null | undefined
-): Promise<User | null> => {
-  const getAccountResponse = await getAccountAPI({
-    email: profile?.email || "",
-    regMode: "google",
+export const onGenerateToken: GenerateToken = async ({ payload }) => {
+  const { provider, token } = payload;
+  const endpoint = `${API_GATEWAY_URL}/v1/token/generate`;
+
+  const encodedString = Buffer.from(token || "").toString("base64");
+
+  return _post(endpoint, {
+    provider,
+    token: encodedString,
+  });
+};
+
+export const onGoogleOAuth = async ({
+  account,
+  profile,
+}: {
+  profile: Profile | undefined;
+  account: Account | null | undefined;
+}): Promise<User | null> => {
+  const getAccountResponse = await onGetAccount({
+    payload: {
+      email: profile?.email || "",
+      regMode: "google",
+    },
   });
 
   if (getAccountResponse.status === 404) {
@@ -155,8 +171,10 @@ export const handleGoogleAuth = async (
   }
 
   const generateTokenResponse = await onGenerateToken({
-    provider: "google",
-    token: account?.access_token || "",
+    payload: {
+      provider: "google",
+      token: account?.access_token || "",
+    },
   });
 
   if (!generateTokenResponse.success) {
@@ -187,16 +205,4 @@ export const handleGoogleAuth = async (
     accessToken: generateTokenResponse.data?.accessCode,
     refreshToken: generateTokenResponse.data?.refreshToken,
   };
-};
-
-export const onGenerateToken: GenerateTokenProps = async (payload) => {
-  const { provider, token } = payload;
-  const endpoint = `${API_GATEWAY_URL}/v1/token/generate`;
-
-  const encodedString = Buffer.from(token || "").toString("base64");
-
-  return _post(endpoint, {
-    provider,
-    token: encodedString,
-  });
 };

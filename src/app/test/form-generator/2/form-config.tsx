@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import {
@@ -17,7 +18,7 @@ import Image from "next/image";
 import { Dispatch, SetStateAction } from "react";
 import z from "zod";
 
-import { FormConfig } from "./types/form.generator";
+import { FormConfig } from "@/types/form-generator";
 
 export const generateFormConfig = ({
   switchControlValue,
@@ -96,7 +97,10 @@ export const generateFormConfig = ({
         eventHandlers: {
           onBlur: (event, formData) => {
             console.log("onBlur is working");
-            console.log("Current phone value:", event.target.value);
+            console.log(
+              "Current phone value:",
+              (event.target as HTMLInputElement).value
+            );
             console.log("Full form data:", formData);
           },
           onFocus: (event, formData) => {
@@ -199,7 +203,10 @@ export const generateFormConfig = ({
         rows: 4,
         eventHandlers: {
           onBlur: (event, formData) => {
-            console.log("Bio blur event:", event.target.value);
+            console.log(
+              "Bio blur event:",
+              (event.target as HTMLTextAreaElement).value
+            );
           },
           onChange: (value, formData) => {
             console.log("Bio changed to:", value);
@@ -213,9 +220,10 @@ export const generateFormConfig = ({
         type: "checkbox",
         label: "I agree to the Terms and Conditions",
         showRequired: true,
-        validation: z
-          .boolean()
-          .refine((val) => val === true, "You must agree to the terms"),
+        // validation: z
+        //   .boolean()
+        //   .refine((val) => val === true, "You must agree to the terms"),
+        validation: z.boolean(),
       },
 
       // Radio buttons

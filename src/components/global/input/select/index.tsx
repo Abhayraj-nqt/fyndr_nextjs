@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 "use client";
 
 import { Check, ChevronDown } from "lucide-react";
@@ -19,18 +18,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-  Select as ShadcnSelect,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
 import { MultiSelectDisplay } from "./multi-select-display";
 import { OptionIcon } from "./option-icon";
 import { Props } from "./select.types";
+import SimpleSelect from "./simple-select";
 import { useSelectState } from "./use-select-state";
 
 const Select = ({
@@ -96,7 +89,6 @@ const Select = ({
     return selectedOption;
   };
 
-  // Filter options based on search value (search by label, not value)
   const filteredOptions = searchable
     ? options.filter((option) =>
         option.label.toLowerCase().includes(searchValue.toLowerCase())
@@ -105,64 +97,21 @@ const Select = ({
 
   if (!searchable && !multi) {
     return (
-      <InputWrapper
+      <SimpleSelect
+        currentSingleValue={currentSingleValue}
+        getDisplayValue={getDisplayValue}
+        handleSelect={handleSelect}
+        options={options}
         className={className}
         disabled={disabled}
+        iconClassName={iconClassName}
         info={info}
+        inputClassName={inputClassName}
         label={label}
+        name={name}
+        placeholder={placeholder}
         showRequired={showRequired}
-      >
-        <ShadcnSelect
-          value={currentSingleValue}
-          onValueChange={handleSelect}
-          name={name}
-          disabled={disabled}
-        >
-          <SelectTrigger
-            className={cn(
-              `input-primary border-none shadow-none outline-none ring-0 focus:ring-0 ${inputClassName}`
-            )}
-          >
-            <SelectValue placeholder={placeholder}>
-              {(() => {
-                const selected = getDisplayValue();
-                return selected ? (
-                  <div className="flex min-w-0 items-center gap-2">
-                    <div className="flex items-center justify-center">
-                      <OptionIcon
-                        icon={selected.icon}
-                        label={selected.label}
-                        className={iconClassName}
-                      />
-                    </div>
-                    <span className="truncate">{selected.label}</span>
-                  </div>
-                ) : null;
-              })()}
-            </SelectValue>
-          </SelectTrigger>
-          <SelectContent className="">
-            {options.map((option) => (
-              <SelectItem
-                key={option.value}
-                value={option.value}
-                disabled={option.disabled}
-              >
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center justify-center">
-                    <OptionIcon
-                      icon={option.icon}
-                      label={option.label}
-                      className={iconClassName}
-                    />
-                  </div>
-                  <span className="truncate">{option.label}</span>
-                </div>
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </ShadcnSelect>
-      </InputWrapper>
+      />
     );
   }
 

@@ -3,6 +3,8 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
+import ASSETS from "@/constants/assets";
+
 type Props = {
   src: string;
   alt: string;
@@ -26,7 +28,7 @@ const PlaceholderImage = ({
   width,
   loading,
   fill,
-  placeholderImageUrl = "/images/fyndr-placeholder-gray.svg",
+  placeholderImageUrl = ASSETS.IMAGES.PLACEHOLDER.FYNDR,
 }: Props) => {
   const [imgUrl, setImgUrl] = useState<string>(placeholderImageUrl);
 

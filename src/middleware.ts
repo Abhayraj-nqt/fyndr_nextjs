@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { auth } from "./auth";
 import ROUTES, { PUBLIC_ROUTES, ROLE_BASED_ROUTES } from "./constants/routes";
+import { EntityRole } from "./types/auth/auth.types";
 
 export async function middleware(request: NextRequest) {
   // console.log("\nmiddleware start ----------------------");

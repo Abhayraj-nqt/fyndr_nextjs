@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-import { HOW_DOES_WALLET_WORK } from "@/constants";
+import { HOW_DOES_WALLET_WORK } from "@/constants/wallet";
 
 type Props = {
   className?: string;

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-import { signInWithCredentials } from "@/actions/auth.actions";
+import { onSignInWithCredentials } from "@/actions/auth.actions";
 import AuthForm from "@/components/forms/auth/sign-in/auth-form";
 import { SignInSchema } from "@/components/forms/auth/sign-in/schema";
 import SignupForm from "@/components/forms/auth/sign-up/sign-up-form";
@@ -70,7 +70,7 @@ const AuthFormWrapper = ({ formType }: Props) => {
           formType="SIGN_IN"
           schema={SignInSchema}
           defaultValues={{ email: "", password: "" }}
-          onSubmit={signInWithCredentials}
+          onSubmit={onSignInWithCredentials}
         />
       ) : selectedUserType ? (
         <SignupForm userType={selectedUserType} onGoBack={handleGoBack} />

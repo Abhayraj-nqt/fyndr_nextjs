@@ -63,10 +63,12 @@ const MobileVerificationModal = ({
 
     startVerifyingMobile(async () => {
       const { success, data, error } = await onVerifyMobile({
-        countryCode,
-        email,
-        phone,
-        verificationCode: code,
+        payload: {
+          countryCode,
+          email,
+          phone,
+          verificationCode: code,
+        },
       });
 
       if (!success || error) {
@@ -108,11 +110,13 @@ const MobileVerificationModal = ({
 
     startSendingCode(async () => {
       const { success, data, error } = await onSendMobileVerificationCode({
-        countryCode,
-        email,
-        isBusiness,
-        phone,
-        registerMode: regMode,
+        payload: {
+          countryCode,
+          email,
+          isBusiness,
+          phone,
+          registerMode: regMode,
+        },
       });
       if (!success && error) {
         toast.error({

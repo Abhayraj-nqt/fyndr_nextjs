@@ -6,6 +6,7 @@ import { useState } from "react";
 import HtmlContent from "@/components/global/html-content";
 import { Modal } from "@/components/global/modal";
 import { Button } from "@/components/ui/button";
+import ASSETS from "@/constants/assets";
 import { API_BASE_URL } from "@/environment";
 
 import StoreUrl from "../list/_components/copy-store-url";
@@ -36,9 +37,7 @@ const ListItem: React.FC<ListItemProps> = ({
   const storeUrl = `${API_BASE_URL}/catalogue/store/${url}`;
 
   const avatarSrc =
-    images?.[0]?.img ||
-    images?.[0]?.img_url ||
-    "/images/fyndr-placeholder-gray.svg";
+    images?.[0]?.img || images?.[0]?.img_url || ASSETS.IMAGES.PLACEHOLDER.FYNDR;
 
   return (
     <>

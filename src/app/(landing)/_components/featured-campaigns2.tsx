@@ -3,22 +3,23 @@ import React from "react";
 
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
-import { CampaignProps } from "@/types/campaign";
+import { Campaign } from "@/types/campaign/campaign.types";
 
 import FeaturedFyndsCard from "./cards/featured-fynds-card";
 
 type Props = {
-  campaigns?: CampaignProps[];
+  campaigns?: Campaign[];
 };
 
 const FeaturedCampaigns = async ({ campaigns: featuredCampaigns }: Props) => {
   if (!featuredCampaigns || featuredCampaigns.length < 1) return null;
 
   return (
-    <section className="mt-10 flex flex-col rounded-lg bg-primary-10 p-4">
-      <h2 className="h2-semibold">Featured Fynds</h2>
+    <section className="mt-10 flex flex-col rounded-10 bg-primary-10 p-4">
+      <h2 className="heading-6-medium text-black-80">Featured Fynds</h2>
       {featuredCampaigns?.length > 0 && (
-        <div className="my-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        // <div className="my-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="my-6 grid grid-cols-[repeat(auto-fit,minmax(264px,1fr))] place-items-center gap-4">
           {featuredCampaigns.map((campaign) => (
             <Link
               key={campaign.objid}

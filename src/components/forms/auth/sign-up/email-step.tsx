@@ -5,7 +5,7 @@ import React, { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { getAccountAPI } from "@/actions/auth.actions";
+import { onGetAccount } from "@/actions/auth.actions";
 import toast from "@/components/global/toast";
 import { Button } from "@/components/ui/button";
 import {
@@ -50,10 +50,12 @@ const EmailStep = ({ userType, onNextStep }: EmailStepProps) => {
         regMode: "classic",
       });
 
-      const { status, success, data, error } = await getAccountAPI({
-        email: values.email,
-        regMode: "classic",
-        isBusiness: userType === "business",
+      const { status, success, data, error } = await onGetAccount({
+        payload: {
+          email: values.email,
+          regMode: "classic",
+          isBusiness: userType === "business",
+        },
       });
 
       console.log({ status, success, data, error });

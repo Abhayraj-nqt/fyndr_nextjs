@@ -116,7 +116,10 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
     const existingData = queryClient.getQueryData(queryKey);
 
     if (!existingData) {
-      const { data, success, error } = await onGetCampaigns(params, payload);
+      const { data, success, error } = await onGetCampaigns({
+        params,
+        payload,
+      });
 
       if (!success || error) {
         return handleError(error);
