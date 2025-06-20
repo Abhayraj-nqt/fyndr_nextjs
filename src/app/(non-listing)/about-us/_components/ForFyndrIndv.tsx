@@ -2,7 +2,7 @@ import React from "react";
 
 import { SITE_ABOUT } from "@/constants/site";
 
-import AboutRow from "./AboutRow";
+import AboutRow from "./aboutRow";
 
 const ForFyndrIndividual = () => {
   return (

@@ -9,6 +9,7 @@ import AboutRow from "./_components/aboutRow";
 import AboutUsTab from "./_components/aboutUsTab";
 import FeatureCard from "./_components/featurecards";
 
+
 const AboutUs = () => {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   return (
@@ -22,6 +23,8 @@ const AboutUs = () => {
             description={feature.description}
             index={index}
             className={index === 0 ? "peer" : ""}
+            setHoveredIndex={setHoveredIndex}
+            hoveredIndex={hoveredIndex}
           />
         ))}
       </section>
