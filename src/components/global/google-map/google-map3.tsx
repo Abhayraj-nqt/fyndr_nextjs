@@ -230,7 +230,7 @@ const GoogleMap3: React.FC<GoogleMapProps> = ({
   if (!isLoaded) {
     return (
       <div
-        className="flex items-center justify-center rounded-lg bg-gray-100"
+        className="flex items-center justify-center rounded-10 bg-gray-100"
         style={containerStyle}
       >
         <div className="text-center">
@@ -245,7 +245,7 @@ const GoogleMap3: React.FC<GoogleMapProps> = ({
   if (loadError) {
     return (
       <div
-        className="flex items-center justify-center rounded-lg border border-red-200 bg-red-50"
+        className="flex items-center justify-center rounded-10 border border-red-200 bg-red-50"
         style={containerStyle}
       >
         <div className="text-center text-red-600">

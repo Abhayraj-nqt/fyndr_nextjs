@@ -1,22 +1,26 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-lines */
+"use client";
+
 import {
   useInfiniteQuery,
   useQuery,
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
+import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 
 import { onGetCampaigns, onLikeCampaign } from "@/actions/campaign.action";
 import toast from "@/components/global/toast";
 import { CAT_LIST_HOME } from "@/constants";
+import ROUTES from "@/constants/routes";
 import { API_BASE_URL } from "@/environment";
 import { _post } from "@/lib/handlers/fetch";
-import { CampaignsResponse } from "@/types/api-response/campaign.response";
-import { CampaignProps } from "@/types/campaign";
+import { LikeCampaignParams } from "@/types/campaign/campaign.params";
+import { GetCampaignsResponse } from "@/types/campaign/campaign.response";
+import { Campaign } from "@/types/campaign/campaign.types";
 import { Coordinates } from "@/types/global";
-
-// hooks/use-optimistic-like.ts
 
 export const useGetCampaigns = (
   params: {
@@ -35,7 +39,7 @@ export const useGetCampaigns = (
   }
 ) => {
   type Response = {
-    campaigns: CampaignProps[];
+    campaigns: Campaign[];
     count: number;
     last: boolean;
     resultFromCampaignTag: boolean;
@@ -168,20 +172,20 @@ type CampaignQueryPayload = {
 export function useInfiniteCampaigns(
   params: CampaignQueryParams,
   payload: CampaignQueryPayload,
-  initialData?: CampaignsResponse
+  initialData?: GetCampaignsResponse
 ) {
   return useInfiniteQuery({
     queryKey: ["campaigns", params, payload],
     queryFn: async ({ pageParam }) => {
-      const response = await onGetCampaigns(
-        {
+      const response = await onGetCampaigns({
+        params: {
           page: pageParam,
           pageSize: params.pageSize,
           orderBy: params.orderBy || "ASC",
           search: params.search,
         },
-        payload
-      );
+        payload,
+      });
 
       if (!response.success || !response.data) {
         throw new Error(response.error?.message || "Failed to fetch campaigns");
@@ -248,7 +252,7 @@ export function useCampaignMapMarkers(
 
   const { data, isError, isLoading, refetch } = useQuery({
     queryKey,
-    queryFn: () => onGetCampaigns(params, payload),
+    queryFn: () => onGetCampaigns({ params, payload }),
     staleTime: 5 * 60 * 1000, // Data considered fresh for 5 minutes
     gcTime: 10 * 60 * 1000, // Keep in cache for 10 minutes (formerly cacheTime)
     refetchOnWindowFocus: false, // Don't refetch when window regains focus
@@ -268,24 +272,23 @@ export function useCampaignMapMarkers(
   };
 }
 
-type LikeCampaignParams = {
-  bizId: number;
-  cmpnId: number;
-  indvId: number;
-  isDeleted: boolean;
-  objid: number | null;
-};
-
 export function useOptimisticLike() {
   const queryClient = useQueryClient();
+  const pathname = usePathname();
+
+  const isWishlistPage = pathname === ROUTES.MY_OFFERS;
+
+  const getQueryKey = () => {
+    if (isWishlistPage) {
+      return ["my-offers"];
+    }
+    return ["campaigns"];
+  };
 
   return useMutation({
-    mutationFn: async (params: LikeCampaignParams) => {
-      console.log({ likePayload: params });
+    mutationFn: async (payload: LikeCampaignParams["payload"]) => {
+      const response = await onLikeCampaign({ payload });
 
-      const response = await onLikeCampaign(params);
-
-      console.log({ likeResponse: response });
       if (!response.success) {
         throw new Error("Failed to update like status");
       }
@@ -293,28 +296,52 @@ export function useOptimisticLike() {
     },
 
     onMutate: async (variables) => {
+      const queryKey = getQueryKey();
       // Cancel any outgoing refetches so they don't overwrite our optimistic update
-      await queryClient.cancelQueries({ queryKey: ["campaigns"] });
+      // await queryClient.cancelQueries({ queryKey: ["campaigns"] });
+      await queryClient.cancelQueries({ queryKey });
 
       // Snapshot the previous value for rollback
       const previousData = queryClient.getQueriesData({
-        queryKey: ["campaigns"],
+        // queryKey: ["campaigns"],
+        queryKey,
       });
 
       // Optimistically update all campaign queries
-      queryClient.setQueriesData({ queryKey: ["campaigns"] }, (old: any) => {
+      // queryClient.setQueriesData({ queryKey: ["campaigns"] }, (old: any) => {
+      queryClient.setQueriesData({ queryKey }, (old: any) => {
         if (!old) return old;
+
+        if (isWishlistPage) {
+          // if (variables.isDeleted) {
+          return {
+            ...old,
+            pages:
+              old.pages?.map((page: any) => ({
+                ...page,
+                campaigns:
+                  page.campaigns?.filter(
+                    (campaign: Campaign) => campaign.objid !== variables.cmpnId
+                  ) || [],
+              })) ||
+              old.campaigns?.filter(
+                (campaign: Campaign) => campaign.objid !== variables.cmpnId
+              ) ||
+              old,
+          };
+          // }
+        }
 
         return {
           ...old,
           pages: old.pages.map((page: any) => ({
             ...page,
-            campaigns: page.campaigns.map((campaign: CampaignProps) => {
+            campaigns: page.campaigns.map((campaign: Campaign) => {
               if (campaign.objid === variables.cmpnId) {
                 // Calculate optimistic like count based on current state
-                const isCurrentlyLiked =
-                  campaign?.indvCmpn?.isDeleted === false &&
-                  campaign.indvCmpn?.objid;
+                // const isCurrentlyLiked =
+                //   campaign?.indvCmpn?.isDeleted === false &&
+                //   campaign.indvCmpn?.objid;
                 const newLikedCount = variables.isDeleted
                   ? Math.max(0, campaign.likedCount - 1) // If we're deleting the like (isDeleted: true), decrease count
                   : campaign.likedCount + 1; // If we're adding the like (isDeleted: false), increase count
@@ -339,18 +366,24 @@ export function useOptimisticLike() {
     },
 
     onSuccess: (data, variables) => {
+      const queryKey = getQueryKey();
       // Update with actual server response data
       if (data.success && data.data) {
         const serverResponse = data.data;
 
-        queryClient.setQueriesData({ queryKey: ["campaigns"] }, (old: any) => {
+        // queryClient.setQueriesData({ queryKey: ["campaigns"] }, (old: any) => {
+        queryClient.setQueriesData({ queryKey }, (old: any) => {
           if (!old) return old;
+
+          if (isWishlistPage) {
+            return old;
+          }
 
           return {
             ...old,
             pages: old.pages.map((page: any) => ({
               ...page,
-              campaigns: page.campaigns.map((campaign: CampaignProps) => {
+              campaigns: page.campaigns.map((campaign: Campaign) => {
                 if (campaign.objid === variables.cmpnId) {
                   return {
                     ...campaign,
@@ -382,7 +415,5 @@ export function useOptimisticLike() {
         message: "Failed to update like status. Please try again.",
       });
     },
-
-    // Remove onSettled invalidation since we're handling success manually
   });
 }

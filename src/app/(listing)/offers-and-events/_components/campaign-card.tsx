@@ -24,13 +24,14 @@ import {
 import ROUTES from "@/constants/routes";
 import { HOST } from "@/environment";
 import { useOptimisticLike } from "@/hooks/campaigns";
-import { parseAddress } from "@/lib/utils";
-import { CampaignProps } from "@/types/campaign";
+import { parseAddress } from "@/lib/utils/address";
+import { Campaign } from "@/types/campaign/campaign.types";
 
 import SeeMoreSection from "./sections/see-more-section";
+import ASSETS from "@/constants/assets";
 
 type Props = {
-  campaign: CampaignProps;
+  campaign: Campaign;
   refetch?: () => void;
 };
 
@@ -109,7 +110,7 @@ const CampaignCard = ({ campaign }: Props) => {
             src={
               campaign?.images && campaign?.images.length > 0
                 ? campaign?.images[0]?.img_url
-                : "/fyndr-placeholder-gray.svg"
+                : ASSETS.IMAGES.PLACEHOLDER.FYNDR
             }
             alt="img/alt"
             width={200}
@@ -140,11 +141,12 @@ const CampaignCard = ({ campaign }: Props) => {
             </CardTitle>
             {mode === "offline" ? (
               <CardDescription className="body-5 line-clamp-2 h-[30px] text-black-60">
-                {`${
-                  campaign?.cmpnLocs[0]?.distance
-                    ? campaign?.cmpnLocs[0]?.distance.toFixed(1)
-                    : "0"
-                } miles, ${parseAddress(campaign?.cmpnLocs[0])}`}
+                {
+                  parseAddress(campaign?.cmpnLocs[0], {
+                    compactMode: true,
+                    includeDistance: true,
+                  }).formatted
+                }
               </CardDescription>
             ) : (
               <></>
@@ -154,7 +156,7 @@ const CampaignCard = ({ campaign }: Props) => {
           <div className="flex items-center gap-4 text-black-60">
             {campaign?.cmpnLocs[0]?.phone ? (
               <PhoneTo phone={campaign?.cmpnLocs[0]?.phone}>
-                <Phone size={20} />
+                <Phone size={20} className="cursor-pointer" />
               </PhoneTo>
             ) : (
               <></>

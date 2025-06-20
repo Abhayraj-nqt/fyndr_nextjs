@@ -1,7 +1,6 @@
 import { auth } from "@/auth";
 import CategoryAddForm from "@/components/forms/business/store/category-form";
-import ContainerWrapper from "@/components/global/ContainerWrapper";
-import React from "react";
+import ContainerWrapper from "@/components/global/container-wrapper";
 
 type Props = {
   params: {

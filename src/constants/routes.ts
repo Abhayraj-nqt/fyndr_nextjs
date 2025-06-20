@@ -1,4 +1,5 @@
-import { slugify } from "@/lib/utils";
+import { slugify } from "@/lib/utils/url";
+import { RouteAccess } from "@/types/auth/auth.types";
 
 const ROUTES = {
   HOME: "/",
@@ -14,6 +15,7 @@ const ROUTES = {
   PROFILE: `/profile`,
   OFFER_DETAILS: (bizName: string, qrCode: string) =>
     slugify(`/offer-details/${bizName}/${qrCode}`),
+  OFFER_LISTING_CATEGORY: (category: string) => `/offer-listing/${category}`,
   STORE: (id: number | string) => `/store/${id}`,
 
   // Legal routes

@@ -17,9 +17,11 @@ const ActivityList = async ({ page = 1, size = 10 }: Props) => {
   if (!session || !session.user) return null;
 
   const { success, data, error } = await onGetWalletTransactions({
-    userId: Number(session.user.id),
-    pgSize: size,
-    pgStart: page,
+    params: {
+      userId: Number(session.user.id),
+      pgSize: size,
+      pgStart: page,
+    },
   });
 
   if (!success || !data) return null;

@@ -5,7 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 
-import { getAccountAPI } from "@/actions/auth.actions";
+import { onGetAccount } from "@/actions/auth.actions";
 import { USER_QUERY_KEY } from "@/hooks/auth";
 import { useUserStore } from "@/zustand/stores/user.store";
 
@@ -32,10 +32,12 @@ export default function UserProvider({ children }: UserProviderProps) {
           await queryClient.prefetchQuery({
             queryKey: [USER_QUERY_KEY],
             queryFn: async () => {
-              const { success, data } = await getAccountAPI({
-                email: session.user.email,
-                regMode: "classic",
-                accessToken: session.accessToken!,
+              const { success, data } = await onGetAccount({
+                payload: {
+                  email: session.user.email,
+                  regMode: "classic",
+                  accessToken: session.accessToken!,
+                },
               });
 
               if (success && data) {

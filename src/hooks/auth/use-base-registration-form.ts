@@ -200,10 +200,12 @@ export const useBaseRegistrationForm = <T extends BaseFormData>({
 
     startVerifyingCode(async () => {
       const { success, data, error } = await onVerifyCode({
-        code: String(code),
-        isBusiness,
-        codeType: "REGISTRATION",
-        countryId: countryId || -1,
+        params: {
+          code: String(code),
+          isBusiness,
+          codeType: "REGISTRATION",
+          countryId: countryId || -1,
+        },
       });
 
       if (!success) {

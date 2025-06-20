@@ -3,7 +3,7 @@
 
 import React, { useState } from "react";
 
-import { ABOUT_PAGE_FEATURES, FYNDR_ABOUT_AND_MISSION } from "@/constants";
+import { SITE_ABOUT } from "@/constants/site";
 
 import AboutRow from "./_components/aboutRow";
 import AboutUsTab from "./_components/aboutUsTab";
@@ -13,23 +13,21 @@ const AboutUs = () => {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   return (
     <main className="scroll-smooth">
-       <div className="relative flex flex-col items-center justify-center gap-4 p-4 md:flex-row">
-      {ABOUT_PAGE_FEATURES.map((feature, index) => (
-        <FeatureCard
-          key={feature.title}
-          title={feature.title}
-          imgURL={feature.imgURL}
-          description={feature.description}
-          index={index}
-          isFirst={index === 0}
-          hoveredIndex={hoveredIndex}
-          setHoveredIndex={setHoveredIndex}
-        />
-      ))}
-    </div>
+      <section className="group relative flex flex-col items-center justify-center gap-4 p-4 md:flex-row">
+        {SITE_ABOUT.features.map((feature, index) => (
+          <FeatureCard
+            key={feature.title}
+            title={feature.title}
+            imgURL={feature.imgURL}
+            description={feature.description}
+            index={index}
+            className={index === 0 ? "peer" : ""}
+          />
+        ))}
+      </section>
 
-      <div className="flex flex-col items-center gap-8 bg-secondary-10 p-4 py-10">
-        {FYNDR_ABOUT_AND_MISSION.map((item) => (
+      <section className="flex flex-col items-center gap-8 bg-secondary-10 p-4 py-10">
+        {SITE_ABOUT.aboutAndMission.map((item) => (
           <AboutRow
             key={item.title}
             imgURL={item.imgURL}
@@ -38,13 +36,13 @@ const AboutUs = () => {
             imgDir={item.imgDir}
           />
         ))}
-      </div>
-      <div className="bg-white pt-5 ">
+      </section>
+      <section className="bg-white pt-5 ">
         <h1 className="text-center text-[1.5rem] font-semibold  leading-[42px]">
           How to use Fyndr:
         </h1>
         <AboutUsTab />
-      </div>
+      </section>
     </main>
   );
 };

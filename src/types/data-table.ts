@@ -1,4 +1,10 @@
-import type { ColumnSort, Row, RowData } from "@tanstack/react-table";
+import type {
+  ColumnSort,
+  Row,
+  RowData,
+  TableOptions,
+  TableState,
+} from "@tanstack/react-table";
 
 import type { DataTableConfig } from "@/config/data-table";
 import type { FilterItemSchema } from "@/lib/utils/table/parsers";
@@ -38,4 +44,28 @@ declare module "@tanstack/react-table" {
     unit?: string;
     icon?: React.FC<React.SVGProps<SVGSVGElement>>;
   }
+}
+
+export interface UseDataTableProps<TData>
+  extends Omit<
+      TableOptions<TData>,
+      | "state"
+      | "pageCount"
+      | "getCoreRowModel"
+      | "manualFiltering"
+      | "manualPagination"
+      | "manualSorting"
+    >,
+    Required<Pick<TableOptions<TData>, "pageCount">> {
+  initialState?: Omit<Partial<TableState>, "sorting"> & {
+    sorting?: ExtendedColumnSort<TData>[];
+  };
+  history?: "push" | "replace";
+  debounceMs?: number;
+  throttleMs?: number;
+  clearOnDefault?: boolean;
+  enableAdvancedFilter?: boolean;
+  scroll?: boolean;
+  shallow?: boolean;
+  startTransition?: React.TransitionStartFunction;
 }

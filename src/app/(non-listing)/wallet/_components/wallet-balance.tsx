@@ -21,9 +21,11 @@ const WalletBalance = async ({ className }: Props) => {
   }
 
   const { success, data } = await onGetWalletTransactions({
-    userId: Number(session.user.id),
-    pgStart: 1,
-    pgSize: 10,
+    params: {
+      userId: Number(session.user.id),
+      pgStart: 1,
+      pgSize: 10,
+    },
   });
 
   if (!success || !data) {
@@ -32,7 +34,7 @@ const WalletBalance = async ({ className }: Props) => {
 
   return (
     <div
-      className={`flex flex-col gap-4 rounded-lg bg-secondary p-6 text-white ${className}`}
+      className={`flex flex-col gap-4 rounded-10 bg-secondary p-6 text-white ${className}`}
     >
       <div className="md:flex-between flex flex-col gap-4 md:flex-row">
         <div className="flex flex-col gap-4 self-start">
@@ -67,7 +69,7 @@ const WalletBalance = async ({ className }: Props) => {
       </p>
 
       <RedeemPromocodeDialog>
-        <Button className="self-start rounded-[10px] bg-white py-6 text-black hover:bg-white">
+        <Button className="self-start !rounded-10 bg-white py-6 text-black hover:bg-white">
           Redeem Promo Code
         </Button>
       </RedeemPromocodeDialog>

@@ -1,23 +1,20 @@
-import { fetchStoreModifier } from "@/actions/catalogue.actions";
+import { onGetStoreModifier } from "@/actions/catalogue.actions";
 import { auth } from "@/auth";
-import ContainerWrapper from "@/components/global/ContainerWrapper";
-import { Button } from "@/components/ui/button";
+import ContainerWrapper from "@/components/global/container-wrapper";
 
-import ModifierList from "./_components/modifierList";
+import AddModifier from "./_components/add-modifier-button";
+import ModifierList from "./_components/modifier-list";
 
 const CatalogModifiers = async () => {
   const session = await auth();
   const bizid = session?.user?.bizid;
   if (!bizid) throw new Error("BizId is required");
 
-  const { success, data } = await fetchStoreModifier({ bizid });
+  const { success, data } = await onGetStoreModifier({ bizid });
   if (!success || !data) return null;
 
   return (
-    <ContainerWrapper
-      title="Modifiers"
-      headerOption={<Button className="btn-primary">Add Modifiers</Button>}
-    >
+    <ContainerWrapper title="Modifiers" headerOption={<AddModifier />}>
       <ModifierList modifiers={data.modifiers} bizid={bizid} />
     </ContainerWrapper>
   );

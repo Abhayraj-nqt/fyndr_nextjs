@@ -2,14 +2,16 @@
 
 import React, { useState } from "react";
 
-import { CATEGORY_ICON } from "@/constants";
-import { cn, getCategoryIcon } from "@/lib/utils";
+import Button from "@/components/global/buttons";
+import { CATEGORY_ICON_MAP } from "@/constants";
+import { cn } from "@/lib/utils";
+import { getCategoryIcon } from "@/lib/utils/campaign";
+import { Category } from "@/types/category/category.types";
 
 import CategoryCard from "./cards/category-card";
-import { Button } from "../../../components/ui/button";
 
 type Props = {
-  categories: CategoryProps[];
+  categories: Category[];
 };
 
 const Categories = ({ categories }: Props) => {
@@ -36,14 +38,20 @@ const Categories = ({ categories }: Props) => {
             <CategoryCard
               key={category.objid}
               categoryName={category.name}
-              icon={CATEGORY_ICON.get(category.name.toLowerCase())}
+              icon={CATEGORY_ICON_MAP.get(category.name.toLowerCase())}
             />
           ))}
       <Button
-        className={cn(
-          `body-medium rounded-lg px-6 py-3 capitalize shadow-none`,
-          "hover:bg-primary-10 text-primary bg-primary-10"
-        )}
+        className={
+          cn(
+            "!rounded-full border border-secondary-20 px-4 py-2 gap-2 body-3 transition duration-300",
+            "hover:border-secondary-20 hover:scale-105"
+          )
+          // `body-medium rounded-lg px-6 py-3 capitalize shadow-none`,
+          // "hover:bg-primary-10 text-primary bg-primary-10"
+        }
+        variant="primary-dark"
+        stdHeight
         onClick={() => handleClickMore()}
       >
         {clickedMore ? "Less" : "More"}

@@ -4,6 +4,7 @@ import { Clipboard } from "lucide-react";
 import { useState } from "react";
 
 import CopyToClipboard from "@/components/global/copy-to-clipboard";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
@@ -20,7 +21,13 @@ const ReferralCode = () => {
 
   const { user, isLoading, error } = useUser();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="flex gap-2 self-start rounded-full bg-secondary-90 p-4">
+        <Skeleton className="h-4 w-32 bg-white/20" />
+        <Skeleton className="size-5 bg-white/20" />
+      </div>
+    );
   if (error) return <div>Error loading profile</div>;
   if (!user) return <div>Please sign in</div>;
 

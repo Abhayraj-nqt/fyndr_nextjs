@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { COUNTRIES } from "@/constants";
+import { COUNTRIES } from "@/constants/form";
 
 import InputWrapper from "./input-wrapper";
 
