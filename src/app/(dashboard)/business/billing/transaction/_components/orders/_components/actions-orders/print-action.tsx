@@ -1,5 +1,3 @@
-import { channel } from "diagnostics_channel";
-
 import React, { useEffect, useState } from "react";
 
 import Buttons from "@/components/global/buttons/invoice-buttons";

@@ -117,6 +117,12 @@ export type Mitem = {
   appointment?: Appointment[];
 };
 
+export type addonDetails = {
+  modName :  string;
+  price : number;
+  objid : number;
+}
+
 export type Item = {
   catalogue_item_id: string;
   details: {
@@ -134,7 +140,7 @@ export type Item = {
     currency: string;
     instruction: string | null;
     wholeDetails: any;
-    addonDetails: any[];
+    addonDetails: addonDetails[];
     taxRate: number;
     tax: string;
   };

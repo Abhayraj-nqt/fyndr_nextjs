@@ -1,15 +1,15 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import { X, Check } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import React, { useState, useRef, useEffect } from "react";
 
+import { Badge } from "@/components/ui/badge";
 import {
   Popover,
   PopoverTrigger,
   PopoverContent,
 } from "@/components/ui/popover";
-import { Badge } from "@/components/ui/badge";
 
-import { X, Check } from "lucide-react";
 interface Option {
   value: string;
   label: string;
@@ -31,39 +31,39 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  
+
   const [searchTerm, setSearchTerm] = useState("");
   const [open, setOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  
+
   const [selectedValues, setSelectedValues] = useState<string[]>(
     searchParams.getAll(paramKey)
   );
   const updateURL = (newValues: string[]) => {
     const params = new URLSearchParams(searchParams.toString());
-    
+
     params.delete(paramKey);
-    
-    newValues.forEach(value => {
+
+    newValues.forEach((value) => {
       params.append(paramKey, value);
     });
-    
+
     router.push(`${pathname}?${params.toString()}`);
   };
   const handleToggle = (value: string) => {
     let newValues: string[];
-    
+
     if (selectedValues.includes(value)) {
       newValues = selectedValues.filter((v) => v !== value);
     } else {
       newValues = [...selectedValues, value];
     }
-    
+
     setSelectedValues(newValues);
     updateURL(newValues);
-    
+
     onChange?.(newValues);
-    
+
     setSearchTerm("");
     setOpen(true);
     inputRef.current?.focus();
@@ -92,15 +92,15 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
             setOpen(true);
             inputRef.current?.focus();
           }}
-          className={`flex items-center min-h-[45px] px-3 py-3 rounded-lg border bg-white text-sm cursor-text overflow-hidden ${className}`}
+          className={`flex min-h-[45px] cursor-text items-center overflow-hidden rounded-lg border bg-white p-3 text-sm ${className}`}
         >
-          <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide no-scrollbar flex-shrink-0 max-w-full">
+          <div className="scrollbar-hide no-scrollbar flex max-w-full shrink-0 items-center gap-2 overflow-x-auto">
             {selectedValues.map((val) => {
               const opt = options.find((o) => o.value === val);
               return (
                 <Badge
                   key={val}
-                  className="flex items-center gap-1 px-2 py-1 bg-[#E6E6E6] text-[#4D4D4D] hover:bg-[#E6E6E6] whitespace-nowrap flex-shrink-0"
+                  className="flex shrink-0 items-center gap-1 whitespace-nowrap bg-[#E6E6E6] px-2 py-1 text-[#4D4D4D] hover:bg-[#E6E6E6]"
                 >
                   <span>{opt?.label || val}</span>
                   <X
@@ -115,7 +115,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
               );
             })}
           </div>
-          
+
           <input
             ref={inputRef}
             type="text"
@@ -125,8 +125,8 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
               setOpen(true);
             }}
             onFocus={() => setOpen(true)}
-            className={`flex-grow border-none outline-none bg-transparent text-[14px] text-[#d9d9d9] min-w-[50px] ${
-              selectedValues.length > 0 ? 'opacity-0 w-0' : ''
+            className={`min-w-[50px] grow border-none bg-transparent text-[14px] text-[#d9d9d9] outline-none ${
+              selectedValues.length > 0 ? "w-0 opacity-0" : ""
             }`}
             placeholder={selectedValues.length === 0 ? placeholder : ""}
           />
@@ -138,13 +138,13 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
         onOpenAutoFocus={(e) => e.preventDefault()}
         onCloseAutoFocus={(e) => e.preventDefault()}
       >
-        <div className="flex flex-col gap-1 max-h-60 overflow-y-auto scrollbar-hide">
+        <div className="scrollbar-hide flex max-h-60 flex-col gap-1 overflow-y-auto">
           {filteredOptions.length > 0 ? (
             filteredOptions.map(({ value, label }) => (
               <div
                 key={value}
                 onClick={() => handleToggle(value)}
-                className="flex items-center justify-between px-2 py-1 rounded hover:bg-gray-100 cursor-pointer"
+                className="flex cursor-pointer items-center justify-between rounded px-2 py-1 hover:bg-gray-100"
               >
                 <span className="text-sm">{label}</span>
                 {selectedValues.includes(value) && (
@@ -153,7 +153,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
               </div>
             ))
           ) : (
-            <div className="text-sm text-gray-500 px-2 py-1">No options</div>
+            <div className="px-2 py-1 text-sm text-gray-500">No options</div>
           )}
         </div>
       </PopoverContent>

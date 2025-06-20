@@ -7,6 +7,8 @@ import { Space } from "lucide-react";
 import Button from "@/components/global/buttons";
 import { DataTableColumnHeader } from "@/components/global/data-table/data-table-column-header";
 import { DataTableRowAction } from "@/types/data-table";
+import SelectDeliveryTable from "./select-orders/select-delivery-table";
+import Select from "@/components/global/input/select/index";
 type Props = {
   setRowAction: React.Dispatch<
     React.SetStateAction<DataTableRowAction<OrdersResponse> | null>
@@ -18,6 +20,16 @@ export function getOrdersDetailsColoumn({
   setRowAction,
   userTimeZone,
 }: Props): ColumnDef<OrdersResponse>[] {
+    const paymentStatus = [
+        { value: "paid", label: "Paid" },
+        { value: "pending", label: "Pending" },
+        { value: "canceled", label: "Canceled" },
+    ];
+    const deliveryType = [
+        { value: "PROCESSING", label: "Processing" },
+        { value: "READY_TO_PICK", label: "Ready To Pick" },
+        { value: "FULFILLED", label: "Fulfilled" },
+    ];
   return [
     {
       accessorKey: "invoiceId",
@@ -82,30 +94,13 @@ export function getOrdersDetailsColoumn({
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Delivery Type" />
       ),
-      cell: ({ row }) => {
-        const record = row.original;
-        const data = record.deliveryStatus;
-        return <p>{data}</p>;
-        // (
-        //   <DropdownComponent
-        //     bordered={false}
-        //     value={data}
-        //     options={deliveryType}
-        //     onChange={(value) => {
-        //       setColor(getColorText(value));
-        //       setBgColor(getDeliveryColor(value));
-        //       setDeliveryDropdown(value);
-        //       updateDeliveryStatusFunction(value, record.invoiceId);
-        //     }}
-        //     style={{
-        //       width: "100%",
-        //       borderRadius: "1rem",
-        //       color: getColorText(data),
-        //       backgroundColor: getDeliveryColor(data),
-        //     }}
-        //   />
-        // );
-      },
+    cell: ({ row }) => {
+  const record = row.original;
+  const data = record.deliveryStatus;
+  return (
+     <SelectDeliveryTable data = {data}/>
+  );
+},
       enableSorting: false,
       enableHiding: false,
     },
@@ -132,6 +127,7 @@ export function getOrdersDetailsColoumn({
       ),
       cell: ({ row }) => {
         const item = row.original.paymentStatus;
+        console.log(item,"item");
         // const record = row.original;
         return <p>{item}</p>;
         // const commonProps = {

@@ -106,6 +106,7 @@ const Select = ({
           onValueChange={handleSelect}
           name={name}
           disabled={disabled}
+          
         >
           <SelectTrigger
             className={cn(

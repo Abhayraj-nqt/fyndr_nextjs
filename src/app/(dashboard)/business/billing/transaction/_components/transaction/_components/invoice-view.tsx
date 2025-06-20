@@ -22,6 +22,7 @@ import {
 } from "@/types/api-response/transaction.response";
 
 import DisputeModal from "./dispute-modal";
+import Renderlistitem from "./render-list-item";
 import GifteeDetails from "../../invoiceview/gifte-details";
 import InvoiceBasicInfo from "../../invoiceview/invoice-basic-info";
 import Invoicetotal from "../../invoiceview/invoice-total";
@@ -80,7 +81,7 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
     data: invoiceDetailsResp,
     isLoading: isInvoiceLoading,
     refetch,
-  } = useInvoiceDetails(objid, bizid, indvid,type);
+  } = useInvoiceDetails(objid, bizid, indvid, type);
 
   console.log("invoice details resp", invoiceDetailsResp);
 
@@ -194,10 +195,10 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
           disputeStatus={disputeStatus}
           objid={inv?.[0]?.objid}
         />
-        {
-          /* {(channel === "catalog" || channel === "catalog_appointment") && renderListItems()} */
-          // console.log(invoiceDetails?.appointment_per_cart)
-        }
+
+        {(channel === "catalog" || channel === "catalog_appointment") && (
+          <Renderlistitem  invoiceDetails={invoiceDetailsResp?.invoiceDetails} currencySymbol = {currencySymbol} userTimeZone = {userTimeZone}/>
+        )}
 
         {gifteeDetails !== null && (
           <GifteeDetails giftDetails={gifteeDetails} />
