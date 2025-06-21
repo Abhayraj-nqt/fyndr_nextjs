@@ -7,6 +7,7 @@ import CampaignCard from "@/app/(listing)/offers-and-events/_components/campaign
 import Button from "@/components/global/buttons";
 import InfiniteScrollContainer from "@/components/global/infinite-scroll-container";
 import { useInfiniteCampaigns } from "@/hooks/campaigns";
+import { GetCampaignsParams } from "@/types/campaign/campaign.params";
 import { Coordinates } from "@/types/global";
 
 type Props = {
@@ -18,6 +19,7 @@ type Props = {
   query?: string;
   mode: string;
   order: "asc" | "desc";
+  locQrId?: number | null;
 };
 
 const CampaignsSection = ({
@@ -29,8 +31,9 @@ const CampaignsSection = ({
   query,
   mode,
   order = "asc",
+  locQrId,
 }: Props) => {
-  const params = useMemo(
+  const params: GetCampaignsParams["params"] = useMemo(
     () => ({
       search: query?.trim() || undefined,
       page: 1,
@@ -42,18 +45,18 @@ const CampaignsSection = ({
     [query, order]
   );
 
-  const payload = useMemo(
+  const payload: GetCampaignsParams["payload"] = useMemo(
     () => ({
       indvId: indvId ? Number(indvId) : null,
       distance,
       location,
       campaignType: dealTypes,
       categories,
-      fetchById: "none",
+      fetchById: locQrId !== null ? "locQR" : "none",
       fetchByGoal: mode === "offline" ? "INSTORE" : "ONLINE",
-      locQRId: null,
+      locQRId: locQrId ? Number(locQrId) : null,
     }),
-    [indvId, distance, location, dealTypes, categories, mode]
+    [indvId, distance, location, dealTypes, categories, mode, locQrId]
   );
 
   const {

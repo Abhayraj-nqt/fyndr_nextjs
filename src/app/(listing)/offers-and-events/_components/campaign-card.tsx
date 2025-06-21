@@ -21,6 +21,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import ASSETS from "@/constants/assets";
 import ROUTES from "@/constants/routes";
 import { HOST } from "@/environment";
 import { useOptimisticLike } from "@/hooks/campaigns";
@@ -28,7 +29,6 @@ import { parseAddress } from "@/lib/utils/address";
 import { Campaign } from "@/types/campaign/campaign.types";
 
 import SeeMoreSection from "./sections/see-more-section";
-import ASSETS from "@/constants/assets";
 
 type Props = {
   campaign: Campaign;

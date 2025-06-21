@@ -2,8 +2,8 @@ import Image from "next/image";
 import React from "react";
 
 import { Card } from "@/components/ui/card";
-import { CampaignOffer } from "@/types/campaign/campaign.types";
 import ASSETS from "@/constants/assets";
+import { CampaignOffer } from "@/types/campaign/campaign.types";
 
 type Props = {
   className?: string;

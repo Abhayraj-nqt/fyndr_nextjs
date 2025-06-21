@@ -10,6 +10,7 @@ import { onGetCampaigns } from "@/actions/campaign.action";
 import { auth } from "@/auth";
 import { DEFAULT_LOCATION, TYPES_OF_DEALS } from "@/constants";
 import handleError from "@/lib/handlers/error";
+import { GetCampaignsParams } from "@/types/campaign/campaign.params";
 import { RouteParams } from "@/types/global";
 
 import ListingContainer from "../_components/listing-container";
@@ -42,6 +43,7 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
     query,
     mode = "offline",
     order = "asc",
+    locQrId = null,
   } = resolvedSearchParams;
 
   // Build location
@@ -78,7 +80,7 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
         .filter((num) => !isNaN(num))
     : [];
 
-  const params = {
+  const params: GetCampaignsParams["params"] = {
     search: query,
     page: 1,
     pageSize: 20,
@@ -87,15 +89,15 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
       | "DESC",
   };
 
-  const payload = {
+  const payload: GetCampaignsParams["payload"] = {
     indvId: user?.id ? Number(user.id) : null,
     distance: Math.max(Number(dist), 20),
     location,
     campaignType: dealTypes,
     categories: categoryIds,
-    fetchById: "none",
+    fetchById: locQrId !== null ? "locQR" : "none",
     fetchByGoal: mode === "offline" ? "INSTORE" : "ONLINE",
-    locQRId: null,
+    locQRId: locQrId ? Number(locQrId) : null,
   };
 
   // Create a stable query key
@@ -166,6 +168,7 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
             query={query}
             mode={mode}
             order={order as "asc" | "desc"}
+            locQrId={locQrId ? Number(locQrId) : null}
           />
         </Suspense>
       </ListingContainer>

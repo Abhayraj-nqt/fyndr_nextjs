@@ -28,6 +28,8 @@ export const onGetCampaigns: GetCampaigns = async ({ params, payload }) => {
   const baseUrl = `${API_BASE_URL}/campaign/v2/public/search`;
   const searchParams = new URLSearchParams();
 
+  console.log({ payload });
+
   if (params.page !== undefined) {
     searchParams.append("pgStart", params.page.toString());
   }

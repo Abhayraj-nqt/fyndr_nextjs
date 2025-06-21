@@ -3,10 +3,13 @@
 import { Clock, Globe, Heart, MapPinned, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import React from "react";
 
+import { onLikeBusiness } from "@/actions/store.action";
 import Button from "@/components/global/buttons/index";
 import PhoneTo from "@/components/global/phone-to";
+import toast from "@/components/global/toast";
 import WebsiteTo from "@/components/global/website-to";
 import {
   Card,
@@ -16,39 +19,80 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import ASSETS from "@/constants/assets";
 import ROUTES from "@/constants/routes";
 import { parseAddress } from "@/lib/utils/address";
-import { BusinessDirectory } from "@/types/store/store.types";
+import { LikeBusinessParams } from "@/types/store/store.params";
+import { EnhancedBusinessDirectory } from "@/types/store/store.types";
 
 import BusinessLocationMapModal from "./business-location-map-modal";
 import WorkingHourModal from "./working-hour-modal";
-import ASSETS from "@/constants/assets";
 
 type Props = {
-  businessDirectory: BusinessDirectory;
+  businessDirectory: EnhancedBusinessDirectory;
+  refetchReviews?: () => void;
 };
 
-const BusinessDirectoryCard = ({ businessDirectory }: Props) => {
+const BusinessDirectoryCard = ({
+  businessDirectory,
+  refetchReviews,
+}: Props) => {
+  const { data: session } = useSession();
   const address = parseAddress(businessDirectory, {
     compactMode: true,
     includeDistance: true,
   }).formatted;
 
+  const viewStoreUrl: string = "";
+  const viewActiveOffersAndEventsUrl: string =
+    (businessDirectory.locationOfferData?.activeCampaignCount || 0) > 1
+      ? `${ROUTES.OFFERS_AND_EVENTS}/?locQrId=${businessDirectory.qrid}`
+      : ROUTES.OFFER_DETAILS(
+          businessDirectory.bizName,
+          businessDirectory.locationOfferData?.cmpnQrCode || ""
+        );
+
+  const canViewStore: boolean = !!businessDirectory?.catalogueId;
+  const isLiked: boolean = businessDirectory?.liked === "yes";
+
+  const handleLike = async () => {
+    if (!session || !session?.user) {
+      toast.error({
+        message: "Please sign-in to like this business.",
+      });
+      return;
+    }
+    const payload: LikeBusinessParams["payload"] = {
+      bizid: businessDirectory.bizid,
+      indvid: Number(session.user.id) || 0,
+    };
+
+    const { success, data, error } = await onLikeBusiness({ payload });
+
+    if (!success || !data) {
+      toast.error({
+        message:
+          error?.details?.message ||
+          "Failed to like the business. Please try again.",
+      });
+    } else {
+      if (refetchReviews) {
+        refetchReviews();
+      }
+    }
+  };
+
   return (
     <>
       <Card className="grid max-h-fit w-full grid-cols-1 flex-col gap-4 rounded-10 border border-secondary-20 p-4 shadow-none duration-100 lg:grid-cols-5 lg:gap-6">
-        <Link
-          href={ROUTES.OFFER_DETAILS(
-            businessDirectory.bizName,
-            businessDirectory.qrid.toString()
-          )}
-          className="lg:col-span-2"
-        >
+        <Link href={viewActiveOffersAndEventsUrl} className="lg:col-span-2">
           <Image
             src={
               businessDirectory?.mainLogo
                 ? businessDirectory.mainLogo
-                : ASSETS.IMAGES.PLACEHOLDER.FYNDR
+                : businessDirectory?.catImg
+                  ? businessDirectory.catImg
+                  : ASSETS.IMAGES.PLACEHOLDER.FYNDR
             }
             alt={`${businessDirectory.bizName} on Fyndr Now!`}
             width={400}
@@ -105,17 +149,39 @@ const BusinessDirectoryCard = ({ businessDirectory }: Props) => {
                 <></>
               )}
               <div className="flex items-center justify-center gap-1">
-                <Heart size={20} className="cursor-pointer" />
-                <p>1</p>
+                <div className="flex" onClick={handleLike}>
+                  {isLiked ? (
+                    <Heart
+                      fill="#ef4444"
+                      strokeWidth={0}
+                      size={20}
+                      className="cursor-pointer"
+                    />
+                  ) : (
+                    <Heart size={20} className="cursor-pointer" />
+                  )}
+                </div>
+                {businessDirectory.bizDirLikes > 0 && (
+                  <p>{businessDirectory.bizDirLikes}</p>
+                )}
               </div>
             </div>
           </CardContent>
           <CardFooter className="grid grid-cols-1 gap-4 p-0 lg:grid-cols-2">
-            <Button variant="primary-outlined" stdHeight stdWidth>
-              {`View`} Active Offers & Events
+            <Button variant="primary-outlined" stdHeight stdWidth asChild>
+              <Link href={viewActiveOffersAndEventsUrl}>
+                {businessDirectory.locationOfferData?.count} Active Offers &
+                Events
+              </Link>
             </Button>
-            <Button variant="primary" stdHeight stdWidth>
-              View Store
+            <Button
+              variant="primary"
+              stdHeight
+              stdWidth
+              disabled={!canViewStore}
+              asChild
+            >
+              <Link href={viewStoreUrl}>View Store</Link>
             </Button>
           </CardFooter>
         </div>

@@ -7,8 +7,14 @@ import Button from "@/components/global/buttons";
 import InfiniteScrollContainer from "@/components/global/infinite-scroll-container";
 import SkeletonRenderer from "@/components/global/skeleton-renderer";
 import { useInfiniteBusinessDirectory } from "@/hooks/store/use-infinite-business-directory";
+import { useLocationOfferReviews } from "@/hooks/store/use-location-offer-reviews";
+import { useLocationOffers } from "@/hooks/store/use-location-offers";
 import { Coordinates } from "@/types/global";
 import { GetBusinessDirectoryParams } from "@/types/store/store.params";
+import {
+  EnhancedBusinessDirectory,
+  LocationOffer,
+} from "@/types/store/store.types";
 
 import BusinessDirectoryCard from "../business-directory-card";
 import BusinessDirectoryCardSkeleton from "../skeletons/business-directory-card-skeleton";
@@ -62,6 +68,55 @@ const BusinessDirectorySection = ({
     return data?.pages.flatMap((page) => page.bizdir) || [];
   }, [data?.pages]);
 
+  // Get unique objids
+  // NOTE: Here objid is actually a location id
+  const locationIds = useMemo(() => {
+    const objids = businessDirectory.map((bizDir) => bizDir.objid);
+    return [...new Set(objids)];
+  }, [businessDirectory]);
+
+  const bizIds = useMemo(() => {
+    const bizIds = businessDirectory.map((bizDir) => bizDir.bizid);
+    return [...new Set(bizIds)];
+  }, [businessDirectory]);
+
+  const { locationOffers } = useLocationOffers({ locationIds });
+  const { reviews, refetchReviews } = useLocationOfferReviews({ bizIds });
+
+  // Business review map
+  const businessReviewMap = useMemo(() => {
+    const map = new Map<number, number>();
+    reviews.forEach((review) => {
+      if (review?.bizid) {
+        map.set(review.bizid, review.count);
+      }
+    });
+    return map;
+  }, [reviews]);
+
+  // Create a map of objid to aditional details
+  const locationOffersMap = useMemo(() => {
+    const map = new Map<number, LocationOffer>();
+    if (locationOffers) {
+      locationOffers.forEach((offer) => {
+        // If objid already exists, we keep the existing value (first one)
+        if (!map.has(offer.locid)) {
+          map.set(offer.locid, offer);
+        }
+      });
+    }
+    return map;
+  }, [locationOffers]);
+
+  // Enhanced business directory with aditional details
+  const enhancedBusinessDirectory: EnhancedBusinessDirectory[] = useMemo(() => {
+    return businessDirectory.map((bizDir) => ({
+      ...bizDir,
+      locationOfferData: locationOffersMap.get(bizDir.objid) || null,
+      bizDirLikes: businessReviewMap.get(bizDir.bizid) || 0,
+    }));
+  }, [businessDirectory, businessReviewMap, locationOffersMap]);
+
   const handleLoadMore = useCallback(() => {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
@@ -99,18 +154,21 @@ const BusinessDirectorySection = ({
     );
   }
 
+  console.log({ enhancedBusinessDirectory });
+
   return (
     <div className="flex w-full flex-col gap-4">
-      {businessDirectory.length > 0 ? (
+      {enhancedBusinessDirectory.length > 0 ? (
         <>
           <InfiniteScrollContainer
             onBottomReached={handleLoadMore}
             className="flex w-full flex-col gap-4"
           >
-            {businessDirectory.map((bizDir) => (
+            {enhancedBusinessDirectory.map((bizDir) => (
               <BusinessDirectoryCard
                 key={`${bizDir.bizid}-${bizDir.objid}`}
                 businessDirectory={bizDir}
+                refetchReviews={refetchReviews}
               />
             ))}
           </InfiniteScrollContainer>
