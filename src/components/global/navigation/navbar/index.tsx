@@ -7,6 +7,7 @@ import ROUTES from "@/constants/routes";
 import Account from "./account";
 import Logo from "./logo";
 import MobileNavigation from "./mobile-navigation";
+// import MobileNavigationDrawer from "./mobile-navigation-drawer";
 import NavLinks from "./nav-links";
 import SearchAndLocationRenderer from "./search-and-location-renderer";
 
@@ -14,7 +15,7 @@ const Navbar = () => {
   return (
     <nav className="flex-between fixed inset-x-0 top-0 z-50 min-h-16 w-full gap-2 bg-primary p-2 px-4 xs:px-8 sm:gap-4">
       <Logo className="mr-2 md:mr-0" />
-      <div className="relative flex w-full max-w-2xl items-center justify-end gap-2 md:justify-center lg:justify-end lg:gap-8">
+      <div className="relative flex w-full max-w-2xl items-center justify-end gap-2 md:justify-center md:gap-4 lg:justify-end lg:gap-8">
         <SearchAndLocationRenderer />
       </div>
 
@@ -32,6 +33,7 @@ const Navbar = () => {
         </Button>
         <Account className="hidden md:flex" />
         <MobileNavigation />
+        {/* <MobileNavigationDrawer /> */}
       </div>
     </nav>
   );

@@ -3,7 +3,7 @@ import {
   QueryClient,
   dehydrate,
 } from "@tanstack/react-query";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import React, { Suspense } from "react";
 
 import { onGetCampaigns } from "@/actions/campaign.action";
@@ -16,21 +16,22 @@ import { RouteParams } from "@/types/global";
 import ListingContainer from "../_components/listing-container";
 import MobileFilters from "./_components/offer-filters/mobile-filters";
 import OfferFilters from "../offers-and-events/_components/offer-filters";
+import CampaignsSection from "./_components/sections/campaigns-section";
 import ActionBarSection from "../offers-and-events/_components/sections/action-bar-section";
 
 // Memoize the dynamic import
-const CampaignsSection = dynamic(
-  () => import("./_components/sections/campaigns-section"),
-  {
-    loading: () => (
-      <div className="grid gap-4 xl:grid-cols-2">
-        {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="h-48 animate-pulse rounded-lg bg-gray-200" />
-        ))}
-      </div>
-    ),
-  }
-);
+// const CampaignsSection = dynamic(
+//   () => import("./_components/sections/campaigns-section"),
+//   {
+//     loading: () => (
+//       <div className="grid gap-4 xl:grid-cols-2">
+//         {Array.from({ length: 6 }).map((_, i) => (
+//           <div key={i} className="h-48 animate-pulse rounded-lg bg-gray-200" />
+//         ))}
+//       </div>
+//     ),
+//   }
+// );
 
 const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
   const resolvedSearchParams = await searchParams;
@@ -47,7 +48,7 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
   } = resolvedSearchParams;
 
   // Build location
-  const location = { ...DEFAULT_LOCATION };
+  const location = DEFAULT_LOCATION;
   const session = await auth();
   const user = session?.user;
 
@@ -155,9 +156,7 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
       >
         <Suspense
           // key={`${location.lat}-${location.lng}-${dealTypes.toString()}-${Math.max(Number(dist), 20)}-${user?.id}-${query}-${mode}-${order}`}
-          fallback={
-            <div className="flex justify-center p-8">Loading campaigns...</div>
-          }
+          fallback={<div>Loading...</div>}
         >
           <CampaignsSection
             location={location}

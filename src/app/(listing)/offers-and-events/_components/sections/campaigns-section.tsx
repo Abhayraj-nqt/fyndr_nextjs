@@ -6,6 +6,7 @@ import { useCallback, useMemo } from "react";
 import CampaignCard from "@/app/(listing)/offers-and-events/_components/campaign-card";
 import Button from "@/components/global/buttons";
 import InfiniteScrollContainer from "@/components/global/infinite-scroll-container";
+import SkeletonRenderer from "@/components/global/skeleton-renderer";
 import { useInfiniteCampaigns } from "@/hooks/campaigns";
 import { GetCampaignsParams } from "@/types/campaign/campaign.params";
 import { Coordinates } from "@/types/global";
@@ -87,11 +88,11 @@ const CampaignsSection = ({
 
   if (status === "pending") {
     return (
-      <div className="grid gap-4 xl:grid-cols-2">
-        {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="h-48 animate-pulse rounded-lg bg-gray-200" />
-        ))}
-      </div>
+      <SkeletonRenderer
+        count={6}
+        skeleton={<div className="h-48 animate-pulse rounded-lg bg-gray-200" />}
+        className="!xl:grid-cols-2 !grid !gap-4"
+      />
     );
   }
 
