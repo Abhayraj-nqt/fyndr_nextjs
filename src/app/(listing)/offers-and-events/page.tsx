@@ -119,14 +119,14 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
     const existingData = queryClient.getQueryData(queryKey);
 
     if (!existingData) {
-      const { data, success, error } = await onGetCampaigns({
+      const { data, success } = await onGetCampaigns({
         params,
         payload,
       });
 
-      if (!success || error) {
-        return handleError(error);
-      }
+      // if (!success || error) {
+      //   return handleError(error);
+      // }
 
       if (success && data) {
         // Prefetch the query with initial data
@@ -134,6 +134,17 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
           pages: [
             {
               ...data,
+              currentPage: 1,
+            },
+          ],
+          pageParams: [1],
+        });
+      } else {
+        queryClient.setQueryData(queryKey, {
+          pages: [
+            {
+              campaigns: [],
+              last: false,
               currentPage: 1,
             },
           ],

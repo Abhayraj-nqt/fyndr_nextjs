@@ -68,14 +68,14 @@ const OfferListing = async ({ searchParams, params }: RouteParams & Props) => {
     const existingData = queryClient.getQueryData(queryKey);
 
     if (!existingData) {
-      const { data, success, error } = await onGetBusinessDirectory({
+      const { data, success } = await onGetBusinessDirectory({
         params: queryParams,
         payload: queryPayload,
       });
 
-      if (!success || error) {
-        return handleError(error);
-      }
+      // if (!success || error) {
+      //   return handleError(error);
+      // }
 
       if (success && data) {
         // Prefetch the query with initial data
@@ -89,6 +89,18 @@ const OfferListing = async ({ searchParams, params }: RouteParams & Props) => {
           pageParams: [1],
         });
       }
+    } else {
+      queryClient.setQueryData(queryKey, {
+        pages: [
+          {
+            bizdir: [],
+            count: 0,
+            last: false,
+            currentPage: 1,
+          },
+        ],
+        pageParams: [1],
+      });
     }
   } catch (error) {
     handleError(error);

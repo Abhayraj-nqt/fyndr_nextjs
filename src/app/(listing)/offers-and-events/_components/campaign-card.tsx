@@ -10,6 +10,7 @@ import React, { useState } from "react";
 
 import MailTo from "@/components/global/mail-to";
 import PhoneTo from "@/components/global/phone-to";
+import PlaceholderImage from "@/components/global/placeholder-image";
 import toast from "@/components/global/toast";
 import WebsiteTo from "@/components/global/website-to";
 import DownArrow from "@/components/icons/down-arrow";
@@ -106,7 +107,7 @@ const CampaignCard = ({ campaign }: Props) => {
           href={ROUTES.OFFER_DETAILS(campaign.biz.bizName, campaign.qrCode)}
           className="relative col-span-2 w-full"
         >
-          <Image
+          <PlaceholderImage
             src={
               campaign?.images && campaign?.images.length > 0
                 ? campaign?.images[0]?.img_url
@@ -117,6 +118,17 @@ const CampaignCard = ({ campaign }: Props) => {
             height={100}
             className="aspect-[2/1] size-full rounded-5 object-cover"
           />
+          {/* <Image
+            src={
+              campaign?.images && campaign?.images.length > 0
+                ? campaign?.images[0]?.img_url
+                : ASSETS.IMAGES.PLACEHOLDER.FYNDR
+            }
+            alt="img/alt"
+            width={200}
+            height={100}
+            className="aspect-[2/1] size-full rounded-5 object-cover"
+          /> */}
         </Link>
         <div className="col-span-3 flex flex-col gap-4">
           <Link

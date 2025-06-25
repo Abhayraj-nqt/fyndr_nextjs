@@ -12,7 +12,7 @@ export default defineConfig({
     globals: true,
     css: true,
 
-    include: ["**/tests/**/*.test.tsx"],
+    include: ["**/tests/**/*.test.tsx", "**/tests/**/*.test.ts"],
 
     exclude: [
       "**/node_modules/**",
@@ -27,6 +27,7 @@ export default defineConfig({
       "**/tests/helpers/**",
       "**/tests/setup/**",
       "**/tests/__mocks__/**",
+      "**/ui/**",
     ],
 
     coverage: {
@@ -41,6 +42,7 @@ export default defineConfig({
         "**/coverage/**",
         "**/tests/**",
         "**/*.d.ts",
+        "**/ui/**",
       ],
     },
   },

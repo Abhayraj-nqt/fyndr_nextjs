@@ -12,9 +12,9 @@ import GoogleMap2, {
 } from "@/components/global/google-map/google-map2";
 import GoogleMap3 from "@/components/global/google-map/google-map3";
 import { DEFAULT_LOCATION, TYPES_OF_DEALS } from "@/constants";
+import ASSETS from "@/constants/assets";
 import ROUTES from "@/constants/routes";
 import { useCampaignMapMarkers } from "@/hooks/campaigns";
-import ASSETS from "@/constants/assets";
 
 const CampaignMarkerMap = () => {
   const searchParams = useSearchParams();

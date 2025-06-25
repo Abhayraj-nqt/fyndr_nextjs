@@ -1,15 +1,15 @@
 "use client";
 
-import { Clock, Globe, Heart, MapPinned, Phone } from "lucide-react";
+import { Clock, Globe, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 import React from "react";
 
-import { onLikeBusiness } from "@/actions/store.action";
+// import { onLikeBusiness } from "@/actions/store.action";
 import Button from "@/components/global/buttons/index";
 import PhoneTo from "@/components/global/phone-to";
-import toast from "@/components/global/toast";
+// import toast from "@/components/global/toast";
 import WebsiteTo from "@/components/global/website-to";
 import {
   Card,
@@ -22,7 +22,7 @@ import {
 import ASSETS from "@/constants/assets";
 import ROUTES from "@/constants/routes";
 import { parseAddress } from "@/lib/utils/address";
-import { LikeBusinessParams } from "@/types/store/store.params";
+// import { LikeBusinessParams } from "@/types/store/store.params";
 import { EnhancedBusinessDirectory } from "@/types/store/store.types";
 
 import BusinessLocationMapModal from "./business-location-map-modal";
@@ -35,9 +35,9 @@ type Props = {
 
 const BusinessDirectoryCard = ({
   businessDirectory,
-  refetchReviews,
+  // refetchReviews,
 }: Props) => {
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
   const address = parseAddress(businessDirectory, {
     compactMode: true,
     includeDistance: true,
@@ -53,34 +53,34 @@ const BusinessDirectoryCard = ({
         );
 
   const canViewStore: boolean = !!businessDirectory?.catalogueId;
-  const isLiked: boolean = businessDirectory?.liked === "yes";
+  // const isLiked: boolean = businessDirectory?.liked === "yes";
 
-  const handleLike = async () => {
-    if (!session || !session?.user) {
-      toast.error({
-        message: "Please sign-in to like this business.",
-      });
-      return;
-    }
-    const payload: LikeBusinessParams["payload"] = {
-      bizid: businessDirectory.bizid,
-      indvid: Number(session.user.id) || 0,
-    };
+  // const handleLike = async () => {
+  //   if (!session || !session?.user) {
+  //     toast.error({
+  //       message: "Please sign-in to like this business.",
+  //     });
+  //     return;
+  //   }
+  //   const payload: LikeBusinessParams["payload"] = {
+  //     bizid: businessDirectory.bizid,
+  //     indvid: Number(session.user.id) || 0,
+  //   };
 
-    const { success, data, error } = await onLikeBusiness({ payload });
+  //   const { success, data, error } = await onLikeBusiness({ payload });
 
-    if (!success || !data) {
-      toast.error({
-        message:
-          error?.details?.message ||
-          "Failed to like the business. Please try again.",
-      });
-    } else {
-      if (refetchReviews) {
-        refetchReviews();
-      }
-    }
-  };
+  //   if (!success || !data) {
+  //     toast.error({
+  //       message:
+  //         error?.details?.message ||
+  //         "Failed to like the business. Please try again.",
+  //     });
+  //   } else {
+  //     if (refetchReviews) {
+  //       refetchReviews();
+  //     }
+  //   }
+  // };
 
   return (
     <>
@@ -112,7 +112,7 @@ const BusinessDirectoryCard = ({
             <CardDescription className="body-1 text-black-60">
               {address}
             </CardDescription>
-            <div className="flex items-center gap-4 text-black-60">
+            <div className="mt-3 flex items-center gap-4 text-black-60">
               {businessDirectory?.phone ? (
                 <PhoneTo phone={businessDirectory.phone}>
                   <Phone size={20} className="cursor-pointer" />
@@ -134,7 +134,7 @@ const BusinessDirectoryCard = ({
                     lat: businessDirectory.lat,
                     lng: businessDirectory.lng,
                   }}
-                  trigger={<MapPinned size={20} className="cursor-pointer" />}
+                  trigger={<MapPin size={20} className="cursor-pointer" />}
                   address={address}
                 />
               ) : (
@@ -148,7 +148,7 @@ const BusinessDirectoryCard = ({
               ) : (
                 <></>
               )}
-              <div className="flex items-center justify-center gap-1">
+              {/* <div className="flex items-center justify-center gap-1">
                 <div className="flex" onClick={handleLike}>
                   {isLiked ? (
                     <Heart
@@ -164,10 +164,10 @@ const BusinessDirectoryCard = ({
                 {businessDirectory.bizDirLikes > 0 && (
                   <p>{businessDirectory.bizDirLikes}</p>
                 )}
-              </div>
+              </div> */}
             </div>
           </CardContent>
-          <CardFooter className="grid grid-cols-1 gap-4 p-0 lg:grid-cols-2">
+          <CardFooter className="grid h-full grid-cols-1 content-end gap-4 p-0 lg:grid-cols-2">
             <Button variant="primary-outlined" stdHeight stdWidth asChild>
               <Link href={viewActiveOffersAndEventsUrl}>
                 {businessDirectory.locationOfferData?.count} Active Offers &
