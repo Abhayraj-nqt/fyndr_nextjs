@@ -14,18 +14,18 @@ const AboutUs = () => {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   return (
     <main className="scroll-smooth">
-      <section className="group relative flex flex-col items-center justify-center gap-4 p-4 md:flex-row">
+      <section className="relative flex flex-col items-center justify-center gap-4 p-4 md:flex-row">
         {SITE_ABOUT.features.map((feature, index) => (
-          <FeatureCard
-            key={feature.title}
-            title={feature.title}
-            imgURL={feature.imgURL}
-            description={feature.description}
-            index={index}
-            className={index === 0 ? "peer" : ""}
-            setHoveredIndex={setHoveredIndex}
-            hoveredIndex={hoveredIndex}
-          />
+           <FeatureCard
+          key={feature.title}
+          title={feature.title}
+          imgURL={feature.imgURL}
+          description={feature.description}
+          index={index}
+          isFirst={index === 0}
+          hoveredIndex={hoveredIndex}
+          setHoveredIndex={setHoveredIndex}
+        />
         ))}
       </section>
 
