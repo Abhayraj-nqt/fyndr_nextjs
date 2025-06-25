@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 // import { onRedeemPromoCode } from "@/actions/promocode.action";
 import {
@@ -12,6 +12,7 @@ import { Modal } from "@/components/global/modal";
 import { toast } from "@/components/global/toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useUser } from "@/hooks/auth";
 import { VerifyPromocodeResponse } from "@/types/api-response/promocode.response";
 
@@ -26,10 +27,18 @@ const RedeemPromocodeDialog = ({ children }: Props) => {
     useState<null | VerifyPromocodeResponse>(null);
 
   const [successModalOpen, setSuccessModalOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const { user, isLoading, error, refetch } = useUser();
 
-  if (isLoading) return <div>Loading...</div>;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted || isLoading)
+    return (
+      <Skeleton className="mt-2 h-12 w-40 self-start rounded-10 bg-white/20" />
+    );
   if (error) return <div>Error loading profile</div>;
   if (!user) {
     refetch();

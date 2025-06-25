@@ -8,6 +8,16 @@ export type BusinessWorkingHour = {
   Saturday?: string[];
 };
 
+export type LocationOffer = {
+  locid: number;
+  activeCampaignCount: number;
+  cmpnImg: string;
+  title: string;
+  count: number;
+  objid: number;
+  cmpnQrCode: string;
+};
+
 export type BusinessDirectory = {
   addressLine1: string;
   addressLine2: string;
@@ -30,7 +40,7 @@ export type BusinessDirectory = {
 
   businessWorkingHours: BusinessWorkingHour;
 
-  catImg: null | unknown;
+  catImg: null | string;
   catalogueId: null | unknown;
   deliveryOptions: string;
   deliveryWithin: string;
@@ -38,4 +48,9 @@ export type BusinessDirectory = {
   liked: "yes" | "no";
   likes: null | unknown;
   workingHours: string;
+};
+
+export type EnhancedBusinessDirectory = BusinessDirectory & {
+  bizDirLikes: number;
+  locationOfferData: LocationOffer | null;
 };

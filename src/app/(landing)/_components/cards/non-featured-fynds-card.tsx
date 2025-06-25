@@ -34,12 +34,16 @@ const NonFeaturedFyndsCard = ({ campaign }: Props) => {
         className={`aspect-[2/1] rounded-t-10 object-cover`}
       />
       {/* <div className="flex min-h-[204px] flex-col gap-4 rounded-b-10 bg-primary-0.5 p-4"> */}
-      <div className="flex min-h-[187px] flex-col gap-4 rounded-b-10 bg-primary-0.5 p-4">
-        <CardTitle className="h-6">
+      {/* <div className="flex min-h-[187px] flex-col gap-3 rounded-b-10 bg-primary-0.5 p-4"> */}
+      <div className="flex min-h-[172px] flex-col gap-3 rounded-b-10 bg-primary-0.5 p-4">
+        {/* <div className="flex min-h-[198px] flex-col gap-3 rounded-b-10 bg-primary-0.5 p-4"> */}
+        <CardTitle className="line-clamp-1 h-[18px]">
+          {" "}
+          {/* h-6 */}
           <h3 className="body-1 text-black-80">{campaign.biz.bizName}</h3>
         </CardTitle>
         <CardDescription className="flex flex-col gap-4">
-          <h4 className="body-3 line-clamp-2 text-black-80">
+          <h4 className="body-3 line-clamp-1 text-black-80">
             {campaign.title}
           </h4>
           <p className="body-5 line-clamp-2 h-8 text-black-60">
@@ -51,7 +55,7 @@ const NonFeaturedFyndsCard = ({ campaign }: Props) => {
             }
           </p>
         </CardDescription>
-        <CardFooter className="flex-between flex p-0">
+        <CardFooter className="flex-between flex min-h-[30px] p-0">
           {campaign.cmpnType !== "coupons" && (
             <div className="flex-center gap-2">
               {campaign.cmpnOffers[0]?.retailPrice !==

@@ -107,7 +107,8 @@ const config = [
             "**/next.config.js",
             // Add other patterns you want to exclude
             "./src/components/ui/**/*",
-            "**/scripts/**"
+            "**/scripts/**",
+            "**/tests/**",
         ],
         rules: {
             "max-lines": "off", // Disable for config files

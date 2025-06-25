@@ -17,7 +17,10 @@ import { CAT_LIST_HOME } from "@/constants";
 import ROUTES from "@/constants/routes";
 import { API_BASE_URL } from "@/environment";
 import { _post } from "@/lib/handlers/fetch";
-import { LikeCampaignParams } from "@/types/campaign/campaign.params";
+import {
+  GetCampaignsParams,
+  LikeCampaignParams,
+} from "@/types/campaign/campaign.params";
 import { GetCampaignsResponse } from "@/types/campaign/campaign.response";
 import { Campaign } from "@/types/campaign/campaign.types";
 import { Coordinates } from "@/types/global";
@@ -152,26 +155,9 @@ export const useGetCampaigns = (
   };
 };
 
-type CampaignQueryParams = {
-  search?: string;
-  page?: number;
-  pageSize?: number;
-  orderBy?: "ASC" | "DESC";
-};
-type CampaignQueryPayload = {
-  indvId: number | null;
-  distance: number;
-  location: Coordinates;
-  categories: number[];
-  campaignType?: string[];
-  fetchById: string;
-  fetchByGoal: string;
-  locQRId?: null;
-};
-
 export function useInfiniteCampaigns(
-  params: CampaignQueryParams,
-  payload: CampaignQueryPayload,
+  params: GetCampaignsParams["params"],
+  payload: GetCampaignsParams["payload"],
   initialData?: GetCampaignsResponse
 ) {
   return useInfiniteQuery({
@@ -219,8 +205,8 @@ export function useInfiniteCampaigns(
 }
 
 export function useCampaignMapMarkers(
-  params: CampaignQueryParams,
-  payload: CampaignQueryPayload
+  params: GetCampaignsParams["params"],
+  payload: GetCampaignsParams["payload"]
 ) {
   // const queryKey = ["campaign-markers", payload];
 

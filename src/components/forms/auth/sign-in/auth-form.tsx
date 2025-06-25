@@ -107,6 +107,7 @@ const AuthForm = <T extends FieldValues>({
             stdHeight
             stdWidth
             className="min-h-12 w-full !rounded-10"
+            type="submit"
           >
             {form.formState.isSubmitting
               ? buttonText === "Sign In"

@@ -20,10 +20,12 @@ type Props = {
 
 const FeatureFyndsCard = ({ campaign }: Props) => {
   return (
-    <Card className="relative size-full min-h-[23rem] cursor-pointer rounded-10 border-none p-4 shadow-none transition duration-300 hover:scale-105 sm:max-w-80">
+    <Card className="relative size-full min-h-[22.6rem] cursor-pointer rounded-10 border-none p-4 shadow-none transition duration-300 hover:scale-105 sm:max-w-80">
       <CardHeader className="flex-between mb-4 flex-row gap-2 space-y-0 p-0">
         <CardTitle>
-          <h3 className="body-1 text-black-80">{campaign.biz.bizName}</h3>
+          <h3 className="body-1 line-clamp-1 h-[18px] text-black-80">
+            {campaign.biz.bizName}
+          </h3>
         </CardTitle>
         <Image
           // src={"/icons/crown.svg"}
@@ -34,7 +36,7 @@ const FeatureFyndsCard = ({ campaign }: Props) => {
           className="m-0 size-7"
         />
       </CardHeader>
-      <CardContent className="flex flex-col gap-4 p-0">
+      <CardContent className="flex flex-col gap-3 p-0">
         <div className="relative w-full ">
           <PlaceholderImage
             src={
@@ -63,7 +65,7 @@ const FeatureFyndsCard = ({ campaign }: Props) => {
             <p className="body-3 absolute text-primary">{campaign.cmpnType}</p>
           </div>
         </div>
-        <CardDescription className="body-5 mb-4 line-clamp-2 h-8 text-black-60">
+        <CardDescription className="body-5 mb-4 line-clamp-2 h-[30px] text-black-60">
           {
             parseAddress(campaign?.cmpnLocs[0], {
               compactMode: true,
