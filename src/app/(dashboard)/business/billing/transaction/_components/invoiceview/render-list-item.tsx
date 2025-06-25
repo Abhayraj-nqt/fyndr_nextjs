@@ -31,7 +31,7 @@ const RenderCatalogItems = ({
   return (
     <>
       {(invoiceDetails as CatalogResponse)?.appointment_per_cart !== null ? (
-        <div className="flex flex-col  gap-2 rounded-10 border border-secondary-20 px-3 pt-2 ">
+        <div className="flex  flex-col gap-2 rounded-10 border border-secondary-20 px-3 pt-2 ">
           <div className="mb-2">
             <span className={INVOICE_TO}>Appointment Details</span>
           </div>
@@ -80,7 +80,7 @@ const RenderCatalogItems = ({
           </div>
         </div>
       ) : (
-        <div className="flex flex-col  gap-2 rounded-10 border border-secondary-20 px-3 pt-2 ">
+        <div className="mt-2 flex flex-col  gap-2 rounded-10 border border-secondary-20 px-3 pt-2 ">
           <div className="mb-2">
             <span className={INVOICE_TO}>Item Details:</span>
           </div>
@@ -109,43 +109,39 @@ const RenderCatalogItems = ({
                 {appointments?.map((appoinObj, index) => {
                   const date = Object.keys(appoinObj)[0];
                   const data = appoinObj[date];
-                  
-                  console.log(data.objId,"obj data");
-                  console.log(item.details.mitem.objid,"item obj");
 
-           
-                    return (
-                      <div key={index}>
-                        <div className="mb-2 flex justify-between">
-                          <span className={INVOICE_TEXT}>Appointment:</span>
-                          <span className={INVOICE_VALUE}>
-                            {userTimeZone &&
-                              getFormattedDtNew(date, userTimeZone)}
-                          </span>
-                        </div>
-                   
-                        <div className="mb-2 flex justify-between">
-                          <span className={INVOICE_TEXT}>Start time:</span>
-                          <span className={INVOICE_VALUE}>
-                            {dayjs(
-                              data?.startTime?.slice(0, 5),
-                              "HH:mm"
-                            ).format("hh:mm A")}
-                          </span>
-                        </div>
-                     
-                        <div className="mb-2 flex justify-between">
-                          <span className={INVOICE_TEXT}>End Time:</span>
-                          <span className={INVOICE_VALUE}>
-                            {dayjs(data.endTime?.slice(0, 5), "HH:mm").format(
-                              "hh:mm A"
-                            )}
-                          </span>
-                        </div>
+                  console.log(data.objId, "obj data");
+                  console.log(item.details.mitem.objid, "item obj");
+
+                  return (
+                    <div key={index}>
+                      <div className="mb-2 flex justify-between">
+                        <span className={INVOICE_TEXT}>Appointment:</span>
+                        <span className={INVOICE_VALUE}>
+                          {userTimeZone &&
+                            getFormattedDtNew(date, userTimeZone)}
+                        </span>
                       </div>
-                    );
-                  
-               
+
+                      <div className="mb-2 flex justify-between">
+                        <span className={INVOICE_TEXT}>Start time:</span>
+                        <span className={INVOICE_VALUE}>
+                          {dayjs(data?.startTime?.slice(0, 5), "HH:mm").format(
+                            "hh:mm A"
+                          )}
+                        </span>
+                      </div>
+
+                      <div className="mb-2 flex justify-between">
+                        <span className={INVOICE_TEXT}>End Time:</span>
+                        <span className={INVOICE_VALUE}>
+                          {dayjs(data.endTime?.slice(0, 5), "HH:mm").format(
+                            "hh:mm A"
+                          )}
+                        </span>
+                      </div>
+                    </div>
+                  );
                 })}
                 {remainingQty > 0 && (
                   <div className="flex justify-between">

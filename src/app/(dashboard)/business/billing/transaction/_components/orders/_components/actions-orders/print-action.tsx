@@ -15,11 +15,11 @@ import {
   CatalogResponse,
   GiftDetails,
   InvoiceOffer,
-  Offer,
 } from "@/types/api-response/transaction.response";
 
 import InvoiceBasicInfo from "../../../invoiceview/invoice-basic-info";
 import Invoicetotal from "../../../invoiceview/invoice-total";
+import RenderCatalogItems from "../../../invoiceview/render-list-item";
 
 type PrintActionProps = {
   row: OrdersResponse | null;
@@ -58,6 +58,7 @@ const PrintAction = ({
     null
   );
 
+  const [currencySymbol, setCurrencySymbol] = useState<string>("");
   const { user, isLoading: isUserLoading, error } = useUser();
 
   const bizid = user?.bizid ?? null;
@@ -68,16 +69,8 @@ const PrintAction = ({
 
   console.log(objid, "objid");
   console.log(indvid, "indcid");
-  const {
-    data: invoiceDetailsResp,
-    isLoading: isInvoiceLoading,
-
-  } = useInvoiceDetails(objid, bizid, indvid, "receivable");
-   
-  if(isInvoiceLoading)
-  {
-    <div>Loading....</div>
-  }
+  const { data: invoiceDetailsResp, isLoading: isInvoiceLoading } =
+    useInvoiceDetails(objid, bizid, indvid, "receivable");
 
   console.log("invoice details resp in orders", invoiceDetailsResp);
   console.log("invocice details");
@@ -101,16 +94,25 @@ const PrintAction = ({
     setBuyerLname(invoiceDetailsResp?.buyerLname);
     setInvoiceDt(invoiceDetailsResp?.invoiceDt);
     setInvoiceDetails(invoiceDetailsResp?.invoiceDetails as CatalogResponse);
-
+    setCurrencySymbol(invoiceDetailsResp?.currencySymbol);
     if (invoiceDetailsResp.payments) {
       setBrand(invoiceDetailsResp.payments.cardBrand);
       setLast4(invoiceDetailsResp.payments.cardLast4);
     }
   }, [invoiceDetailsResp]);
 
+  useEffect(() => {
+    if (!reviewOverviews) return;
+
+    setReviewOverviews(reviewOverviewsresp);
+    setBusinessId(reviewOverviewsresp?.bizId ?? null);
+  }, [reviewOverviews]);
+
   const { data: reviewOverviewsresp } = useUserReviewOverViews(
     invoiceDetailsResp?.biz?.bizid
   );
+
+  if (!open) return null;
 
   const status = invoiceDetailsResp?.status ?? "";
   const baseAmount = invoiceDetailsResp?.baseAmount ?? 0;
@@ -125,13 +127,6 @@ const PrintAction = ({
   const DifferenceInTime = date2.getTime() - date1.getTime();
   const DifferenceInDays = DifferenceInTime / (1000 * 3600 * 24);
 
-  console.log(itemsDetails);
-  useEffect(() => {
-    if (!reviewOverviews) return;
-
-    setReviewOverviews(reviewOverviewsresp);
-    setBusinessId(reviewOverviewsresp?.bizId ?? null);
-  }, [reviewOverviews]);
 
   return (
     <Modal
@@ -143,74 +138,92 @@ const PrintAction = ({
       showFooter={true}
       bodyClassName="max-h-[80vh] overflow-y-scroll no-scrollbar"
     >
-      {biz && (
-        <Bizcard
-          businessLogo={channel !== "cmpn_promo" ? biz?.mainLogo : promoImage}
-          businessName={biz.bizName}
-          businessWebsite={biz.website ?? ""}
-          businessAddonUrl={biz.addonUrl ?? ""}
-          businessAddress={parseAddress(biz)}
-          businessPhone={biz.addonUrl ?? ""}
-          channel={channel}
-          invoiceId={invoiceId}
-          giftDetails={gifteeDetails}
-          vouchers={vouchers}
-          reviewRatings={
-            reviewOverviewsresp && (
-              <Overallreview
-                disable={true}
-                reviewsOverview={reviewOverviewsresp}
-                rating={reviewOverviewsresp?.overallRating ?? 0}
-                text=" out of 5"
-                totalRatings={`(${reviewOverviewsresp?.totalRatings} Reviews)`}
-              />
-            )
-          }
-        />
+      {isUserLoading || isInvoiceLoading ? (
+        <div>
+          Loading invoice details...
+        </div>
+      ) : (
+        <>
+          {biz && (
+            <Bizcard
+              businessLogo={
+                channel !== "cmpn_promo" ? biz?.mainLogo : promoImage
+              }
+              businessName={biz.bizName}
+              businessWebsite={biz.website ?? ""}
+              businessAddonUrl={biz.addonUrl ?? ""}
+              businessAddress={parseAddress(biz)}
+              businessPhone={biz.addonUrl ?? ""}
+              channel={channel}
+              invoiceId={invoiceId}
+              giftDetails={gifteeDetails}
+              vouchers={vouchers}
+              reviewRatings={
+                reviewOverviewsresp && (
+                  <Overallreview
+                    disable={true}
+                    reviewsOverview={reviewOverviewsresp}
+                    rating={reviewOverviewsresp?.overallRating ?? 0}
+                    text=" out of 5"
+                    totalRatings={`(${reviewOverviewsresp?.totalRatings} Reviews)`}
+                  />
+                )
+              }
+            />
+          )}
+
+          <InvoiceBasicInfo
+            buyerFname={buyerFname}
+            buyerLname={buyerLname}
+            channel={channel}
+            gifteeDetails={gifteeDetails}
+            status={status}
+            invoiceDetails={invoiceDetails as CatalogResponse}
+            userTimeZone={userTimeZone}
+            invoiceDt={invoiceDt}
+            brand={brand}
+            billingEmail={billingEmail}
+            billingAddress={billingAddress}
+            purchaseLoc={purchaseLoc}
+            disputeStatus={disputeStatus}
+            objid={objid}
+          />
+
+          {invoiceDetailsResp?.invoiceDetails && (
+            <RenderCatalogItems
+              invoiceDetails={invoiceDetailsResp.invoiceDetails}
+              currencySymbol={currencySymbol}
+              userTimeZone={userTimeZone}
+            />
+          )}
+
+          <div className="mt-3 rounded-10 border border-secondary-20 p-3">
+            <Invoicetotal
+              channel={channel}
+              invoiceDetails={invoiceDetails as CatalogResponse}
+              currencySymbol={invoiceDetailsResp?.currencySymbol ?? ""}
+              baseAmount={baseAmount}
+              taxAmount={taxAmount}
+              fyndrCash={fyndrCash}
+              tipAmount={tipAmount}
+              totalAmount={0}
+              isBusiness={user?.isBusiness ?? false}
+              type={type}
+              itemsDetails={itemsDetails}
+            />
+          </div>
+
+          <Buttons
+            btn1="Print"
+            onClick1={() => window.print()}
+            showPopover={
+              Math.round(DifferenceInDays) > 30 ||
+              disputeStatus !== null ||
+              businessId === user?.bizid
+            }
+          />
+        </>
       )}
-
-      <InvoiceBasicInfo
-        buyerFname={buyerFname}
-        buyerLname={buyerLname}
-        channel={channel}
-        gifteeDetails={gifteeDetails}
-        status={status}
-        invoiceDetails={invoiceDetails as CatalogResponse}
-        userTimeZone={userTimeZone}
-        invoiceDt={invoiceDt}
-        brand={brand}
-        billingEmail={billingEmail}
-        billingAddress={billingAddress}
-        purchaseLoc={purchaseLoc}
-        disputeStatus={disputeStatus}
-        objid={objid}
-      />
-
-      <div className="mt-3 rounded-10 border border-secondary-20 p-3">
-        <Invoicetotal
-          channel={channel}
-          invoiceDetails={invoiceDetails as CatalogResponse}
-          currencySymbol={invoiceDetailsResp?.currencySymbol ?? ""}
-          baseAmount={baseAmount}
-          taxAmount={taxAmount}
-          fyndrCash={fyndrCash}
-          tipAmount={tipAmount}
-          totalAmount={0}
-          isBusiness={user?.isBusiness ?? false}
-          type={type}
-          itemsDetails={itemsDetails}
-        />
-      </div>
-
-      <Buttons
-        btn1="Print"
-        onClick1={() => window.print()}
-        showPopover={
-          Math.round(DifferenceInDays) > 30 ||
-          disputeStatus !== null ||
-          businessId === user?.bizid
-        }
-      />
     </Modal>
   );
 };

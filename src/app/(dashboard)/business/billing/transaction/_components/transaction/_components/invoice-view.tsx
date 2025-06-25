@@ -22,11 +22,11 @@ import {
 } from "@/types/api-response/transaction.response";
 
 import DisputeModal from "./dispute-modal";
-import Renderlistitem from "./render-list-item";
 import GifteeDetails from "../../invoiceview/gifte-details";
 import InvoiceBasicInfo from "../../invoiceview/invoice-basic-info";
 import Invoicetotal from "../../invoiceview/invoice-total";
 import Offersdetails from "../../invoiceview/offers-details";
+import Renderlistitem from "../../invoiceview/render-list-item";
 
 type InvoiceViewProps = {
   inv?: fetchInvoice[] | null;
@@ -197,7 +197,11 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
         />
 
         {(channel === "catalog" || channel === "catalog_appointment") && (
-          <Renderlistitem  invoiceDetails={invoiceDetailsResp?.invoiceDetails} currencySymbol = {currencySymbol} userTimeZone = {userTimeZone}/>
+          <Renderlistitem
+            invoiceDetails={invoiceDetailsResp?.invoiceDetails}
+            currencySymbol={currencySymbol}
+            userTimeZone={userTimeZone}
+          />
         )}
 
         {gifteeDetails !== null && (

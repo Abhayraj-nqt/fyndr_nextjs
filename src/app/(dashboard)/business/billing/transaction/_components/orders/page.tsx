@@ -57,15 +57,21 @@ const Orders = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
     <div className="min-h-screen ">
       <DefaultCard>
         <div className="flex">
-          <LocalSearch
-            placeholder="Search by name"
-            route={ROUTES.BUSINESS_DASHBOARD}
-            icon={"/images/aboutus/home-search-icon.svg"}
-            className="w-12"
-          />
+          <div>
+            <LocalSearch
+              placeholder="Search by name"
+              route={ROUTES.BUSINESS_DASHBOARD}
+              icon={"/images/aboutus/home-search-icon.svg"}
+              className="mr-6 w-60"
+            />
+          </div>
 
-          <SelectPayment />
-          <SelectDelivery />
+          <div>
+            <SelectPayment  />
+          </div>
+          <div>
+            <SelectDelivery />
+          </div>
         </div>
         <section className="mt-10">
           <Suspense fallback={<div>Loading orders...</div>}>

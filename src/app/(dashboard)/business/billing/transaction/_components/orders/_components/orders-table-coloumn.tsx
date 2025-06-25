@@ -2,13 +2,13 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
-import { Space } from "lucide-react";
 
 import Button from "@/components/global/buttons";
 import { DataTableColumnHeader } from "@/components/global/data-table/data-table-column-header";
 import { DataTableRowAction } from "@/types/data-table";
+
 import SelectDeliveryTable from "./select-orders/select-delivery-table";
-import Select from "@/components/global/input/select/index";
+import SelectPaymentTable from "./select-orders/select-payment-table";
 type Props = {
   setRowAction: React.Dispatch<
     React.SetStateAction<DataTableRowAction<OrdersResponse> | null>
@@ -20,16 +20,6 @@ export function getOrdersDetailsColoumn({
   setRowAction,
   userTimeZone,
 }: Props): ColumnDef<OrdersResponse>[] {
-    const paymentStatus = [
-        { value: "paid", label: "Paid" },
-        { value: "pending", label: "Pending" },
-        { value: "canceled", label: "Canceled" },
-    ];
-    const deliveryType = [
-        { value: "PROCESSING", label: "Processing" },
-        { value: "READY_TO_PICK", label: "Ready To Pick" },
-        { value: "FULFILLED", label: "Fulfilled" },
-    ];
   return [
     {
       accessorKey: "invoiceId",
@@ -94,13 +84,12 @@ export function getOrdersDetailsColoumn({
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Delivery Type" />
       ),
-    cell: ({ row }) => {
-  const record = row.original;
-  const data = record.deliveryStatus;
-  return (
-     <SelectDeliveryTable data = {data}/>
-  );
-},
+      cell: ({ row }) => {
+        const record = row.original;
+        const data = record.deliveryStatus;
+        const invoiceId = row.original.invoiceId;
+        return <SelectDeliveryTable data={data} invoiceId={invoiceId} />;
+      },
       enableSorting: false,
       enableHiding: false,
     },
@@ -127,39 +116,17 @@ export function getOrdersDetailsColoumn({
       ),
       cell: ({ row }) => {
         const item = row.original.paymentStatus;
-        console.log(item,"item");
-        // const record = row.original;
-        return <p>{item}</p>;
-        // const commonProps = {
-        //   value: item.charAt(0).toUpperCase() + item.slice(1),
-        //   bordered: false,
-        //   style: {
-        //     width: "100%",
-        //     borderRadius: "1rem",
-        //     color: getTextColor(item),
-        //     backgroundColor: getColor(item),
-        //   },
-        // };
+        const value = item.charAt(0).toUpperCase() + item.slice(1);
+        const record = row.original;
 
-        // return item === "pending" ? (
-        //   <DropdownComponent
-        //     {...commonProps}
-        //     options={paymentStatusDropdown}
-        //     onChange={(value) => {
-        //       setSelectedUser(value);
-        //       handleOnChange(value, record);
-        //       if (value === "canceled") {
-        //         UpdateStatusFunction(value, record);
-        //       }
-        //     }}
-        //   />
-        // ) : (
-        //   <DropdownComponent
-        //     {...commonProps}
-        //     disabled={true}
-        //     newclassnmae={item === "canceled" ? "dropdownRed" : "dropdown"}
-        //   />
-        // );
+        return item === "pending" ? (
+          <SelectPaymentTable
+            invoiceId={record.invoiceId}
+            paymentStat={value}
+          />
+        ) : (
+          <SelectPaymentTable paymentStat={value} disabled={true} />
+        );
       },
       enableSorting: false,
       enableHiding: false,
@@ -191,6 +158,7 @@ export function getOrdersDetailsColoumn({
               <Button
                 variant="primary"
                 onClick={() => setRowAction({ row, variant: "print" })}
+                className="w-24"
               >
                 Print
               </Button>
@@ -198,6 +166,7 @@ export function getOrdersDetailsColoumn({
                 <Button
                   onClick={() => setRowAction({ row, variant: "update" })}
                   variant="primary-outlined"
+                  className="w-24"
                 >
                   Edit
                 </Button>

@@ -43,7 +43,7 @@ const SelectPayment = () => {
       options={statusOptions}
       value={selectedValues}
       onValueChange={handleChange}
-      className="w-12"
+      className="mr-6 w-60"
       
     />
   );

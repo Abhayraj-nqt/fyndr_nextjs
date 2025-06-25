@@ -58,17 +58,12 @@ export const onGetInvoiceDetails :  GetInvoiceDetailProps =  async (payload) => 
 export const onGetOrdersDetails : GetOrdersDetailsProps = async(params , payload) => {
 
   const {page,pageSize ,businessId} = params;
-
-  console.log("payload",payload);
-
-  console.log("params", params)
-
+  
   const endpoint = `${API_BASE_URL}/order/details/${businessId}?pgStart=${page}&pgSize=${pageSize}`;
 
   return _post(endpoint, payload, {
     requireAuth: true,
    
-    cache: "no-store", 
   });
 
   

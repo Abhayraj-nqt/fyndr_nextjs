@@ -9,9 +9,9 @@ import { useUser } from "@/hooks/auth";
 import { useDataTable } from "@/hooks/use-data-table";
 import { DataTableRowAction } from "@/types/data-table";
 
-import { getOrdersDetailsColoumn } from "./orders-table-coloumn";
-import PrintAction from "./actions-orders/print-action";
 import EditAction from "./actions-orders/edit-action";
+import PrintAction from "./actions-orders/print-action";
+import { getOrdersDetailsColoumn } from "./orders-table-coloumn";
 
 type Props = {
   promises: Promise<[Awaited<ReturnType<typeof onGetOrdersDetails>>]>;
@@ -28,14 +28,13 @@ const OrdersTable = ({ promises }: Props) => {
     React.useState<DataTableRowAction<OrdersResponse> | null>(null);
 
   const columns = React.useMemo(
-    () => getOrdersDetailsColoumn({ setRowAction, userTimeZone }),
+    () => getOrdersDetailsColoumn({ setRowAction, userTimeZone}),
     [userTimeZone]
   );
   if (!success || !data) return <div>Error</div>;
 
   const { count, orderDetails } = data;
 
-  console.log("orders Details",orderDetails);
 
   const { table } = useDataTable({
     data: orderDetails || [],
@@ -48,16 +47,15 @@ const OrdersTable = ({ promises }: Props) => {
   return (
     <div>
       <DataTable table={table} />
-      <PrintAction 
-        open = {rowAction?.variant ==="print"}
-        onOpenChange ={()=>setRowAction(null)}
-        row ={rowAction?.row.original ?? null}
-        title = "Invoice Details"
-        type  = {"receivable"}
+      <PrintAction
+        open={rowAction?.variant === "print"}
+        onOpenChange={() => setRowAction(null)}
+        row={rowAction?.row.original ?? null}
+        title="Invoice Details"
+        type={"receivable"}
       />
 
-      <EditAction/>
-
+      <EditAction />
     </div>
   );
 };

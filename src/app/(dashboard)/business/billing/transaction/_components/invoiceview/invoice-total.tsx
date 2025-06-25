@@ -123,11 +123,11 @@ const Invoicetotal: React.FC<InvoiceTotalProps> = ({
         </span>
       </div>
 
-      {channel === "catalog" && isBusiness && type === "receivable" && (
+      {/* {channel === "catalog" && isBusiness && type === "receivable" && (
         <div className="mt-1 flex justify-between">
           <span className="body-2">Delivery:</span>
           <div>
-            {/* <RadioGroup
+            <RadioGroup
               //   value={fulfiled}
               //   onValueChange={fulfilInvoice}
               className="flex gap-4"
@@ -147,10 +147,10 @@ const Invoicetotal: React.FC<InvoiceTotalProps> = ({
                   Partially Fulfilled
                 </Label>
               </div>
-            </RadioGroup> */}
+            </RadioGroup>
           </div>
         </div>
-      )}
+      )} */}
     </>
   );
 };
