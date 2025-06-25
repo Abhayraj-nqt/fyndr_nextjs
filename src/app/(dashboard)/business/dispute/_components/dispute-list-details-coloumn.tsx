@@ -43,7 +43,7 @@ export function getDisputeListColumn({
       case "SETTLED_WITHOUT_PAYMENT":
         return "#FFCBFD";
       default:
-        return null;
+        return "#E8E8E8";
     }
   };
   const getTextColor = (status: DisputeStatus) => {
@@ -55,11 +55,11 @@ export function getDisputeListColumn({
       case "DISPUTED":
         return "#6F6F6F";
       case "SETTLED_WITH_CUSTOMER_PAYMENT":
-        return "#0000FF";
+        return "#257CDB";
       case "SETTLED_WITHOUT_PAYMENT":
         return "#9E0F99";
       default:
-        return null;
+        return "#E8E8E8";
     }
   };
   return [
