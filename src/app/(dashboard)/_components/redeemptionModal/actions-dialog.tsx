@@ -6,14 +6,14 @@ import { QRCode } from "react-qrcode-logo";
 
 import Button from "@/components/global/buttons";
 import Input from "@/components/global/input";
-import Invoicefooter from "@/components/global/invoice/invoicefooter";
+import Invoicefooter from "@/components/global/invoice/invoice-footer";
 import { Modal } from "@/components/global/modal";
 import toast from "@/components/global/toast";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useVoucherUpdate } from "@/hooks/offers";
 import { statusList } from "@/lib/utils";
 import { InvoiceOffer } from "@/types/api-response/transaction.response";
-import { OfferPurchaseProps } from "@/types/offersummary";
+import { OfferPurchaseProps } from "@/types/offer-summary";
 
 import RedeemRemarks from "./remarks";
 
@@ -80,13 +80,13 @@ const ActionsDialog = ({
     }
   };
 
- const { voucherUpdate, isPending } = useVoucherUpdate();
+  const { voucherUpdate, isPending } = useVoucherUpdate();
 
-   const handleVoucherUpdate = () => {
+  const handleVoucherUpdate = () => {
     voucherUpdate({
       status,
       redeemedAmt,
-      redeemedAmtError, 
+      redeemedAmtError,
       row,
       indvid,
       type,

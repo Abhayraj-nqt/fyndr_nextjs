@@ -1,4 +1,4 @@
-import { OfferPurchaseProps } from "../offersummary";
+import { OfferPurchaseProps } from "../offer-summary";
 
 export type OfferSummaryResponse = {
   data: {
@@ -12,5 +12,3 @@ export type OfferSummaryResponse = {
   };
   success: boolean;
 };
-
-

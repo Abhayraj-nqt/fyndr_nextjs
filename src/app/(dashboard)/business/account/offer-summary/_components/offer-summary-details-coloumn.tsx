@@ -9,7 +9,7 @@ import React from "react";
 import Button from "@/components/global/buttons";
 import { DataTableColumnHeader } from "@/components/global/data-table/data-table-column-header";
 import { DataTableRowAction } from "@/types/data-table";
-import { OfferPurchaseProps } from "@/types/offersummary";
+import { OfferPurchaseProps } from "@/types/offer-summary";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);

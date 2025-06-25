@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 type ExternalLinkConfirmProps = {
   link: string
@@ -19,7 +20,7 @@ const ExternalLinkConfirm = ({ link }: ExternalLinkConfirmProps) => {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <a
+        <Link
           href="#"
           onClick={(e) => {
             e.preventDefault()
@@ -28,7 +29,7 @@ const ExternalLinkConfirm = ({ link }: ExternalLinkConfirmProps) => {
           className="text-blue-500 underline max-w-[100%] inline-block text-start break-words"
         >
           {link}
-        </a>
+        </Link>
       </PopoverTrigger>
 
       <PopoverContent className="w-96">

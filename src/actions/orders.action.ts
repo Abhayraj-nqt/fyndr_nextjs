@@ -15,8 +15,6 @@ export const onUpdateOrdersDeliveryStatus: UpdateOrderDeilveryStatus = async ({
   params,
   payload,
 }) => {
-  console.log(params, "params");
-  console.log(payload, "payload");
   const { invoiceId } = params;
   const endpoint = `${API_BASE_URL}/order/deliveryStatus/${invoiceId}`;
 

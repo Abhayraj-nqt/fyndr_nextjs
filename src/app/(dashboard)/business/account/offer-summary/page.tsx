@@ -8,14 +8,14 @@ import React from "react";
 
 import { onGetOfferSummary } from "@/actions/offer-summary.actions";
 import { auth } from "@/auth";
-import ContainerWrapper from "@/components/global/ContainerWrapper";
-import { MultiSelect } from "@/components/global/multiselect-dropdown/multiselectDropdown";
+import ContainerWrapper from "@/components/global/container-wrapper";
+import { MultiSelect } from "@/components/global/multiselect-dropdown/multi-select-dropdown";
 import PieChartSection from "@/components/global/piechart/piechart";
 import LocalSearch from "@/components/global/search/local-search";
 import ROUTES from "@/constants/routes";
 import { getSortingStateParser } from "@/lib/utils/table/parsers";
 import { RouteParams } from "@/types/global";
-import { OfferPurchaseProps } from "@/types/offersummary";
+import { OfferPurchaseProps } from "@/types/offer-summary";
 
 import OfferSummaryTable from "./_components/offer-summary-table";
 

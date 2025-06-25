@@ -7,7 +7,7 @@ import React from "react";
 
 import { useUser } from "@/hooks/auth";
 import { getFormattedDtNew } from "@/lib/utils";
-import { Remarks } from "@/types/offersummary";
+import { Remarks } from "@/types/offer-summary";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);

@@ -1,4 +1,4 @@
-import { Remarks } from "../offersummary";
+import { Remarks } from "../offer-summary";
 
 export type InvoiceSummary = {
   totalAmountByInvoiceStatuses: {
@@ -118,10 +118,10 @@ export type Mitem = {
 };
 
 export type addonDetails = {
-  modName :  string;
-  price : number;
-  objid : number;
-}
+  modName: string;
+  price: number;
+  objid: number;
+};
 
 export type Item = {
   catalogue_item_id: string;

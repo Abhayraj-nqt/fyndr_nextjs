@@ -18,7 +18,6 @@ export const onVerifyPromocode: VerifyPromocode = async (params) => {
 
 export const onRedeemPromocode: RedeemPromocode = async (params, payload) => {
   const { indvId } = params;
-  console.log({ params, payload });
 
   const endpoint = `${API_BASE_URL}/identity/redeem_promocode/${indvId}`;
 

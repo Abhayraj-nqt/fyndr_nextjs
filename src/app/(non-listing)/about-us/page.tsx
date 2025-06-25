@@ -1,31 +1,29 @@
-
-"use client"
+"use client";
 
 import React, { useState } from "react";
 
 import { SITE_ABOUT } from "@/constants/site";
 
-import AboutRow from "./_components/aboutRow";
-import AboutUsTab from "./_components/aboutUsTab";
-import FeatureCard from "./_components/featurecards";
-
+import AboutRow from "./_components/about-row";
+import AboutUsTab from "./_components/about-us-tab";
+import FeatureCard from "./_components/feature-cards";
 
 const AboutUs = () => {
-    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   return (
     <main className="scroll-smooth">
       <section className="relative flex flex-col items-center justify-center gap-4 p-4 md:flex-row">
         {SITE_ABOUT.features.map((feature, index) => (
-           <FeatureCard
-          key={feature.title}
-          title={feature.title}
-          imgURL={feature.imgURL}
-          description={feature.description}
-          index={index}
-          isFirst={index === 0}
-          hoveredIndex={hoveredIndex}
-          setHoveredIndex={setHoveredIndex}
-        />
+          <FeatureCard
+            key={feature.title}
+            title={feature.title}
+            imgURL={feature.imgURL}
+            description={feature.description}
+            index={index}
+            isFirst={index === 0}
+            hoveredIndex={hoveredIndex}
+            setHoveredIndex={setHoveredIndex}
+          />
         ))}
       </section>
 

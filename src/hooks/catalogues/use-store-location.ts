@@ -20,13 +20,11 @@ export const useFetchStoreLocation = (
     },
     onError: () => {
       toast.error({
-<<<<<<< HEAD:src/hooks/catalogues/useFetchStoreLocation.ts
+
         message: "Something went wrong",
         description: "Could not fetch the store locations.",
        
-=======
-        message: "Could not fetch the store locations.",
->>>>>>> d45cadae9ac1e0b7c13fcda2a4b665447bb107b1:src/hooks/catalogues/use-store-location.ts
+
       });
     },
   });

@@ -1,4 +1,4 @@
-import Invoicefooter from "@/components/global/invoice/invoicefooter";
+import Invoicefooter from "@/components/global/invoice/invoice-footer";
 import { Modal } from "@/components/global/modal";
 import { fetchInvoice } from "@/types/api-response/transaction.response";
 

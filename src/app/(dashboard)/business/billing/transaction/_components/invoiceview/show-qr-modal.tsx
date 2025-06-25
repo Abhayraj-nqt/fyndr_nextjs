@@ -1,9 +1,8 @@
 import React from "react";
 import { QRCode } from "react-qrcode-logo";
 
-import Invoicefooter from "@/components/global/invoice/invoicefooter";
+import Invoicefooter from "@/components/global/invoice/invoice-footer";
 import { Modal } from "@/components/global/modal";
-
 
 type ShowQrModalProps = {
   open: boolean;

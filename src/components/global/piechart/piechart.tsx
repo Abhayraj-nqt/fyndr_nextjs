@@ -11,9 +11,11 @@ interface ChartData {
 interface PieChartProps {
   chartData: ChartData[];
   colors?: string[];
+  height?: number;
+  width?:number;
 }
 
-const PieChartSection: React.FC<PieChartProps> = ({ chartData, colors = ["#5196E2", "#999999", "#EAF2FC"] }) => {
+const PieChartSection: React.FC<PieChartProps> = ({ chartData, colors = ["#5196E2", "#999999", "#EAF2FC"] ,width = 200 , height =200}) => {
      const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -23,7 +25,7 @@ const PieChartSection: React.FC<PieChartProps> = ({ chartData, colors = ["#5196E
   if (!mounted) return null; 
   return (
 
-      <PieChart width={200} height={200}>
+      <PieChart width={width} height={height}>
         <Pie
           data={chartData}
           dataKey="visitors"

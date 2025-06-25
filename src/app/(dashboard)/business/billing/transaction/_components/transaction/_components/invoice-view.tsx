@@ -6,8 +6,8 @@ import utc from "dayjs/plugin/utc";
 import React, { useEffect, useState } from "react";
 
 import Buttons from "@/components/global/buttons/invoice-buttons";
-import Bizcard from "@/components/global/invoice/bizcard";
-import Overallreview from "@/components/global/invoice/overallreview";
+import Bizcard from "@/components/global/invoice/biz-card";
+import Overallreview from "@/components/global/invoice/overall-review";
 import { useUser } from "@/hooks/auth";
 import { useInvoiceDetails, useUserReviewOverViews } from "@/hooks/invoice";
 import { getTotal, parseAddress } from "@/lib/utils";

@@ -7,8 +7,8 @@ import { _post } from "@/lib/handlers/fetch";
 import {
   GetOfferSummaryParams,
   UpdateOfferRedeemption,
-} from "@/types/api-params/offersummary.params";
-import { OfferPurchaseProps } from "@/types/offersummary";
+} from "@/types/api-params/offer-summary.params";
+import { OfferPurchaseProps } from "@/types/offer-summary";
 
 export const onGetOfferSummary: GetOfferSummaryParams = async (params) => {
   const {

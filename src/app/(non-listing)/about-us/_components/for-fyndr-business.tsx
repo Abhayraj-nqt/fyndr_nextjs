@@ -2,12 +2,12 @@ import React from "react";
 
 import { SITE_ABOUT } from "@/constants/site";
 
-import AboutRow from "./aboutRow";
+import AboutRow from "./about-row";
 
-const ForFyndrIndividual = () => {
+const ForFyndrBusiness = () => {
   return (
     <div className="flex flex-col items-center gap-8 p-4 py-10">
-      {SITE_ABOUT.howToUse.individual.map((item, index) => (
+      {SITE_ABOUT.howToUse.business.map((item, index) => (
         <AboutRow
           key={index}
           title={item.title}
@@ -24,4 +24,4 @@ const ForFyndrIndividual = () => {
   );
 };
 
-export default ForFyndrIndividual;
+export default ForFyndrBusiness;

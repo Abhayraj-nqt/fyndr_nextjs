@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 
 import Buttons from "@/components/global/buttons/invoice-buttons";
-import Bizcard from "@/components/global/invoice/bizcard";
-import Invoicefooter from "@/components/global/invoice/invoicefooter";
-import Overallreview from "@/components/global/invoice/overallreview";
+import Bizcard from "@/components/global/invoice/biz-card";
+import Invoicefooter from "@/components/global/invoice/invoice-footer";
+import Overallreview from "@/components/global/invoice/overall-review";
 import { Modal } from "@/components/global/modal";
 import { useUser } from "@/hooks/auth";
 import { useInvoiceDetails, useUserReviewOverViews } from "@/hooks/invoice";
@@ -127,7 +127,6 @@ const PrintAction = ({
   const DifferenceInTime = date2.getTime() - date1.getTime();
   const DifferenceInDays = DifferenceInTime / (1000 * 3600 * 24);
 
-
   return (
     <Modal
       open={open}
@@ -139,9 +138,7 @@ const PrintAction = ({
       bodyClassName="max-h-[80vh] overflow-y-scroll no-scrollbar"
     >
       {isUserLoading || isInvoiceLoading ? (
-        <div>
-          Loading invoice details...
-        </div>
+        <div>Loading invoice details...</div>
       ) : (
         <>
           {biz && (

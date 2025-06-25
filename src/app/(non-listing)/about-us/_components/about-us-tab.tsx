@@ -4,11 +4,11 @@ import { useState } from "react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import AboutUsMap from "./aboutusmap";
+import AboutUsMap from "./about-us-map";
 import Download from "./download";
 import Faq from "./faq";
-import ForFyndrBusiness from "./forfyndrbusiness";
-import ForFyndrIndv from "./forFyndrIndv";
+import ForFyndrBusiness from "./for-fyndr-business";
+import ForFyndrIndv from "./for-fyndr-Indv";
 
 const AboutUsTab = () => {
   const [activeTab, setActiveTab] = useState<"business" | "individual">(
