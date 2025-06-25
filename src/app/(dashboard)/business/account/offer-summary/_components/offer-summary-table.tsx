@@ -12,7 +12,7 @@ import { DataTableRowAction } from "@/types/data-table";
 import { OfferPurchaseProps } from "@/types/offer-summary";
 
 import { getOfferSummaryDetailsColoumn } from "./offer-summary-details-coloumn";
-import ActionsDialog from "../../../../_components/redeemptionModal/actions-dialog";
+import ActionsDialog from "../../../../_components/redeemption-modal/actions-dialog";
 
 type Props = {
   promises: Promise<[Awaited<ReturnType<typeof onGetOfferSummary>>]>;

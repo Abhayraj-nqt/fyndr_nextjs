@@ -22,11 +22,11 @@ import {
 } from "@/types/api-response/transaction.response";
 
 import DisputeModal from "./dispute-modal";
-import GifteeDetails from "../../invoiceview/gifte-details";
-import InvoiceBasicInfo from "../../invoiceview/invoice-basic-info";
-import Invoicetotal from "../../invoiceview/invoice-total";
-import Offersdetails from "../../invoiceview/offers-details";
-import Renderlistitem from "../../invoiceview/render-list-item";
+import GifteeDetails from "../../invoice-view/gifte-details";
+import InvoiceBasicInfo from "../../invoice-view/invoice-basic-info";
+import Invoicetotal from "../../invoice-view/invoice-total";
+import Offersdetails from "../../invoice-view/offers-details";
+import Renderlistitem from "../../invoice-view/render-list-item";
 
 type InvoiceViewProps = {
   inv?: fetchInvoice[] | null;

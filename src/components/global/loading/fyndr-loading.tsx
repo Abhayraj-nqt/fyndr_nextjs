@@ -9,7 +9,7 @@ type Props = {
 
 const FyndrLoading = ({ loading = true }: Props) => {
   return loading ? (
-    <div className="fixed left-0 top-0 z-[999999] flex h-screen w-full items-center justify-center bg-[#0000004d]">
+    <div className="fixed left-0 top-0 z-50 flex h-screen w-full items-center justify-center bg-[#0000004d]">
       <Image
         src={ASSETS.GIFS.LOADING}
         alt="Loading..."

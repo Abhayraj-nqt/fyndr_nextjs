@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 
-import ReviewModal from "@/app/(dashboard)/_components/reviewModal/review-modal";
+import ReviewModal from "@/app/(dashboard)/_components/review-modal/review-modal";
 import { ReviewOverviews } from "@/types/api-response/review.response";
 
 

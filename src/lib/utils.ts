@@ -7,7 +7,6 @@ import {
   Address,
   Biz,
   fetchInvoice,
-  invoiceDetailsResponse,
   InvoiceOfferDetail,
   Item,
   Offer,

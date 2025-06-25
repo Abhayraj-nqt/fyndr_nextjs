@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import React, { useState } from "react";
 
-import ActionsDialog from "@/app/(dashboard)/_components/redeemptionModal/actions-dialog";
+import ActionsDialog from "@/app/(dashboard)/_components/redeemption-modal/actions-dialog";
 import Button from "@/components/global/buttons";
 import { useUser } from "@/hooks/auth";
 import {
@@ -80,7 +80,7 @@ const Offersdetails: React.FC<OffersDetails> = ({
             vhrs.map((vhrRaw, index) => {
               const vhr: FilteredOffer & {
                 appointment?: Appointment[];
-                qty?: number ;
+                qty?: number;
                 index?: number;
                 currencySymbol?: string;
               } = { ...vhrRaw };
@@ -99,7 +99,6 @@ const Offersdetails: React.FC<OffersDetails> = ({
                 vhr.qty = res[0]?.qty ?? 0;
               }
               vhr.currencySymbol = currencySymbol;
-
 
               if ("offerId" in vhr) {
                 redeemptionStatus = vhr.redeemptionStatus;
@@ -121,9 +120,7 @@ const Offersdetails: React.FC<OffersDetails> = ({
                     <span className="text-[14px] font-semibold text-black-70">
                       {capitalize(getChannelName(channel))} Name:
                     </span>
-                    <span className="body-3 text-black-80">
-                      {row?.title}
-                    </span>
+                    <span className="body-3 text-black-80">{row?.title}</span>
                   </div>
                   {"appointment" in vhr &&
                     vhr?.appointment &&

@@ -17,9 +17,9 @@ import {
   InvoiceOffer,
 } from "@/types/api-response/transaction.response";
 
-import InvoiceBasicInfo from "../../../invoiceview/invoice-basic-info";
-import Invoicetotal from "../../../invoiceview/invoice-total";
-import RenderCatalogItems from "../../../invoiceview/render-list-item";
+import InvoiceBasicInfo from "../../../invoice-view/invoice-basic-info";
+import Invoicetotal from "../../../invoice-view/invoice-total";
+import RenderCatalogItems from "../../../invoice-view/render-list-item";
 
 type PrintActionProps = {
   row: OrdersResponse | null;
