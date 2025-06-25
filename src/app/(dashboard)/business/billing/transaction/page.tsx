@@ -28,6 +28,7 @@ const BusinessPage = async ({
   const { bizid, indvid } = data;
   if (!bizid) return null;
 
+
   return (
     <>
       <div className="mx-auto w-[90%] max-w-screen-xl space-y-4 ">
@@ -42,6 +43,7 @@ const BusinessPage = async ({
             channel={channel}
             indvid={indvid}
             search={search}
+            searchParams={searchParams}
           />
         </ContainerWrapper>
       </div>

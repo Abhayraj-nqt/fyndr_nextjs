@@ -12,10 +12,10 @@ export const TYPES_OF_DEALS: ValueLabelProps[] = [
     label: "All",
     value: "ALL",
   },
-  {
-    label: "Coupons",
-    value: "COUPONS",
-  },
+  // {
+  //   label: "Coupons",
+  //   value: "COUPONS",
+  // },
   {
     label: "Offers",
     value: "OFFERS",

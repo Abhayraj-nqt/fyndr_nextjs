@@ -1,3 +1,4 @@
+import { TransactionOrdersResponse } from "../api-response/orders.response";
 import {
   fetchInvoiceResponse,
   invoiceDetailsResponse,
@@ -32,3 +33,21 @@ export type GetInvoiceDetailProps = (payload : {
   invoiceId : number;
   buyerId ? : number;
 }) => Promise<ActionResponse<invoiceDetailsResponse>>;
+
+export type GetOrdersDetailsProps = (params : {
+  page: number;
+  pageSize: number;
+  businessId?:number;
+},
+
+payload :{
+ 
+  paymentStatus: string[];        
+  deliveryStatus: string[];      
+  invoicedTo: string;             
+  orderStartDt: string;         
+  orderEndDt: string;             
+
+
+
+}) => Promise<ActionResponse<TransactionOrdersResponse>>

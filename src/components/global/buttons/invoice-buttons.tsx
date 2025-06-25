@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Button } from "@/components/ui/button";
+import Button from "@/components/global/buttons";
 import {
   Popover,
   PopoverTrigger,
@@ -42,7 +42,7 @@ export default function Buttons({
                 <br />
                 <a
                   href="mailto:admin@fyndr.us"
-                  className="text-blue-600 underline"
+                  className="text-primary underline"
                 >
                   admin@fyndr.us
                 </a>
@@ -50,7 +50,7 @@ export default function Buttons({
             </div>
             <Popover>
               <PopoverTrigger asChild>
-                <i className=" fa-info-circle mt-1 cursor-pointer text-blue-600" />
+                <i className="  mt-1 cursor-pointer text-primary" />
               </PopoverTrigger>
               <PopoverContent className="w-56 text-sm">
                 Dispute can only be raised within 30 days of purchase.
