@@ -1,6 +1,7 @@
 import { UseFormReturn } from "react-hook-form";
 
 import Button from "@/components/global/buttons";
+import Switch from "@/components/global/input/switch";
 import ImageUploader from "@/components/global/uploader/image-uploader";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
@@ -24,7 +25,7 @@ const OfferActionsButton = ({
     <>
       <FormField
         control={form.control}
-        name="repurchasePeriod"
+        name="validityPeriod"
         render={() => (
           <FormItem>
             <div className="flex w-full flex-col gap-1">
@@ -71,15 +72,42 @@ const OfferActionsButton = ({
           </FormItem>
         )}
       />
+      {form.getValues("isNew") === false && (
+        <FormField
+          control={form.control}
+          name="status"
+          render={({ field }) => (
+            <FormItem className="col-span-2">
+              <div className="flex w-full flex-col gap-1">
+                <FormControl>
+                  <div className="flex items-center">
+                    <Switch
+                      checkedTitle="Active"
+                      uncheckedTitle="Inactive"
+                      checked={field.value === "active"}
+                      onCheckedChange={(checked) =>
+                        field.onChange(checked ? "active" : "inactive")
+                      }
+                    />
+                  </div>
+                </FormControl>
+              </div>
+            </FormItem>
+          )}
+        />
+      )}
       <FormField
         control={form.control}
-        name="repurchasePeriod"
-        render={() => (
+        name="isBookingEnabled"
+        render={({ field }) => (
           <FormItem className="col-span-2">
             <div className="flex w-full flex-col gap-1">
               <FormControl>
                 <div className="flex items-center">
-                  <Checkbox />
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={(checked) => field.onChange(!!checked)}
+                  />
                   <Label className="ml-2 font-roboto text-black-50">
                     Business Appointment
                   </Label>
@@ -89,39 +117,20 @@ const OfferActionsButton = ({
           </FormItem>
         )}
       />
-      <FormField
-        control={form.control}
-        name="repurchasePeriod"
-        render={() => (
-          <FormItem>
-            <div className="flex w-full flex-col gap-1">
-              <FormControl>
-                <Button stdHeight variant="primary" className="w-full">
-                  Save
-                </Button>
-              </FormControl>
-            </div>
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name="repurchasePeriod"
-        render={() => (
-          <FormItem>
-            <div className="flex w-full flex-col gap-1">
-              <FormControl>
-                <Button
-                  className="h-[42px] w-full rounded-10 border border-primary bg-white px-4 py-2 text-primary  hover:bg-white"
-                  onClick={handleModalClose}
-                >
-                  Cancel
-                </Button>
-              </FormControl>
-            </div>
-          </FormItem>
-        )}
-      />
+
+      <div className="flex w-full flex-col gap-1">
+        <Button stdHeight variant="primary" className="w-full">
+          Save
+        </Button>
+      </div>
+      <div className="flex w-full flex-col gap-1">
+        <Button
+          className="h-[42px] w-full rounded-10 border border-primary bg-white px-4 py-2 text-primary  hover:bg-white"
+          onClick={handleModalClose}
+        >
+          Cancel
+        </Button>
+      </div>
     </>
   );
 };

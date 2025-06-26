@@ -4,6 +4,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { ProcessedFileProps } from "@/lib/utils/files/upload.utils";
+import { useCampaignStore } from "@/zustand/stores/campaign.store";
 
 import OfferActionsButton from "./offer-actions-button";
 import OfferBasicDetails from "./offer-basic-detail";
@@ -13,14 +14,28 @@ import { OfferSchema } from "./schema";
 export type OfferFormValues = z.infer<typeof OfferSchema>;
 const defaultValues: OfferFormValues = {
   title: "",
-  voucher: "",
-  discount: undefined,
-  amount: 0,
-  offerLimit: 0,
-  offerPrice: 0,
-  perUserLimit: -1,
-  taxPercent: 0,
-  repurchasePeriod: undefined,
+  amount: "",
+  discountType: "%",
+  retailPrice: 0,
+  offerPrice: "",
+  offersAvailable: null,
+  offerLimit: "",
+  currency: "USD",
+  currencySymbol: "$",
+  status: "active",
+  isNew: true,
+  offerType: "offers",
+  usageLimit: "",
+  validityPeriod: "CMPN",
+  stdTax: false,
+  taxPercent: "",
+  isBookingEnabled: true,
+  displayOrder: 1,
+  repurchasePeriod: 0,
+  voucherFile: null,
+  voucherFileName: null,
+  isVoucher: null,
+  couponCode: null,
 };
 
 type Props = {
@@ -28,11 +43,10 @@ type Props = {
 };
 
 const OfferForm = ({ handleModalClose }: Props) => {
-  const [checked, setChecked] = useState(false);
+  const { updateCampaignPayload } = useCampaignStore();
   const [, setUploadedFiles] = useState<ProcessedFileProps[]>([]);
 
   const handleFileUpload = (files: ProcessedFileProps[]) => {
-    console.log(files);
     setUploadedFiles(files);
   };
   const form = useForm<OfferFormValues>({
@@ -42,6 +56,8 @@ const OfferForm = ({ handleModalClose }: Props) => {
 
   const onSubmit = (data: OfferFormValues) => {
     console.log("Submitted Offer:", data);
+    updateCampaignPayload("offers", [data]);
+    handleModalClose();
   };
 
   return (
@@ -52,11 +68,7 @@ const OfferForm = ({ handleModalClose }: Props) => {
           className="grid w-full grid-cols-1 gap-6 p-2 md:grid-cols-2"
         >
           <OfferBasicDetails form={form} />
-          <OfferPricingDetails
-            form={form}
-            checked={checked}
-            setChecked={setChecked}
-          />
+          <OfferPricingDetails form={form} />
           <OfferActionsButton
             form={form}
             handleFileUpload={handleFileUpload}

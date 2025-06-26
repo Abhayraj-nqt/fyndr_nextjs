@@ -6,6 +6,7 @@ import ROUTES from "@/constants/routes";
 import { API_BASE_URL } from "@/environment";
 import { _get, _post, _put } from "@/lib/handlers/fetch";
 import {
+  CreateCampaign,
   GetCampaignByQrProps,
   GetCampaignListProps,
   GetCampaignMarkerProps,
@@ -178,6 +179,20 @@ export const onLikeCampaign: LikeCampaignProps = async (payload) => {
   const endpoint = `${API_BASE_URL}/campaign/indvcmpn`;
 
   // revalidatePath(ROUTES.OFFERS_AND_EVENTS);
+  if (payload.objid) {
+    return _put(endpoint, payload, {
+      requireAuth: true,
+    });
+  }
+
+  return _post(endpoint, payload, {
+    requireAuth: true,
+  });
+};
+
+export const onSaveCampaign: CreateCampaign = async (payload) => {
+  const endpoint = `${API_BASE_URL}/campaign/cmpn`;
+  revalidatePath(ROUTES.BUSINESS_CAMPAIGNS);
   if (payload.objid) {
     return _put(endpoint, payload, {
       requireAuth: true,

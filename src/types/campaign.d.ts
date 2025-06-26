@@ -10,6 +10,12 @@ type CampaignImageProps = {
   order: number;
 };
 
+type CreateCampaignImage = {
+  index: number;
+  img: string;
+  thumbnail: string;
+};
+
 type CampaignCategoryProps = {
   categoryId: number;
   isActive: boolean;
@@ -47,11 +53,13 @@ type CampaignBizProps = {
 };
 
 type CampaignOfferProps = {
-  objid: number;
+  objid?: number;
   amount: number;
   isBookingEnabled: boolean;
   isVoucher: boolean;
   stdTax: boolean;
+  isNew?: boolean;
+  isUpdated?: boolean;
 
   offerLimit: number | null;
   offerPrice: number;
@@ -66,14 +74,14 @@ type CampaignOfferProps = {
   status: OfferStatus;
   voucherFileName: string | null;
   validityPeriod: string;
-  campaignOfferStatus: string;
+  campaignOfferStatus?: string;
   couponCode: string | null;
   currency: Currency;
   currencySymbol: CurrencySymbol;
   discountType: DiscountType;
   displayOrder: number;
-  imageFilePath: string | null;
-  thumbnailFilePath: string | null;
+  imageFilePath?: string | null;
+  thumbnailFilePath?: string | null;
 };
 
 type CampaignLocationProps = {
@@ -106,7 +114,7 @@ type PaymentSubscriptionProps = {
   updatedDuration: number;
 };
 
-type CampaignProps = {
+export type CampaignProps = {
   qrCode: string;
   startDt: string;
   endDt: string;
@@ -175,4 +183,30 @@ type CampaignQueryPayload = {
   fetchById: string;
   fetchByGoal: FetchGoalProps;
   campaignType: CampaignTypeProps[];
+};
+
+export type CreateCampaignPayload = {
+  bizid: number;
+  brochureFile: null | unknown;
+  campaignStatus: CampaignStatusProps;
+  campaignVideo: null | unknown;
+  categoryId: number;
+  cmpnImgs: CreateCampaignImage[];
+  cmpnLocs: number[];
+  cmpnType: CampaignTypeProps;
+  cmpnUrl: string | null;
+  country: string;
+  dc: string;
+  descr: string;
+  startDt: string;
+  endDt: string;
+  createdDt: string;
+  lastUpdatedBy: number;
+  status: CampaignStatusProps2;
+  tags: string | null;
+  title: string;
+  offers: CampaignOfferProps[];
+  objid?: number;
+  goal: string;
+  finePrint: string;
 };

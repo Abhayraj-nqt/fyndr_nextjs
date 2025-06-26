@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 
 import Input from "@/components/global/input";
@@ -13,16 +14,22 @@ import { OfferFormValues } from "./offer-form";
 
 type Props = {
   form: UseFormReturn<OfferFormValues>;
-  checked: boolean;
-  setChecked: (value: boolean) => void;
 };
 
-const OfferPricingDetails = ({ form, checked, setChecked }: Props) => {
+const OfferPricingDetails = ({ form }: Props) => {
+  const [discountToggle, setDiscountToggle] = useState(
+    form.getValues("discountType") === "flat"
+  );
+  const [offerLimitToggle, setOfferLimitToggle] = useState(true);
+  const [perUserLimitToggle, setPerUserLimitToggle] = useState(true);
+  const [taxToggle, setTaxToggle] = useState(false);
+  const [repurchaseToggle, setRepurchaseToggle] = useState(true);
+
   return (
     <>
       <FormField
         control={form.control}
-        name="discount"
+        name="amount"
         render={({ field }) => (
           <FormItem className="flex flex-row items-center gap-4">
             <div className="flex w-full flex-col gap-1">
@@ -34,8 +41,11 @@ const OfferPricingDetails = ({ form, checked, setChecked }: Props) => {
                     <Switch
                       checkedTitle="Cash"
                       uncheckedTitle="Percent"
-                      checked={checked}
-                      onCheckedChange={setChecked}
+                      checked={discountToggle}
+                      onCheckedChange={(checked) => {
+                        setDiscountToggle(checked);
+                        form.setValue("discountType", checked ? "flat" : "%");
+                      }}
                     />
                   }
                 />
@@ -48,7 +58,7 @@ const OfferPricingDetails = ({ form, checked, setChecked }: Props) => {
 
       <FormField
         control={form.control}
-        name="amount"
+        name="retailPrice"
         render={({ field }) => (
           <FormItem className="flex flex-row items-center gap-4">
             <div className="flex w-full flex-col gap-1">
@@ -71,12 +81,20 @@ const OfferPricingDetails = ({ form, checked, setChecked }: Props) => {
                   {...field}
                   label="Offers Limit"
                   showRequired
+                  value={field.value ?? ""}
+                  disabled={offerLimitToggle}
                   topRightNode={
                     <Switch
                       checkedTitle="Unlimited"
                       uncheckedTitle="limited"
-                      checked={checked}
-                      onCheckedChange={setChecked}
+                      checked={offerLimitToggle}
+                      onCheckedChange={(checked) => {
+                        setOfferLimitToggle(checked);
+                        form.setValue(
+                          "offerLimit",
+                          checked ? null : field.value
+                        );
+                      }}
                     />
                   }
                 />
@@ -94,7 +112,14 @@ const OfferPricingDetails = ({ form, checked, setChecked }: Props) => {
           <FormItem className="flex flex-row items-center gap-4">
             <div className="flex w-full flex-col gap-1">
               <FormControl>
-                <Input {...field} label="Offer Price" showRequired />
+                <Input
+                  {...field}
+                  label="Offer Price"
+                  showRequired
+                  disabled
+                  value={5}
+                  className="bg-white"
+                />
               </FormControl>
               <FormMessage className="text-red-500" />
             </div>
@@ -103,7 +128,7 @@ const OfferPricingDetails = ({ form, checked, setChecked }: Props) => {
       />
       <FormField
         control={form.control}
-        name="perUserLimit"
+        name="usageLimit"
         render={({ field }) => (
           <FormItem className="flex flex-row items-start gap-4">
             <div className="flex w-full flex-col gap-1">
@@ -112,12 +137,17 @@ const OfferPricingDetails = ({ form, checked, setChecked }: Props) => {
                   {...field}
                   label="Per User Limit"
                   showRequired
+                  disabled={perUserLimitToggle}
+                  value={field.value ?? ""}
                   topRightNode={
                     <Switch
                       checkedTitle="Unlimited"
                       uncheckedTitle="limited"
-                      checked={checked}
-                      onCheckedChange={setChecked}
+                      checked={perUserLimitToggle}
+                      onCheckedChange={(checked) => {
+                        setPerUserLimitToggle(checked);
+                        form.setValue("usageLimit", checked ? -1 : field.value);
+                      }}
                     />
                   }
                 />
@@ -139,12 +169,17 @@ const OfferPricingDetails = ({ form, checked, setChecked }: Props) => {
                   {...field}
                   label="Tax Percentage"
                   info
+                  disabled={!taxToggle}
                   topRightNode={
                     <Switch
                       checkedTitle="Custom"
                       uncheckedTitle="Standard"
-                      checked={checked}
-                      onCheckedChange={setChecked}
+                      checked={taxToggle}
+                      onCheckedChange={(checked) => {
+                        setTaxToggle(checked);
+                        form.setValue("stdTax", !checked);
+                        form.setValue("taxPercent", checked ? field.value : "");
+                      }}
                     />
                   }
                 />
@@ -165,12 +200,19 @@ const OfferPricingDetails = ({ form, checked, setChecked }: Props) => {
                 <Input
                   {...field}
                   label="Repurchase Period(Days)"
+                  disabled={!repurchaseToggle}
                   topRightNode={
                     <Switch
                       checkedTitle="Enabled"
                       uncheckedTitle="Disabled"
-                      checked={checked}
-                      onCheckedChange={setChecked}
+                      checked={repurchaseToggle}
+                      onCheckedChange={(checked) => {
+                        setRepurchaseToggle(checked);
+                        form.setValue(
+                          "repurchasePeriod",
+                          checked ? 0 : field.value
+                        );
+                      }}
                     />
                   }
                 />

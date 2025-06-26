@@ -4,6 +4,7 @@ import {
   CampaignsResponse,
   LikeCampaignResponse,
 } from "../api-response/campaign.response";
+import { CampaignProps, CreateCampaignPayload } from "../campaign";
 import { ActionResponse, Coordinates } from "../global";
 
 export type GetCampaignByQrProps = (
@@ -59,3 +60,7 @@ export type LikeCampaignProps = (payload: {
   isDeleted: boolean | null;
   objid: number | null;
 }) => Promise<ActionResponse<LikeCampaignResponse>>;
+
+export type CreateCampaign = (
+  payload: CreateCampaignPayload
+) => Promise<ActionResponse<CampaignProps>>;
