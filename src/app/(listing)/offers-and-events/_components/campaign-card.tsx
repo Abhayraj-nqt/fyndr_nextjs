@@ -10,6 +10,7 @@ import React, { useState } from "react";
 
 import MailTo from "@/components/global/mail-to";
 import PhoneTo from "@/components/global/phone-to";
+import PlaceholderImage from "@/components/global/placeholder-image";
 import toast from "@/components/global/toast";
 import WebsiteTo from "@/components/global/website-to";
 import DownArrow from "@/components/icons/down-arrow";
@@ -21,16 +22,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import ASSETS from "@/constants/assets";
 import ROUTES from "@/constants/routes";
 import { HOST } from "@/environment";
 import { useOptimisticLike } from "@/hooks/campaigns";
-import { parseAddress } from "@/lib/utils";
-import { CampaignProps } from "@/types/campaign";
+import { parseAddress } from "@/lib/utils/address";
+import { Campaign } from "@/types/campaign/campaign.types";
 
 import SeeMoreSection from "./sections/see-more-section";
 
 type Props = {
-  campaign: CampaignProps;
+  campaign: Campaign;
   refetch?: () => void;
 };
 
@@ -105,17 +107,28 @@ const CampaignCard = ({ campaign }: Props) => {
           href={ROUTES.OFFER_DETAILS(campaign.biz.bizName, campaign.qrCode)}
           className="relative col-span-2 w-full"
         >
-          <Image
+          <PlaceholderImage
             src={
               campaign?.images && campaign?.images.length > 0
                 ? campaign?.images[0]?.img_url
-                : "/fyndr-placeholder-gray.svg"
+                : ASSETS.IMAGES.PLACEHOLDER.FYNDR
             }
             alt="img/alt"
             width={200}
             height={100}
             className="aspect-[2/1] size-full rounded-5 object-cover"
           />
+          {/* <Image
+            src={
+              campaign?.images && campaign?.images.length > 0
+                ? campaign?.images[0]?.img_url
+                : ASSETS.IMAGES.PLACEHOLDER.FYNDR
+            }
+            alt="img/alt"
+            width={200}
+            height={100}
+            className="aspect-[2/1] size-full rounded-5 object-cover"
+          /> */}
         </Link>
         <div className="col-span-3 flex flex-col gap-4">
           <Link
@@ -140,11 +153,12 @@ const CampaignCard = ({ campaign }: Props) => {
             </CardTitle>
             {mode === "offline" ? (
               <CardDescription className="body-5 line-clamp-2 h-[30px] text-black-60">
-                {`${
-                  campaign?.cmpnLocs[0]?.distance
-                    ? campaign?.cmpnLocs[0]?.distance.toFixed(1)
-                    : "0"
-                } miles, ${parseAddress(campaign?.cmpnLocs[0])}`}
+                {
+                  parseAddress(campaign?.cmpnLocs[0], {
+                    compactMode: true,
+                    includeDistance: true,
+                  }).formatted
+                }
               </CardDescription>
             ) : (
               <></>
@@ -154,7 +168,7 @@ const CampaignCard = ({ campaign }: Props) => {
           <div className="flex items-center gap-4 text-black-60">
             {campaign?.cmpnLocs[0]?.phone ? (
               <PhoneTo phone={campaign?.cmpnLocs[0]?.phone}>
-                <Phone size={20} />
+                <Phone size={20} className="cursor-pointer" />
               </PhoneTo>
             ) : (
               <></>

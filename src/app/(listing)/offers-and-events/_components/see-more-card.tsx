@@ -1,12 +1,14 @@
 import Image from "next/image";
 import React from "react";
 
+import PlaceholderImage from "@/components/global/placeholder-image";
 import { Card } from "@/components/ui/card";
-import { CampaignOfferProps } from "@/types/campaign";
+import ASSETS from "@/constants/assets";
+import { CampaignOffer } from "@/types/campaign/campaign.types";
 
 type Props = {
   className?: string;
-  offer: CampaignOfferProps;
+  offer: CampaignOffer;
 };
 
 const SeeMoreCard = ({ offer, className }: Props) => {
@@ -24,13 +26,20 @@ const SeeMoreCard = ({ offer, className }: Props) => {
         {offer.offerType === "offers" && discount && offer.amount > 0 ? (
           <div className="absolute -right-px top-0">
             <div className="flex-center relative">
-              <Image
+              <PlaceholderImage
                 src={"/icons/offer-discount-ribbon.svg"}
                 alt="discount"
                 height={50}
                 width={25}
                 className="w-10"
               />
+              {/* <Image
+                src={"/icons/offer-discount-ribbon.svg"}
+                alt="discount"
+                height={50}
+                width={25}
+                className="w-10"
+              /> */}
               <div className="body-5-medium flex-center absolute top-2 w-min text-wrap text-center">
                 {discount}
               </div>
@@ -41,7 +50,7 @@ const SeeMoreCard = ({ offer, className }: Props) => {
         )}
 
         <Image
-          src={offer?.imageFilePath || "/fyndr-placeholder-gray.svg"}
+          src={offer?.imageFilePath || ASSETS.IMAGES.PLACEHOLDER.FYNDR}
           alt="img/alt"
           width={200}
           height={100}

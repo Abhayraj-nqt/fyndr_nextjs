@@ -7,16 +7,17 @@ import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 
 import {
-  getAccountAPI,
-  handleGoogleAuth,
-  refreshAccessTokenAPI,
-  signInAPI,
+  onGetAccount,
+  onGoogleOAuth,
+  onRefreshToken,
+  onSignIn,
 } from "@/actions/auth.actions";
 
 import { SignInSchema } from "./components/forms/auth/sign-in/schema";
 import { authConfig } from "./config/auth.config";
 import ROUTES from "./constants/routes";
 import handleError from "./lib/handlers/error";
+import { EntityRole, EntityType } from "./types/auth/auth.types";
 import { Coordinates } from "./types/global";
 
 class InvalidLoginError extends AuthError {
@@ -103,10 +104,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               success: signInSuccess,
               data: signInData,
               error,
-            } = await signInAPI({
-              email,
-              password,
-              mode: "classic",
+            } = await onSignIn({
+              payload: {
+                email,
+                password,
+                mode: "classic",
+              },
             });
 
             if (!signInSuccess || !signInHeaders || !signInData) {
@@ -120,12 +123,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
             if (!accessToken) return null;
 
-            const { success, data: parsedAccountResponse } =
-              await getAccountAPI({
-                email,
-                regMode: "classic",
-                accessToken,
-              });
+            const { success, data: parsedAccountResponse } = await onGetAccount(
+              {
+                payload: {
+                  email,
+                  regMode: "classic",
+                  accessToken,
+                },
+              }
+            );
 
             if (!success || !parsedAccountResponse) return null;
 
@@ -234,7 +240,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       const provider = account.provider as "google";
       if (provider === "google") {
         try {
-          const googleUser = await handleGoogleAuth(profile, account);
+          const googleUser = await onGoogleOAuth({ profile, account });
           if (googleUser) {
             Object.assign(user, googleUser);
             return true;
@@ -312,7 +318,11 @@ async function refreshToken(token: JWT) {
     return token;
   }
 
-  const { success, data } = await refreshAccessTokenAPI({ refreshToken });
+  const { success, data } = await onRefreshToken({
+    payload: {
+      refreshToken,
+    },
+  });
 
   if (!success || !data) {
     // return token;

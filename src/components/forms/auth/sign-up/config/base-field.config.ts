@@ -3,7 +3,7 @@ import {
   IndividualFormData,
   BusinessFormData,
 } from "@/components/forms/auth/sign-up/schema";
-import { GENDER } from "@/constants";
+import { GENDER } from "@/constants/form";
 
 export interface BaseFieldConfig<T = any> {
   name: keyof T;

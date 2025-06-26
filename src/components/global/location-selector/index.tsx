@@ -62,14 +62,14 @@ const LocationSelector = ({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="size-8 rounded-full p-0"
+                  className="w-8 rounded-full !p-0 !text-black-40 hover:bg-white"
                   onClick={onSelectCurrentLocation}
                   disabled={isFetchingCurrentLocation}
                 >
                   {isFetchingCurrentLocation ? (
-                    <Loader2 className="size-5 animate-spin text-gray-400" />
+                    <Loader2 className="!size-5 animate-spin" />
                   ) : (
-                    <MapPin className="size-5 text-gray-400" />
+                    <MapPin className="!size-5" />
                   )}
                 </Button>
               </TooltipTrigger>

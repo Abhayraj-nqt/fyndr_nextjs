@@ -1,23 +1,29 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, useParams } from "next/navigation";
 import { useState } from "react";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import ROUTES from "@/constants/routes";
 import { removeKeysFromUrlQuery, formUrlQuery } from "@/lib/utils/url";
+import { Category } from "@/types/category/category.types";
 
 type Props = {
-  categories: CategoryProps[];
+  categories: Category[];
   filterType: "checkbox" | "radio";
 };
 
 const CategoryList = ({ categories, filterType }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const params = useParams();
   const filterParams = searchParams.get("categories");
-  const query = searchParams.get("query");
+
+  const activeCategory = params?.category
+    ? decodeURIComponent(params.category as string)
+    : "";
 
   const initialSelected = filterParams
     ? filterParams
@@ -63,19 +69,13 @@ const CategoryList = ({ categories, filterType }: Props) => {
   };
 
   const handleRadioChange = (value: string) => {
-    const newUrl = formUrlQuery({
-      params: searchParams.toString(),
-      key: "query",
-      value,
-    });
-
-    router.push(newUrl);
+    router.push(ROUTES.OFFER_LISTING_CATEGORY(value));
   };
 
   if (filterType === "radio") {
     return (
       <RadioGroup
-        value={query || query?.toLowerCase() || undefined}
+        value={activeCategory}
         onValueChange={handleRadioChange}
         className="space-y-4 px-2"
       >

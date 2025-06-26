@@ -5,11 +5,13 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { getRemaining, parseDiscount, toTwoDecimalPlaces } from "@/lib/utils";
-import { CampaignOfferProps } from "@/types/campaign";
+import ASSETS from "@/constants/assets";
+import { getRemaining } from "@/lib/utils";
+import { parseAmount, parseDiscount } from "@/lib/utils/parser/index";
+import { CampaignOffer } from "@/types/campaign/campaign.types";
 
 type Props = {
-  offer: CampaignOfferProps;
+  offer: CampaignOffer;
 };
 
 const OfferCard = ({ offer }: Props) => {
@@ -19,7 +21,7 @@ const OfferCard = ({ offer }: Props) => {
         src={
           offer.imageFilePath
             ? offer.imageFilePath
-            : "/images/fyndr-placeholder-gray.svg"
+            : ASSETS.IMAGES.PLACEHOLDER.FYNDR
         }
         alt={offer.title}
         height={150}
@@ -43,11 +45,11 @@ const OfferCard = ({ offer }: Props) => {
             <div className="flex gap-3">
               <p className="text-sm text-black-30 line-through">
                 {offer.currencySymbol}
-                {toTwoDecimalPlaces(offer.retailPrice)}
+                {parseAmount(offer.retailPrice)}
               </p>
               <p className="text-base font-medium text-primary">
                 {offer.currencySymbol}
-                {toTwoDecimalPlaces(offer.offerPrice)}
+                {parseAmount(offer.offerPrice)}
               </p>
             </div>
             <div className="body-semibold rounded bg-green-500 px-3 py-1 capitalize text-white">

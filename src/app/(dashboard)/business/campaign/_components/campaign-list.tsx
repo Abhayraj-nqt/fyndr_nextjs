@@ -2,11 +2,12 @@
 import { Pencil, Megaphone } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
 
-import { CampaignProps } from "@/types/campaign";
+import { Campaign } from "@/types/campaign/campaign.types";
 
 import List from "../../_components/list";
+
 type Props = {
-  campaigns: CampaignProps[];
+  campaigns: Campaign[];
 };
 
 const CampaignList = ({ campaigns }: Props) => {
@@ -60,7 +61,7 @@ const CampaignList = ({ campaigns }: Props) => {
         }
 
         const determineStylesAndImage = (
-          row: CampaignProps,
+          row: Campaign,
           currDate: Date
         ): StaticImageData | string => {
           let image: string = "/icons/grayAuto.svg";

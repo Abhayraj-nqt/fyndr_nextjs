@@ -3,13 +3,12 @@ import React from "react";
 
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
-import { parseAddress } from "@/lib/utils";
-import { CampaignProps } from "@/types/campaign";
+import { Campaign } from "@/types/campaign/campaign.types";
 
 import FeaturedFyndsCard from "../app/(landing)/_components/cards/featured-fynds-card";
 
 type Props = {
-  onGetFeaturedCampaigns: () => CampaignProps[];
+  onGetFeaturedCampaigns: () => Campaign[];
 };
 
 const FeaturedCampaigns = ({ onGetFeaturedCampaigns }: Props) => {
@@ -25,27 +24,7 @@ const FeaturedCampaigns = ({ onGetFeaturedCampaigns }: Props) => {
               key={campaign.objid}
               href={ROUTES.OFFER_DETAILS(campaign.biz.bizName, campaign.qrCode)}
             >
-              <FeaturedFyndsCard
-                bizName={campaign.biz.bizName}
-                currencySymbol={campaign.cmpnOffers[0]?.currencySymbol}
-                title={campaign.title}
-                address={`${
-                  campaign?.cmpnLocs[0]?.distance
-                    ? campaign?.cmpnLocs[0]?.distance.toFixed(1)
-                    : "0"
-                } miles, ${parseAddress(campaign?.cmpnLocs[0])}`}
-                imageURL={
-                  (campaign.images &&
-                    campaign.images.length > 0 &&
-                    campaign?.images[0]?.img_url) ||
-                  "/images/grayPlaceholderFyn.png"
-                }
-                discountType={campaign.cmpnOffers[0]?.discountType}
-                discount={campaign.cmpnOffers[0]?.amount}
-                offerPrice={campaign.cmpnOffers[0]?.offerPrice}
-                retailPrice={campaign.cmpnOffers[0]?.retailPrice}
-                cmpnType={campaign.cmpnType}
-              />
+              <FeaturedFyndsCard campaign={campaign} />
             </Link>
           ))}
         </div>

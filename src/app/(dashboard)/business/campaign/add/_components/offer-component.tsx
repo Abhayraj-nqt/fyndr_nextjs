@@ -7,6 +7,7 @@ import OfferForm from "@/components/forms/business/campaign/offer-form";
 import Button from "@/components/global/buttons";
 import DefaultCard from "@/components/global/cards/default-card";
 import { Modal } from "@/components/global/modal";
+import ASSETS from "@/constants/assets";
 
 const OfferComponent = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -26,7 +27,7 @@ const OfferComponent = () => {
         <DefaultCard className="mt-3 flex h-[130px] w-full max-w-full border-solid bg-white p-2 py-3 outline-black">
           <div className="flex-center h-full">
             <Image
-              src="/images/fyndr-placeholder-gray.svg"
+              src={ASSETS.IMAGES.PLACEHOLDER.FYNDR}
               alt="Preview"
               className="size-4/5 rounded-lg object-cover"
               width={0}

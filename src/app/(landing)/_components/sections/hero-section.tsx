@@ -34,8 +34,9 @@ const HeroSection = async ({ location }: Props) => {
       <LocalSearch
         placeholder="Search Offers, Events & Coupons"
         route={ROUTES.OFFER_LISTING}
-        className="absolute m-2 min-h-[56px] w-11/12 max-w-lg flex-1 sm:w-full"
+        className="absolute m-2 min-h-[56px] w-11/12 max-w-lg flex-1 flex-row-reverse sm:w-full"
         navigateTo={ROUTES.OFFER_LISTING}
+        pathVariable={"category"}
       />
     </section>
   );

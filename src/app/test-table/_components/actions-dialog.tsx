@@ -4,6 +4,7 @@ import Image from "next/image";
 import React from "react";
 
 import { Modal } from "@/components/global/modal";
+import ASSETS from "@/constants/assets";
 import { AdminUserProps } from "@/types/api-response/user.response";
 
 interface ActionsDialogProps {
@@ -20,7 +21,7 @@ const ActionsDialog = ({ row, onOpenChange, open }: ActionsDialogProps) => {
           <div className="flex gap-2">
             {row?.businessLogo ? (
               <Image
-                src={row?.businessLogo || "/images/fyndr-placeholder-gray.svg"}
+                src={row?.businessLogo || ASSETS.IMAGES.PLACEHOLDER.FYNDR}
                 alt="business-logo"
                 height={50}
                 width={50}

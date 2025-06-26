@@ -1,57 +1,72 @@
 import React from "react";
 
 import PlaceholderImage from "@/components/global/placeholder-image";
-import { getLowestPriceOffer, parseAddress } from "@/lib/utils";
-import { CampaignProps } from "@/types/campaign";
-
 import {
   Card,
   CardDescription,
   CardFooter,
   CardTitle,
-} from "../../../../components/ui/card";
+} from "@/components/ui/card";
+import ASSETS from "@/constants/assets";
+import { parseAddress } from "@/lib/utils/address";
+import { getLowestOfferPrice } from "@/lib/utils/campaign";
+import { Campaign } from "@/types/campaign/campaign.types";
 
 type Props = {
-  campaign: CampaignProps;
+  campaign: Campaign;
 };
 
 const NonFeaturedFyndsCard = ({ campaign }: Props) => {
-  const lowestPriceOffer = getLowestPriceOffer(campaign.cmpnOffers);
+  const lowestPriceOffer = getLowestOfferPrice(campaign.cmpnOffers);
 
   return (
-    <Card className="relative w-full cursor-pointer rounded-md border-secondary-10 p-0 shadow-none transition duration-500 hover:scale-105 sm:max-w-80">
+    <Card className="relative size-full cursor-pointer rounded-10 border-none bg-primary-0.5 p-0 shadow-none transition duration-300 hover:scale-105 sm:max-w-80">
       <PlaceholderImage
         src={
           (campaign.images &&
             campaign.images?.length > 0 &&
             campaign?.images[0]?.img_url) ||
-          "/images/fyndr-placeholder-gray.svg"
+          ASSETS.IMAGES.PLACEHOLDER.FYNDR
         }
         alt={`${campaign.title}: Book on Fyndr now!`}
         width={600}
         height={300}
-        className={`aspect-[2/1] rounded-md object-cover`}
+        className={`aspect-[2/1] rounded-t-10 object-cover`}
       />
-      <div className="min-h-48 space-y-4 rounded-b-md bg-primary-10 p-4">
-        <CardTitle className="h-6">{campaign.biz.bizName}</CardTitle>
-        <CardDescription className="body-regular">
-          <h4 className="paragraph-regular line-clamp-2 h-11 text-black">
+      {/* <div className="flex min-h-[204px] flex-col gap-4 rounded-b-10 bg-primary-0.5 p-4"> */}
+      {/* <div className="flex min-h-[187px] flex-col gap-3 rounded-b-10 bg-primary-0.5 p-4"> */}
+      <div className="flex min-h-[172px] flex-col gap-3 rounded-b-10 bg-primary-0.5 p-4">
+        {/* <div className="flex min-h-[198px] flex-col gap-3 rounded-b-10 bg-primary-0.5 p-4"> */}
+        <CardTitle className="line-clamp-1 h-[18px]">
+          {" "}
+          {/* h-6 */}
+          <h3 className="body-1 text-black-80">{campaign.biz.bizName}</h3>
+        </CardTitle>
+        <CardDescription className="flex flex-col gap-4">
+          <h4 className="body-3 line-clamp-1 text-black-80">
             {campaign.title}
           </h4>
-          <p className="line-clamp-2 h-10 text-secondary-80">{`${campaign?.cmpnLocs[0]?.distance ? campaign?.cmpnLocs[0]?.distance.toFixed(1) : "0"} miles, ${parseAddress(campaign?.cmpnLocs[0])}`}</p>
+          <p className="body-5 line-clamp-2 h-8 text-black-60">
+            {
+              parseAddress(campaign?.cmpnLocs[0], {
+                compactMode: true,
+                includeDistance: true,
+              }).formatted
+            }
+          </p>
         </CardDescription>
-        <CardFooter className="flex-between flex p-0">
+        <CardFooter className="flex-between flex min-h-[30px] p-0">
           {campaign.cmpnType !== "coupons" && (
-            <div className="flex gap-1">
+            <div className="flex-center gap-2">
               {campaign.cmpnOffers[0]?.retailPrice !==
                 campaign.cmpnOffers[0]?.offerPrice && (
-                <div className="small-regular text-secondary-70 line-through">
+                <div className="body-5-medium text-black-30 line-through">
                   {campaign.cmpnOffers[0]?.currencySymbol}
                   {campaign.cmpnOffers[0]?.retailPrice?.toFixed(2)}
                 </div>
               )}
               {
-                <div className="text-primary">
+                <div className="body-1-medium text-primary">
                   {campaign.cmpnOffers[0]?.currencySymbol}
                   {campaign.cmpnOffers[0]?.offerPrice?.toFixed(2)}
                 </div>
@@ -60,7 +75,7 @@ const NonFeaturedFyndsCard = ({ campaign }: Props) => {
           )}
           {campaign.cmpnType === "coupons" &&
             campaign.cmpnOffers.length > 0 && (
-              <div className="text-primary">
+              <div className="body-1-medium text-primary">
                 {campaign.cmpnOffers[0]?.couponCode}
               </div>
             )}
@@ -68,13 +83,13 @@ const NonFeaturedFyndsCard = ({ campaign }: Props) => {
             <>
               {campaign.cmpnOffers[0]?.discountType === "%" &&
                 lowestPriceOffer.amount > 0 && (
-                  <div className="paragraph-semibold rounded bg-green-500 px-3 py-1 capitalize text-white">
+                  <div className="body-3-medium flex-center rounded bg-[#50B85A] px-3 py-1 capitalize text-white">
                     {lowestPriceOffer?.amount}% OFF
                   </div>
                 )}
               {campaign.cmpnOffers[0]?.discountType === "flat" &&
                 lowestPriceOffer.amount > 0 && (
-                  <div className="paragraph-semibold rounded bg-green-500 px-3 py-1 capitalize text-white">
+                  <div className="body-3-medium flex-center rounded bg-[#50B85A] px-3 py-1 capitalize text-white">
                     {lowestPriceOffer?.currencySymbol}
                     {lowestPriceOffer?.amount?.toFixed(2)} OFF
                   </div>

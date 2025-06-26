@@ -2,7 +2,12 @@
 
 import { Search } from "lucide-react";
 import Image from "next/image";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 import { Input } from "@/components/ui/input";
@@ -19,6 +24,8 @@ type Props = {
   navigateParam?: string;
   onSearch?: (query: string) => void;
   isOnNavbar?: boolean;
+  pathVariable?: string;
+  onEmpty?: () => void;
 };
 
 const LocalSearch = ({
@@ -32,13 +39,30 @@ const LocalSearch = ({
   navigateParam = "query",
   onSearch,
   isOnNavbar,
+  pathVariable,
+  onEmpty,
 }: Props) => {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const query = searchParams.get(param) || "";
+  const params = useParams();
+
+  let pathVariableValue: string | undefined;
+  if (pathVariable) {
+    const paramValue = params[pathVariable];
+    const rawValue = Array.isArray(paramValue) ? paramValue[0] : paramValue;
+
+    // Decode the URL parameter to handle special characters and spaces
+    pathVariableValue = rawValue ? decodeURIComponent(rawValue) : undefined;
+  }
+
+  const query = pathVariableValue || searchParams.get(param) || "";
 
   const [searchQuery, setSearchQuery] = useState(query);
+
+  useEffect(() => {
+    setSearchQuery(query);
+  }, [query]);
 
   useEffect(() => {
     if (navigateTo) return;
@@ -74,11 +98,17 @@ const LocalSearch = ({
       if (onSearch) {
         onSearch(searchQuery);
       } else if (navigateTo) {
+        if (pathVariable) {
+          router.push(`${navigateTo}/${searchQuery}`);
+          return;
+        }
         const queryParams = new URLSearchParams();
         queryParams.set(navigateParam, searchQuery);
 
         router.push(`${navigateTo}?${queryParams.toString()}`);
       }
+    } else if (e.key === "Enter" && searchQuery.trim() === "" && onEmpty) {
+      onEmpty();
     }
   };
 

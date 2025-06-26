@@ -6,7 +6,9 @@ import { useCallback, useMemo } from "react";
 import CampaignCard from "@/app/(listing)/offers-and-events/_components/campaign-card";
 import Button from "@/components/global/buttons";
 import InfiniteScrollContainer from "@/components/global/infinite-scroll-container";
+import SkeletonRenderer from "@/components/global/skeleton-renderer";
 import { useInfiniteCampaigns } from "@/hooks/campaigns";
+import { GetCampaignsParams } from "@/types/campaign/campaign.params";
 import { Coordinates } from "@/types/global";
 
 type Props = {
@@ -18,6 +20,7 @@ type Props = {
   query?: string;
   mode: string;
   order: "asc" | "desc";
+  locQrId?: number | null;
 };
 
 const CampaignsSection = ({
@@ -29,8 +32,9 @@ const CampaignsSection = ({
   query,
   mode,
   order = "asc",
+  locQrId,
 }: Props) => {
-  const params = useMemo(
+  const params: GetCampaignsParams["params"] = useMemo(
     () => ({
       search: query?.trim() || undefined,
       page: 1,
@@ -42,18 +46,18 @@ const CampaignsSection = ({
     [query, order]
   );
 
-  const payload = useMemo(
+  const payload: GetCampaignsParams["payload"] = useMemo(
     () => ({
       indvId: indvId ? Number(indvId) : null,
       distance,
       location,
       campaignType: dealTypes,
       categories,
-      fetchById: "none",
+      fetchById: locQrId !== null ? "locQR" : "none",
       fetchByGoal: mode === "offline" ? "INSTORE" : "ONLINE",
-      locQRId: null,
+      locQRId: locQrId ? Number(locQrId) : null,
     }),
-    [indvId, distance, location, dealTypes, categories, mode]
+    [indvId, distance, location, dealTypes, categories, mode, locQrId]
   );
 
   const {
@@ -84,11 +88,11 @@ const CampaignsSection = ({
 
   if (status === "pending") {
     return (
-      <div className="grid gap-4 xl:grid-cols-2">
-        {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="h-48 animate-pulse rounded-lg bg-gray-200" />
-        ))}
-      </div>
+      <SkeletonRenderer
+        count={6}
+        skeleton={<div className="h-48 animate-pulse rounded-lg bg-gray-200" />}
+        className="!xl:grid-cols-2 !grid !gap-4"
+      />
     );
   }
 

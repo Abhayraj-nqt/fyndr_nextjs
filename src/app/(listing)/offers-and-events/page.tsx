@@ -3,33 +3,35 @@ import {
   QueryClient,
   dehydrate,
 } from "@tanstack/react-query";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import React, { Suspense } from "react";
 
 import { onGetCampaigns } from "@/actions/campaign.action";
 import { auth } from "@/auth";
 import { DEFAULT_LOCATION, TYPES_OF_DEALS } from "@/constants";
 import handleError from "@/lib/handlers/error";
+import { GetCampaignsParams } from "@/types/campaign/campaign.params";
 import { RouteParams } from "@/types/global";
 
 import ListingContainer from "../_components/listing-container";
 import MobileFilters from "./_components/offer-filters/mobile-filters";
 import OfferFilters from "../offers-and-events/_components/offer-filters";
+import CampaignsSection from "./_components/sections/campaigns-section";
 import ActionBarSection from "../offers-and-events/_components/sections/action-bar-section";
 
 // Memoize the dynamic import
-const CampaignsSection = dynamic(
-  () => import("./_components/sections/campaigns-section"),
-  {
-    loading: () => (
-      <div className="grid gap-4 xl:grid-cols-2">
-        {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="h-48 animate-pulse rounded-lg bg-gray-200" />
-        ))}
-      </div>
-    ),
-  }
-);
+// const CampaignsSection = dynamic(
+//   () => import("./_components/sections/campaigns-section"),
+//   {
+//     loading: () => (
+//       <div className="grid gap-4 xl:grid-cols-2">
+//         {Array.from({ length: 6 }).map((_, i) => (
+//           <div key={i} className="h-48 animate-pulse rounded-lg bg-gray-200" />
+//         ))}
+//       </div>
+//     ),
+//   }
+// );
 
 const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
   const resolvedSearchParams = await searchParams;
@@ -42,10 +44,11 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
     query,
     mode = "offline",
     order = "asc",
+    locQrId = null,
   } = resolvedSearchParams;
 
   // Build location
-  const location = { ...DEFAULT_LOCATION };
+  const location = DEFAULT_LOCATION;
   const session = await auth();
   const user = session?.user;
 
@@ -78,7 +81,7 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
         .filter((num) => !isNaN(num))
     : [];
 
-  const params = {
+  const params: GetCampaignsParams["params"] = {
     search: query,
     page: 1,
     pageSize: 20,
@@ -87,15 +90,15 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
       | "DESC",
   };
 
-  const payload = {
+  const payload: GetCampaignsParams["payload"] = {
     indvId: user?.id ? Number(user.id) : null,
     distance: Math.max(Number(dist), 20),
     location,
     campaignType: dealTypes,
     categories: categoryIds,
-    fetchById: "none",
+    fetchById: locQrId !== null ? "locQR" : "none",
     fetchByGoal: mode === "offline" ? "INSTORE" : "ONLINE",
-    locQRId: null,
+    locQRId: locQrId ? Number(locQrId) : null,
   };
 
   // Create a stable query key
@@ -116,11 +119,14 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
     const existingData = queryClient.getQueryData(queryKey);
 
     if (!existingData) {
-      const { data, success, error } = await onGetCampaigns(params, payload);
+      const { data, success } = await onGetCampaigns({
+        params,
+        payload,
+      });
 
-      if (!success || error) {
-        return handleError(error);
-      }
+      // if (!success || error) {
+      //   return handleError(error);
+      // }
 
       if (success && data) {
         // Prefetch the query with initial data
@@ -128,6 +134,17 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
           pages: [
             {
               ...data,
+              currentPage: 1,
+            },
+          ],
+          pageParams: [1],
+        });
+      } else {
+        queryClient.setQueryData(queryKey, {
+          pages: [
+            {
+              campaigns: [],
+              last: false,
               currentPage: 1,
             },
           ],
@@ -150,9 +167,7 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
       >
         <Suspense
           // key={`${location.lat}-${location.lng}-${dealTypes.toString()}-${Math.max(Number(dist), 20)}-${user?.id}-${query}-${mode}-${order}`}
-          fallback={
-            <div className="flex justify-center p-8">Loading campaigns...</div>
-          }
+          fallback={<div>Loading...</div>}
         >
           <CampaignsSection
             location={location}
@@ -163,6 +178,7 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
             query={query}
             mode={mode}
             order={order as "asc" | "desc"}
+            locQrId={locQrId ? Number(locQrId) : null}
           />
         </Suspense>
       </ListingContainer>

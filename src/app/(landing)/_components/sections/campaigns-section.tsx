@@ -13,7 +13,7 @@ import {
   getNearbyDiningExperiences,
   getNearbyEvents,
   getNearbyOffers,
-} from "@/lib/utils";
+} from "@/lib/utils/campaign";
 
 import FeaturedCampaigns from "../featured-campaigns2";
 import NearbyCampaigns from "../nearby-campaigns";
@@ -41,20 +41,20 @@ const CampaignsSection = async ({ location: { lat, lng } }: Props) => {
     locationPayload.lng = Number(lng);
   }
 
-  const { success, data } = await onGetCampaigns(
-    {
+  const { success, data } = await onGetCampaigns({
+    params: {
       page: 0,
       pageSize: 500,
     },
-    {
+    payload: {
       indvId: user?.id ? parseInt(user?.id) : null,
       distance: 50,
       location: locationPayload,
       categories: [],
       fetchById: "none",
       fetchByGoal: "INSTORE",
-    }
-  );
+    },
+  });
 
   if (!success || !data) return null;
 

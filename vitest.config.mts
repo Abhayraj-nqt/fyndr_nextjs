@@ -11,6 +11,40 @@ export default defineConfig({
     setupFiles: ["./tests/setup/vitest-setup.ts"],
     globals: true,
     css: true,
+
+    include: ["**/tests/**/*.test.tsx", "**/tests/**/*.test.ts"],
+
+    exclude: [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/build/**",
+      "**/.next/**",
+      "**/coverage/**",
+      "**/tests/e2e/**",
+      "**/tests/utils/**",
+      "**/tests/mocks/**",
+      "**/tests/fixtures/**",
+      "**/tests/helpers/**",
+      "**/tests/setup/**",
+      "**/tests/__mocks__/**",
+      "**/ui/**",
+    ],
+
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "json", "html"],
+      include: ["src/**/*.{ts,tsx}"],
+      exclude: [
+        "**/node_modules/**",
+        "**/dist/**",
+        "**/build/**",
+        "**/.next/**",
+        "**/coverage/**",
+        "**/tests/**",
+        "**/*.d.ts",
+        "**/ui/**",
+      ],
+    },
   },
   resolve: {
     alias: {

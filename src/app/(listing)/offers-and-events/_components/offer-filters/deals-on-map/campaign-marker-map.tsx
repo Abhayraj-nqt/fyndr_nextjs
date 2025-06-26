@@ -12,6 +12,7 @@ import GoogleMap2, {
 } from "@/components/global/google-map/google-map2";
 import GoogleMap3 from "@/components/global/google-map/google-map3";
 import { DEFAULT_LOCATION, TYPES_OF_DEALS } from "@/constants";
+import ASSETS from "@/constants/assets";
 import ROUTES from "@/constants/routes";
 import { useCampaignMapMarkers } from "@/hooks/campaigns";
 
@@ -157,7 +158,7 @@ const CampaignMarkerMap = () => {
   const queryParams = useMemo(
     () => ({
       // orderBy: searchParamsData.order.toUpperCase() as "ASC" | "DESC",
-      orderBy: "DESC",
+      orderBy: "DESC" as const,
       search: searchParamsData.query || undefined,
     }),
     // [searchParamsData.order, searchParamsData.query]
@@ -221,7 +222,7 @@ const CampaignMarkerMap = () => {
             imgURL:
               campaign.images?.[0]?.thumbnail_url ||
               campaign.biz?.mainLogo ||
-              "/images/fyndr-placeholder-gray.svg",
+              ASSETS.IMAGES.PLACEHOLDER.FYNDR,
             href: ROUTES.OFFER_DETAILS(campaign.biz.bizName, campaign.qrCode),
             campaign, // Include full campaign data if needed
           },

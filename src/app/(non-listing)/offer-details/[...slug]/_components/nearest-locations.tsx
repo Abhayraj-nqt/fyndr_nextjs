@@ -1,12 +1,12 @@
 import React from "react";
 
 import { Separator } from "@/components/ui/separator";
-import { CampaignLocationProps } from "@/types/campaign";
+import { CampaignLocation } from "@/types/campaign/campaign.types";
 
 import LocationCard from "./location-card";
 
 type Props = {
-  locations: CampaignLocationProps[];
+  locations: CampaignLocation[];
   className?: string;
 };
 

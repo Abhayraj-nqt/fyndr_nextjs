@@ -1,13 +1,13 @@
 "use client";
 import { useState, useMemo } from "react";
 
-import { CampaignProps } from "@/types/campaign";
+import { Campaign } from "@/types/campaign/campaign.types";
 
 import CampaignList from "./campaign-list";
 import Indicators from "./indicators";
 
 type Props = {
-  campaigns: CampaignProps[];
+  campaigns: Campaign[];
 };
 
 const Campaigns = ({ campaigns }: Props) => {
