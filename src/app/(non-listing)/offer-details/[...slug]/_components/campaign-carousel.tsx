@@ -17,16 +17,16 @@ const CampaignCarousel = ({ images = [] }: Props) => {
   return (
     <>
       {images.length > 0 ? (
-        <Carousel>
-          <CarouselContent>
+        <Carousel className="rounded-t-10">
+          <CarouselContent className="rounded-t-10">
             {images.map((url, i) => (
-              <CarouselItem key={i}>
+              <CarouselItem key={i} className="rounded-t-10">
                 <Image
                   src={url}
                   alt="cmpn-img"
                   height={200}
                   width={400}
-                  className="aspect-[2/1] w-full rounded-t-md"
+                  className="aspect-[2/1] w-full rounded-t-10"
                 />
               </CarouselItem>
             ))}

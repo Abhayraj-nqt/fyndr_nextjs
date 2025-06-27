@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 
 import { onGetAccount } from "@/actions/auth.actions";
+import { GetAccountResponse } from "@/types/auth/auth.response";
 import { useUserStore } from "@/zustand/stores/user.store";
 
 export const USER_QUERY_KEY = "userData";
@@ -69,7 +70,10 @@ export function useUser() {
   }, [session, queryClient]);
 
   return {
-    user: userData || fetchedUserData,
+    user: (userData || fetchedUserData) as
+      | GetAccountResponse
+      | null
+      | undefined,
     isLoading: queryLoading || storeLoading,
     error,
     refetch,

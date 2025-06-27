@@ -10,12 +10,13 @@ import { DEFAULT_LOCATION } from "@/constants";
 import { RouteParams } from "@/types/global";
 
 import CampaignCarousel from "./_components/campaign-carousel";
-import Description from "./_components/description";
 import NearestLocation from "./_components/nearest-locations";
 import Offers from "./_components/offers";
-import RatingsAndReviews from "./_components/ratings-and-reviews";
+import OfferDetailsMap from "./_components/sections/offer-details-map";
+// import DescriptionSection from "./_components/sections/description-section";
+import RatingAndReviewsSection from "./_components/sections/rating-and-reviews-section";
+import TermsAndConditionsSection from "./_components/sections/terms-and-conditions-section";
 import SocialIcons from "./_components/social-icons";
-import TermsAndConditions from "./_components/terms-and-conditions";
 
 type Props = {
   params: Promise<{ slug: string[] }>;
@@ -23,7 +24,7 @@ type Props = {
 
 const Offer = async ({ params, searchParams }: RouteParams & Props) => {
   const { slug } = await params;
-  const { lat, lng } = await searchParams;
+  const { lat, lng, sortBy = "RATING", orderBy = "DESC" } = await searchParams;
 
   const locationPayload = DEFAULT_LOCATION;
 
@@ -46,26 +47,24 @@ const Offer = async ({ params, searchParams }: RouteParams & Props) => {
 
   const [, qrCode] = slug;
 
-  const { success, data } = await onGetCampaignByQr({
+  const { success, data: campaign } = await onGetCampaignByQr({
     params: {
       qrCode,
     },
     payload: locationPayload,
   });
 
-  if (!success || !data) return null;
-
-  console.log(data);
+  if (!success || !campaign) return null;
 
   const {
     images = [],
     biz: { bizName },
     isFeatured,
     cmpnOffers,
-    description,
+    // description,
     finePrint: terms,
     cmpnLocs,
-  } = data;
+  } = campaign;
 
   const campaignImages =
     images?.map((item) => {
@@ -74,14 +73,14 @@ const Offer = async ({ params, searchParams }: RouteParams & Props) => {
 
   return (
     <main className="my-10 flex flex-col items-center justify-center p-4">
-      <div className="flex w-full flex-col gap-4 sm:flex-row xl:w-11/12">
+      <div className="flex w-full max-w-[1550px] flex-col gap-4 sm:flex-row xl:w-11/12">
         <DefaultCard className="flex size-full flex-col p-0 sm:max-w-72 lg:min-w-96 lg:max-w-96">
           <CampaignCarousel images={campaignImages} />
           <div className="flex flex-col gap-4 p-4">
             <h1 className="text-2xl font-medium text-secondary">{bizName}</h1>
             <Stars outOf={5} ratings={4} />
             {isFeatured && <div>Features</div>}
-            <SocialIcons />
+            <SocialIcons campaign={campaign} />
           </div>
           <Separator className="hidden sm:block" />
           <NearestLocation locations={cmpnLocs} className={`hidden sm:flex`} />
@@ -89,12 +88,17 @@ const Offer = async ({ params, searchParams }: RouteParams & Props) => {
 
         <div className="flex w-full flex-col gap-4">
           <Offers offers={cmpnOffers} />
-          <TermsAndConditions terms={terms} />
-          <Description desc={description} />
-          <DefaultCard>Map</DefaultCard>
-          <RatingsAndReviews />
+          <TermsAndConditionsSection terms={terms} />
+          {/* <DescriptionSection desc={description} /> */}
+          <OfferDetailsMap campaignLocations={campaign.cmpnLocs} />
 
-          <DefaultCard className="flex size-full p-4">
+          <RatingAndReviewsSection
+            business={campaign.biz}
+            orderBy={orderBy}
+            sortBy={sortBy}
+          />
+
+          <DefaultCard className="flex size-full p-4 sm:hidden">
             <NearestLocation
               locations={cmpnLocs}
               className={`flex sm:hidden`}

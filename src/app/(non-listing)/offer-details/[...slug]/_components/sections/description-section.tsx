@@ -7,13 +7,13 @@ type Props = {
   desc: string;
 };
 
-const Description = ({ desc }: Props) => {
+const DescriptionSection = ({ desc }: Props) => {
   return (
     <DefaultCard className="w-full p-6">
-      <h2 className="mb-2 text-xl font-medium text-secondary">Details</h2>
-      <HtmlContent htmlString={desc} />
+      <h2 className="heading-7-medium mb-2 text-secondary">Details</h2>
+      <HtmlContent htmlString={desc} className="body-3 text-black-90" />
     </DefaultCard>
   );
 };
 
-export default Description;
+export default DescriptionSection;

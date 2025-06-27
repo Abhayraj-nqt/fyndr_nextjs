@@ -87,48 +87,11 @@ const MyOffers = async () => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div className="flex-center relative flex min-h-[80vh] flex-1 flex-col p-4">
+      <div className="relative mx-auto flex min-h-[80vh] w-full max-w-[1550px] flex-col p-4 xs:w-11/12">
+        <h1 className="heading-5 mb-6 mt-2 text-primary">My Favorites</h1>
         <CampaignSection indvId={Number(user.id)} location={location} />
       </div>
     </HydrationBoundary>
-    // <>
-    //   <div className="flex-center relative flex min-h-[80vh] flex-1 flex-col p-4">
-    //     {/* <CampaignSection indvId={Number(user.id)} location={location} /> */}
-    //     <section className="w-full max-w-[1550px] rounded-10 bg-white p-4 xs:w-11/12">
-    //       {campaigns.length > 0 ? (
-    //         <div className="grid gap-4 lg:grid-cols-2">
-    //           {campaigns.map((campaign) => (
-    //             <CampaignCard
-    //               key={`${campaign.objid}-${campaign.title}`}
-    //               campaign={campaign}
-    //               // refetch={handleRefetch}
-    //             />
-    //           ))}
-    //         </div>
-    //       ) : (
-    //         <>
-    //           <div className="flex min-h-96 flex-col items-center justify-center gap-6 text-center">
-    //             <div className="body-1 text-black-100">
-    //               No saved offers found...
-    //             </div>
-    //             <div className="title-3-medium text-black-100">
-    //               Save Your Favorite Offers with One Click!
-    //             </div>
-    //             <div className="heading-7 text-black-100">
-    //               Every campaign has a heart ❤️. Simply click on the heart icon
-    //               to easily save your favorite offers and access them anytime!
-    //             </div>
-    //             <Link href={ROUTES.OFFERS_AND_EVENTS}>
-    //               <Button variant="primary" stdHeight stdWidth>
-    //                 Explore All Offers & Events
-    //               </Button>
-    //             </Link>
-    //           </div>
-    //         </>
-    //       )}
-    //     </section>
-    //   </div>
-    // </>
   );
 };
 

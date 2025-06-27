@@ -19,8 +19,7 @@ export const onGetCampaignByQr: GetCampaignByQr = async ({
   const endpoint = `${API_BASE_URL}/campaign/v2/public/fetchByQR/${qrCode}?orderBy=${orderBy}&sortedBy=${sortedBy}`;
 
   return _post(endpoint, payload, {
-    requireAuth: true,
-    cache: "force-cache",
+    // cache: "force-cache",
   });
 };
 

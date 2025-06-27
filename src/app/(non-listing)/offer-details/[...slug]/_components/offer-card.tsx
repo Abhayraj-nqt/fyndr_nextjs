@@ -30,7 +30,9 @@ const OfferCard = ({ offer }: Props) => {
       />
       <div className="w-full">
         <CardHeader className="flex-between flex-row gap-2 space-y-0 p-0">
-          <CardTitle className="text-secondary">{offer.title}</CardTitle>
+          <CardTitle className="body-3-medium text-black-80">
+            {offer.title}
+          </CardTitle>
           {offer.isVoucher && (
             <Image
               src={"/images/voucher-dark.svg"}

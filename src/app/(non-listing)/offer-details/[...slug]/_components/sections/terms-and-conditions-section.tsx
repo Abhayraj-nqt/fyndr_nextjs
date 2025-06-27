@@ -7,15 +7,15 @@ type Props = {
   terms: string;
 };
 
-const TermsAndConditions = ({ terms }: Props) => {
+const TermsAndConditionsSection = ({ terms }: Props) => {
   return (
     <DefaultCard className="w-full p-6">
-      <h2 className="mb-2 text-xl font-medium text-secondary">
+      <h2 className="heading-7-medium mb-2 text-secondary">
         Terms & Conditions
       </h2>
-      <HtmlContent htmlString={terms} />
+      <HtmlContent htmlString={terms} className="body-3 text-black-90" />
     </DefaultCard>
   );
 };
 
-export default TermsAndConditions;
+export default TermsAndConditionsSection;
