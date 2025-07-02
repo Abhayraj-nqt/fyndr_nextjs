@@ -15,6 +15,7 @@ import { RouteParams } from "@/types/global";
 
 import OrdersTable from "./_components/orders-table";
 import SelectDelivery from "./_components/select-orders/select-delivery";
+import SelectDeliveryDate from "./_components/select-orders/select-delivery-date";
 import SelectPayment from "./_components/select-orders/select-payment";
 
 const Orders = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
@@ -36,6 +37,8 @@ const Orders = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
   const selectedPyamentStatus = search.paymentstatus;
   const selectedDeliveryStatus = search.deliverystatus;
 
+const orderStartDt = typeof params?.orderStartDt === "string" ? params.orderStartDt : "";
+const orderEndDt = typeof params?.orderEndDt === "string" ? params.orderEndDt : "";
   const promises = Promise.all([
     onGetOrdersDetails(
       {
@@ -46,8 +49,8 @@ const Orders = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
       {
         deliveryStatus: selectedDeliveryStatus,
         invoicedTo: query,
-        orderEndDt: "",
-        orderStartDt: "",
+        orderEndDt,
+        orderStartDt,
         paymentStatus: selectedPyamentStatus,
       }
     ),
@@ -56,7 +59,7 @@ const Orders = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
   return (
     <div className="min-h-screen ">
       <DefaultCard>
-        <div className="flex">
+        <div className="flex gap-4">
           <div>
             <LocalSearch
               placeholder="Search by name"
@@ -67,10 +70,13 @@ const Orders = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
           </div>
 
           <div>
-            <SelectPayment  />
+            <SelectPayment />
           </div>
           <div>
             <SelectDelivery />
+          </div>
+          <div>
+            <SelectDeliveryDate />
           </div>
         </div>
         <section className="mt-10">

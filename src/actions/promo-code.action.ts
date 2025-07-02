@@ -8,7 +8,7 @@ import { _get, _post } from "@/lib/handlers/fetch";
 import {
   RedeemPromocode,
   VerifyPromocode,
-} from "@/types/api-params/promocode.params";
+} from "@/types/api-params/promo-code.params";
 
 export const onVerifyPromocode: VerifyPromocode = async (params) => {
   const { code, codeType, countryId, isBusiness } = params;

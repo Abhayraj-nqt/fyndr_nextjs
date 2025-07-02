@@ -5,6 +5,7 @@ import { RouteParams } from "@/types/global";
 
 import Summary from "./_components/summary/index";
 import Transaction from "./_components/transaction";
+import InvoiceCreateButton from "./_components/transaction/_components/invoice-edit/invoice-create-button";
 
 const BusinessPage = async ({
   searchParams,
@@ -28,11 +29,14 @@ const BusinessPage = async ({
   const { bizid, indvid } = data;
   if (!bizid) return null;
 
-
   return (
     <>
       <div className="mx-auto w-[90%] max-w-screen-xl space-y-4 ">
-        <ContainerWrapper title="My Orders" noPadding>
+        <ContainerWrapper
+          title="My Orders"
+          headerOption={<InvoiceCreateButton />}
+          noPadding
+        >
           <Summary month={month} bizid={bizid} />
         </ContainerWrapper>
         <ContainerWrapper>

@@ -95,7 +95,7 @@ const InvoiceList = ({ rcptlist, type }: ListProps) => {
           offers: {
             pending: "/icons/offer_yellow.svg",
             "in-process": "/icons/offer_yellow.svg",
-            REFUNDED: "/icons/offerIcon.svg",
+            refunded: "/icons/offerIcon.svg",
             paid: "/icons/offerIcon.svg",
             failed: "/icons/offer_red.svg",
             canceled: "/icons/offer_red.svg",
@@ -103,7 +103,7 @@ const InvoiceList = ({ rcptlist, type }: ListProps) => {
           offer_appointment: {
             pending: "/icons/offer_appointmentYellow.svg",
             "in-process": "/icons/offer_appointmentYellow.svg",
-            REFUNDED: "/icons/offer_appointmentGreen.svg",
+            refunded: "/icons/offer_appointmentGreen.svg",
             paid: "/icons/offer_appointmentGreen.svg",
             failed: "/icons/offer_appointmentRed.svg",
             canceled: "/icons/offer_appointmentRed.svg",
@@ -111,7 +111,7 @@ const InvoiceList = ({ rcptlist, type }: ListProps) => {
           cmpn_promo: {
             pending: "/icons/promo_yellow.svg",
             "in-process": "/icons/promo_yellow.svg",
-            REFUNDED: "/icons/promo_green.svg",
+            refunded: "/icons/promo_green.svg",
             paid: "/icons/promo_green.svg",
             failed: "/icons/promo_red.svg",
             canceled: "/icons/promo_red.svg",
@@ -119,7 +119,7 @@ const InvoiceList = ({ rcptlist, type }: ListProps) => {
           catalog: {
             pending: "/icons/Store_yellow.svg",
             "in-process": "/icons/Store_yellow.svg",
-            REFUNDED: "/icons/storeIcon.svg",
+            refunded: "/icons/storeIcon.svg",
             paid: "/icons/storeIcon.svg",
             failed: "/icons/Store_red.svg",
             canceled: "/icons/Store_red.svg",
@@ -127,7 +127,7 @@ const InvoiceList = ({ rcptlist, type }: ListProps) => {
           catalog_appointment: {
             pending: "/icons/store_appointmentYellow.svg",
             "in-process": "/icons/store_appointmentYellow.svg",
-            REFUNDED: "/icons/store_appointmentGreen.svg",
+            refunded: "/icons/store_appointmentGreen.svg",
             paid: "/icons/store_appointmentGreen.svg",
             failed: "/icons/store_appointmentRed.svg",
             canceled: "/icons/store_appointmentRed.svg",
@@ -135,7 +135,7 @@ const InvoiceList = ({ rcptlist, type }: ListProps) => {
           events: {
             pending: "/icons/event_yellow.svg",
             "in-process": "/icons/event_yellow.svg",
-            REFUNDED: "/icons/event_green.svg",
+            refunded: "/icons/event_green.svg",
             paid: "/icons/event_green.svg",
             failed: "/icons/event_red.svg",
             canceled: "/icons/event_red.svg",
@@ -143,7 +143,7 @@ const InvoiceList = ({ rcptlist, type }: ListProps) => {
           custom: {
             pending: "/icons/offer_yellow.svg",
             "in-process": "/icons/offer_yellow.svg",
-            REFUNDED: "/icons/offerIcon.svg",
+            refunded: "/icons/offerIcon.svg",
             paid: "/icons/offerIcon.svg",
             failed: "/icons/offer_red.svg",
             canceled: "/icons/offer_red.svg",

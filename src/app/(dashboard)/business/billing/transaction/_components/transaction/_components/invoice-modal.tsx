@@ -1,3 +1,4 @@
+import InvoiceForm from "@/app/(dashboard)/business/_components/invoice-form/invoice-form";
 import Invoicefooter from "@/components/global/invoice/invoice-footer";
 import { Modal } from "@/components/global/modal";
 import { fetchInvoice } from "@/types/api-response/transaction.response";
@@ -31,9 +32,13 @@ const InvoiceModal: React.FC<InvoiceModalProps> = ({
     //   return <InvoicePay inv={invoice} type={type} callback={closeAndReset} custom={false} />;
     // }
 
-    // if (status === "pending" && type === "receivable" && invoice?.channel !== "catalog") {
-    //   return <InvoiceEdit inv={invoice} callback={closeAndReset} custom={false} />;
-    // }
+    if (
+      status === "pending" &&
+      type === "receivable" &&
+      invoice[0]?.channel !== "catalog"
+    ) {
+      return <InvoiceForm inv={invoice} edit={false} />;
+    }
 
     // if (status === "pending" && type === "receivable" && invoice?.channel === "catalog") {
     //   return <InvoiceCataloguePending inv={invoice} type={type} callback={closeAndReset} custom={false} />;
