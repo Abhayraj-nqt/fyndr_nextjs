@@ -8,7 +8,8 @@ import { Modal } from "@/components/global/modal";
 import Stars from "@/components/global/ratings/stars";
 import toast from "@/components/global/toast";
 import { Textarea } from "@/components/ui/textarea";
-import { getTimeStamp } from "@/lib/utils/date";
+// import { getTimeStamp } from "@/lib/utils/date";
+import ROUTES from "@/constants/routes";
 import { Comment } from "@/types/business/business.types";
 
 import Metric from "./metric";
@@ -19,10 +20,18 @@ type Props = {
   comment: Comment;
   bizId: number;
   bizName: string;
+  qrCode: string;
   bizLogo: string;
 };
 
-const ReplyModal = ({ trigger, comment, bizId, bizLogo, bizName }: Props) => {
+const ReplyModal = ({
+  trigger,
+  comment,
+  bizId,
+  bizLogo,
+  bizName,
+  qrCode,
+}: Props) => {
   const [reply, setReply] = useState<string>("");
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [submitting, startSubmitting] = useTransition();
@@ -45,6 +54,9 @@ const ReplyModal = ({ trigger, comment, bizId, bizLogo, bizName }: Props) => {
           businessId: bizId,
           reply,
         },
+        options: {
+          validatePath: ROUTES.OFFER_DETAILS(bizName, qrCode),
+        },
       });
 
       console.log({ success, data, error });
@@ -66,6 +78,13 @@ const ReplyModal = ({ trigger, comment, bizId, bizLogo, bizName }: Props) => {
     });
   };
 
+  const data = new Date(comment.createdDt);
+  const formattedDate = data.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+
   return (
     <Modal
       open={modalOpen}
@@ -79,7 +98,8 @@ const ReplyModal = ({ trigger, comment, bizId, bizLogo, bizName }: Props) => {
           name={`${comment.user.firstName} ${comment.user.lastName}`}
           alt={`${comment.commentId}`}
           value={`${comment.user.firstName} ${comment.user.lastName}`}
-          title={`• ${getTimeStamp(new Date(comment.createdDt))}`}
+          // title={`• ${getTimeStamp(new Date(comment.createdDt))}`}
+          title={`• ${formattedDate}`}
           textStyles="body-medium"
         />
         <Stars outOf={5} ratings={comment.rating} />

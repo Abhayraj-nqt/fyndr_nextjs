@@ -6,7 +6,8 @@ import { Modal } from "@/components/global/modal";
 import Stars from "@/components/global/ratings/stars";
 import toast from "@/components/global/toast";
 import { Textarea } from "@/components/ui/textarea";
-import { getTimeStamp } from "@/lib/utils/date";
+// import { getTimeStamp } from "@/lib/utils/date";
+import ROUTES from "@/constants/routes";
 import { Comment } from "@/types/business/business.types";
 
 import Metric from "./metric";
@@ -15,9 +16,11 @@ type Props = {
   trigger: React.ReactNode;
   comment: Comment;
   bizId: number;
+  bizName: string;
+  qrCode: string;
 };
 
-const ReportModal = ({ trigger, comment, bizId }: Props) => {
+const ReportModal = ({ trigger, comment, bizId, bizName, qrCode }: Props) => {
   const [report, setReport] = useState<string>("");
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [submitting, startSubmitting] = useTransition();
@@ -40,6 +43,9 @@ const ReportModal = ({ trigger, comment, bizId }: Props) => {
           businessId: bizId,
           reportMessage: report,
         },
+        options: {
+          validatePath: ROUTES.OFFER_DETAILS(bizName, qrCode),
+        },
       });
 
       console.log({ success, data, error });
@@ -61,6 +67,13 @@ const ReportModal = ({ trigger, comment, bizId }: Props) => {
     });
   };
 
+  const data = new Date(comment.createdDt);
+  const formattedDate = data.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+
   return (
     <Modal
       open={modalOpen}
@@ -74,7 +87,8 @@ const ReportModal = ({ trigger, comment, bizId }: Props) => {
           name={`${comment.user.firstName} ${comment.user.lastName}`}
           alt={`${comment.commentId}`}
           value={`${comment.user.firstName} ${comment.user.lastName}`}
-          title={`• ${getTimeStamp(new Date(comment.createdDt))}`}
+          // title={`• ${getTimeStamp(new Date(comment.createdDt))}`}
+          title={`• ${formattedDate}`}
           textStyles="body-medium"
         />
         <Stars outOf={5} ratings={comment.rating} />

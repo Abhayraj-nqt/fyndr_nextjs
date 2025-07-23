@@ -26,10 +26,10 @@ export type CampaignIndv = {
 };
 
 export type CampaignBiz = {
-  addonUrl: unknown;
+  addonUrl: unknown | null;
   addressLine1: string;
   addressLine2: string;
-  bizEmail: string;
+  bizEmail: string; //
   bizName: string;
   bizType: string;
   bizid: number;
@@ -38,12 +38,12 @@ export type CampaignBiz = {
   lat: string;
   lng: string;
   mainLogo: string;
-  merchantId: unknown;
+  merchantId: string | null;
   phone: string;
   postalCode: string;
   showBiz: boolean;
   state: string;
-  website: string;
+  website: string | null;
 };
 
 export type CampaignOffer = {

@@ -8,6 +8,8 @@ type Props = {
 };
 
 const DescriptionSection = ({ desc }: Props) => {
+  if (!desc) return null;
+
   return (
     <DefaultCard className="w-full p-6">
       <h2 className="heading-7-medium mb-2 text-secondary">Details</h2>

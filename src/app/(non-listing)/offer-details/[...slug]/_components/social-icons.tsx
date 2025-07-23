@@ -20,8 +20,6 @@ type Props = {
 };
 
 const SocialIcons = ({ campaign }: Props) => {
-  console.log({ campaign });
-
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -72,12 +70,12 @@ const SocialIcons = ({ campaign }: Props) => {
   };
 
   return (
-    <div className="flex gap-4 text-black-60">
+    <div className="flex items-center gap-4 text-black-60">
       <MailTo email="" subject={subject} body={body}>
         <Share2 size={20} />
       </MailTo>
       {campaign.biz.website && (
-        <WebsiteTo url={`https://${campaign.biz.website}`}>
+        <WebsiteTo url={campaign.biz.website}>
           <Globe size={20} />
         </WebsiteTo>
       )}
@@ -86,22 +84,25 @@ const SocialIcons = ({ campaign }: Props) => {
       </MailTo>
       <FacebookShare url={currentUrl} />
 
-      <button
-        onClick={handleLikeCampaign}
-        disabled={disabled}
-        className="flex items-center transition-opacity disabled:opacity-50"
-      >
-        {isLiked ? (
-          <Heart
-            fill="#ef4444"
-            strokeWidth={0}
-            size={20}
-            className="cursor-pointer"
-          />
-        ) : (
-          <Heart size={20} className="cursor-pointer" />
-        )}
-      </button>
+      <div className="flex-center gap-1">
+        <button
+          onClick={handleLikeCampaign}
+          disabled={disabled}
+          className="flex items-center transition-opacity disabled:opacity-50"
+        >
+          {isLiked ? (
+            <Heart
+              fill="#ef4444"
+              strokeWidth={0}
+              size={20}
+              className="cursor-pointer"
+            />
+          ) : (
+            <Heart size={20} className="cursor-pointer" />
+          )}
+        </button>
+        {campaign.likedCount > 0 ? <p>{campaign.likedCount}</p> : <></>}
+      </div>
     </div>
   );
 };

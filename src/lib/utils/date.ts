@@ -1,3 +1,20 @@
+type DateInput = Date | string | number;
+type TimeUnit =
+  | "days"
+  | "day"
+  | "weeks"
+  | "week"
+  | "months"
+  | "month"
+  | "years"
+  | "year"
+  | "hours"
+  | "hour"
+  | "minutes"
+  | "minute"
+  | "seconds"
+  | "second";
+
 export const getTimeStamp = (createdAt: Date) => {
   const date = new Date(createdAt);
   const now = new Date();
@@ -20,3 +37,52 @@ export const getTimeStamp = (createdAt: Date) => {
   }
   return "just now";
 };
+
+export function addDays(date: DateInput, days: number): Date {
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+}
+
+export function addToDate(
+  date: DateInput,
+  amount: number,
+  unit: TimeUnit = "days"
+): Date {
+  const result = new Date(date);
+
+  switch (unit.toLowerCase() as TimeUnit) {
+    case "days":
+    case "day":
+      result.setDate(result.getDate() + amount);
+      break;
+    case "weeks":
+    case "week":
+      result.setDate(result.getDate() + amount * 7);
+      break;
+    case "months":
+    case "month":
+      result.setMonth(result.getMonth() + amount);
+      break;
+    case "years":
+    case "year":
+      result.setFullYear(result.getFullYear() + amount);
+      break;
+    case "hours":
+    case "hour":
+      result.setHours(result.getHours() + amount);
+      break;
+    case "minutes":
+    case "minute":
+      result.setMinutes(result.getMinutes() + amount);
+      break;
+    case "seconds":
+    case "second":
+      result.setSeconds(result.getSeconds() + amount);
+      break;
+    default:
+      throw new Error(`Unsupported unit: ${unit}`);
+  }
+
+  return result;
+}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 import FyndrLoading from "@/components/global/loading/fyndr-loading";
@@ -11,7 +12,14 @@ type Props = {
 };
 
 const SignInRedirect = ({ entityRole }: Props) => {
+  const searchParams = useSearchParams();
+  const callback = searchParams.get("callback");
+
   const hardRedirect = (url: string) => {
+    if (callback) {
+      window.location.href = callback;
+      return;
+    }
     window.location.href = url;
   };
 

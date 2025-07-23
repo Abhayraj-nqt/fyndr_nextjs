@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "3mb",
+    },
+  },
   serverExternalPackages: ["pino", "pino-pretty"],
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },

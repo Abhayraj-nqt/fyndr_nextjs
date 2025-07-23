@@ -1,42 +1,70 @@
-import { Phone, Store } from "lucide-react";
+import { Globe, Phone, Store } from "lucide-react";
 import React from "react";
 
-import { Button } from "@/components/ui/button";
+import Button from "@/components/global/buttons";
+import WebsiteTo from "@/components/global/website-to";
+import { parseAddress } from "@/lib/utils/address";
 import { CampaignLocation } from "@/types/campaign/campaign.types";
 
 type Props = {
   location: CampaignLocation;
+  website?: string | null;
+  variant?: "default" | "modal";
+  radio?: boolean;
 };
 
-const LocationCard = ({ location }: Props) => {
-  const {
-    objid,
-    addressLine1,
-    addressLine2,
-    postalCode,
-    phone,
-    city,
-    state,
-    distance,
-    locName,
-  } = location;
+const LocationCard = ({
+  location,
+  variant = "default",
+  radio = false,
+  website = null,
+}: Props) => {
+  const { phone, locName } = location;
+  const fullUrl = website
+    ? website.startsWith("http")
+      ? website
+      : `https://${website}`
+    : null;
 
   return (
     <div
-      key={objid}
-      className="body-regular flex flex-col gap-1 text-secondary-80"
+      className={`body-3 flex w-full gap-4 text-black-50 ${variant === "modal" ? "flex-between flex-row" : "flex-col"}`}
     >
-      <div className="text-black-80">{locName}</div>
-      <div>
-        {addressLine1}, {addressLine2}, {city}, {state} {postalCode}
+      <div className={`flex flex-col gap-4`}>
+        <div className="flex flex-col gap-1">
+          <div className="">{locName}</div>
+          <div>
+            {
+              parseAddress(location, {
+                compactMode: true,
+              }).formatted
+            }
+          </div>
+          <div>
+            ({location.distance ? location.distance.toFixed(1) : "0"} miles)
+          </div>
+        </div>
+        {phone && (
+          <div className="body-1 flex items-center gap-2 text-black-60">
+            <Phone size={20} /> {phone}
+          </div>
+        )}
       </div>
-      <div>({distance ? distance.toFixed(1) : "0"} miles)</div>
-      <div className="paragraph-regular mt-4 flex gap-2 text-black-80">
-        <Phone /> {phone}
+      <div className="">
+        {location?.catalogueId && !radio && (
+          <Button variant="primary" className="self-start">
+            <Store /> View Store
+          </Button>
+        )}
+        {website && fullUrl && radio && (
+          <WebsiteTo url={website}>
+            <div className="flex-center gap-1">
+              <Globe size={20} />{" "}
+              <span className="text-primary underline">Website</span>
+            </div>
+          </WebsiteTo>
+        )}
       </div>
-      <Button className="my-4 w-fit bg-primary text-white">
-        <Store /> View Store
-      </Button>
     </div>
   );
 };

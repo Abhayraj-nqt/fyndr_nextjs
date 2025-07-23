@@ -1,6 +1,6 @@
 import React from "react";
 
-import { getTimeStamp } from "@/lib/utils/date";
+// import { getTimeStamp } from "@/lib/utils/date";
 
 import Metric from "../sections/rating-and-reviews-section/metric";
 
@@ -12,6 +12,13 @@ type Props = {
 };
 
 const ReplyCard = ({ imgUrl, reply, createdAt, name }: Props) => {
+  const data = new Date(createdAt);
+  const formattedDate = data.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+
   return (
     <div
       key={createdAt}
@@ -22,7 +29,8 @@ const ReplyCard = ({ imgUrl, reply, createdAt, name }: Props) => {
           imgUrl={imgUrl}
           alt={`${createdAt}`}
           value={name}
-          title={`• ${getTimeStamp(new Date(createdAt))}`}
+          // title={`• ${getTimeStamp(new Date(createdAt))}`}
+          title={`• ${formattedDate}`}
           textStyles="body-3-medium"
         />
       </div>

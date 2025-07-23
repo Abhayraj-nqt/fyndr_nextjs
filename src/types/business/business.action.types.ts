@@ -4,12 +4,14 @@ import {
   GetRatingsParams,
   ReplyToCommentParams,
   ReportToCommentParams,
+  SubmitReviewParams,
 } from "./business.params";
 import {
   GetCommentsResponse,
   GetRatingsResponse,
   ReplyToCommentResponse,
   ReportToCommentResponse,
+  SubmitReviewResponse,
 } from "./business.response";
 
 export type GetRatings = ({
@@ -23,9 +25,16 @@ export type GetComments = ({
 export type ReplyToComment = ({
   params,
   payload,
+  options,
 }: ReplyToCommentParams) => Promise<ActionResponse<ReplyToCommentResponse>>;
 
 export type ReportToComment = ({
   params,
   payload,
+  options,
 }: ReportToCommentParams) => Promise<ActionResponse<ReportToCommentResponse>>;
+
+export type SubmitReview = ({
+  payload,
+  options,
+}: SubmitReviewParams) => Promise<ActionResponse<SubmitReviewResponse>>;

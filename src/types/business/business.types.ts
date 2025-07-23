@@ -1,3 +1,5 @@
+import { CountryCode } from "../global";
+
 export type Comment = {
   commentId: number;
   commentThread: {
@@ -19,4 +21,25 @@ export type Comment = {
   firstName: string;
   lastName: string;
   verifiedUser: boolean;
+};
+
+export type Biz = {
+  addonUrl: string | null;
+  addressLine1: string;
+  addressLine2: string;
+  bizid: number;
+  bizName: string;
+  bizType: string;
+  city: string;
+  country: string;
+  country_code: CountryCode;
+  expo_code: string | null;
+  lat: number;
+  lng: number;
+  mainLogo: string;
+  phone: string;
+  postalCode: string;
+  state: string;
+  showBiz: boolean;
+  website: string | null;
 };

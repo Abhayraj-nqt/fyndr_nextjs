@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 
 type BaseModalProps = {
   open?: boolean;
+  onCloseIconClick?: () => void;
   onOpenChange?: (open: boolean) => void;
   children: ReactNode;
   showCloseButton?: boolean;
@@ -75,6 +76,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
     {
       open,
       onOpenChange,
+      onCloseIconClick,
       title,
       description,
       showHeader,
@@ -128,7 +130,8 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
     // Close the modal explicitly (for close button)
     const handleClose = useCallback(() => {
       handleOpenChange(false);
-    }, [handleOpenChange]);
+      onCloseIconClick?.();
+    }, [handleOpenChange, onCloseIconClick]);
 
     // Determine whether to show header based on props
     const shouldShowHeader =
@@ -187,7 +190,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 
           {shouldShowFooter && (
             <DialogFooter
-              className={`flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2  ${footerClassName}`}
+              className={`flex flex-col-reverse p-4 sm:flex-row sm:justify-end sm:space-x-2 ${footerClassName}`}
             >
               {secondaryAction && (
                 <Button

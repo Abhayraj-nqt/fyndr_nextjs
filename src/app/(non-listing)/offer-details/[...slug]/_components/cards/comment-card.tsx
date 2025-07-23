@@ -1,9 +1,10 @@
 import Image from "next/image";
 import React from "react";
 
-import Stars from "@/components/global/ratings/stars";
+import StarRating from "@/components/global/ratings/star-rating";
+// import Stars from "@/components/global/ratings/stars";
 // import UserAvatar from "@/components/global/user-avatar";
-import { getTimeStamp } from "@/lib/utils/date";
+// import { getTimeStamp } from "@/lib/utils/date";
 import { Comment } from "@/types/business/business.types";
 import { Campaign } from "@/types/campaign/campaign.types";
 
@@ -14,9 +15,17 @@ import ReplyReportSection from "../sections/rating-and-reviews-section/reply-rep
 type Props = {
   comment: Comment;
   business: Campaign["biz"];
+  qrCode: string;
 };
 
-const CommentCard = ({ comment, business }: Props) => {
+const CommentCard = ({ comment, business, qrCode }: Props) => {
+  const data = new Date(comment.createdDt);
+  const formattedDate = data.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+
   return (
     <div className="relative flex flex-col gap-6 rounded-10 bg-primary-0.5 p-4">
       <div className="flex w-fit flex-col gap-2">
@@ -36,16 +45,18 @@ const CommentCard = ({ comment, business }: Props) => {
           name={`${comment.user.firstName} ${comment.user.lastName}`}
           alt={`${comment.commentId}`}
           value={`${comment.user.firstName} ${comment.user.lastName}`}
-          title={`• ${getTimeStamp(new Date(comment.createdDt))}`}
+          // title={`• ${getTimeStamp(new Date(comment.createdDt))}`}
+          title={`• ${formattedDate}`}
           textStyles="body-medium"
         />
-        <Stars outOf={5} ratings={comment.rating} />
+        {/* <Stars outOf={5} ratings={comment.rating} /> */}
+        <StarRating allowHalf outOf={5} rating={comment.rating} size={20} />
       </div>
       {comment.images && comment.images.length > 0 && (
-        <div className="no-scrollbar flex overflow-x-scroll">
-          {comment.images.map((imgURL) => (
+        <div className="no-scrollbar flex gap-4 overflow-x-scroll">
+          {comment.images.map((imgURL, i) => (
             <Image
-              key={comment.commentId}
+              key={`${comment.commentId}-${i}`}
               src={imgURL}
               alt={comment?.firstName || "user-review"}
               height={50}
@@ -71,7 +82,11 @@ const CommentCard = ({ comment, business }: Props) => {
           </div>
         )}
       </div>
-      <ReplyReportSection business={business} comment={comment} />
+      <ReplyReportSection
+        business={business}
+        comment={comment}
+        qrCode={qrCode}
+      />
     </div>
   );
 };

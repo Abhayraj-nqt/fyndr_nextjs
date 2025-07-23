@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import {
   DefaultValues,
@@ -42,6 +42,8 @@ const AuthForm = <T extends FieldValues>({
   formType,
 }: AuthFormProps<T>) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callback = searchParams.get("callback");
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -58,6 +60,12 @@ const AuthForm = <T extends FieldValues>({
             ? "Signed in successfully"
             : "Signed up successfully",
       });
+
+      if (callback) {
+        // router.replace(callback);
+        router.replace(`${ROUTES.CALLBACK_SIGN_IN}?callback=${callback}`);
+        return;
+      }
 
       router.replace(ROUTES.CALLBACK_SIGN_IN);
     } else {

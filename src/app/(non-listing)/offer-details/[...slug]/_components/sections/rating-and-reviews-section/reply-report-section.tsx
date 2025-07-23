@@ -13,9 +13,10 @@ import ReportModal from "./report-modal";
 type Props = {
   business: Campaign["biz"];
   comment: Comment;
+  qrCode: string;
 };
 
-const ReplyReportSection = ({ business, comment }: Props) => {
+const ReplyReportSection = ({ business, comment, qrCode }: Props) => {
   const { isLoading, user } = useUser();
   if (isLoading || !user || !business.bizid) return null;
   if (business.bizid !== user.bizid) return null;
@@ -32,6 +33,7 @@ const ReplyReportSection = ({ business, comment }: Props) => {
         bizId={business.bizid}
         bizLogo={business.mainLogo}
         bizName={business.bizName}
+        qrCode={qrCode}
       />
       {comment.isReportingAllowed ? (
         <ReportModal
@@ -42,6 +44,8 @@ const ReplyReportSection = ({ business, comment }: Props) => {
           }
           comment={comment}
           bizId={business.bizid}
+          bizName={business.bizName}
+          qrCode={qrCode}
         />
       ) : (
         <Button variant="primary-outlined" stdHeight stdWidth disabled>

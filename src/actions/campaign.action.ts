@@ -8,6 +8,7 @@ import {
   GetCampaigns,
   GetLikedCampaigns,
   LikeCampaign,
+  VerifyOffer,
 } from "@/types/campaign/campaign.action.types";
 
 export const onGetCampaignByQr: GetCampaignByQr = async ({
@@ -92,6 +93,16 @@ export const onGetLikedCampaigns: GetLikedCampaigns = async ({
   if (orderBy) {
     endpoint = `${endpoint}&orderBy=${orderBy}`;
   }
+
+  return _post(endpoint, payload, {
+    requireAuth: true,
+  });
+};
+
+export const onVerifyOffer: VerifyOffer = async ({ payload }) => {
+  console.log("onVerifyOffer called with payload: ", payload);
+
+  const endpoint = `${API_BASE_URL}/invoice/verifyOffers`;
 
   return _post(endpoint, payload, {
     requireAuth: true,

@@ -20,3 +20,7 @@ export type ReplyToCommentResponse = {
 export type ReportToCommentResponse = {
   message: string;
 };
+
+export type SubmitReviewResponse = {
+  message: string;
+};

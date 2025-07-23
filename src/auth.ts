@@ -183,9 +183,26 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
 
   callbacks: {
-    jwt: async ({ token, account, user }) => {
+    jwt: async ({ token, account, user, trigger, session }) => {
       // user is only available the first time a user signs in authorized
       // console.log(`In jwt callback - Token is ${JSON.stringify(token)}`);
+
+      if (trigger === "update" && session?.user) {
+        console.log("SESSION IN JWT CALLBACK -> ", {
+          token,
+          session,
+          user,
+        });
+        // user.email = session.user.email;
+        // if (token?.user?.email) {
+        token.user.email = session.user.email;
+        // }
+        return {
+          ...token,
+          ...user,
+          email: session.user.email,
+        };
+      }
 
       if (token.accessToken) {
         const decodedToken = jwtDecode(token.accessToken);
@@ -230,6 +247,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.accessToken = token.accessToken;
         session.user = token.user as AdapterUser & UserSession;
       }
+      console.log({ token });
+
+      console.log("SESSION IN SESSION CALLBACK -> ", {
+        sessionEmail: session.user.email,
+        tokenEmail: token.email,
+      });
       return session;
     },
 

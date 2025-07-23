@@ -22,6 +22,9 @@ export type ReplyToCommentParams = {
     businessId: number;
     reply: string;
   };
+  options: {
+    validatePath: string;
+  };
 };
 
 export type ReportToCommentParams = {
@@ -31,5 +34,25 @@ export type ReportToCommentParams = {
   payload: {
     businessId: number;
     reportMessage: string;
+  };
+  options: {
+    validatePath: string;
+  };
+};
+
+export type SubmitReviewParams = {
+  payload: {
+    businessId: number;
+    images: {
+      image: string;
+      imageType: string;
+    }[];
+    invoiceId: null;
+    rating: number;
+    text: string;
+    userId: number;
+  };
+  options: {
+    validatePath: string;
   };
 };

@@ -1,5 +1,7 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+
 import { API_BASE_URL } from "@/environment";
 import { _get, _post } from "@/lib/handlers/fetch";
 import {
@@ -7,6 +9,7 @@ import {
   GetRatings,
   ReplyToComment,
   ReportToComment,
+  SubmitReview,
 } from "@/types/business/business.action.types";
 
 export const onGetRatings: GetRatings = async ({ params }) => {
@@ -33,9 +36,16 @@ export const onGetComments: GetComments = async ({ params }) => {
   });
 };
 
-export const onReplyToComment: ReplyToComment = async ({ params, payload }) => {
+export const onReplyToComment: ReplyToComment = async ({
+  params,
+  payload,
+  options,
+}) => {
   const { commentId } = params;
   const endpoint = `${API_BASE_URL}/analytics/business/${commentId}/reply`;
+  const { validatePath } = options;
+
+  revalidatePath(validatePath);
 
   return _post(endpoint, payload, {
     requireAuth: true,
@@ -45,10 +55,24 @@ export const onReplyToComment: ReplyToComment = async ({ params, payload }) => {
 export const onReportToComment: ReportToComment = async ({
   params,
   payload,
+  options,
 }) => {
   const { commentId } = params;
   const endpoint = `${API_BASE_URL}/analytics/business/${commentId}/report`;
+  const { validatePath } = options;
 
+  revalidatePath(validatePath);
+
+  return _post(endpoint, payload, {
+    requireAuth: true,
+  });
+};
+
+export const onSubmitReview: SubmitReview = async ({ payload, options }) => {
+  const endpoint = `${API_BASE_URL}/analytics/business/comment`;
+  const { validatePath } = options;
+
+  revalidatePath(validatePath);
   return _post(endpoint, payload, {
     requireAuth: true,
   });
