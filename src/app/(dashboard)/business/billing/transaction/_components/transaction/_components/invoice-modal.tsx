@@ -37,7 +37,7 @@ const InvoiceModal: React.FC<InvoiceModalProps> = ({
       type === "receivable" &&
       invoice[0]?.channel !== "catalog"
     ) {
-      return <InvoiceForm inv={invoice} edit={false} />;
+      return <InvoiceForm inv={invoice} edit={true} onOpenChange={onClose} />;
     }
 
     // if (status === "pending" && type === "receivable" && invoice?.channel === "catalog") {
@@ -58,12 +58,12 @@ const InvoiceModal: React.FC<InvoiceModalProps> = ({
       }
       open={visible}
       onOpenChange={(val) => {
-        if (!val) onClose(); // when modal tries to close, call parent’s close handler
+        if (!val) onClose();
       }}
       footerContent={<Invoicefooter />}
       footerClassName="p-0"
       showFooter={true}
-      bodyClassName="max-h-[80vh] overflow-y-scroll no-scrollbar"
+      bodyClassName="max-h-[80vh] overflow-y-scroll no-scrollbar px-4 !pt-2"
     >
       {renderContent()}
     </Modal>

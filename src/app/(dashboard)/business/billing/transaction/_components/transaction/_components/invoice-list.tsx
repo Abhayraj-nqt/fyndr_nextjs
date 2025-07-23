@@ -99,6 +99,7 @@ const InvoiceList = ({ rcptlist, type }: ListProps) => {
             paid: "/icons/offerIcon.svg",
             failed: "/icons/offer_red.svg",
             canceled: "/icons/offer_red.svg",
+             cancelled: "/icons/offer_red.svg"
           },
           offer_appointment: {
             pending: "/icons/offer_appointmentYellow.svg",
@@ -107,6 +108,7 @@ const InvoiceList = ({ rcptlist, type }: ListProps) => {
             paid: "/icons/offer_appointmentGreen.svg",
             failed: "/icons/offer_appointmentRed.svg",
             canceled: "/icons/offer_appointmentRed.svg",
+            cancelled: "/icons/offer_appointmentRed.svg",
           },
           cmpn_promo: {
             pending: "/icons/promo_yellow.svg",
@@ -115,6 +117,7 @@ const InvoiceList = ({ rcptlist, type }: ListProps) => {
             paid: "/icons/promo_green.svg",
             failed: "/icons/promo_red.svg",
             canceled: "/icons/promo_red.svg",
+            cancelled: "/icons/promo_red.svg",
           },
           catalog: {
             pending: "/icons/Store_yellow.svg",
@@ -123,6 +126,7 @@ const InvoiceList = ({ rcptlist, type }: ListProps) => {
             paid: "/icons/storeIcon.svg",
             failed: "/icons/Store_red.svg",
             canceled: "/icons/Store_red.svg",
+            cancelled: "/icons/Store_red.svg",
           },
           catalog_appointment: {
             pending: "/icons/store_appointmentYellow.svg",
@@ -131,6 +135,7 @@ const InvoiceList = ({ rcptlist, type }: ListProps) => {
             paid: "/icons/store_appointmentGreen.svg",
             failed: "/icons/store_appointmentRed.svg",
             canceled: "/icons/store_appointmentRed.svg",
+            cancelled: "/icons/store_appointmentRed.svg",
           },
           events: {
             pending: "/icons/event_yellow.svg",
@@ -139,6 +144,7 @@ const InvoiceList = ({ rcptlist, type }: ListProps) => {
             paid: "/icons/event_green.svg",
             failed: "/icons/event_red.svg",
             canceled: "/icons/event_red.svg",
+             cancelled: "/icons/event_red.svg",
           },
           custom: {
             pending: "/icons/offer_yellow.svg",
@@ -147,6 +153,7 @@ const InvoiceList = ({ rcptlist, type }: ListProps) => {
             paid: "/icons/offerIcon.svg",
             failed: "/icons/offer_red.svg",
             canceled: "/icons/offer_red.svg",
+            cancelled: "/icons/offer_red.svg",
           },
         };
         const getImageForStatus = (channel: string, status: string): string => {

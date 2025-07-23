@@ -28,7 +28,6 @@ export const fetchReceivables: GetReceivableProps = async (payload) => {
 
   return _post<fetchInvoiceResponse>(endpoint, payload, {
     requireAuth: true,
-    cache: "force-cache",
   });
 };
 
@@ -37,7 +36,6 @@ export const fetchPayables: GetPayableProps = async (payload) => {
 
   return _post<fetchInvoiceResponse>(endpoint, payload, {
     requireAuth: true,
-    cache: "force-cache",
   });
 };
 

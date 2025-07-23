@@ -1,3 +1,4 @@
+import { CreateInvoiceDetails } from "../invoice/create-update-invoice/invoice.types";
 import { Remarks } from "../offer-summary";
 
 export type InvoiceSummary = {
@@ -181,7 +182,7 @@ export type fetchInvoice = {
     | OfferResponse
     | CatalogResponse
     | PromoResponse
-    | CustomResponse;
+    | CreateInvoiceDetails;
   taxAmount: number;
   baseAmount: number;
   tipAmount: number;

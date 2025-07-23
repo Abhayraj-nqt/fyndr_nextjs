@@ -1,32 +1,38 @@
 import { z } from "zod";
 
-export const InvoiceFormSchema = z
-  .object({
-    type: z.enum(["email", "mobile"], {
-      required_error: "Please select a contact method.",
-    }),
 
-    email: z.string().optional().or(z.literal("")),
-
-    mobile: z.string().optional().or(z.literal("")),
-    title: z.string().min(1, "Title is required"),
-    firstName: z.string().optional(),
-    lastName: z.string().optional(),
-    serviceName: z.string().optional(),
-    invoiceId : z.string().min(1,"Invoice # is required"),
-    serverName: z.string().optional(),
-    msg : z.string().optional(),
-    baseAmount: z
+const baseInvoiceSchema = z.object({
+  type: z.enum(["email", "mobile"]).optional(),
+  email: z.string().optional().or(z.literal("")),
+  mobile: z.string().optional().or(z.literal("")),
+  title: z.string().min(1, "Title is required"),
+  
+  firstName: z.string().optional(),
+  lastName: z.string().optional(),
+  serviceName: z.string().optional(),
+  
+  invoiceId: z.string().min(1, "Invoice # is required"),
+  
+  serverName: z.string().optional(),
+  msg: z.string().optional(),
+  
+  baseAmount: z
     .string()
     .min(1, "Amount is required")
     .refine((val) => /^\d*\.?\d*$/.test(val), {
       message: "Only positive numbers are allowed",
     }),
-    duedate: z.string().optional(),
-   tipAllowed: z.boolean().optional(),
-   isTaxIncluded: z.boolean().optional(),
-   isImageIncluded:z.string().optional(),
+    
+  duedate: z.string().nullable().optional(),
+  tipAllowed: z.boolean().optional(),
+  isTaxIncluded: z.boolean().nullable().optional(),
+});
 
+const createInvoiceSchema = baseInvoiceSchema
+  .extend({
+    type: z.enum(["email", "mobile"], {
+      required_error: "Please select a contact method.",
+    }),
   })
   .refine(
     (data) => {
@@ -61,4 +67,6 @@ export const InvoiceFormSchema = z
     }
   );
 
+export const InvoiceFormSchema = baseInvoiceSchema; 
+export const CreateInvoiceFormSchema = createInvoiceSchema; 
 export type InvoiceFormData = z.infer<typeof InvoiceFormSchema>;
