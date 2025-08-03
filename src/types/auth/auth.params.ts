@@ -103,3 +103,9 @@ export type UpdateEmailParams = {
     email: string;
   };
 };
+
+export type GetGooglePermissionParams = {
+  payload: {
+    googleAccessToken: string;
+  };
+};

@@ -6,6 +6,7 @@ import { useEffect, useState, useTransition } from "react";
 import { onVerifyOffer } from "@/actions/campaign.action";
 import { onGetTax } from "@/actions/invoice.action";
 import toast from "@/components/global/toast";
+import { getRemaining } from "@/lib/utils";
 import { parseAmount } from "@/lib/utils/parser";
 import {
   Campaign,
@@ -48,7 +49,7 @@ const useOfferQtySelector = ({ offer, campaignLocations }: Props) => {
     openLocationModal,
     openAppointmentModal,
     removeLastAppointment,
-    getItemQuantity, // Get current quantity from store
+    getItemQuantity,
     items, // Listen to items changes
   } = useOfferCartStore();
 
@@ -119,21 +120,6 @@ const useOfferQtySelector = ({ offer, campaignLocations }: Props) => {
             console.log(">>No appointment booking required");
             await finalizeQuantityUpdate(qty);
           }
-
-          // if (selectedLocation && requiresAppointmentBooking()) {
-          //   const appointmentPendingAction = (
-          //     appointment?: AppointmentSlotPayload
-          //   ) => {
-          //     console.log("Appointment pending action called");
-
-          //     startTransition(async () => {
-          //       await finalizeQuantityUpdate(qty, appointment);
-          //     });
-          //   };
-          //   openAppointmentModal(appointmentPendingAction);
-          // } else {
-          //   await finalizeQuantityUpdate(qty);
-          // }
         });
       };
 
@@ -163,32 +149,6 @@ const useOfferQtySelector = ({ offer, campaignLocations }: Props) => {
         await finalizeQuantityUpdate(qty);
       }
     }
-
-    // if (locationId && requiresAppointmentBooking()) {
-    //   console.log(">>Appointment booking required");
-    //   const appointmentPendingAction = (
-    //     appointment: AppointmentSlotPayload
-    //   ) => {
-    //     console.log("Appointment pending action called");
-    //     startTransition(async () => {
-    //       await finalizeQuantityUpdate(qty, appointment);
-    //     });
-    //   };
-
-    //   openAppointmentModal(appointmentPendingAction);
-    // }
-
-    // step 5: no requirement - process normally
-    // startTransition(async () => {
-    //   try {
-    //     await finalizeQuantityUpdate(qty);
-    //   } catch (error) {
-    //     console.error("Error updating quantity:", error);
-    //     setError("Failed to update quantity");
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // });
   };
 
   const debouncedHandleQtyChange = useDebouncedCallback(handleQtyChange, 500);
@@ -359,9 +319,12 @@ const useOfferQtySelector = ({ offer, campaignLocations }: Props) => {
     return offer.isBookingEnabled && selectedLocation.campaignBookingEnabled;
   };
 
+  const remainingOffers: number = offer.offerLimit
+    ? getRemaining(offer.offerLimit, offer?.offerSold || 0)
+    : Infinity;
+
   const maxQty = offer?.usageLimit >= 0 ? offer?.usageLimit : Infinity;
-  const effectiveMaxQty =
-    offer.usageLimit >= 0 ? Math.min(offer.usageLimit, maxQty) : maxQty;
+  const effectiveMaxQty = Math.min(maxQty, remainingOffers);
 
   useEffect(() => {
     const decrementDisabled =

@@ -1,7 +1,6 @@
 import Image from "next/image";
 import React from "react";
 
-// import AppointmentBookingModal2 from "@/components/global/appointment/appointment-booking-modal2";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import ASSETS from "@/constants/assets";
 import { getRemaining } from "@/lib/utils";
@@ -14,15 +13,10 @@ import {
 
 import BuyNowButton from "./buy-now-button";
 import OfferAmountSummary from "./cards/offer-amount-summary";
-// import OfferAppointmentModal from "./checkout/offer-appointment-modal";
 import OfferQtySelector from "./checkout/offer-qty-selector";
-// import QtySelector from "./qty-selector2";
-// import QtySelector3 from "./qty-selector3";
-// import SelectLocationModal from "./select-location-modal";
 
 type Props = {
   offer: CampaignOffer;
-  campaignId: number;
   campaignImages: string[];
   campaignLocations: Campaign["cmpnLocs"];
   merchantId: CampaignBiz["merchantId"];
@@ -31,7 +25,6 @@ type Props = {
 
 const OfferCard = ({
   offer,
-  campaignId,
   campaignImages,
   campaignLocations = [],
   merchantId,
@@ -47,7 +40,7 @@ const OfferCard = ({
   console.log({ indvId, offerSoldOut, merchantId });
 
   return (
-    <Card className="flex flex-col border-none bg-primary-10 shadow-none">
+    <Card className="flex flex-col border-none bg-primary-0.5 shadow-none">
       <div className="flex flex-col gap-4 p-4 lg:flex-row">
         <Image
           src={
@@ -128,14 +121,6 @@ const OfferCard = ({
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-4">
                   <div className="body-3 text-black-80">Qty: </div>
-                  {/* <QtySelector3
-                    maxQty={
-                      offer?.usageLimit >= 0 ? offer?.usageLimit : Infinity
-                    }
-                    campaignLocations={campaignLocations}
-                    campaignId={campaignId}
-                    offer={offer}
-                  /> */}
                   <OfferQtySelector
                     campaignLocations={campaignLocations}
                     offer={offer}
@@ -154,21 +139,6 @@ const OfferCard = ({
         </div>
       </div>
       <OfferAmountSummary offerId={offer.objid} />
-      {/* <SelectLocationModal
-        locations={campaignLocations}
-        campaignId={campaignId}
-      /> */}
-      {/* <AppointmentBookingModal2
-        campaignId={campaignId}
-        offerId={offer.objid}
-        title={offer.title}
-      /> */}
-      {/* <OfferAppointmentModal
-        campaignId={campaignId}
-        offerId={offer.objid}
-        title={offer.title}
-        campaignLocations={campaignLocations}
-      /> */}
     </Card>
   );
 };

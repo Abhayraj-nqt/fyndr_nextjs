@@ -1,13 +1,19 @@
 "use client";
 
 import { PencilLine } from "lucide-react";
-import React from "react";
+import React, { useMemo } from "react";
 
 import Button from "@/components/global/buttons";
 import { Modal } from "@/components/global/modal";
-import { Input } from "@/components/ui/input";
 import { CurrencySymbol } from "@/types/global";
-import { useOfferCartStore } from "@/zustand/stores/offer-details/offer-cart.store";
+import {
+  AppointmentSlot,
+  AppointmentSlotPayload,
+} from "@/types/invoice/invoice.types";
+import {
+  OfferCartAppointmentSlot,
+  useOfferCartStore,
+} from "@/zustand/stores/offer-details/offer-cart.store";
 
 const formatTime = (timeStr: string) => {
   const [hour, minute] = timeStr.split(":");
@@ -20,24 +26,27 @@ const formatTime = (timeStr: string) => {
   });
 };
 
-type AppointmentDetailsRowProps = {
+export type AppointmentDetailsRowProps = {
   startTime: string;
   endTime: string;
   date: Date;
   qty: number;
   amount: number;
   currencySymbol: CurrencySymbol;
+  offerName: string;
+  type: "regular" | "scheduledLater";
   onEdit: () => void;
 };
 
-const AppointmentDetailsRow = ({
+export const AppointmentDetailsRow = ({
   startTime,
   endTime,
   amount,
   date,
-  // qty,
+  qty,
   currencySymbol,
   onEdit,
+  offerName,
 }: AppointmentDetailsRowProps) => {
   const months = [
     "Jan",
@@ -54,30 +63,43 @@ const AppointmentDetailsRow = ({
     "Dec",
   ];
   const formattedDate = `${months[date.getMonth()]} ${date.getDate()}`;
-  const dayName = date.toLocaleDateString("en-US", { weekday: "short" }); // "Sat"
+  const dayName = date.toLocaleDateString("en-US", { weekday: "short" });
   const formattedStartTime = formatTime(startTime);
   const formattedEndTime = formatTime(endTime);
 
   const displayString = `${formattedDate} (${dayName}) ${formattedStartTime} - ${formattedEndTime}`;
+  const isScheduledForLater = !startTime.length || !endTime.length;
 
   return (
-    <div className="flex-between gap-4">
-      <div>{displayString}</div>
-      {/* <div>{qty}</div> */}
-      <Input
-        type="text"
-        // value={qty}
-        value={1}
-        className="hide-input-arrow no-focus body-3 h-8 w-14 rounded-5 border border-secondary-20 bg-white text-black-80 shadow-none !outline-none ring-0 disabled:cursor-text disabled:opacity-100"
-        disabled
-      />
-      <div className="flex items-center gap-2">
-        <div>
-          {currencySymbol}
-          {amount}{" "}
+    <div
+      className={`flex w-full flex-col ${isScheduledForLater ? "rounded-10 border border-secondary-20 p-4" : ""}`}
+    >
+      <div className="grid grid-cols-5 gap-4">
+        <div className="col-span-3">
+          {isScheduledForLater ? offerName : displayString}
         </div>
-        <PencilLine size={16} className="cursor-pointer" onClick={onEdit} />
+        <div className="flex-center w-16 rounded-5 border border-secondary-20 px-2 py-1">
+          {qty}
+        </div>
+        <div className="flex min-w-6 items-center justify-end gap-2">
+          <div>
+            {currencySymbol}
+            {amount}{" "}
+          </div>
+          {!isScheduledForLater ? (
+            <PencilLine size={16} className="cursor-pointer" onClick={onEdit} />
+          ) : (
+            <></>
+          )}
+        </div>
       </div>
+      {isScheduledForLater ? (
+        <div className="body-3 w-fit rounded-5  bg-secondary-10 px-2 py-1 text-black-70">
+          Schedule later
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
@@ -97,15 +119,92 @@ const AppointmentSummaryModal = ({
   onClose,
   title,
 }: AppointmentSummaryModalProps) => {
-  const { getCartItem } = useOfferCartStore();
+  const { getCartItem, openAppointmentModalForEdit } = useOfferCartStore();
 
   const cartItem = getCartItem(offerId);
 
+  type ProcessedAppointment = {
+    appointment: AppointmentSlotPayload;
+    index: number;
+    dateKey: string;
+    appointmentDetails: AppointmentSlot;
+  };
+
+  // Process appointments to group "scheduled for later" ones
+  const processedAppointments = useMemo(() => {
+    const scheduledLaterAppointments: ProcessedAppointment[] = [];
+    const regularAppointments: ProcessedAppointment[] = [];
+
+    cartItem?.appointments.forEach((appointment, index) => {
+      const dateKey = Object.keys(appointment)[0];
+      const appointmentDetails = appointment[dateKey];
+
+      const isScheduledForLater =
+        !appointmentDetails.startTime.length ||
+        !appointmentDetails.endTime.length;
+
+      if (isScheduledForLater) {
+        scheduledLaterAppointments.push({
+          appointment,
+          index,
+          dateKey,
+          appointmentDetails,
+        });
+      } else {
+        regularAppointments.push({
+          appointment,
+          index,
+          dateKey,
+          appointmentDetails,
+        });
+      }
+    });
+
+    const result: (ProcessedAppointment & {
+      type: AppointmentDetailsRowProps["type"];
+      qty: number;
+    })[] = [];
+
+    regularAppointments.forEach(
+      ({ appointment, index, dateKey, appointmentDetails }) => {
+        result.push({
+          type: "regular",
+          appointment,
+          index,
+          dateKey,
+          appointmentDetails,
+          qty: 1,
+        });
+      }
+    );
+
+    // Add grouped scheduled for later appointments
+    if (scheduledLaterAppointments.length > 0) {
+      result.push({
+        type: "scheduledLater",
+        appointment: scheduledLaterAppointments[0].appointment, // Use first one for display
+        index: scheduledLaterAppointments[0].index, // Use first index for edit
+        dateKey: scheduledLaterAppointments[0].dateKey,
+        appointmentDetails: scheduledLaterAppointments[0].appointmentDetails,
+        qty: scheduledLaterAppointments.length,
+      });
+    }
+
+    return result;
+  }, [cartItem?.appointments]);
+
   if (!cartItem || !cartItem.appointments) return null;
 
-  const handleEdit = (index: number) => {
-    // TODO: complete function defination
-    console.log("handleEdit clicked!!", index);
+  const handleEdit = (appointmentIndex: number) => {
+    const appointment = cartItem.appointments[appointmentIndex];
+    if (!appointment) return;
+    console.log("Edit appointment clicked", { appointmentIndex, appointment });
+    const editPendingAction = (
+      updatedAppointment?: OfferCartAppointmentSlot
+    ) => {
+      console.log("Edit appointment completed", { updatedAppointment });
+    };
+    openAppointmentModalForEdit(offerId, appointmentIndex, editPendingAction);
   };
 
   const handleClose = () => {
@@ -132,18 +231,22 @@ const AppointmentSummaryModal = ({
             <div className="body-1-medium text-black-80">{offerName}</div>
           </div>
           <div className="body-3 flex flex-col gap-4 p-4 text-black-80">
-            {cartItem.appointments.map((appointment, i) => (
-              <AppointmentDetailsRow
-                key={`${appointment.startTime}-${i}`}
-                amount={cartItem.amount}
-                currencySymbol={"$"}
-                date={appointment.date}
-                startTime={appointment.startTime}
-                endTime={appointment.endTime}
-                qty={cartItem.qty}
-                onEdit={() => handleEdit(i)}
-              />
-            ))}
+            {processedAppointments.map((appointment, i) => {
+              return (
+                <AppointmentDetailsRow
+                  key={`${appointment.appointmentDetails.startTime}-${i}`}
+                  amount={cartItem.offer.offerPrice * appointment.qty}
+                  currencySymbol={"$"}
+                  date={new Date(appointment.dateKey)}
+                  startTime={appointment.appointmentDetails.startTime}
+                  endTime={appointment.appointmentDetails.endTime}
+                  qty={appointment.qty}
+                  onEdit={() => handleEdit(i)}
+                  offerName={cartItem.offer.title}
+                  type={appointment.type}
+                />
+              );
+            })}
           </div>
         </div>
         <div className="flex-center">

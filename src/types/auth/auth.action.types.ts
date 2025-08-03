@@ -3,6 +3,7 @@ import {
   ConfirmIdentityParams,
   GenerateTokenParams,
   GetAccountParams,
+  GetGooglePermissionParams,
   RefreshTokenParams,
   ResetPasswordParams,
   SendEmailVerificationCodeParams,
@@ -18,6 +19,7 @@ import {
   ConfirmIdentityResponse,
   GenerateTokenResponse,
   GetAccountResponse,
+  GetGooglePermissionResponse,
   RefreshTokenResponse,
   ResetPasswordResponse,
   SendEmailVerificationCodeResponse,
@@ -94,3 +96,9 @@ export type UpdateEmail = ({
 }: UpdateEmailParams) => Promise<ActionResponse<UpdateEmailResponse>>;
 
 // -------------------------------------------------------------------------------------------
+
+export type GetGooglePermission = ({
+  payload,
+}: GetGooglePermissionParams) => Promise<
+  ActionResponse<GetGooglePermissionResponse>
+>;

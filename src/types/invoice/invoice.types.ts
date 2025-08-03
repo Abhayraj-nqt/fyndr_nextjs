@@ -1,6 +1,14 @@
 import { DiscountType } from "../global";
 
-export type AppointmentSlotPayload = {
+// export type AppointmentSlotPayload = {
+//   startTime: string;
+//   endTime: string;
+//   bookingDay: string;
+//   locId: number;
+//   objId: number;
+// };
+
+export type AppointmentSlot = {
   startTime: string;
   endTime: string;
   bookingDay: string;
@@ -8,8 +16,11 @@ export type AppointmentSlotPayload = {
   objId: number;
 };
 
+export type AppointmentSlotPayload = Record<string, AppointmentSlot>;
+
 export type Offer = {
-  appointment?: Record<string, AppointmentSlotPayload>[];
+  // appointment?: Record<string, AppointmentSlotPayload>[];
+  appointment?: AppointmentSlotPayload[];
   discount_amount: number;
   discount_type: DiscountType;
   offer_id: number;

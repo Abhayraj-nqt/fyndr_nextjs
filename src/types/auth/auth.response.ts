@@ -123,3 +123,7 @@ export type VerifyCodeResponse = {
 export type UpdateEmailResponse = {
   message: string;
 };
+
+export type GetGooglePermissionResponse = {
+  message: string;
+};

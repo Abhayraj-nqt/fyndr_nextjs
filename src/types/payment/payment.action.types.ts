@@ -1,7 +1,7 @@
 import { ActionResponse } from "../global";
-import { VerifyPaymentParams } from "./payment.params";
-import { VerifyPaymentResponse } from "./payment.response";
+import { MakePaymentParams } from "./payment.params";
+import { MakePaymentResponse } from "./payment.response";
 
-export type VerifyPayment = ({
+export type MakePayment = ({
   payload,
-}: VerifyPaymentParams) => Promise<ActionResponse<VerifyPaymentResponse>>;
+}: MakePaymentParams) => Promise<ActionResponse<MakePaymentResponse>>;

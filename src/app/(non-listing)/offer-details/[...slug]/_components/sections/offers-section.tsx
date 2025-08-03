@@ -10,9 +10,11 @@ import {
 
 import DefaultDataFiller from "../checkout/default-data-filler";
 import OfferAppointmentModal from "../checkout/offer-appointment-modal";
+import ProceedToPayWrapper from "../checkout/proceed-to-pay-wrapper";
 import OfferCard from "../offer-card";
-import ProceedToPay from "../proceed-to-pay";
 import SelectLocationModal from "../select-location-modal";
+import PaymentInfoWrapper from "./payment-info-wrapper";
+import NavigationCleanerOfferCartStore from "../navigation-cleaner-offer-cart-store";
 
 type Props = {
   offers: CampaignOffer[];
@@ -56,14 +58,13 @@ const OffersSection = async ({
             <OfferCard
               key={offer.objid}
               offer={offer}
-              campaignId={campaignId}
               campaignImages={campaignImages}
               campaignLocations={campaignLocations}
               merchantId={merchantId}
               indvId={indvId}
             />
           ))}
-          {showProceedToPay && <ProceedToPay />}
+          {showProceedToPay && <ProceedToPayWrapper />}
         </div>
       </DefaultCard>
       <SelectLocationModal
@@ -74,12 +75,14 @@ const OffersSection = async ({
         campaignId={campaignId}
         campaignLocations={campaignLocations}
       />
+      <NavigationCleanerOfferCartStore />
       <DefaultDataFiller
         campaignId={campaignId}
         campaignLocations={campaignLocations}
         campaignName={campaignName}
         bizName={bizName}
       />
+      <PaymentInfoWrapper />
     </>
   );
 };

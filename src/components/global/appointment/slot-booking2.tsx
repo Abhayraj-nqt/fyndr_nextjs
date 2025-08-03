@@ -29,11 +29,11 @@ type Props = {
   onDateChange?: (date: Date) => void;
   onScheduleLater?: () => void;
   onNext?: (appointment: OfferCartAppointmentSlot) => void;
-  // New prop for adjusting slot availability
   slotAvailabilityAdjuster?: (
     slots: AppointmentSlot[],
     selectedDate: Date
   ) => AppointmentSlot[];
+  footer?: React.ReactNode;
 };
 
 const SlotBooking2 = ({
@@ -48,6 +48,7 @@ const SlotBooking2 = ({
   onScheduleLater,
   onNext,
   slotAvailabilityAdjuster,
+  footer,
 }: Props) => {
   const {
     state,
@@ -144,14 +145,41 @@ const SlotBooking2 = ({
     ) {
       return;
     }
+
+    // const date = state.selectedDate.toDateString();
+
+    // const payload: OfferCartAppointmentSlot = {
+    //   date: {
+    //     bookingDay: weekday,
+    //     startTime: state.selectedSlot?.startTime,
+    //     endTime: state.selectedSlot?.endTime,
+    //     locId: Number(state.selectedLocationId),
+    //     objId,
+    //   },
+    //   scheduleForLater: false,
+    // };
+
+    const date = state.selectedDate.toISOString().split("T")[0]; // This gives you "2025-07-29" format
+
     const payload: OfferCartAppointmentSlot = {
-      bookingDay: weekday,
-      startTime: state.selectedSlot?.startTime,
-      endTime: state.selectedSlot?.endTime,
-      locId: Number(state.selectedLocationId),
-      objId,
-      date: state.selectedDate,
+      [date]: {
+        bookingDay: weekday,
+        startTime: state.selectedSlot?.startTime,
+        endTime: state.selectedSlot?.endTime,
+        locId: Number(state.selectedLocationId),
+        objId,
+      },
     };
+
+    // const payload: OfferCartAppointmentSlot = {
+    //   bookingDay: weekday,
+    //   startTime: state.selectedSlot?.startTime,
+    //   endTime: state.selectedSlot?.endTime,
+    //   locId: Number(state.selectedLocationId),
+    //   objId,
+    //   date: state.selectedDate,
+    //   scheduleForLater: false,
+    // };
 
     onNext?.(payload);
   };
@@ -234,7 +262,6 @@ const SlotBooking2 = ({
         className
       )}
     >
-      {/* Header */}
       <div className="md:flex-between flex flex-col gap-4 p-4 md:flex-row">
         <div className="heading-7-medium">{title}</div>
         <Select
@@ -246,8 +273,7 @@ const SlotBooking2 = ({
         />
       </div>
 
-      {/* Date Selection */}
-      <div className="flex flex-col gap-4 border-y border-secondary-20 p-4 md:flex-row md:gap-0 md:p-0">
+      <div className="grid grid-cols-1 gap-4 border-y border-secondary-20 p-4 md:grid-cols-[auto_1fr] md:gap-0 md:p-0">
         <div className="md:flex-center flex md:border-r md:border-secondary-20 md:p-4">
           <DatePicker
             date={state.selectedDate}
@@ -258,12 +284,15 @@ const SlotBooking2 = ({
             }}
           />
         </div>
-        <div className="no-scrollbar relative flex gap-4 overflow-x-scroll md:p-4">
-          {renderDateButtons()}
+        <div className="flex-center min-w-0 md:p-4">
+          <div className="no-scrollbar overflow-x-auto">
+            <div className="flex min-h-12 w-max gap-4">
+              {renderDateButtons()}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Slots Section */}
       <div className="flex flex-col gap-6 p-4 py-6">
         <div className="flex items-center justify-between">
           <div className="body-1-medium">
@@ -273,7 +302,6 @@ const SlotBooking2 = ({
         <div className="flex flex-wrap gap-4">{renderTimeSlots()}</div>
       </div>
 
-      {/* Action Section */}
       <div className="flex-between flex-col gap-4 rounded-b-10 border-t border-secondary-20 bg-white p-4 md:flex-row">
         <div className="flex gap-4">
           <div className="flex-center gap-2">
@@ -292,22 +320,22 @@ const SlotBooking2 = ({
         <div className="flex-center gap-4">
           <Button
             variant="primary"
-            stdHeight
-            stdWidth
             onClick={handleNextClick}
             disabled={!state.selectedDate || !state.selectedSlot}
+            className="sm:min-h-11 sm:min-w-36"
           >
             Next
           </Button>
           <Button
             variant="primary-outlined"
-            stdHeight
             onClick={onScheduleLater}
+            className="sm:min-h-11 sm:min-w-36"
           >
             Schedule For Later
           </Button>
         </div>
       </div>
+      {footer || <></>}
     </div>
   );
 };

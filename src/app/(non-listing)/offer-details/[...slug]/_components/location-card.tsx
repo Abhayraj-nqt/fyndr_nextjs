@@ -1,8 +1,10 @@
 import { Globe, Phone, Store } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 import Button from "@/components/global/buttons";
 import WebsiteTo from "@/components/global/website-to";
+import ROUTES from "@/constants/routes";
 import { parseAddress } from "@/lib/utils/address";
 import { CampaignLocation } from "@/types/campaign/campaign.types";
 
@@ -26,13 +28,15 @@ const LocationCard = ({
       : `https://${website}`
     : null;
 
+  const storeUrl = ROUTES.STORE("");
+
   return (
     <div
       className={`body-3 flex w-full gap-4 text-black-50 ${variant === "modal" ? "flex-between flex-row" : "flex-col"}`}
     >
       <div className={`flex flex-col gap-4`}>
         <div className="flex flex-col gap-1">
-          <div className="">{locName}</div>
+          <div className="body-2 text-black-70">{locName}</div>
           <div>
             {
               parseAddress(location, {
@@ -52,8 +56,10 @@ const LocationCard = ({
       </div>
       <div className="">
         {location?.catalogueId && !radio && (
-          <Button variant="primary" className="self-start">
-            <Store /> View Store
+          <Button variant="primary" className="self-start" asChild>
+            <Link href={storeUrl}>
+              <Store /> View Store
+            </Link>
           </Button>
         )}
         {website && fullUrl && radio && (

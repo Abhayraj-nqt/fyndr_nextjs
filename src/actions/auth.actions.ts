@@ -12,6 +12,7 @@ import {
   ConfirmIdentity,
   GenerateToken,
   GetAccount,
+  GetGooglePermission,
   RefreshToken,
   ResetPassword,
   SendEmailVerificationCode,
@@ -102,6 +103,24 @@ export const onUpdateEmail: UpdateEmail = async ({ params, payload }) => {
 
   return _patch(endpoint, payload, {
     requireAuth: true,
+  });
+};
+
+export const onGetGooglePermission: GetGooglePermission = async ({
+  payload,
+}) => {
+  const endpoint = `${API_BASE_URL}/appointment/googleCalendar/permission`;
+  const { googleAccessToken } = payload;
+
+  console.log("PAYLOAD: ", googleAccessToken);
+
+  return _get(endpoint, {
+    requireAuth: true,
+    headers: {
+      Accept: "*",
+      "Content-Type": "*",
+      google_access_auth_token: `${googleAccessToken}`,
+    },
   });
 };
 

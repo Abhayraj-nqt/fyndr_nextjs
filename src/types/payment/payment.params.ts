@@ -1,4 +1,4 @@
-export type VerifyPaymentParams = {
+export type MakePaymentParams = {
   payload: {
     qrcode: string;
     invoiceId: number;

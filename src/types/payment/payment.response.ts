@@ -1,4 +1,4 @@
-export type VerifyPaymentResponse = {
+export type MakePaymentResponse = {
   success: boolean;
   pay: { payment_method: "visa" | string };
 };

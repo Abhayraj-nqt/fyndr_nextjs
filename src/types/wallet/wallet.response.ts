@@ -12,5 +12,5 @@ export type GetWalletTransactionsResponse = {
 
 export type WalletVerifyResponse = {
   isWalletActive: boolean;
-  fyndrCash: number;
+  fyndrCash?: number;
 };

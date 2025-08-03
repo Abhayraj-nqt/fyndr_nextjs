@@ -7,7 +7,7 @@ import { CampaignOffer } from "@/types/campaign/campaign.types";
 import { AppointmentSlotPayload } from "@/types/invoice/invoice.types";
 
 export type OfferCartAppointmentSlot = AppointmentSlotPayload & {
-  date: Date;
+  // scheduleForLater: boolean;
 };
 
 export type OfferCartItem = {
@@ -18,6 +18,7 @@ export type OfferCartItem = {
   total: number;
   offer: CampaignOffer;
   appointments: OfferCartAppointmentSlot[];
+  // appointments: AppointmentSlotPayload[];
 };
 
 export type OfferCartState = {
@@ -36,10 +37,19 @@ export type OfferCartState = {
   appointmentModalState: {
     isOpen: boolean;
     pendingAction: ((appointment?: OfferCartAppointmentSlot) => void) | null;
+    // pendingAction: ((appointment?: AppointmentSlotPayload) => void) | null;
+    editMode: {
+      isEditing: boolean;
+      appointmentIndex: number | null;
+      originalAppointment: OfferCartAppointmentSlot | null;
+    };
   };
 
   selectedOfferId: number | null;
   selectedOfferName: string | null;
+
+  paymentOptionsVisible: boolean;
+
   isLoading: boolean;
   error: string | null;
 };
@@ -49,6 +59,12 @@ export type OfferCartAction = {
   removeCartItem: (offerId: number) => void;
   updateQuantity: (params: { offerId: number; qty: number }) => void;
   removeLastAppointment: (offerId: number) => void;
+  removeAppointmentByIndex: (offerId: number, appointmentIndex: number) => void;
+  updateAppointmentByIndex: (
+    offerId: number,
+    appointmentIndex: number,
+    updatedAppointment: OfferCartAppointmentSlot
+  ) => void;
   clearCart: () => void;
 
   setLocationId: (locationId: number) => void;
@@ -58,11 +74,17 @@ export type OfferCartAction = {
   setBizId: (bizId: number) => void;
   setSelectedOfferId: (offerId: number | null) => void;
   setSelectedOfferName: (offerName: string | null) => void;
+  setPaymentOptionsVisible: (visible: boolean) => void;
 
   openLocationModal: (pendingAction: () => void) => void;
   closeLocationModal: () => void;
 
   openAppointmentModal: (
+    pendingAction: (appointment?: OfferCartAppointmentSlot) => void
+  ) => void;
+  openAppointmentModalForEdit: (
+    offerId: number,
+    appointmentIndex: number,
     pendingAction: (appointment?: OfferCartAppointmentSlot) => void
   ) => void;
   closeAppointmentModal: () => void;
@@ -87,6 +109,9 @@ export type OfferCartAction = {
   getBizName: () => string | null;
   getSelectedOfferId: () => number | null;
   getSelectedOfferName: () => string | null;
+
+  clearCampaignId: () => void;
+  clearLocationId: () => void;
 
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
@@ -113,10 +138,19 @@ export const useOfferCartStore = create<OfferCartStore>()(
       appointmentModalState: {
         isOpen: false,
         pendingAction: null,
+
+        editMode: {
+          isEditing: false,
+          appointmentIndex: null,
+          originalAppointment: null,
+        },
       },
 
       isLoading: false,
       error: null,
+
+      paymentOptionsVisible: false,
+
       selectedOfferId: null,
       selectedOfferName: null,
 
@@ -199,6 +233,37 @@ export const useOfferCartStore = create<OfferCartStore>()(
         });
       },
 
+      removeAppointmentByIndex(offerId, appointmentIndex) {
+        set((state) => {
+          const itemIndex = state.items.findIndex(
+            (item) => item.offerId === offerId
+          );
+
+          if (
+            itemIndex >= 0 &&
+            state.items[itemIndex].appointments[appointmentIndex]
+          ) {
+            state.items[itemIndex].appointments.splice(appointmentIndex, 1);
+          }
+        });
+      },
+
+      updateAppointmentByIndex(offerId, appointmentIndex, updatedAppointment) {
+        set((state) => {
+          const itemIndex = state.items.findIndex(
+            (item) => item.offerId === offerId
+          );
+
+          if (
+            itemIndex >= 0 &&
+            state.items[itemIndex].appointments[appointmentIndex]
+          ) {
+            state.items[itemIndex].appointments[appointmentIndex] =
+              updatedAppointment;
+          }
+        });
+      },
+
       clearCart() {
         set((state) => {
           state.items = [];
@@ -242,6 +307,11 @@ export const useOfferCartStore = create<OfferCartStore>()(
           state.selectedOfferName = offerName;
         });
       },
+      setPaymentOptionsVisible(visible) {
+        set((state) => {
+          state.paymentOptionsVisible = visible;
+        });
+      },
 
       getItemQuantity(offerId) {
         const item = get().items.find((item) => item.offerId === offerId);
@@ -281,6 +351,18 @@ export const useOfferCartStore = create<OfferCartStore>()(
         return get().bizName;
       },
 
+      clearCampaignId() {
+        set((state) => {
+          state.campaignId = null;
+        });
+      },
+
+      clearLocationId() {
+        set((state) => {
+          state.locationId = null;
+        });
+      },
+
       setLoading: (loading) => {
         set((state) => {
           state.isLoading = loading;
@@ -313,13 +395,35 @@ export const useOfferCartStore = create<OfferCartStore>()(
           state.appointmentModalState = {
             isOpen: true,
             pendingAction,
+            editMode: {
+              isEditing: false,
+              appointmentIndex: null,
+              originalAppointment: null,
+            },
+          };
+        });
+      },
+      openAppointmentModalForEdit(offerId, appointmentIndex, pendingAction) {
+        set((state) => {
+          const cartItem = state.items.find((item) => item.offerId === offerId);
+          const appointment = cartItem?.appointments[appointmentIndex];
+
+          state.selectedOfferId = offerId;
+          state.appointmentModalState = {
+            isOpen: true,
+            pendingAction,
+            editMode: {
+              isEditing: true,
+              appointmentIndex,
+              originalAppointment: appointment || null,
+            },
           };
         });
       },
       closeAppointmentModal() {
         set((state) => {
           state.appointmentModalState.isOpen = false;
-          state.selectedOfferId = null;
+          // state.selectedOfferId = null;
         });
       },
 
@@ -343,54 +447,50 @@ export const useOfferCartStore = create<OfferCartStore>()(
 
         const campaignId = get().campaignId;
         const pendingAction = get().appointmentModalState.pendingAction;
+        const editMode = get().appointmentModalState.editMode;
 
-        console.log({ offerId, mode, bookedSlots, campaignId, pendingAction });
+        console.log({
+          offerId,
+          mode,
+          bookedSlots,
+          campaignId,
+          pendingAction,
+          editMode,
+        });
 
         if (!campaignId || !offerId || !pendingAction) return;
 
-        // set((state) => {
-        //   if (mode === "schedule-later") {
-        //     // Close modal and execute pending action without slots
-        //     if (pendingAction) {
-        //       pendingAction();
-        //     }
-        //   } else if (mode === "next") {
-        //     // Execute pending action with booked slots
-        //     const existingItemIndex = state.items.findIndex(
-        //       (item) => item.offerId === offerId
-        //     );
-
-        //     console.log("existingItemIndex: ", existingItemIndex);
-
-        //     if (existingItemIndex >= 0) {
-        //       if (bookedSlots && bookedSlots.length > 0) {
-        //         const newAppointment = bookedSlots[0];
-        //         const existingAppointments =
-        //           state.items[existingItemIndex].appointments || [];
-
-        //         state.items[existingItemIndex].appointments = [
-        //           ...existingAppointments,
-        //           newAppointment,
-        //         ];
-        //       }
-        //       // state.items[existingItemIndex].appointments = bookedSlots;
-        //     }
-
-        //     if (pendingAction) {
-        //       if (bookedSlots && bookedSlots?.length > 0) {
-        //         pendingAction(bookedSlots[0]);
-        //       } else {
-        //         pendingAction();
-        //       }
-        //     }
-        //   }
-        // });
-
         if (mode === "schedule-later") {
           if (pendingAction) {
-            pendingAction();
+            const date = new Date().toISOString().split("T")[0];
+
+            const scheduleForLaterObj: OfferCartAppointmentSlot = {
+              [date]: {
+                startTime: "",
+                endTime: "",
+                bookingDay: "",
+                locId: NaN,
+                objId: NaN,
+              },
+            };
+            pendingAction(scheduleForLaterObj);
           }
         } else if (mode === "next") {
+          // Handle edit mode
+          if (
+            editMode.isEditing &&
+            editMode.appointmentIndex !== null &&
+            bookedSlots &&
+            bookedSlots.length > 0
+          ) {
+            // Update existing appointment
+            get().updateAppointmentByIndex(
+              offerId,
+              editMode.appointmentIndex,
+              bookedSlots[0]
+            );
+          }
+
           pendingAction(
             bookedSlots && bookedSlots.length > 0 ? bookedSlots[0] : undefined
           );
