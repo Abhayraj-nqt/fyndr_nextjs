@@ -5,7 +5,7 @@ import React from "react";
 
 import { useOfferCartStore } from "@/zustand/stores/offer-details/offer-cart.store";
 
-import ProceedToPay from "../proceed-to-pay";
+import ProceedToPay from "./proceed-to-pay";
 
 const ProceedToPayWrapper = () => {
   const router = useRouter();
@@ -15,7 +15,6 @@ const ProceedToPayWrapper = () => {
   const handleProceedToPay = () => {
     if (totalItems > 0) {
       setPaymentOptionsVisible(true);
-      // TODO: Scroll to payment section
       router.push("#payment-section");
     } else {
       setPaymentOptionsVisible(false);

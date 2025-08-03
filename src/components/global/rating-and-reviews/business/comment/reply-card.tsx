@@ -1,8 +1,6 @@
 import React from "react";
 
-// import { getTimeStamp } from "@/lib/utils/date";
-
-import Metric from "../sections/rating-and-reviews-section/metric";
+import Metric from "./metric";
 
 type Props = {
   name: string;

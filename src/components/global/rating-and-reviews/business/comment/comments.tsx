@@ -5,7 +5,7 @@ import Pagination from "@/components/global/pagination";
 import { cn } from "@/lib/utils";
 import { Campaign } from "@/types/campaign/campaign.types";
 
-import CommentCard from "../../cards/comment-card";
+import CommentCard from "./comment-card";
 
 type Props = {
   sortBy: "RATING" | "CREATED_DT";

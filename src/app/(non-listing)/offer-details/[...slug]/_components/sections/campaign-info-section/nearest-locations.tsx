@@ -3,8 +3,8 @@ import React from "react";
 import { Separator } from "@/components/ui/separator";
 import { CampaignLocation } from "@/types/campaign/campaign.types";
 
-import AllLocationsModal from "./all-locations-modal";
-import LocationCard from "./location-card";
+import LocationsModal from "./locations-modal";
+import LocationCard from "../../cards/location-card";
 
 type Props = {
   locations: CampaignLocation[];
@@ -27,7 +27,7 @@ const NearestLocations = ({ locations = [], className }: Props) => {
           </React.Fragment>
         ))}
       </div>
-      {locations.length > 10 && <AllLocationsModal locations={locations} />}
+      {locations.length > 10 && <LocationsModal locations={locations} />}
     </div>
   );
 };

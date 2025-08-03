@@ -14,7 +14,6 @@ const PaymentSection = () => {
     const totalTax = items.reduce((sum, item) => sum + item.tax, 0);
     const grandTotal = items.reduce((sum, item) => sum + item.total, 0);
 
-    // Calculate average tax rate (if needed)
     const taxRate = subtotal > 0 ? (totalTax / subtotal) * 100 : 0;
 
     return {
@@ -29,11 +28,11 @@ const PaymentSection = () => {
     <DefaultCard id="payment-section" className="w-full p-6">
       <h2 className="heading-7-medium mb-2 text-secondary">Select Card</h2>
       <Payment
-        total={calculations.grandTotal} // Replace with actual total
-        tax={calculations.totalTax} // Replace with actual tax
-        taxRate={calculations.taxRate} // Replace with actual tax rate
-        amount={calculations.subtotal} // Replace with actual amount
-        isSubscriptionEnabled={false} // Replace with actual subscription status
+        total={calculations.grandTotal}
+        tax={calculations.totalTax}
+        taxRate={calculations.taxRate}
+        amount={calculations.subtotal}
+        isSubscriptionEnabled={false}
         channel="OFFERS"
       />
     </DefaultCard>

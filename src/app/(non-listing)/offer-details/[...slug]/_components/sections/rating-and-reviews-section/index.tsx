@@ -4,14 +4,14 @@ import React, { Suspense } from "react";
 import { auth } from "@/auth";
 import Button from "@/components/global/buttons";
 import DefaultCard from "@/components/global/cards/default-card";
+import BusinessRatings from "@/components/global/rating-and-reviews/business/business-rating";
+import Comments from "@/components/global/rating-and-reviews/business/comment/comments";
+import RatingSorter from "@/components/global/rating-and-reviews/business/rating-sorter";
 import ReviewSubmitModal from "@/components/global/ratings/review-submit-modal";
 import { cn } from "@/lib/utils";
 import { Campaign } from "@/types/campaign/campaign.types";
 
-import BusinessRatings from "./business-ratings";
-import Comments from "./comments";
-import RatingsSorterSelect from "./ratings-sorter-select";
-import AllReviewsModal from "../../all-reviews-modal";
+import AllReviewsModal from "./all-reviews-modal";
 
 export type RatingsAndReviewsProps = {
   business: Campaign["biz"];
@@ -37,8 +37,6 @@ const RatingAndReviewsSection = async ({
   enableCommentPagination = false,
 }: RatingsAndReviewsProps) => {
   const session = await auth();
-
-  // const showWriteReview = session?.user.id ===
 
   return (
     <DefaultCard className={cn("flex w-full flex-col gap-6 p-6", className)}>
@@ -72,7 +70,7 @@ const RatingAndReviewsSection = async ({
       </div>
       <div className="flex-between gap-4">
         <div className="w-full max-w-96">
-          <RatingsSorterSelect />
+          <RatingSorter />
         </div>
         {showSeeAllComments && (
           <AllReviewsModal

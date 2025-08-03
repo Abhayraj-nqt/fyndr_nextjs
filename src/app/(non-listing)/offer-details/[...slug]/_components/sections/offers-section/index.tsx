@@ -8,13 +8,13 @@ import {
   CampaignOffer,
 } from "@/types/campaign/campaign.types";
 
-import DefaultDataFiller from "../checkout/default-data-filler";
-import OfferAppointmentModal from "../checkout/offer-appointment-modal";
-import ProceedToPayWrapper from "../checkout/proceed-to-pay-wrapper";
-import OfferCard from "../offer-card";
-import SelectLocationModal from "../select-location-modal";
+import OfferAppointmentModal from "./appointment/offer-appointment-modal";
 import PaymentInfoWrapper from "./payment-info-wrapper";
-import NavigationCleanerOfferCartStore from "../navigation-cleaner-offer-cart-store";
+import ProceedToPayWrapper from "./proceed-to-pay-wrapper";
+import SelectLocationModal from "./select-location-modal";
+import OfferCard from "../../cards/offer-card";
+import DefaultDataFiller from "../../helpers/default-data-filler";
+import NavigationCleanerOfferCartStore from "../../helpers/navigation-cleaner-offer-cart-store";
 
 type Props = {
   offers: CampaignOffer[];

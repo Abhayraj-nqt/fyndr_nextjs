@@ -12,8 +12,8 @@ import {
 } from "@/types/campaign/campaign.types";
 
 import BuyNowButton from "./buy-now-button";
-import OfferAmountSummary from "./cards/offer-amount-summary";
-import OfferQtySelector from "./checkout/offer-qty-selector";
+import OfferAmountSummary from "./offer-amount-summary";
+import OfferQtySelector from "./offer-qty-selector";
 
 type Props = {
   offer: CampaignOffer;

@@ -16,7 +16,7 @@ import {
 import {
   AppointmentDetailsRow,
   AppointmentDetailsRowProps,
-} from "../checkout/appointment-summary-modal";
+} from "./offers-section/appointment/appointment-summary-modal";
 
 type ProcessedAppointment = {
   appointment: AppointmentSlotPayload;
@@ -75,8 +75,8 @@ const processAppointments = (cartItem: OfferCartItem) => {
   if (scheduledLaterAppointments.length > 0) {
     result.push({
       type: "scheduledLater",
-      appointment: scheduledLaterAppointments[0].appointment, // Use first one for display
-      index: scheduledLaterAppointments[0].index, // Use first index for edit
+      appointment: scheduledLaterAppointments[0].appointment,
+      index: scheduledLaterAppointments[0].index,
       dateKey: scheduledLaterAppointments[0].dateKey,
       appointmentDetails: scheduledLaterAppointments[0].appointmentDetails,
       qty: scheduledLaterAppointments.length,

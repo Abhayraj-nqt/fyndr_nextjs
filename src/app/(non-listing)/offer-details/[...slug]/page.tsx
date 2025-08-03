@@ -1,24 +1,20 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
-import React, { Suspense } from "react";
+import React from "react";
 
 import { onGetCampaignByQr } from "@/actions/campaign.action";
 import { auth } from "@/auth";
 import DefaultCard from "@/components/global/cards/default-card";
-import { Separator } from "@/components/ui/separator";
 import { DEFAULT_LOCATION } from "@/constants";
 import { RouteParams } from "@/types/global";
 
-import CampaignCarousel from "./_components/campaign-carousel";
-import NearestLocation from "./_components/nearest-locations";
+import CampaignInfoSection from "./_components/sections/campaign-info-section";
+import NearestLocations from "./_components/sections/campaign-info-section/nearest-locations";
 import DescriptionSection from "./_components/sections/description-section";
 import OfferDetailsMap from "./_components/sections/offer-details-map";
 import OffersSection from "./_components/sections/offers-section";
 import RatingAndReviewsSection from "./_components/sections/rating-and-reviews-section";
-import BusinessRatings from "./_components/sections/rating-and-reviews-section/business-ratings";
 import RatingAndReviewModal from "./_components/sections/rating-and-reviews-section/rating-and-review-modal";
 import TermsAndConditionsSection from "./_components/sections/terms-and-conditions-section";
-import SocialIcons from "./_components/social-icons";
 
 type Props = {
   params: Promise<{ slug: string[] }>;
@@ -66,8 +62,6 @@ const Offer = async ({ params, searchParams }: RouteParams & Props) => {
 
   const {
     images = [],
-    biz: { bizName },
-    isFeatured,
     cmpnOffers,
     description,
     finePrint: terms,
@@ -83,31 +77,10 @@ const Offer = async ({ params, searchParams }: RouteParams & Props) => {
     <>
       <main className="my-10 flex flex-col items-center justify-center p-4">
         <div className="flex w-full max-w-[1550px] flex-col gap-4 sm:flex-row xl:w-11/12">
-          <DefaultCard className="flex size-full flex-col p-0 sm:max-w-72 lg:min-w-96 lg:max-w-96">
-            <CampaignCarousel images={campaignImages} />
-            <div className="flex flex-col gap-4 p-4">
-              <h1 className="heading-5 text-secondary">{bizName}</h1>
-              <Suspense fallback="Loading...">
-                <BusinessRatings bizId={campaign.biz.bizid} compact />
-              </Suspense>
-              {isFeatured && (
-                <Image
-                  src={"/images/featured.png"}
-                  alt="featured"
-                  width={120}
-                  height={50}
-                  className="m-0 w-28"
-                />
-              )}
-              <SocialIcons campaign={campaign} />
-            </div>
-            <Separator className="hidden sm:block" />
-            <NearestLocation
-              locations={cmpnLocs}
-              className={`hidden sm:flex`}
-            />
-          </DefaultCard>
+          {/* Left section */}
+          <CampaignInfoSection campaign={campaign} />
 
+          {/* Right section */}
           <div className="flex w-full flex-col gap-4">
             <OffersSection
               campaignId={campaign.objid}
@@ -132,7 +105,7 @@ const Offer = async ({ params, searchParams }: RouteParams & Props) => {
             />
 
             <DefaultCard className="flex size-full p-4 sm:hidden">
-              <NearestLocation
+              <NearestLocations
                 locations={cmpnLocs}
                 className={`flex sm:hidden`}
               />

@@ -13,7 +13,7 @@ import ROUTES from "@/constants/routes";
 import { Comment } from "@/types/business/business.types";
 
 import Metric from "./metric";
-import ReplyCard from "../../cards/reply-card";
+import ReplyCard from "./reply-card";
 
 type Props = {
   trigger: React.ReactNode;

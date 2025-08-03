@@ -7,13 +7,13 @@ import { Modal } from "@/components/global/modal";
 import { Separator } from "@/components/ui/separator";
 import { CampaignLocation } from "@/types/campaign/campaign.types";
 
-import LocationCard from "./location-card";
+import LocationCard from "../../cards/location-card";
 
 type Props = {
   locations: CampaignLocation[];
 };
 
-const AllLocationsModal = ({ locations }: Props) => {
+const LocationsModal = ({ locations }: Props) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
@@ -47,4 +47,4 @@ const AllLocationsModal = ({ locations }: Props) => {
   );
 };
 
-export default AllLocationsModal;
+export default LocationsModal;

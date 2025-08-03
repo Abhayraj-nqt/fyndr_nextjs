@@ -2,7 +2,6 @@
 
 import React from "react";
 
-// import { useCartStore } from "@/zustand/stores/offer-details/cart2.store";
 import { useOfferCartStore } from "@/zustand/stores/offer-details/offer-cart.store";
 
 type Props = {

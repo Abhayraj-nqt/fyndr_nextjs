@@ -1,9 +1,8 @@
 import React, { Suspense } from "react";
 
 import { Modal } from "@/components/global/modal";
+import Comments from "@/components/global/rating-and-reviews/business/comment/comments";
 import { Campaign } from "@/types/campaign/campaign.types";
-
-import Comments from "./sections/rating-and-reviews-section/comments";
 
 type Props = {
   trigger: React.ReactNode;

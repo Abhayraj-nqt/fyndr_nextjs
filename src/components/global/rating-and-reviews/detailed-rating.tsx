@@ -17,7 +17,7 @@ type Props = {
   className?: string;
 };
 
-const Rating = ({
+const DetailedRating = ({
   overallRating = 0,
   ratings = [
     {
@@ -116,4 +116,4 @@ const Rating = ({
   );
 };
 
-export default Rating;
+export default DetailedRating;

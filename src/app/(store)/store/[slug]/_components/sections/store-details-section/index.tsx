@@ -4,7 +4,7 @@ import React from "react";
 
 import Button from "@/components/global/buttons";
 import DefaultCard from "@/components/global/cards/default-card";
-import BusinessRatings from "@/components/global/rating-and-reviews/business-rating";
+import BusinessRatings from "@/components/global/rating-and-reviews/business/business-rating";
 import { parseAddress } from "@/lib/utils/address";
 import { GetStoreResponse } from "@/types/store/store.response";
 

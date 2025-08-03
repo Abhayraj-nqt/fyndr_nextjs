@@ -41,7 +41,7 @@ const DefaultDataFiller = ({
     setLocationId,
   ]);
 
-  return null; // This component does not render anything, it just sets the state
+  return null;
 };
 
 export default DefaultDataFiller;

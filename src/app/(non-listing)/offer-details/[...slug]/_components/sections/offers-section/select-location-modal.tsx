@@ -7,33 +7,16 @@ import { Modal } from "@/components/global/modal";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { CampaignLocation } from "@/types/campaign/campaign.types";
-// import { useCartStore } from "@/zustand/stores/offer-details/cart2.store";
-// import { useCartStore } from "@/zustand/stores/offer-details/cart3.store";
 import { useOfferCartStore } from "@/zustand/stores/offer-details/offer-cart.store";
 
-import LocationCard from "./location-card";
+import LocationCard from "../../cards/location-card";
 
 type Props = {
   locations: CampaignLocation[];
   campaignId: number;
-  //   onSelect: (selectedLocation: CampaignLocation) => void;
-  //   open: boolean;
-  //   onOpenChange: ((open: boolean) => void) | undefined;
 };
 
-const SelectLocationModal = ({
-  locations,
-  campaignId,
-  //   onSelect,
-  //   onOpenChange,
-  //   open,
-}: Props) => {
-  // const {
-  //   locationModalState,
-  //   closeLocationModal,
-  //   executeLocationModalAction,
-  //   setCampaignLocation,
-  // } = useCartStore();
+const SelectLocationModal = ({ locations, campaignId }: Props) => {
   const {
     locationModalState,
     closeLocationModal,
@@ -47,8 +30,6 @@ const SelectLocationModal = ({
   );
   const [isProcessing, setIsProcessing] = useState(false);
 
-  // const isOpen =
-  //   locationModalState.isOpen && locationModalState.campaignId === campaignId;
   const isOpen = locationModalState.isOpen && getCampaignId() === campaignId;
 
   const handleLocationChange = (value: string) => {
@@ -67,11 +48,9 @@ const SelectLocationModal = ({
     setIsProcessing(true);
     try {
       // First set the campaign location
-      // setCampaignLocation(campaignId, selectedLocation, locations);
       setLocationId(selectedLocation.locationId);
 
       // Then execute the pending action
-      // executeLocationModalAction(selectedLocation);
       executeLocationModalAction(selectedLocation.locationId);
     } catch (error) {
       console.error("Error processing location selection:", error);
@@ -92,21 +71,9 @@ const SelectLocationModal = ({
     }
   };
 
-  //   const handleLocationChange = (value: string) => {
-  //     const locationId: number = Number(value);
-  //     const selectedLocation = locations.find(
-  //       (item) => item.locationId === locationId
-  //     );
-  //     if (selectedLocation) {
-  //       onSelect(selectedLocation);
-  //     }
-  //   };
-
   return (
     <>
       <Modal
-        // open={open}
-        // onOpenChange={onOpenChange}
         open={isOpen}
         onOpenChange={handleOpenChange}
         title={<p>Select Location</p>}

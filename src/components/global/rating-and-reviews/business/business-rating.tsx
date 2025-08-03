@@ -1,18 +1,20 @@
 import React from "react";
 
 import { onGetRatings } from "@/actions/business.action";
-import Ratings, { RatingData } from "@/components/global/ratings/ratings";
-import StarRating from "@/components/global/ratings/star-rating";
+import { cn } from "@/lib/utils";
 
-import TotalReviewsLink from "./total-reviews-link";
+import DetailedRating, { RatingData } from "../detailed-rating";
+import StarRating from "../star-rating";
+import TotalReviews from "../total-reviews";
 
 type Props = {
   bizId: number;
   compact?: boolean;
   comments?: boolean;
+  className?: string;
 };
 
-const BusinessRatings = async ({ bizId, compact }: Props) => {
+const BusinessRatings = async ({ bizId, compact, className }: Props) => {
   const { success, data } = await onGetRatings({
     params: {
       bizId,
@@ -35,16 +37,16 @@ const BusinessRatings = async ({ bizId, compact }: Props) => {
 
   if (compact) {
     return (
-      <div className="flex items-center gap-3">
+      <div className={cn(`flex items-center gap-3`, className)}>
         <StarRating outOf={5} rating={overallRating} allowHalf size={20} />{" "}
         <div className="body-3 text-black-60">{overallRating} out of 5 </div>
-        <TotalReviewsLink totalReviews={totalReviews} />
+        <TotalReviews totalReviews={totalReviews} />
       </div>
     );
   }
 
   return (
-    <Ratings
+    <DetailedRating
       overallRating={overallRating}
       totalReviews={totalReviews}
       ratings={ratings}

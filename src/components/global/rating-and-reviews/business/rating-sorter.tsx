@@ -10,11 +10,10 @@ type Props = {
   className?: string;
 };
 
-const RatingsSorterSelect = ({ className }: Props) => {
+const RatingSorter = ({ className }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Get initial values from URL params or use defaults
   const initialSortBy = searchParams.get("sortBy") || "RATING";
   const initialOrderBy = searchParams.get("orderBy") || "DESC";
   const [value, setValue] = useState<string>(
@@ -28,7 +27,6 @@ const RatingsSorterSelect = ({ className }: Props) => {
     { label: "Oldest First", value: "CREATED_DT,ASC" },
   ];
 
-  // Update state when URL changes (for browser back/forward navigation)
   useEffect(() => {
     const urlSortBy = searchParams.get("sortBy") || "RATING";
     const urlOrderBy = searchParams.get("orderBy") || "DESC";
@@ -43,17 +41,14 @@ const RatingsSorterSelect = ({ className }: Props) => {
     setValue(newValue);
     const [sortBy, orderBy] = newValue.split(",");
 
-    // Get current search params as string
     const currentParams = searchParams.toString();
 
-    // Update sortBy parameter
     let newUrl = formUrlQuery({
       params: currentParams,
       key: "sortBy",
       value: sortBy,
     });
 
-    // Update orderBy parameter
     const updatedParams = new URLSearchParams(
       newUrl.split("?")[1] || ""
     ).toString();
@@ -63,7 +58,6 @@ const RatingsSorterSelect = ({ className }: Props) => {
       value: orderBy,
     });
 
-    // Navigate to new URL
     router.push(newUrl, { scroll: false });
   };
 
@@ -77,4 +71,4 @@ const RatingsSorterSelect = ({ className }: Props) => {
   );
 };
 
-export default RatingsSorterSelect;
+export default RatingSorter;
