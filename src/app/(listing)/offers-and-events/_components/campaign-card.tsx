@@ -25,7 +25,7 @@ import {
 import ASSETS from "@/constants/assets";
 import ROUTES from "@/constants/routes";
 import { HOST } from "@/environment";
-import { useOptimisticLike } from "@/hooks/campaigns";
+import { useOptimisticLike } from "@/hooks/campaigns/use-optimistic-like";
 import { parseAddress } from "@/lib/utils/address";
 import { Campaign } from "@/types/campaign/campaign.types";
 
@@ -43,7 +43,6 @@ const CampaignCard = ({ campaign }: Props) => {
   const [seeMore, setSeeMore] = useState<boolean>(false);
   const { data: session } = useSession();
 
-  // Use the optimistic like hook
   const likeMutation = useOptimisticLike();
 
   const toggleSeeMore = () => setSeeMore((prev) => !prev);
@@ -58,7 +57,6 @@ const CampaignCard = ({ campaign }: Props) => {
       return;
     }
 
-    // Check current like status - if objid exists and isDeleted is false, it's liked
     const isCurrentlyLiked =
       campaign?.indvCmpn?.objid && campaign?.indvCmpn?.isDeleted === false;
 
@@ -164,7 +162,7 @@ const CampaignCard = ({ campaign }: Props) => {
             )}
 
             {campaign.cmpnUrl || campaign.biz.website ? (
-              <WebsiteTo url={campaign.cmpnUrl || campaign.biz.website}>
+              <WebsiteTo url={campaign.cmpnUrl || campaign.biz.website || ""}>
                 <Globe size={20} />
               </WebsiteTo>
             ) : (

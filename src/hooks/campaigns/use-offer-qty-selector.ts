@@ -1,5 +1,4 @@
-/* eslint-disable max-lines */
-
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useSession } from "next-auth/react";
 import { useEffect, useState, useTransition } from "react";
 
@@ -13,10 +12,8 @@ import {
   CampaignLocation,
   CampaignOffer,
 } from "@/types/campaign/campaign.types";
-import {
-  OfferCartAppointmentSlot,
-  useOfferCartStore,
-} from "@/zustand/stores/offer-details/offer-cart.store";
+import { OfferCartAppointmentSlot } from "@/types/zustand/offer-cart-store.types";
+import { useOfferCartStore } from "@/zustand/stores/offer-details/offer-cart.store";
 
 import { useDebouncedCallback } from "../use-debounced-callback";
 
@@ -25,14 +22,12 @@ type DisabledStatesProps = {
   decrementDisabled: boolean;
   inputDisabled: boolean;
 };
-
 type QuantityProps = {
   qty: number;
   amount: number;
   tax: number;
   total: number;
 };
-
 type Props = {
   offer: CampaignOffer;
   campaignLocations: Campaign["cmpnLocs"];
@@ -43,14 +38,13 @@ const useOfferQtySelector = ({ offer, campaignLocations }: Props) => {
   const {
     addCartItem,
     removeCartItem,
+    setSelectedOfferInfo,
     getLocationId,
-    setSelectedOfferId,
-    setSelectedOfferName,
     openLocationModal,
     openAppointmentModal,
     removeLastAppointment,
     getItemQuantity,
-    items, // Listen to items changes
+    items,
   } = useOfferCartStore();
 
   const [transition, startTransition] = useTransition();
@@ -75,10 +69,7 @@ const useOfferQtySelector = ({ offer, campaignLocations }: Props) => {
     return selectedLocation;
   };
 
-  const handleQtyChange = async (
-    newQty: number,
-    operation: "increment" | "decrement" | "input" = "input"
-  ) => {
+  const handleQtyChange = async (newQty: number) => {
     const qty = Math.max(0, Math.min(newQty, effectiveMaxQty));
     if (qty === 0) {
       // If quantity is 0, remove the item from cart
@@ -88,36 +79,26 @@ const useOfferQtySelector = ({ offer, campaignLocations }: Props) => {
     }
 
     const locationId = getLocationId();
-    setSelectedOfferId(offer.objid);
-    setSelectedOfferName(offer.title);
-
-    console.log({
-      newQty,
-      qty,
-      locationId,
-      operation,
-      selectedOfferId: offer.objid,
+    setSelectedOfferInfo({
+      offerId: offer.objid,
+      offerName: offer.title,
     });
 
     // step 1: If location is not selected then open location modal
     if (!locationId) {
-      console.log(">>Location selection required");
       const pendingAction = () => {
         startTransition(async () => {
           // step 2: If appointment booking is required then open appointment modal
           if (requiresAppointmentBooking()) {
-            console.log(">>Appointment booking required");
             const appointmentPendingAction = (
               appointment?: OfferCartAppointmentSlot
             ) => {
-              console.log("Appointment pending action called");
               startTransition(async () => {
                 await finalizeQuantityUpdate(qty, appointment);
               });
             };
             openAppointmentModal(appointmentPendingAction);
           } else {
-            console.log(">>No appointment booking required");
             await finalizeQuantityUpdate(qty);
           }
         });
@@ -125,27 +106,20 @@ const useOfferQtySelector = ({ offer, campaignLocations }: Props) => {
 
       openLocationModal(pendingAction);
     } else {
-      console.log(">>Location already selected");
       // step 3: If location is already selected & appointment booking is required then open appoint modal
       if (requiresAppointmentBooking()) {
-        console.log(">>Appointment booking required");
         const appointmentPendingAction = (
           appointment?: OfferCartAppointmentSlot
         ) => {
-          console.log("Appointment pending action called");
           startTransition(async () => {
-            // await finalizeQuantityUpdate(qty, appointment);
-
             // Check if cart was cleared (location change scenario)
             const currentCartQty = getItemQuantity(offer.objid);
             const finalQty = currentCartQty === 0 ? 1 : qty;
             await finalizeQuantityUpdate(finalQty, appointment);
           });
         };
-
         openAppointmentModal(appointmentPendingAction);
       } else {
-        console.log(">>No appointment booking required");
         await finalizeQuantityUpdate(qty);
       }
     }
@@ -154,7 +128,7 @@ const useOfferQtySelector = ({ offer, campaignLocations }: Props) => {
   const debouncedHandleQtyChange = useDebouncedCallback(handleQtyChange, 500);
   const handleIncrement = () => {
     if (qtyData.qty >= effectiveMaxQty) return;
-    handleQtyChange(qtyData.qty + 1, "increment");
+    handleQtyChange(qtyData.qty + 1);
   };
   const handleDecrement = () => {
     if (qtyData.qty <= 1) {
@@ -211,18 +185,10 @@ const useOfferQtySelector = ({ offer, campaignLocations }: Props) => {
       });
       return null;
     }
-
-    console.log("onVerifyOffer called", { verifySuccess });
-
     const selectedLocationId = getLocationId();
-
     // Get location for tax calculation
     if (!selectedLocationId) {
       throw new Error("Location not selected");
-      // toast.error({
-      //   message: "Location not selected"
-      // })
-      // return null;
     }
 
     const selectedLocation = getSelectedLocation(selectedLocationId);
@@ -253,14 +219,6 @@ const useOfferQtySelector = ({ offer, campaignLocations }: Props) => {
       const amount = Number(parseAmount(offer.offerPrice * qty));
       const tax = Number(parseAmount(offer.offerPrice * taxData.taxRate * qty));
       const total = amount + tax;
-
-      console.log({
-        qty,
-        amount,
-        tax,
-        total,
-      });
-
       return {
         qty,
         amount,
@@ -268,7 +226,6 @@ const useOfferQtySelector = ({ offer, campaignLocations }: Props) => {
         total,
       };
     }
-
     return null;
   };
 
@@ -277,15 +234,10 @@ const useOfferQtySelector = ({ offer, campaignLocations }: Props) => {
     appointment?: OfferCartAppointmentSlot
   ) => {
     startFinalizingUpdate(async () => {
-      console.log("finalizeQuantityUpdate called: ", newQty);
-
       const pricingData = await calculatePricing(newQty);
-      console.log("\tpricing data: ", pricingData);
-
       if (!pricingData) return;
       setQtyData(pricingData);
 
-      // update cart
       if (pricingData.qty > 0) {
         const selectedLocationId = getLocationId();
         if (selectedLocationId) {
@@ -312,7 +264,6 @@ const useOfferQtySelector = ({ offer, campaignLocations }: Props) => {
     );
 
     if (!selectedLocation) {
-      // throw new Error("Please select location");
       return false;
     }
 
@@ -347,14 +298,9 @@ const useOfferQtySelector = ({ offer, campaignLocations }: Props) => {
     finalizingUpdate,
   ]);
 
-  // -------------------------------------------------------
-
-  // Initialize with store quantity on mount
   useEffect(() => {
-    console.log("Initializing qtyData with store quantity on mount");
     const storeQty = getItemQuantity(offer.objid);
     if (storeQty > 0 && qtyData.qty === 0) {
-      // Initialize with store data if available
       const cartItem = items.find((item) => item.offerId === offer.objid);
       if (cartItem) {
         setQtyData({
@@ -365,26 +311,14 @@ const useOfferQtySelector = ({ offer, campaignLocations }: Props) => {
         });
       }
     }
-  }, []); // Only on mount
-
+  }, []);
   // Sync local state with store when items change
   useEffect(() => {
-    console.log("Syncing qtyData with store: USE_EFFECT");
-
     const storeQty = getItemQuantity(offer.objid);
     if (storeQty !== qtyData.qty) {
       if (storeQty === 0) {
-        // Reset to zero state
         setQtyData({ qty: 0, amount: 0, tax: 0, total: 0 });
       } else {
-        // Update with store quantity (preserve other calculated values)
-        // setQtyData((prev) => ({ ...prev, qty: storeQty }));
-        console.log("Syncing qtyData with store:", {
-          offerId: offer.objid,
-          storeQty,
-          qtyData: { ...qtyData, qty: storeQty },
-        });
-
         // Update with store quantity (preserve other calculated values or get from store)
         const cartItem = items.find((item) => item.offerId === offer.objid);
         if (cartItem) {
@@ -397,20 +331,15 @@ const useOfferQtySelector = ({ offer, campaignLocations }: Props) => {
         }
       }
     }
-    // }, [items, offer.objid, getItemQuantity, qtyData.qty]);
   }, [items, offer.objid, getItemQuantity, qtyData.qty]);
 
   return {
-    // states
     qtyData,
     disabledStates,
     effectiveMaxQty,
-
-    // handlers
     handleIncrement,
     handleDecrement,
     handleQtyInputChange,
   };
 };
-
 export default useOfferQtySelector;

@@ -94,6 +94,7 @@ export type CampaignLocation = {
   postalCode: string;
   state: string;
   status: string;
+  storeUrl: null | string;
 };
 
 export type PaymentSubscriptionProps = {

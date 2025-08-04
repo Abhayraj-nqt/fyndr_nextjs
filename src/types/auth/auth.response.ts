@@ -15,8 +15,6 @@ import {
 } from "./auth.types";
 import { PaymentMethod } from "../payment/payment.types";
 
-export type SignInResponse = any;
-
 export type GetAccountResponse = {
   accountStatus: AccountStatus;
   addonUrl: string | null;
@@ -84,7 +82,7 @@ export type ResetPasswordResponse = {
 
 export type RefreshTokenResponse = GenerateTokenResponse;
 
-export type SignInWithCredentialsResponse = any;
+export type SignInWithCredentialsResponse = null;
 
 export type SignUpResponse = GetAccountResponse;
 

@@ -5,15 +5,14 @@ import React, { useMemo } from "react";
 
 import Button from "@/components/global/buttons";
 import { Modal } from "@/components/global/modal";
-import { CurrencySymbol } from "@/types/global";
 import {
   AppointmentSlot,
   AppointmentSlotPayload,
 } from "@/types/invoice/invoice.types";
-import {
-  OfferCartAppointmentSlot,
-  useOfferCartStore,
-} from "@/zustand/stores/offer-details/offer-cart.store";
+import { OfferCartAppointmentSlot } from "@/types/zustand/offer-cart-store.types";
+import { useOfferCartStore } from "@/zustand/stores/offer-details/offer-cart.store";
+
+import { AppointmentDetailsRowProps } from "./appointment-details-row";
 
 const formatTime = (timeStr: string) => {
   const [hour, minute] = timeStr.split(":");
@@ -24,18 +23,6 @@ const formatTime = (timeStr: string) => {
     minute: "2-digit",
     hour12: true,
   });
-};
-
-export type AppointmentDetailsRowProps = {
-  startTime: string;
-  endTime: string;
-  date: Date;
-  qty: number;
-  amount: number;
-  currencySymbol: CurrencySymbol;
-  offerName: string;
-  type: "regular" | "scheduledLater";
-  onEdit: () => void;
 };
 
 export const AppointmentDetailsRow = ({
@@ -104,6 +91,13 @@ export const AppointmentDetailsRow = ({
   );
 };
 
+type ProcessedAppointment = {
+  appointment: AppointmentSlotPayload;
+  index: number;
+  dateKey: string;
+  appointmentDetails: AppointmentSlot;
+};
+
 type AppointmentSummaryModalProps = {
   offerId: number;
   isOpen: boolean;
@@ -120,15 +114,7 @@ const AppointmentSummaryModal = ({
   title,
 }: AppointmentSummaryModalProps) => {
   const { getCartItem, openAppointmentModalForEdit } = useOfferCartStore();
-
   const cartItem = getCartItem(offerId);
-
-  type ProcessedAppointment = {
-    appointment: AppointmentSlotPayload;
-    index: number;
-    dateKey: string;
-    appointmentDetails: AppointmentSlot;
-  };
 
   // Process appointments to group "scheduled for later" ones
   const processedAppointments = useMemo(() => {
@@ -177,7 +163,6 @@ const AppointmentSummaryModal = ({
         });
       }
     );
-
     // Add grouped scheduled for later appointments
     if (scheduledLaterAppointments.length > 0) {
       result.push({
@@ -198,7 +183,6 @@ const AppointmentSummaryModal = ({
   const handleEdit = (appointmentIndex: number) => {
     const appointment = cartItem.appointments[appointmentIndex];
     if (!appointment) return;
-    console.log("Edit appointment clicked", { appointmentIndex, appointment });
     const editPendingAction = (
       updatedAppointment?: OfferCartAppointmentSlot
     ) => {

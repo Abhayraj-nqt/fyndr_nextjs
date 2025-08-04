@@ -62,7 +62,6 @@ const AuthForm = <T extends FieldValues>({
       });
 
       if (callback) {
-        // router.replace(callback);
         router.replace(`${ROUTES.CALLBACK_SIGN_IN}?callback=${callback}`);
         return;
       }
@@ -110,7 +109,6 @@ const AuthForm = <T extends FieldValues>({
         <div className="flex-center !mt-8 gap-2 ">
           <Button
             disabled={form.formState.isSubmitting}
-            // className="min-h-12 w-full rounded-10 bg-primary px-4 py-3 text-base font-normal !text-white hover:bg-primary"
             variant="primary"
             stdHeight
             stdWidth

@@ -9,19 +9,19 @@ import CategorySection from "./_components/sections/category-section";
 import StoreDetailsSection from "./_components/sections/store-details-section";
 
 const Store = async ({ searchParams, params }: RouteParams) => {
-  //   const { slug } = (await params) as { slug: string };
-  //   const { location: locationId } = await searchParams;
+  const { slug: catalogueUrl } = (await params) as { slug: string };
+  const { location: locationId } = await searchParams;
 
   // const catalogueUrl = "Tasty-bytes-512";
   // const locationId = 493;
-  const catalogueUrl = "scafe21";
-  const locationId = 444;
+  // const catalogueUrl = "scafe21";
+  // const locationId = 444;
 
   console.log({ catalogueUrl, locationId });
 
   const { success, data: store } = await onGetStore({
     params: {
-      locationId,
+      locationId: Number(locationId || -1),
     },
   });
 

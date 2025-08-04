@@ -14,21 +14,11 @@ import GoogleMap3 from "@/components/global/google-map/google-map3";
 import { DEFAULT_LOCATION, TYPES_OF_DEALS } from "@/constants";
 import ASSETS from "@/constants/assets";
 import ROUTES from "@/constants/routes";
-import { useCampaignMapMarkers } from "@/hooks/campaigns";
+import { useCampaignMapMarkers } from "@/hooks/campaigns/use-campaign-map-markers";
 
 const CampaignMarkerMap = () => {
   const searchParams = useSearchParams();
 
-  // const lat = searchParams.get("lat");
-  // const lng = searchParams.get("lng");
-  // const types = searchParams.get("types") || "";
-  // const categories = searchParams.get("categories") || "";
-  // const dist = searchParams.get("dist") || "50";
-  // const query = searchParams.get("query");
-  // const mode = searchParams.get("mode") || "offline";
-  // const order = searchParams.get("order") || "asc";
-
-  // Extract search params once
   const searchParamsData = useMemo(
     () => ({
       lat: searchParams.get("lat"),
@@ -56,75 +46,13 @@ const CampaignMarkerMap = () => {
       location.lng = user.location.lng;
     }
 
-    // if (lat && lng) {
-    //   location.lat = Number(lat);
-    //   location.lng = Number(lng);
-    // }
-
     if (searchParamsData.lat && searchParamsData.lng) {
       location.lat = Number(searchParamsData.lat);
       location.lng = Number(searchParamsData.lng);
     }
 
     return location;
-    // }, [user?.location, lat, lng]);
   }, [user?.location, searchParamsData.lat, searchParamsData.lng]);
-
-  // Memoize deal types processing
-  // const dealTypes = useMemo(() => {
-  //   let processedTypes: string[] = types
-  //     ? types.split(",").filter(Boolean)
-  //     : ["ALL"];
-
-  //   if (processedTypes.length === 0 || processedTypes[0] === "") {
-  //     processedTypes = ["ALL"];
-  //   }
-
-  //   if (processedTypes.includes("ALL")) {
-  //     return TYPES_OF_DEALS.filter((item) => item.value !== "ALL")
-  //       .map((item) => item.value)
-  //       .sort();
-  //   }
-
-  //   return processedTypes.sort();
-  // }, [types]);
-
-  // Memoize category IDs processing
-  // const categoryIds = useMemo(() => {
-  //   if (!categories) return [];
-
-  //   return categories
-  //     .split(",")
-  //     .filter(Boolean)
-  //     .map(Number)
-  //     .filter((num) => !isNaN(num))
-  //     .sort((a, b) => a - b);
-  // }, [categories]);
-
-  // Memoize query parameters to prevent unnecessary API calls
-  // const queryParams = useMemo(
-  //   () => ({
-  //     orderBy: order.toUpperCase() as "ASC" | "DESC",
-  //     search: query || undefined,
-  //   }),
-  //   [order, query]
-  // );
-
-  // const queryPayload = useMemo(
-  //   () => ({
-  //     indvId: indvId ? Number(indvId) : null,
-  //     distance: Math.max(Number(dist), 20),
-  //     location: locationPayload,
-  //     campaignType: dealTypes,
-  //     categories: categoryIds,
-  //     fetchById: "none",
-  //     fetchByGoal: mode === "offline" ? "INSTORE" : "ONLINE",
-  //     locQRId: null,
-  //   }),
-  //   [indvId, dist, locationPayload, dealTypes, categoryIds, mode]
-  // );
-
-  // -----------------------------------------
 
   const dealTypes = useMemo(() => {
     let processedTypes: string[] = searchParamsData.types
@@ -157,11 +85,9 @@ const CampaignMarkerMap = () => {
 
   const queryParams = useMemo(
     () => ({
-      // orderBy: searchParamsData.order.toUpperCase() as "ASC" | "DESC",
       orderBy: "DESC" as const,
       search: searchParamsData.query || undefined,
     }),
-    // [searchParamsData.order, searchParamsData.query]
     [searchParamsData.query]
   );
 
@@ -269,8 +195,6 @@ const CampaignMarkerMap = () => {
         height="250px"
         center={locationPayload}
         markers={markerData}
-        // enableClustering={false}
-        // maxMarkersToShow={500} // Limit for performance
         renderInfoWindow={(marker) => (
           <div className="max-w-xs p-4">
             <h3 className="mb-2 text-lg font-bold">{marker.title}</h3>
@@ -293,18 +217,7 @@ const CampaignMarkerMap = () => {
             </Link>
           </div>
         )}
-        onMarkerClick={(marker) => {
-          console.log("Marker clicked:", marker);
-          // Handle marker click if needed
-        }}
       />
-
-      {/* Show data stats */}
-      {/* {markerData.length > 0 && (
-        <div className="absolute bottom-2 right-2 rounded bg-black/70 px-2 py-1 text-xs text-white">
-          {markerData.length} location{markerData.length !== 1 ? "s" : ""}
-        </div>
-      )} */}
     </div>
   );
 };

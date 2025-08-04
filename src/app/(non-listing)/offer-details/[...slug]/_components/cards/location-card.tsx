@@ -28,8 +28,6 @@ const LocationCard = ({
       : `https://${website}`
     : null;
 
-  const storeUrl = ROUTES.STORE("");
-
   return (
     <div
       className={`body-3 flex w-full gap-4 text-black-50 ${variant === "modal" ? "flex-between flex-row" : "flex-col"}`}
@@ -55,9 +53,9 @@ const LocationCard = ({
         )}
       </div>
       <div className="">
-        {location?.catalogueId && !radio && (
+        {location?.catalogueId && location.storeUrl !== null && !radio && (
           <Button variant="primary" className="self-start" asChild>
-            <Link href={storeUrl}>
+            <Link href={ROUTES.STORE(location.storeUrl, location.locationId)}>
               <Store /> View Store
             </Link>
           </Button>

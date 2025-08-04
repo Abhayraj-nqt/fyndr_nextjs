@@ -16,7 +16,8 @@ const ROUTES = {
   OFFER_DETAILS: (bizName: string, qrCode: string) =>
     slugify(`/offer-details/${bizName}/${qrCode}`),
   OFFER_LISTING_CATEGORY: (category: string) => `/offer-listing/${category}`,
-  STORE: (id: number | string) => `/store/${id}`,
+  STORE: (storeUrl: number | string, locId?: number | string) =>
+    !locId ? `/store/${storeUrl}` : `/store/${storeUrl}?location=${locId}`,
 
   // Legal routes
   LEGAL_TERMS: "/legal/terms",

@@ -22,7 +22,7 @@ const SelectLocationModal = ({ locations, campaignId }: Props) => {
     closeLocationModal,
     executeLocationModalAction,
     setLocationId,
-    getCampaignId,
+    campaignId: selectedCampaignId,
   } = useOfferCartStore();
 
   const [selectedLocationId, setSelectedLocationId] = useState<number | null>(
@@ -30,7 +30,7 @@ const SelectLocationModal = ({ locations, campaignId }: Props) => {
   );
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const isOpen = locationModalState.isOpen && getCampaignId() === campaignId;
+  const isOpen = locationModalState.isOpen && selectedCampaignId === campaignId;
 
   const handleLocationChange = (value: string) => {
     setSelectedLocationId(Number(value));

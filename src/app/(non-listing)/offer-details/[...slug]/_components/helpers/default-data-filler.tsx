@@ -18,13 +18,14 @@ const DefaultDataFiller = ({
   campaignName,
   bizName,
 }: Props) => {
-  const { setCampaignId, setLocationId, setCampaignName, setBizName } =
-    useOfferCartStore();
+  const { setLocationId, setCampaignInfo } = useOfferCartStore();
 
   React.useEffect(() => {
-    setCampaignId(campaignId);
-    setCampaignName(campaignName);
-    setBizName(bizName);
+    setCampaignInfo({
+      bizName,
+      cmpnId: campaignId,
+      cmpnName: campaignName,
+    });
 
     // Automatically set locationId if only one location is available
     if (campaignLocations && campaignLocations.length === 1) {
@@ -35,9 +36,7 @@ const DefaultDataFiller = ({
     campaignId,
     campaignLocations,
     campaignName,
-    setBizName,
-    setCampaignId,
-    setCampaignName,
+    setCampaignInfo,
     setLocationId,
   ]);
 

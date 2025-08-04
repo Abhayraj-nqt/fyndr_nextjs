@@ -10,13 +10,13 @@ import {
 import {
   OfferCartAppointmentSlot,
   OfferCartItem,
-  useOfferCartStore,
-} from "@/zustand/stores/offer-details/offer-cart.store";
+} from "@/types/zustand/offer-cart-store.types";
+import { useOfferCartStore } from "@/zustand/stores/offer-details/offer-cart.store";
 
 import {
   AppointmentDetailsRow,
   AppointmentDetailsRowProps,
-} from "./offers-section/appointment/appointment-summary-modal";
+} from "./offers-section/appointment/appointment-details-row";
 
 type ProcessedAppointment = {
   appointment: AppointmentSlotPayload;
@@ -87,9 +87,7 @@ const processAppointments = (cartItem: OfferCartItem) => {
 };
 
 const OfferSummarySection = () => {
-  const { getCartItems, openAppointmentModalForEdit } = useOfferCartStore();
-
-  const cartItems = getCartItems();
+  const { openAppointmentModalForEdit, items: cartItems } = useOfferCartStore();
 
   const handleEdit = (offerId: number, appointmentIndex: number) => {
     const cartItem = cartItems.find((item) => item.offerId === offerId);
