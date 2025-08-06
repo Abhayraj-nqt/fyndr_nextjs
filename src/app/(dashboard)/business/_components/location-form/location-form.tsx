@@ -20,7 +20,7 @@ import {
 import ROUTES from "@/constants/routes";
 import { useUser } from "@/hooks/auth";
 import {
-  AddLocationParams,
+  AddLocationPayload,
   UpdateLocationPayload,
 } from "@/types/api-params/others.params";
 import { UpdateLocationResponse } from "@/types/location/location.response";
@@ -30,7 +30,6 @@ import ParentLocation from "./_components/parent-location";
 import PersonalInfo from "./_components/personal-address-info";
 import { baseCreateLocationSchema, LocationFormData } from "./schema";
 
-type AddLocationPayload = Parameters<AddLocationParams>[0];
 
 type CreateLocationFormParms = {
   objid?: string;
@@ -82,10 +81,10 @@ const CreateLocationForm = ({
 
   useEffect(() => {
     if (form.getValues("useBusinessAddress")) {
-      form.setValue("addressLine1", user?.address.addressLine1);
-      form.setValue("postalCode", user?.address.postalCode);
-      form.setValue("city", user?.address.city);
-      form.setValue("state", user?.address.state);
+      form.setValue("addressLine1", user?.address.addressLine1 ?? "");
+      form.setValue("postalCode", user?.address.postalCode ??"");
+      form.setValue("city", user?.address.city ?? "");
+      form.setValue("state", user?.address.state ??"");
     } else {
       form.setValue("addressLine1", "");
       form.setValue("postalCode", "");
@@ -132,10 +131,10 @@ const CreateLocationForm = ({
 
     const payload: AddLocationPayload = {
       addressLine1: data.addressLine1,
-      addressLine2: data.addressLine2,
-      bizid: user?.bizid,
+      addressLine2: data.addressLine2 ??"",
+      bizid: user?.bizid ?? 0,
       city: data.city,
-      country: data.country,
+      country: data.country ?? "US",
       ctryCode: data.ctryCode,
       deliveryOptions: "",
       deliveryWithin: null,

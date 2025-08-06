@@ -20,7 +20,7 @@ type Props = {
 
 export const ParentLocation = ({ form }: Props) => {
   const { user } = useUser();;
- const [locations, setLocations] = useState<Location[]>(user?.locations || []);
+ const [locations] = useState<Location[]>(user?.locations || []);
 
   const parents = locations?.filter(
     (row) => row.parentLocation == null && row.objid !== undefined

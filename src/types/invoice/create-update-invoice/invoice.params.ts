@@ -23,9 +23,9 @@ export type GetInvoiceTaxParams = {
 
 export type InvoiceCreationParams = {
   payload: {
-    objid: null;
-    bizid: number;
-    merchantId: string;
+    objid: number;
+    bizid: number | null;
+    merchantId: unknown;
     baseAmount: string;
     taxAmount: number | null;
     currency: string;
@@ -34,8 +34,8 @@ export type InvoiceCreationParams = {
     invoiceDetails: CreateInvoiceDetails;
     includesTax: boolean;
     channel: string;
-    dueDate: string | null;
-    buyerQRId: number;
+    dueDate: string | Date | null;
+    buyerQRId?: number;
   };
 };
 
@@ -67,7 +67,7 @@ export type CancelInvoiceParams = {
     buyerFname: string;
     buyerLname: string;
     includesTax: boolean | null;
-    bizid: number;
+    bizid: number ;
     fyndrCash: number;
     isOfferGifted: boolean;
     isDisputed: boolean;

@@ -35,11 +35,11 @@ export type QrLogoUploadParams = (payload: {
   qrLogo: string;
 }) => Promise<ActionResponse<BusinessLogo>>;
 
+export type AddLocationPayload = Parameters<AddLocationParams>[0];
 
-export type UpdateLocationPayload = AddLocationParams & {
-  objid: number | string;
+export type UpdateLocationPayload = AddLocationPayload & {
+  objid: number | string; 
 };
-
 export type AddLocationParams = (payload: {
   locName: string;
   objid?: number;

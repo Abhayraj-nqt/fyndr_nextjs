@@ -61,6 +61,7 @@ export type GetAccountResponse = {
   website: string | null;
   yob: string | null;
   stripeAccountType: string | "EXPRESS";
+
 };
 
 export type GenerateTokenResponse = {

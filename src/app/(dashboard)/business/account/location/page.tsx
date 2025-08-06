@@ -8,7 +8,7 @@ import { onDeleteLocation } from "@/actions/others.action";
 import ContainerWrapper from "@/components/global/container-wrapper";
 import ROUTES from "@/constants/routes";
 import { useUser } from "@/hooks/auth";
-import { UpdateLocationResponse } from "@/types/location/location.response";
+import { Location } from "@/types/auth/auth.types";
 
 import CreateLocationButton from "./_components/create-location-button";
 
@@ -16,49 +16,12 @@ type Props = {
   children: React.ReactNode;
 };
 
-type Location = {
-  objid: number;
-  locName: string;
-  addressLine1: string;
-  addressLine2: string;
-  city: string;
-  state: string;
-  postalCode: string;
-  country: string;
-  parentLocation: number;
-  catalogueName: string | null;
-  qrCode: string;
-  qrid: number;
-};
-
 const LocationManager = ({ children }: Props) => {
   // const sanitizedQrPrefix = qrPrefix.endsWith('/') ? qrPrefix.slice(0, -1) : qrPrefix;
   const { isLoading, user, error } = useUser();
   const router = useRouter();
-  const locations = user?.locations || [];
 
-  //   const [locations, setLocations] = useState<Location[]>([]);
-
-  // useEffect(() => {
-  //   if (!user) return;
-  //   const fetchAdditionalAccountData = async () => {
-  //     const { status, data } = await onGetAccount({
-  //       payload: {
-  //         email: user?.email || "",
-  //         regMode: "classic",
-  //         isBusiness: user?.isBusiness || false,
-  //       },
-  //     });
-
-  //     if (status && data?.locations) {
-  //       setLocations(data.locations);
-
-  //       console.log(data.locations, "this is the locations data");
-  //     }
-  //   };
-
-  //   fetchAdditionalAccountData();
-  // }, [user]);
+  const [locations, setLocations] = useState<Location[]>(user?.locations ?? []);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -143,13 +106,6 @@ const LocationManager = ({ children }: Props) => {
                   className="flex items-center justify-between p-6 transition-colors hover:bg-gray-50"
                 >
                   <div className="flex items-center gap-4">
-                    {/* <div
-                      className="text-blue-500"
-                      onClick={() => handleQrCode(location)}
-                    >
-                      <QrCode size={"32"} />
-                    </div> */}
-
                     <h3 className="text-lg font-medium text-gray-900">
                       {location?.locName}
                     </h3>
@@ -175,30 +131,6 @@ const LocationManager = ({ children }: Props) => {
           )}
         </div>
       </ContainerWrapper>
-
-      {/* <Modal
-        trigger={children}
-        title={selectedLocation?.locName}
-        open={qrModalVisible}
-        onOpenChange={(open) => {
-          if (!open) {
-            setQrModalVisible(false);
-            setSelectedLocation(null);
-          }
-        }}
-      >
-        <div className="flex items-center justify-center">
-       
-          <QRCode
-            style={{ maxWidth: "100%" }}
-            size={160}
-            logoWidth={40}
-            logoImage={
-              user?.qrLogo ? `${user.qrLogo}?v=${Date.now()}` : undefined
-            }
-          />
-        </div>
-      </Modal> */}
     </>
   );
 };
