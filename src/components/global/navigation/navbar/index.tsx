@@ -7,84 +7,33 @@ import ROUTES from "@/constants/routes";
 import Account from "./account";
 import Logo from "./logo";
 import MobileNavigation from "./mobile-navigation";
+// import MobileNavigationDrawer from "./mobile-navigation-drawer";
 import NavLinks from "./nav-links";
-import LocationSelector from "../../location-selector";
-import MobileLocationSelectorModal from "../../location-selector/mobile-location-selector-modal";
-import LocalSearch from "../../search/local-search";
-import VisibilityWrapper from "../../visibility-wrapper";
+import SearchAndLocationRenderer from "./search-and-location-renderer";
 
-type Props = {
-  searchbar?: boolean;
-  location?: boolean;
-  searchNavigateTo?: string;
-  searchParam?: string;
-};
-
-const Navbar = ({
-  location,
-  searchbar,
-  searchNavigateTo,
-  searchParam = "query",
-}: Props) => {
+const Navbar = () => {
   return (
-    <nav className="flex-between sticky top-0 z-50 min-h-16 w-full gap-5 bg-primary-500 p-2 px-4 xs:px-8">
-      <Logo />
-      <div className="flex-between relative w-full max-w-2xl gap-2 lg:gap-8">
-        {searchbar && (
-          <>
-            {searchNavigateTo ? (
-              <VisibilityWrapper visibleHeight={200}>
-                <LocalSearch
-                  icon="/icons/search.svg"
-                  placeholder="Search Offers, Events & Businesses"
-                  route="/"
-                  className="size-full min-h-9 min-w-[50%] max-w-lg flex-1 xs:min-h-[45px] sm:w-full"
-                  inputClassName=""
-                  navigateTo={searchNavigateTo}
-                  navigateParam={searchParam}
-                  isOnNavbar
-                />
-              </VisibilityWrapper>
-            ) : (
-              <LocalSearch
-                icon="/icons/search.svg"
-                placeholder="Search Offers, Events & Businesses"
-                route="/"
-                className="size-full min-h-9 min-w-[50%] max-w-lg flex-1 xs:min-h-[45px] sm:w-full"
-                inputClassName=""
-                navigateTo={searchNavigateTo}
-                navigateParam={searchParam}
-                isOnNavbar
-              />
-            )}
-          </>
-        )}
-        {location && (
-          <>
-            <LocationSelector
-              className="hidden w-full sm:flex"
-              inputClassName="w-full"
-            />
-            <div></div>
-            <MobileLocationSelectorModal />
-          </>
-        )}
+    <nav className="flex-between fixed inset-x-0 top-0 z-50 min-h-16 w-full gap-2 bg-primary p-2 px-4 xs:px-8 sm:gap-4">
+      <Logo className="mr-2 md:mr-0" />
+      <div className="relative flex w-full max-w-2xl items-center justify-end gap-2 md:justify-center md:gap-4 lg:justify-end lg:gap-8">
+        <SearchAndLocationRenderer />
       </div>
 
       <div className="flex-between gap-5">
         <section className="mx-4 hidden w-full min-w-40 max-w-48 justify-end gap-4 lg:flex">
-          <NavLinks className="md:flex-center small-regular hidden flex-col gap-1 text-light-900" />
+          <NavLinks className="md:flex-center small-regular hidden flex-col gap-1 text-white" />
         </section>
         <Button
           variant={"outline"}
           className={
-            "body-medium hidden self-center rounded-lg border-2 border-light-900 bg-transparent px-3 py-4 text-light-900 hover:bg-transparent hover:text-light-900 lg:flex"
+            "body-medium hidden self-center rounded-lg border-2 border-white bg-transparent px-3 py-4 text-white hover:bg-transparent hover:text-white lg:flex"
           }
         >
           <Link href={ROUTES.OFFERS_AND_EVENTS}>Offers & Events</Link>
         </Button>
         <Account className="hidden md:flex" />
         <MobileNavigation />
+        {/* <MobileNavigationDrawer /> */}
       </div>
     </nav>
   );

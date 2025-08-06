@@ -1,6 +1,6 @@
-import { getAccountAPI } from "@/actions/auth.actions";
+import { onGetAccount } from "@/actions/auth.actions";
 import { auth } from "@/auth";
-import ContainerWrapper from "@/components/global/ContainerWrapper";
+import ContainerWrapper from "@/components/global/container-wrapper";
 import { RouteParams } from "@/types/global";
 
 import Summary from "./_components/summary/index";
@@ -16,10 +16,12 @@ const BusinessPage = async ({
   if (!email) throw new Error("Email is required");
   if (!token) throw new Error("Session expired!!");
 
-  const { success, data } = await getAccountAPI({
-    email,
-    regMode: "facebook",
-    accessToken: token,
+  const { success, data } = await onGetAccount({
+    payload: {
+      email,
+      regMode: "facebook",
+      accessToken: token,
+    },
   });
 
   if (!success || !data) return null;
@@ -29,7 +31,7 @@ const BusinessPage = async ({
   return (
     <>
       <div className="mx-auto w-[90%] max-w-screen-xl space-y-4 ">
-        <ContainerWrapper title="My Order" noPadding>
+        <ContainerWrapper title="My Orders" noPadding>
           <Summary month={month} bizid={bizid} />
         </ContainerWrapper>
         <ContainerWrapper>

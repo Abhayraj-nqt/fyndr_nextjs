@@ -4,15 +4,20 @@ import NextAuth, { AuthError, User } from "next-auth";
 import type { AdapterUser } from "next-auth/adapters";
 import type { JWT } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
 
 import {
-  getAccountAPI,
-  refreshAccessTokenAPI,
-  signInAPI,
+  onGetAccount,
+  onGoogleOAuth,
+  onRefreshToken,
+  onSignIn,
 } from "@/actions/auth.actions";
 
-import { SignInSchema } from "./components/forms/auth/schema";
+import { SignInSchema } from "./components/forms/auth/sign-in/schema";
 import { authConfig } from "./config/auth.config";
+import ROUTES from "./constants/routes";
+import handleError from "./lib/handlers/error";
+import { EntityRole, EntityType } from "./types/auth/auth.types";
 import { Coordinates } from "./types/global";
 
 class InvalidLoginError extends AuthError {
@@ -70,30 +75,26 @@ declare module "next-auth/jwt" {
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  // session: {
-  //   strategy: "jwt",
-  //   maxAge: 72 * 60 * 60, // 72 hours // 3 days
-  // },
-
   ...authConfig,
   providers: [
+    Google,
     Credentials({
       async authorize(credentials) {
         const validatedFields = SignInSchema.safeParse(credentials);
-
         if (validatedFields.success) {
           const { email, password } = validatedFields.data;
-
           try {
             const {
               headers: signInHeaders,
               success: signInSuccess,
               data: signInData,
               error,
-            } = await signInAPI({
-              email,
-              password,
-              mode: "classic",
+            } = await onSignIn({
+              payload: {
+                email,
+                password,
+                mode: "classic",
+              },
             });
 
             if (!signInSuccess || !signInHeaders || !signInData) {
@@ -107,15 +108,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
             if (!accessToken) return null;
 
-            const { success, data: parsedAccountResponse } =
-              await getAccountAPI({
-                email,
-                regMode: "classic",
-                accessToken,
-              });
+            const { success, data: parsedAccountResponse } = await onGetAccount(
+              {
+                payload: {
+                  email,
+                  regMode: "classic",
+                  accessToken,
+                },
+              }
+            );
 
             if (!success || !parsedAccountResponse) return null;
-
             if (parsedAccountResponse.accountStatus === "DELETED") {
               return null;
             }
@@ -164,9 +167,26 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
 
   callbacks: {
-    jwt: async ({ token, account, user }) => {
+    jwt: async ({ token, account, user, trigger, session }) => {
       // user is only available the first time a user signs in authorized
       // console.log(`In jwt callback - Token is ${JSON.stringify(token)}`);
+
+      if (trigger === "update" && session?.user) {
+        console.log("SESSION IN JWT CALLBACK -> ", {
+          token,
+          session,
+          user,
+        });
+        // user.email = session.user.email;
+        // if (token?.user?.email) {
+        (token.user as User).email = session.user.email;
+        // }
+        return {
+          ...token,
+          ...user,
+          email: session.user.email,
+        };
+      }
 
       if (token.accessToken) {
         const decodedToken = jwtDecode(token.accessToken);
@@ -211,59 +231,33 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.accessToken = token.accessToken;
         session.user = token.user as AdapterUser & UserSession;
       }
+
       return session;
+    },
+
+    signIn: async ({ user, account, profile }) => {
+      if (account?.type === "credentials") return true;
+      if (!account || !user) return false;
+
+      const provider = account.provider as "google";
+      if (provider === "google") {
+        try {
+          const googleUser = await onGoogleOAuth({ profile, account });
+          if (googleUser) {
+            Object.assign(user, googleUser);
+            return true;
+          } else {
+            return `${ROUTES.CALLBACK_AUTH}?status=user_not_found&email=${encodeURIComponent(user.email!)}&provider=${account.provider}`;
+          }
+        } catch (error) {
+          handleError(error);
+          return `${ROUTES.CALLBACK_AUTH}?status=error`;
+        }
+      }
+      return true;
     },
   },
 });
-
-/**
- * Takes a token, and returns a new token with updated
- * `accessToken` and `accessTokenExpires`. If an error occurs,
- * returns the old token and an error property
- */
-
-// async function refreshAccessToken(token: JWT) {
-//   console.log("Refreshing access token", token);
-//   try {
-//     const response = await fetch(
-//       `${process.env.NEXT_PUBLIC_API_GATEWAY_URL}/v1/token/generateFromRefreshToken`,
-//       {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//           "x-fyndr-auth-token": API_TOKEN,
-//         },
-//         body: JSON.stringify({
-//           refreshToken: token.refreshToken,
-//         }),
-//       }
-//     );
-
-//     // console.log(response);
-
-//     const newTokens = await response.json();
-
-//     // console.log(newTokens);
-
-//     if (!response.ok) {
-//       throw newTokens;
-//     }
-
-//     return {
-//       ...token,
-//       accessToken: newTokens.accessCode,
-//       refreshToken: newTokens.refreshToken ?? token.refreshToken, // Fall back to old refresh token
-//     };
-//   } catch (error) {
-//     console.log(error);
-
-//     // return {
-//     //   ...token,
-//     //   error: "RefreshAccessTokenError",
-//     // };
-//     return null;
-//   }
-// }
 
 async function refreshToken(token: JWT) {
   console.log("Refreshing access token", token);
@@ -273,10 +267,13 @@ async function refreshToken(token: JWT) {
     return token;
   }
 
-  const { success, data } = await refreshAccessTokenAPI({ refreshToken });
+  const { success, data } = await onRefreshToken({
+    payload: {
+      refreshToken,
+    },
+  });
 
   if (!success || !data) {
-    // return token;
     return null;
   }
 

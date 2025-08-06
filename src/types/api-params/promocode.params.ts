@@ -5,6 +5,7 @@ import {
   RedeemPromocodeResponse,
 } from "../api-response/promocode.response";
 import { ActionResponse } from "../global";
+import { PromocodeTypesProps } from "../wallet/wallet.types";
 
 export type GetActivePromoProps = (params: {
   search: string;

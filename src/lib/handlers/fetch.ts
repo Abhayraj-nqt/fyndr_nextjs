@@ -20,7 +20,7 @@ export async function fetchHandler<T>(
   options: FetchOptions = {}
 ): Promise<ActionResponse<T>> {
   const {
-    timeout = 10000,
+    timeout = 20000,
     headers: customHeaders = {},
     requireAuth = false,
     ...restOptions
@@ -71,6 +71,19 @@ export async function fetchHandler<T>(
       );
     }
 
+    if (response.headers.get("content-type")?.includes("text/plain")) {
+      const responseData = await response.text();
+
+      return {
+        success: true,
+        data: {
+          message: responseData,
+        } as T,
+        status: response.status,
+        headers: response.headers,
+      };
+    }
+
     const responseData = await response.json();
 
     return {
@@ -102,7 +115,10 @@ export async function _get<T>(
   });
 }
 
-export async function _post<T, P extends object = Record<string, unknown>>(
+export async function _post<
+  T,
+  P extends object | unknown[] = Record<string, unknown>,
+>(
   url: string,
   payload: P = {} as P,
   options: Omit<FetchOptions, "method" | "body"> = {}

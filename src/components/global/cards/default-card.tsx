@@ -2,20 +2,17 @@ import React from "react";
 
 import { cn } from "@/lib/utils";
 
-import { Card } from "../../ui/card";
-
 interface Props {
   className?: string;
   children: React.ReactNode;
+  id?: string;
 }
 
-const DefaultCard = ({ className, children }: Props) => {
+const DefaultCard = ({ className, children, id }: Props) => {
   return (
-    <Card
-      className={cn(`p-4 rounded-lg  border-none shadow-none`, `${className}`)}
-    >
+    <div id={id} className={cn("rounded-10 bg-white p-4", `${className}`)}>
       {children}
-    </Card>
+    </div>
   );
 };
 

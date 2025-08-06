@@ -5,6 +5,7 @@ import { signOut } from "next-auth/react";
 import { toast } from "@/components/global/toast";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
+import { cn } from "@/lib/utils";
 
 type Props = {
   className?: string;
@@ -23,7 +24,11 @@ const SignOutButton = ({ children, className }: Props) => {
   };
 
   return (
-    <Button variant={"ghost"} onClick={handleLogout} className={`${className}`}>
+    <Button
+      variant={"ghost"}
+      onClick={handleLogout}
+      className={cn(`${className}`)}
+    >
       {children}
     </Button>
   );

@@ -3,7 +3,7 @@ import React from "react";
 import Star from "@/components/icons/star";
 
 type Props = {
-  outOf: number;
+  outOf?: number;
   ratings: number;
 };
 

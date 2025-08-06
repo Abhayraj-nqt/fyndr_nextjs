@@ -1,9 +1,9 @@
+import React from "react";
+
 import { getActivePromos, getExpiredPromos } from "@/actions/admin.actions";
-import ContainerWrapper from "@/components/global/ContainerWrapper";
+import ContainerWrapper from "@/components/global/container-wrapper";
 import LocalSearch from "@/components/global/search/local-search";
 
-import { Input } from "@/components/ui/input";
-import React from "react";
 import ActiveBar from "./_components/activeBar";
 import Expiredpromos from "./_components/expiredpromos";
 
@@ -20,25 +20,23 @@ const PromoCodes = async ({
   const { success: expiredSuccess, data: expiredData } = await getExpiredPromos(
     { search, pgStart: 1, pgSize: 10 }
   );
-  console.log("promo data expired", expiredData, expiredSuccess);
 
   return (
     <ContainerWrapper title="Promo codes">
       <div className="flex justify-between">
-        <span className="text-lg font-medium py-4">Active Promo Codes</span>
+        <span className="py-4 text-lg font-medium">Active Promo Codes</span>
         <div>
           <LocalSearch placeholder="Search" route="/admin/promo-codes" />
         </div>
       </div>
 
-      <div className="w-full relative">
-      
+      <div className="relative w-full">
         <ActiveBar data={activeData} />
       </div>
 
-      <div className="pl-4 mt-4">
-      <p className="text-lg font-medium">History</p>
-        <Expiredpromos data={expiredData?.promocodesList } />
+      <div className="mt-4 pl-4">
+        <p className="text-lg font-medium">History</p>
+        <Expiredpromos data={expiredData?.promocodesList} />
       </div>
     </ContainerWrapper>
   );

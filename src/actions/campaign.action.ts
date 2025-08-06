@@ -1,57 +1,107 @@
 "use server";
 
 import { API_BASE_URL } from "@/environment";
-import { _get, _post } from "@/lib/handlers/fetch";
+import { _get, _post, _put } from "@/lib/handlers/fetch";
 import {
-  GetCampaignByQrProps,
-  GetCampaignListProps,
-  GetCampaignsProps,
-} from "@/types/api-params/campaign.params";
-import {
-  CampaignListResponse,
-  CampaignResponse,
-  CampaignsResponse,
-} from "@/types/api-response/campaign.response";
+  GetBusinessCampaigns,
+  GetCampaignByQr,
+  GetCampaigns,
+  GetLikedCampaigns,
+  LikeCampaign,
+  VerifyOffer,
+} from "@/types/campaign/campaign.action.types";
 
-export const onGetCampaignByQr: GetCampaignByQrProps = async (
+export const onGetCampaignByQr: GetCampaignByQr = async ({
   params,
-  payload
-) => {
+  payload,
+}) => {
   const { qrCode, orderBy = "ASC", sortedBy = "PRICE" } = params;
 
   const endpoint = `${API_BASE_URL}/campaign/v2/public/fetchByQR/${qrCode}?orderBy=${orderBy}&sortedBy=${sortedBy}`;
 
-  return _post<CampaignResponse>(endpoint, payload, {
-    requireAuth: true,
-    cache: "force-cache",
+  return _post(endpoint, payload, {
+    // cache: "force-cache",
   });
 };
 
-export const onGetCampaigns: GetCampaignsProps = async (params, payload) => {
-  console.log(payload);
+export const onGetCampaigns: GetCampaigns = async ({ params, payload }) => {
+  const baseUrl = `${API_BASE_URL}/campaign/v2/public/search`;
+  const searchParams = new URLSearchParams();
 
-  let endpoint = `${API_BASE_URL}/campaign/v2/public/search?pgStart=${params.page}&pgSize=${params.pageSize}`;
+  if (params.page !== undefined) {
+    searchParams.append("pgStart", params.page.toString());
+  }
+  if (params.pageSize) {
+    searchParams.append("pgSize", params.pageSize.toString());
+  }
   if (params.search) {
-    endpoint = `${endpoint}&text=${params.search}`;
+    searchParams.append("text", params.search);
   }
   if (params.orderBy) {
-    endpoint = `${endpoint}&orderBy=${params.orderBy}`;
+    searchParams.append("orderBy", params.orderBy);
   }
 
-  return _post<CampaignsResponse>(endpoint, payload, {
+  const endpoint = searchParams.toString()
+    ? `${baseUrl}?${searchParams.toString()}`
+    : baseUrl;
+
+  return _post(endpoint, payload, {
     timeout: 20000,
-    cache: "force-cache",
-    next: {
-      revalidate: 10000,
-    },
   });
 };
 
-export const onGetCampaignList: GetCampaignListProps = async (params) => {
+// ? -----------------------------------------------------------------------------------------------------------------------
+// ? Why we have hardcoaded this pgStart=0&pgSize=100&status=ALL
+
+export const onGetBusinessCampaigns: GetBusinessCampaigns = async ({
+  params,
+}) => {
   const endpoint = `${API_BASE_URL}/campaign/fetch/business/${params.bizid}?pgStart=0&pgSize=100&status=ALL`;
 
-  return _get<CampaignListResponse>(endpoint, {
+  return _get(endpoint, {
     requireAuth: true,
     cache: "force-cache",
+  });
+};
+// ? -----------------------------------------------------------------------------------------------------------------------
+
+export const onLikeCampaign: LikeCampaign = async ({ payload }) => {
+  const endpoint = `${API_BASE_URL}/campaign/indvcmpn`;
+
+  if (payload.objid) {
+    return _put(endpoint, payload, {
+      requireAuth: true,
+    });
+  }
+
+  return _post(endpoint, payload, {
+    requireAuth: true,
+  });
+};
+
+export const onGetLikedCampaigns: GetLikedCampaigns = async ({
+  params,
+  payload,
+}) => {
+  const { search, orderBy, page, pageSize } = params;
+  let endpoint = `${API_BASE_URL}/campaign/liked/${payload.userId}?pgStart=${page}&pgSize=${pageSize}`;
+
+  if (search) {
+    endpoint = `${endpoint}&text=${search}`;
+  }
+
+  if (orderBy) {
+    endpoint = `${endpoint}&orderBy=${orderBy}`;
+  }
+
+  return _post(endpoint, payload, {
+    requireAuth: true,
+  });
+};
+
+export const onVerifyOffer: VerifyOffer = async ({ payload }) => {
+  const endpoint = `${API_BASE_URL}/invoice/verifyOffers`;
+  return _post(endpoint, payload, {
+    requireAuth: true,
   });
 };

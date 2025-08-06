@@ -1,11 +1,17 @@
 "use client";
 
+import { Search } from "lucide-react";
 import Image from "next/image";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 import { Input } from "@/components/ui/input";
-import { formUrlQuery, removeKeysFromUrlQuery } from "@/lib/url";
+import { formUrlQuery, removeKeysFromUrlQuery } from "@/lib/utils/url";
 
 type Props = {
   route: string;
@@ -18,26 +24,45 @@ type Props = {
   navigateParam?: string;
   onSearch?: (query: string) => void;
   isOnNavbar?: boolean;
+  pathVariable?: string;
+  onEmpty?: () => void;
 };
 
 const LocalSearch = ({
   route,
   placeholder,
   className,
-  icon: Icon,
+  icon: Icon = <Search className="text-black-40" />,
   param = "query",
   inputClassName,
   navigateTo,
   navigateParam = "query",
   onSearch,
   isOnNavbar,
+  pathVariable,
+  onEmpty,
 }: Props) => {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const query = searchParams.get(param) || "";
+  const params = useParams();
+
+  let pathVariableValue: string | undefined;
+  if (pathVariable) {
+    const paramValue = params[pathVariable];
+    const rawValue = Array.isArray(paramValue) ? paramValue[0] : paramValue;
+
+    // Decode the URL parameter to handle special characters and spaces
+    pathVariableValue = rawValue ? decodeURIComponent(rawValue) : undefined;
+  }
+
+  const query = pathVariableValue || searchParams.get(param) || "";
 
   const [searchQuery, setSearchQuery] = useState(query);
+
+  useEffect(() => {
+    setSearchQuery(query);
+  }, [query]);
 
   useEffect(() => {
     if (navigateTo) return;
@@ -73,11 +98,17 @@ const LocalSearch = ({
       if (onSearch) {
         onSearch(searchQuery);
       } else if (navigateTo) {
+        if (pathVariable) {
+          router.push(`${navigateTo}/${searchQuery}`);
+          return;
+        }
         const queryParams = new URLSearchParams();
         queryParams.set(navigateParam, searchQuery);
 
         router.push(`${navigateTo}?${queryParams.toString()}`);
       }
+    } else if (e.key === "Enter" && searchQuery.trim() === "" && onEmpty) {
+      onEmpty();
     }
   };
 
@@ -93,7 +124,7 @@ const LocalSearch = ({
 
   return (
     <div
-      className={`flex min-h-[45px] grow items-center gap-1 rounded-lg border border-light-700 bg-light-900 px-4 ${className}`}
+      className={`flex min-h-[46px] grow items-center gap-1 rounded-10 border border-secondary-20 bg-white px-4 ${className}`}
     >
       {getIcon()}
       <Input
@@ -102,7 +133,7 @@ const LocalSearch = ({
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         onKeyDown={handleKeyDown}
-        className={`no-focus paragraph-regular placeholder border-none text-dark-400 shadow-none outline-none ${inputClassName}`}
+        className={`input-primary ${inputClassName}`}
       />
     </div>
   );

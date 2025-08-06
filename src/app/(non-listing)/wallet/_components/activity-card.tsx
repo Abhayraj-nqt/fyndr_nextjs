@@ -2,8 +2,9 @@ import Image from "next/image";
 import React from "react";
 
 import DateComponent from "@/components/global/date-component";
-import { WALET_TRANSACTION_DATA } from "@/constants";
-import { toTwoDecimalPlaces } from "@/lib/utils";
+import { WALET_TRANSACTION_DATA } from "@/constants/wallet";
+import { parseAmount } from "@/lib/utils/parser/index";
+import { WalletTransactionsProps } from "@/types/wallet/wallet.types";
 
 type Props = {
   transaction: WalletTransactionsProps;
@@ -13,7 +14,7 @@ const ActivityCard = ({ transaction }: Props) => {
   const data = WALET_TRANSACTION_DATA.get(transaction.reason);
 
   return (
-    <div className="flex flex-col gap-4 border-b border-dashed pb-4 text-dark-200 lg:flex-row">
+    <div className="flex flex-col gap-4 border-b border-dashed pb-4 text-black-80 lg:flex-row">
       <div className="flex items-center gap-4">
         <Image
           src={data?.icon || ""}
@@ -47,8 +48,8 @@ const ActivityCard = ({ transaction }: Props) => {
         className={`${data?.amountColor} paragraph-semibold flex w-32 items-center text-right lg:justify-end ${transaction.reason === "FYNDR_CASH_EXPIRED" || transaction.reason === "REDEEMED" ? "text-red-700" : "text-green-700"}`}
       >
         {transaction.amount > 0
-          ? `+$${toTwoDecimalPlaces(transaction.amount)}`
-          : `$${toTwoDecimalPlaces(transaction.amount)}`}
+          ? `+$${parseAmount(transaction.amount)}`
+          : `$${parseAmount(transaction.amount)}`}
       </div>
     </div>
   );

@@ -5,8 +5,6 @@ import {
   type PaginationState,
   type RowSelectionState,
   type SortingState,
-  type TableOptions,
-  type TableState,
   type Updater,
   type VisibilityState,
   getCoreRowModel,
@@ -30,9 +28,8 @@ import {
 import * as React from "react";
 
 import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
-import type { ExtendedColumnSort } from "@/types/data-table";
-
-import { getSortingStateParser } from "@/lib/parsers";
+import { getSortingStateParser } from "@/lib/utils/table/parsers";
+import type { ExtendedColumnSort, UseDataTableProps } from "@/types/data-table";
 
 const PAGE_KEY = "page";
 const PER_PAGE_KEY = "perPage";
@@ -40,30 +37,6 @@ const SORT_KEY = "sort";
 const ARRAY_SEPARATOR = ",";
 const DEBOUNCE_MS = 300;
 const THROTTLE_MS = 50;
-
-interface UseDataTableProps<TData>
-  extends Omit<
-      TableOptions<TData>,
-      | "state"
-      | "pageCount"
-      | "getCoreRowModel"
-      | "manualFiltering"
-      | "manualPagination"
-      | "manualSorting"
-    >,
-    Required<Pick<TableOptions<TData>, "pageCount">> {
-  initialState?: Omit<Partial<TableState>, "sorting"> & {
-    sorting?: ExtendedColumnSort<TData>[];
-  };
-  history?: "push" | "replace";
-  debounceMs?: number;
-  throttleMs?: number;
-  clearOnDefault?: boolean;
-  enableAdvancedFilter?: boolean;
-  scroll?: boolean;
-  shallow?: boolean;
-  startTransition?: React.TransitionStartFunction;
-}
 
 export function useDataTable<TData>(props: UseDataTableProps<TData>) {
   const {
@@ -132,11 +105,11 @@ export function useDataTable<TData>(props: UseDataTableProps<TData>) {
     (updaterOrValue: Updater<PaginationState>) => {
       if (typeof updaterOrValue === "function") {
         const newPagination = updaterOrValue(pagination);
-        void setPage(newPagination.pageIndex + 1);
-        void setPerPage(newPagination.pageSize);
+        setPage(newPagination.pageIndex + 1);
+        setPerPage(newPagination.pageSize);
       } else {
-        void setPage(updaterOrValue.pageIndex + 1);
-        void setPerPage(updaterOrValue.pageSize);
+        setPage(updaterOrValue.pageIndex + 1);
+        setPerPage(updaterOrValue.pageSize);
       }
     },
     [pagination, setPage, setPerPage]
@@ -195,8 +168,8 @@ export function useDataTable<TData>(props: UseDataTableProps<TData>) {
 
   const debouncedSetFilterValues = useDebouncedCallback(
     (values: typeof filterValues) => {
-      void setPage(1);
-      void setFilterValues(values);
+      setPage(1);
+      setFilterValues(values);
     },
     debounceMs
   );

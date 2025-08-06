@@ -1,9 +1,10 @@
 "use client";
 
 import { Clipboard } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import CopyToClipboard from "@/components/global/copy-to-clipboard";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
@@ -17,10 +18,21 @@ const TOOLTIP_MSG = "Copy referral code";
 const ReferralCode = () => {
   const [tooltipText, setTooltipText] = useState<string>(TOOLTIP_MSG);
   const [isTooltipOpen, setIsTooltipOpen] = useState<boolean>(false);
+  const [mounted, setMounted] = useState(false);
 
   const { user, isLoading, error } = useUser();
 
-  if (isLoading) return <div>Loading...</div>;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted || isLoading)
+    return (
+      <div className="flex gap-2 self-start rounded-full bg-secondary-90 p-4">
+        <Skeleton className="h-4 w-32 bg-white/20" />
+        <Skeleton className="size-5 bg-white/20" />
+      </div>
+    );
   if (error) return <div>Error loading profile</div>;
   if (!user) return <div>Please sign in</div>;
 
@@ -36,7 +48,7 @@ const ReferralCode = () => {
   };
 
   return (
-    <div className="flex gap-2 self-start rounded-full bg-primary-600 p-4">
+    <div className="flex gap-2 self-start rounded-full bg-secondary-90 p-4">
       <p className="body-regular">Your referral code : {`${referralCode}`}</p>
       <TooltipProvider>
         <Tooltip open={isTooltipOpen} onOpenChange={setIsTooltipOpen}>

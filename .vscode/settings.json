@@ -27,7 +27,7 @@
     "typescript.tsdk": "node_modules/typescript/lib",
     "files.exclude": {
         "**/.git": true,
-        "**/.husky": true,
+        // "**/.husky": true,
         "**/.svn": true,
         "**/.hg": true,
         "**/CVS": true,

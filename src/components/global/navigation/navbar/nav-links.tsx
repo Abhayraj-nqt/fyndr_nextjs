@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -8,7 +9,6 @@ import React from "react";
 import { SheetClose } from "@/components/ui/sheet";
 import { NAVBAR_MENU } from "@/constants/menu";
 import ROUTES from "@/constants/routes";
-// import { useUser } from "@/hooks/auth";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -44,7 +44,21 @@ const NavLinks = ({ isMobileNav = false, className }: Props) => {
             key={label}
             className={cn(isActive ? "" : "", "", className)}
           >
-            {Icon && <Icon size={20} />}
+            {Icon ? (
+              typeof Icon === "string" ? (
+                <Image
+                  src={Icon}
+                  height={20}
+                  width={20}
+                  className="size-4"
+                  alt={label}
+                />
+              ) : (
+                <Icon size={20} />
+              )
+            ) : (
+              <></>
+            )}
             <p className={cn(isActive ? "" : "")}>{label}</p>
           </Link>
         );

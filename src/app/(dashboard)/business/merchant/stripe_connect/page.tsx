@@ -1,13 +1,14 @@
-import ContainerWrapper from "@/components/global/ContainerWrapper";
 import Image from "next/image";
+
+import ContainerWrapper from "@/components/global/container-wrapper";
 
 const StripePage = () => {
   return (
     <>
-      <div className="w-[90%] max-w-screen-xl mx-auto space-y-4 ">
+      <div className="mx-auto w-[90%] max-w-screen-xl space-y-4 ">
         <ContainerWrapper title="Stripe Integration">
           <div className="p-6">
-            <div className="flex justify-center mb-4">
+            <div className="mb-4 flex justify-center">
               <Image
                 src="/images/stripe.png"
                 alt="Stripe"
@@ -16,7 +17,7 @@ const StripePage = () => {
               />
             </div>
 
-            <div className="text-center mb-4">
+            <div className="mb-4 text-center">
               <h3>Woohoo! Thank you for setting up your profile with Stripe</h3>
               {/* <h5 className="text-lg font-semibold">
                 Businesses can now sell products and collect invoice payments on
@@ -28,9 +29,9 @@ const StripePage = () => {
               </h6> */}
             </div>
 
-            <div className="flex justify-center mb-6">
-              <div className="bg-blue-100 p-6 rounded-md w-full max-w-xl">
-                <h5 className="font-bold mb-2">Fyndr Fee</h5>
+            <div className="mb-6 flex justify-center">
+              <div className="w-full max-w-xl rounded-md bg-blue-100 p-6">
+                <h5 className="mb-2 font-bold">Fyndr Fee</h5>
                 <div className="mb-4">
                   <h6 className="font-semibold">Offers:</h6>
                   <p>2.5% of sales + $0.30 (this includes Stripe fee)</p>
@@ -50,14 +51,14 @@ const StripePage = () => {
               </div>
             </div>
 
-            <div className="flex flex-col items-center text-sm text-black-800 gap-2">
+            <div className="flex flex-col items-center gap-2 text-sm text-black">
               {/* <ImCross className="text-red-600 mt-1" /> */}
               <p>
                 If you have any questions or need assistance, please get in
                 touch with your Fyndr rep or reach us at admin@fyndr.us.
               </p>
               <p>
-                You're all set! Your account is ready to start selling your
+                You are all set! Your account is ready to start selling your
                 products and/or services on Fyndr
               </p>
               <p>
@@ -66,7 +67,7 @@ const StripePage = () => {
               </p>
             </div>
 
-            <p className="text-sm mt-6">
+            <p className="mt-6 text-sm">
               Visit:{" "}
               <a
                 href="https://stripe.com"

@@ -1,8 +1,8 @@
 import React from "react";
 
-import { onGetCampaignList } from "@/actions/campaign.action";
+import { onGetBusinessCampaigns } from "@/actions/campaign.action";
 import { auth } from "@/auth";
-import ContainerWrapper from "@/components/global/ContainerWrapper";
+import ContainerWrapper from "@/components/global/container-wrapper";
 
 import Campaigns from "./_components";
 
@@ -11,7 +11,7 @@ const CampaignCenter = async () => {
   const bizid = session?.user?.bizid;
   if (!bizid) throw new Error("BizId is required");
 
-  const { success, data } = await onGetCampaignList({ bizid });
+  const { success, data } = await onGetBusinessCampaigns({ params: { bizid } });
   if (!success || !data) return null;
 
   return (

@@ -1,6 +1,7 @@
 import { type Table as TanstackTable, flexRender } from "@tanstack/react-table";
 import type * as React from "react";
 
+import { DataTablePagination } from "@/components/global/data-table/data-table-pagination";
 import {
   Table,
   TableBody,
@@ -9,10 +10,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getCommonPinningStyles } from "@/lib/data-table";
 import { cn } from "@/lib/utils";
-
-import { DataTablePagination } from "./data-table-pagination";
+import { getCommonPinningStyles } from "@/lib/utils/table/data-table";
 
 interface DataTableProps<TData> extends React.ComponentProps<"div"> {
   table: TanstackTable<TData>;
@@ -32,31 +31,43 @@ export function DataTable<TData>({
       {...props}
     >
       {children}
-      <div className="overflow-hidden rounded-md border">
+      <div className="overflow-hidden rounded-10">
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-primary hover:bg-primary">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead
-                    key={header.id}
-                    colSpan={header.colSpan}
-                    style={{
-                      ...getCommonPinningStyles({ column: header.column }),
-                    }}
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                ))}
+              <TableRow
+                key={headerGroup.id}
+                className="bg-primary text-white hover:bg-primary"
+              >
+                {headerGroup.headers.map((header) => {
+                  // const isFirstHeader = headerIndex === 0;
+                  // const isLastHeader =
+                  //   headerIndex === headerGroup.headers.length - 1;
+
+                  return (
+                    <TableHead
+                      key={header.id}
+                      colSpan={header.colSpan}
+                      style={{
+                        ...getCommonPinningStyles({ column: header.column }),
+                      }}
+                      className={cn(
+                        "bg-primary hover:bg-primary text-white p-4 text-sm font-normal border border-secondary-20"
+                      )}
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  );
+                })}
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
+          <TableBody className="rounded-b-10">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
@@ -69,6 +80,7 @@ export function DataTable<TData>({
                       style={{
                         ...getCommonPinningStyles({ column: cell.column }),
                       }}
+                      className="border border-secondary-20 p-4 text-sm font-normal text-black-80"
                     >
                       {flexRender(
                         cell.column.columnDef.cell,

@@ -1,56 +1,35 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ["pino", "pino-pretty"],
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "s3.us-west-1.amazonaws.com",
-        port: "",
-      },
-      {
-        protocol: "https",
-        hostname: "s3-us-west-1.amazonaws.com",
-        port: "",
-      },
-      {
-        protocol: "https",
-        hostname: "png.pngtree.com",
-        port: "",
-      },
-      {
-        protocol: "https",
-        hostname: "github.com",
-        port: "",
-      },
-    ],
-  },
-  logging: {
-    fetches: {
-      fullUrl: true,
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "3mb",
     },
   },
-  // cacheMaxMemorySize: 4 * 1024 * 1024, // 4MB
-
-  // eslint: {
-  //   ignoreDuringBuilds: true,
-  // },
-
-  // typescript: {
-  //   // !! WARN !!
-  //   // Dangerously allow production builds to successfully complete even if
-  //   // your project has type errors.
-  //   // !! WARN !!
-  //   ignoreBuildErrors: true,
-  // },
-
-  // experimental: {
-  //   staleTimes: {
-  //     dynamic: 30,
-  //     static: 180,
-  //   },
-  // },
+  staticPageGenerationTimeout: 300,
+  serverExternalPackages: ["pino", "pino-pretty"],
+  eslint: { ignoreDuringBuilds: true },
+  typescript: { ignoreBuildErrors: true },
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "s3.us-west-1.amazonaws.com", port: "" },
+      { protocol: "https", hostname: "s3-us-west-1.amazonaws.com", port: "" },
+      {
+        protocol: "https",
+        hostname: "biz-logo.s3.us-west-1.amazonaws.com",
+        port: "",
+      },
+      {
+        protocol: "https",
+        hostname: "fyndr-comments-dev.s3.us-west-1.amazonaws.com",
+        port: "",
+      },
+      { protocol: "https", hostname: "lh3.googleusercontent.com", port: "" },
+      { protocol: "https", hostname: "png.pngtree.com", port: "" },
+      { protocol: "https", hostname: "github.com", port: "" },
+    ],
+  },
+  logging: { fetches: { fullUrl: true } },
 };
 
 export default nextConfig;

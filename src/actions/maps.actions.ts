@@ -1,6 +1,6 @@
 "use server";
 
-import { Client } from "@googlemaps/google-maps-services-js";
+import { AddressType, Client } from "@googlemaps/google-maps-services-js";
 
 import handleError from "@/lib/handlers/error";
 import { Coordinates } from "@/types/global";
@@ -72,5 +72,75 @@ export async function getPlaceDetails(placeId: string) {
   } catch (error) {
     console.error("Error fetching place details:", error);
     return null;
+  }
+}
+
+export async function getPlaceDataWithZipcodeAndCountry(params: {
+  country: string;
+  zipcode: string | number;
+}) {
+  const { country, zipcode } = params;
+
+  const address = `${zipcode}%2C${country}`;
+
+  try {
+    const response = await client.geocode({
+      params: {
+        address,
+        key: GOOGLE_MAPS_API_KEY,
+        language: "en",
+      },
+    });
+
+    if (response.data.status === "OK" && response.data.results.length > 0) {
+      const addressList = response.data.results[0].address_components;
+      let city: string = "";
+      let state: string = "";
+
+      addressList.forEach((row) => {
+        if (row.types.includes("administrative_area_level_1" as AddressType))
+          state = row.short_name;
+        if (row.types.includes("locality" as AddressType))
+          city = row.short_name;
+        else if (row.types.includes("postal_town" as AddressType) && !city)
+          city = row.short_name;
+      });
+      const { lat, lng } = response.data.results[0].geometry.location;
+
+      return {
+        success: true,
+        status: response.status,
+        data: {
+          city,
+          state,
+          lat,
+          lng,
+        },
+      };
+    }
+
+    console.warn(`Geocoding failed: ${response.data.status}`);
+    return {
+      success: false,
+      status: response.status,
+      data: {
+        city: "",
+        state: "",
+        lat: null,
+        lng: null,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching place details:", error);
+    return {
+      success: false,
+      status: 500,
+      data: {
+        city: "",
+        state: "",
+        lat: null,
+        lng: null,
+      },
+    };
   }
 }

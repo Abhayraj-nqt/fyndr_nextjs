@@ -47,13 +47,13 @@ const LocationSelector = ({
 
   return (
     <div className={`relative flex flex-col ${className}`}>
-      <div className="relative flex min-h-[45px] grow items-center gap-1 rounded-lg border border-light-700 bg-light-900">
+      <div className="relative flex min-h-[46px] grow items-center gap-1 rounded-10 border border-secondary-20 bg-white">
         <Input
           placeholder={placeholder}
           value={input}
           onChange={onInputChange}
           onFocus={onInputFocus}
-          className={`no-focus paragraph-regular placeholder border-none pr-0 text-dark-400 shadow-none outline-none ${inputClassName}`}
+          className={`no-focus paragraph-regular placeholder border-none pr-0 text-black-70 shadow-none outline-none ${inputClassName}`}
         />
         <div className="mr-1 flex items-center gap-2">
           <TooltipProvider>
@@ -62,14 +62,14 @@ const LocationSelector = ({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="size-8 rounded-full p-0"
+                  className="w-8 rounded-full !p-0 !text-black-40 hover:bg-white"
                   onClick={onSelectCurrentLocation}
                   disabled={isFetchingCurrentLocation}
                 >
                   {isFetchingCurrentLocation ? (
-                    <Loader2 className="size-5 animate-spin text-gray-400" />
+                    <Loader2 className="!size-5 animate-spin" />
                   ) : (
-                    <MapPin className="size-5 text-gray-400" />
+                    <MapPin className="!size-5" />
                   )}
                 </Button>
               </TooltipTrigger>

@@ -2,12 +2,11 @@
 
 import { API_BASE_URL } from "@/environment";
 import { _get } from "@/lib/handlers/fetch";
-import { GetCategoriesProps } from "@/types/api-params/category.params";
-import { CategoriesResponse } from "@/types/api-response/category.response";
+import { GetCategories } from "@/types/category/category.action.types";
 
-export const onGetCategories: GetCategoriesProps = async () => {
+export const onGetCategories: GetCategories = async () => {
   const endpoint = `${API_BASE_URL}/campaign/public/categories`;
-  return _get<CategoriesResponse>(endpoint, {
+  return _get(endpoint, {
     cache: "force-cache",
   });
 };

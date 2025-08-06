@@ -1,5 +1,5 @@
 import TransactionSlider from "./months-slider";
-import ReceivableDropdown from "./receivableDropdown";
+import ReceivableDropdown from "./receivable-dropdown";
 import TransactionInput from "./transaction-input";
 
 type Props = {

@@ -1,4 +1,3 @@
-import { LucideIcon } from "lucide-react";
 import { NextResponse } from "next/server";
 
 type ActionResponse<T = null> = {
@@ -29,41 +28,9 @@ interface PaginatedSearchParams {
   sort?: string;
 }
 
-interface FyndrAboutProps {
-  imgURL: string;
-  title: string;
-  content: string;
-  imgDir?: "left" | "right";
-}
-
-interface FyndrAboutFeatureProps {
-  imgURL: string;
-  title: string;
-  description: string;
-}
-
-interface FyndrWalletStepsProps {
-  id: number;
-  imgURL?: string;
-  alt?: string;
-  title: string;
-  icon?: LucideIcon;
-}
-
 interface ValueLabelProps {
   label: string;
   value: string;
-}
-
-interface SocialLinksProps {
-  label: string;
-  icon: LucideIcon;
-  url: string;
-}
-
-interface CompanyProps {
-  name: string;
-  socialLinks: SocialLinksProps[];
 }
 
 interface Coordinates {
@@ -94,3 +61,5 @@ type AddressProps = {
   postalCode: string;
   state: string;
 };
+
+type RegModeProps = "classic" | "google" | "facebook" | "apple";

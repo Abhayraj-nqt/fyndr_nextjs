@@ -1,12 +1,12 @@
 import { LucideIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import qs from "query-string";
 import React from "react";
 
-import { Button } from "@/components/ui/button";
+import Button from "@/components/global/buttons";
 import ROUTES from "@/constants/routes";
 import { cn } from "@/lib/utils";
+import { parseStringCase } from "@/lib/utils/parser";
 
 type Props = {
   categoryName: string;
@@ -23,20 +23,17 @@ const CategoryCard = ({
   alt,
   className = "",
 }: Props) => {
-  const key = "query";
-  const queryString = qs.parse("");
-  queryString[key] = categoryName;
-
-  const newUrl = qs.stringifyUrl({
-    url: ROUTES.OFFER_LISTING,
-    query: queryString,
-  });
-
   const getIcon = () => {
     if (!Icon) return null;
     if (typeof Icon === "string") {
       return (
-        <Image src={Icon} alt={alt || categoryName} height={25} width={25} />
+        <Image
+          src={Icon}
+          alt={alt || categoryName}
+          height={20}
+          width={20}
+          className="size-5"
+        />
       );
     } else if (Icon && React.isValidElement(Icon)) {
       return <>{Icon}</>;
@@ -46,17 +43,25 @@ const CategoryCard = ({
   };
 
   return (
-    <Link href={newUrl}>
+    <Link
+      href={ROUTES.OFFER_LISTING_CATEGORY(
+        parseStringCase({ input: categoryName, caseType: "lower-case" })
+      )}
+    >
       <Button
+        variant="primary-dark-outlined"
         className={cn(
-          `body-medium rounded-lg px-6 py-3 capitalize shadow-none flex gap-2`,
-          "bg-light-800 text-primary-900 hover:bg-light-800",
+          // `body-medium rounded-lg px-6 py-3 capitalize shadow-none flex gap-2`,
+          // "bg-secondary-10 text-secondary hover:bg-secondary-10",
+          "!rounded-full border border-secondary-20 px-4 py-2 gap-2 body-3 bg-white transition duration-300",
+          "hover:border-secondary-20 hover:scale-105",
           isActive ? `` : ``,
           className
         )}
+        stdHeight
       >
         {Icon && <div>{getIcon()}</div>}
-        <p>{categoryName}</p>
+        <p className="text-secondary-80">{categoryName}</p>
       </Button>
     </Link>
   );

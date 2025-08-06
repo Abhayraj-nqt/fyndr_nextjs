@@ -2,7 +2,7 @@ import React from "react";
 
 import { onGetCatalogueList } from "@/actions/catalogue.actions";
 import { auth } from "@/auth";
-import ContainerWrapper from "@/components/global/ContainerWrapper";
+import ContainerWrapper from "@/components/global/container-wrapper";
 import { Button } from "@/components/ui/button";
 
 import Catalogue from "./_components/catalogue";

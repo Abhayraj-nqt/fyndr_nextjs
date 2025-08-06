@@ -1,25 +1,22 @@
-import { fetchStoreItem } from "@/actions/catalogue.actions";
+import { onGetStoreItem } from "@/actions/catalogue.actions";
 import { auth } from "@/auth";
-import ContainerWrapper from "@/components/global/ContainerWrapper";
-import { Button } from "@/components/ui/button";
+import ContainerWrapper from "@/components/global/container-wrapper";
 
-import ItemList from "./_components/itemList";
+import AddItem from "./_components/add-item-button";
+import ItemList from "./_components/item-list";
 
 const CatalogItems = async () => {
   const session = await auth();
   const bizid = session?.user?.bizid;
   if (!bizid) throw new Error("BizId is required");
 
-  const { success, data } = await fetchStoreItem({ bizid });
+  const { success, data } = await onGetStoreItem({ bizid });
   if (!success || !data) return null;
 
   return (
     <>
-      <ContainerWrapper
-        title="Items"
-        headerOption={<Button className="btn-primary">Add Item</Button>}
-      >
-        <ItemList items={data.items} />
+      <ContainerWrapper title="Items" headerOption={<AddItem />}>
+        <ItemList items={data.items} bizid={bizid} />
       </ContainerWrapper>
     </>
   );

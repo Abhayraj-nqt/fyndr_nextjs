@@ -1,9 +1,11 @@
 "use client";
 
 import { PlaceAutocompleteResult } from "@googlemaps/google-maps-services-js";
+import { useQuery } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
+import { onGetCountryList } from "@/actions/admin.actions";
 import {
   placeAutocomplete,
   placeDetails,
@@ -198,18 +200,11 @@ export function useLocationSelector() {
         setInputWithoutFetch(formattedAddress);
         setSelectedLocation(formattedAddress);
         setCoordinates(currentCoordinates);
-
-        // const newUrl = `?lat=${currentCoordinates.lat}&lng=${currentCoordinates.lng}`;
-        // router.push(newUrl, { scroll: false });
-
         updateLocationParams(currentCoordinates.lat, currentCoordinates.lng);
       } else {
         // Set input without triggering prediction fetch
         setInputWithoutFetch("Current Location");
         setCoordinates(currentCoordinates);
-
-        // const newUrl = `?lat=${currentCoordinates.lat}&lng=${currentCoordinates.lng}`;
-        // router.push(newUrl, { scroll: false });
         updateLocationParams(currentCoordinates.lat, currentCoordinates.lng);
       }
     } catch (error) {
@@ -217,7 +212,6 @@ export function useLocationSelector() {
         error instanceof GeolocationPositionError &&
         error.code === error.PERMISSION_DENIED
       ) {
-        console.log("Location permission denied - user can try again");
         alert("Please enable location from your browser's settings");
       } else if (
         !(
@@ -239,15 +233,9 @@ export function useLocationSelector() {
   };
 
   const updateLocationParams = (lat: number, lng: number) => {
-    // Create a new URLSearchParams object based on current params
     const params = new URLSearchParams(searchParams.toString());
-
-    // Update lat and lng parameters
     params.set("lat", lat.toString());
     params.set("lng", lng.toString());
-
-    // Use router.replace instead of push to avoid adding to history stack
-    // This also ensures a proper re-render of server components
     router.replace(`${pathname}?${params.toString()}`);
   };
 
@@ -292,5 +280,21 @@ export function useLocationSelector() {
     onSelectCurrentLocation,
     onSelectPrediction,
     isFetchingCurrentLocation,
+  };
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+export function useCountryList() {
+  const QUERY_KEY = ["countryList"];
+
+  const { data, isLoading } = useQuery({
+    queryKey: QUERY_KEY,
+    queryFn: onGetCountryList,
+  });
+
+  return {
+    countryList: data?.data || [],
+    isLoading,
   };
 }
