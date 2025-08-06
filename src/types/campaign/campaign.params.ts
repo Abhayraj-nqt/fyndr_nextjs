@@ -59,3 +59,11 @@ export type GetBusinessCampaignsParams = {
     bizid: number;
   };
 };
+
+export type VerifyOfferParams = {
+  payload: {
+    buyerEmail: string;
+    offerId: number;
+    userSelectQuanity: number;
+  };
+};

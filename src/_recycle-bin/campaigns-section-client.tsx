@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 
-import { useGetCampaigns } from "@/hooks/campaigns";
+import { useGetCampaigns } from "@/_recycle-bin";
 
 import FeaturedCampaigns from "./featured-campaigns";
 

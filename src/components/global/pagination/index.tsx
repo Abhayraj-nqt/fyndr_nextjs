@@ -25,7 +25,7 @@ type Props = {
   containerClassName?: string;
   buttonClassName?: string;
   showRowSelector?: boolean;
-  scroll: boolean;
+  scroll?: boolean;
   page: number;
   pageSize: number;
   count: number;

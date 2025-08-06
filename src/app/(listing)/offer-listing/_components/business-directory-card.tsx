@@ -121,7 +121,7 @@ const BusinessDirectoryCard = ({
                 <></>
               )}
               {businessDirectory?.website ? (
-                <WebsiteTo url={`https://${businessDirectory.website}`}>
+                <WebsiteTo url={businessDirectory.website}>
                   <Globe size={20} />
                 </WebsiteTo>
               ) : (

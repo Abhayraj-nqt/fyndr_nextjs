@@ -27,3 +27,7 @@ export type GetBusinessCampaignsResponse = {
   campaigns: Campaign[];
   last: boolean;
 };
+
+export type VerifyOfferResponse = {
+  message: string;
+};

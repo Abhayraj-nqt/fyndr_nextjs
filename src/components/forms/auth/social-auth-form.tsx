@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import React from "react";
 
@@ -15,7 +16,10 @@ type Props = {
 type Provider = "google";
 
 const SocialAuthForm = ({ formType }: Props) => {
+  const searchParams = useSearchParams();
   const { setData } = useRegistrationStore();
+  const callback = searchParams.get("callback");
+
   const handleSubmit = async (provider: Provider) => {
     // Store the intent in sessionStorage before initiating OAuth
 
@@ -25,6 +29,14 @@ const SocialAuthForm = ({ formType }: Props) => {
 
     try {
       setData({ regMode: "google" });
+
+      if (callback) {
+        await signIn(provider, {
+          redirectTo: `${ROUTES.CALLBACK_SIGN_IN}?callback=${callback}`,
+        });
+        return;
+      }
+
       await signIn(provider, {
         // redirectTo: "/auth/callback", // Custom callback page
         redirectTo: ROUTES.CALLBACK_SIGN_IN,

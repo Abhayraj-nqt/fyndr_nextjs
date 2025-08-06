@@ -12,6 +12,8 @@ const compat = new FlatCompat({
     allConfig: js.configs.all,
 });
 
+const MAX_FILE_LINES = 350;
+
 const config = [
     {
         ignores: ["./src/components/ui/**/*"],
@@ -60,7 +62,7 @@ const config = [
             "max-lines": [
                 "error",
                 {
-                    max: 250,
+                    max: MAX_FILE_LINES,
                     skipBlankLines: true,
                     skipComments: true,
                 },

@@ -39,6 +39,13 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning className="no-scrollbar">
+      <head>
+        <script
+          src="https://kit.fontawesome.com/8e7bdafa05.js"
+          crossOrigin="anonymous"
+          defer
+        ></script>
+      </head>
       {/* <body className={`${inter.className} no-scrollbar antialiased`}> */}
       <body className={`${roboto.className} no-scrollbar antialiased`}>
         <SessionProvider session={session}>

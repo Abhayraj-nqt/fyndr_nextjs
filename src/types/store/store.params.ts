@@ -1,5 +1,30 @@
 import { Coordinates } from "../global";
 
+// Store --------------------------------------------------------------------
+
+export type GetStoreParams = {
+  params: {
+    locationId: number;
+  };
+};
+
+export type GetStoreDetailsParams = {
+  params: {
+    bizId: number;
+    categoryId: number;
+    catalogueId: number;
+  };
+};
+
+export type GetStoreCategoriesParams = {
+  params: {
+    bizId: number;
+    catalogueId: number;
+  };
+};
+
+// --------------------------------------------------------------------
+
 export type GetBusinessDirectoryParams = {
   params: {
     search?: string;

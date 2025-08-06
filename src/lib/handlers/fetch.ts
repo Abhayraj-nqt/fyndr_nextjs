@@ -20,7 +20,7 @@ export async function fetchHandler<T>(
   options: FetchOptions = {}
 ): Promise<ActionResponse<T>> {
   const {
-    timeout = 10000,
+    timeout = 20000,
     headers: customHeaders = {},
     requireAuth = false,
     ...restOptions
@@ -58,6 +58,8 @@ export async function fetchHandler<T>(
       signal: controller.signal,
     };
 
+    console.log("HEADERS: ", config.headers);
+
     const response = await fetch(url, config);
 
     clearTimeout(id);
@@ -69,6 +71,19 @@ export async function fetchHandler<T>(
         `HTTP error: ${response.status}`,
         errorResponse
       );
+    }
+
+    if (response.headers.get("content-type")?.includes("text/plain")) {
+      const responseData = await response.text();
+
+      return {
+        success: true,
+        data: {
+          message: responseData,
+        } as T,
+        status: response.status,
+        headers: response.headers,
+      };
     }
 
     const responseData = await response.json();

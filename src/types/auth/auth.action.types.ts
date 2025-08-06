@@ -3,11 +3,15 @@ import {
   ConfirmIdentityParams,
   GenerateTokenParams,
   GetAccountParams,
+  GetGooglePermissionParams,
   RefreshTokenParams,
+  ResetPasswordParams,
+  SendEmailVerificationCodeParams,
   SendMobileVerificationCodeParams,
   SignInParams,
   SignInWithCredentialsParams,
   SignUpParams,
+  UpdateEmailParams,
   VerifyCodeParams,
   VerifyMobileParams,
 } from "./auth.params";
@@ -15,11 +19,15 @@ import {
   ConfirmIdentityResponse,
   GenerateTokenResponse,
   GetAccountResponse,
+  GetGooglePermissionResponse,
   RefreshTokenResponse,
+  ResetPasswordResponse,
+  SendEmailVerificationCodeResponse,
   SendMobileVerificationCodeResponse,
   SignInWithCredentialsResponse,
   SignOutResponse,
   SignUpResponse,
+  UpdateEmailResponse,
   VerifyCodeResponse,
   VerifyMobileResponse,
 } from "./auth.response";
@@ -52,6 +60,10 @@ export type GenerateToken = ({
   payload,
 }: GenerateTokenParams) => Promise<ActionResponse<GenerateTokenResponse>>;
 
+export type ResetPassword = ({
+  payload,
+}: ResetPasswordParams) => Promise<ActionResponse<ResetPasswordResponse>>;
+
 // -------------------------------------------------------------------------------------------
 
 export type ConfirmIdentity = ({
@@ -64,6 +76,12 @@ export type SendMobileVerificationCode = ({
   ActionResponse<SendMobileVerificationCodeResponse>
 >;
 
+export type SendEmailVerificationCode = ({
+  payload,
+}: SendEmailVerificationCodeParams) => Promise<
+  ActionResponse<SendEmailVerificationCodeResponse>
+>;
+
 export type VerifyMobile = ({
   payload,
 }: VerifyMobileParams) => Promise<ActionResponse<VerifyMobileResponse>>;
@@ -72,4 +90,15 @@ export type VerifyCode = ({
   params,
 }: VerifyCodeParams) => Promise<ActionResponse<VerifyCodeResponse>>;
 
+export type UpdateEmail = ({
+  params,
+  payload,
+}: UpdateEmailParams) => Promise<ActionResponse<UpdateEmailResponse>>;
+
 // -------------------------------------------------------------------------------------------
+
+export type GetGooglePermission = ({
+  payload,
+}: GetGooglePermissionParams) => Promise<
+  ActionResponse<GetGooglePermissionResponse>
+>;

@@ -51,6 +51,25 @@ export default {
           "100": "#1D1D1F",
           heading: "#3A3A3A",
         },
+        disabled: {
+          // DEFAULT: "#D1D1D1",
+          DEFAULT: "#B3B3B3",
+        },
+        indicator: {
+          green: {
+            "90": "#008B0E",
+            DEFAULT: "#00CC14",
+          },
+          yellow: {
+            DEFAULT: "#FFD600",
+          },
+          orange: {
+            DEFAULT: "#FF8A00",
+          },
+          red: {
+            DEFAULT: "#F10000",
+          },
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

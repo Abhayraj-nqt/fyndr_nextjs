@@ -5,6 +5,7 @@ import {
   GetCampaignsParams,
   GetLikedCampaignsParams,
   LikeCampaignParams,
+  VerifyOfferParams,
 } from "./campaign.params";
 import {
   GetBusinessCampaignsResponse,
@@ -12,6 +13,7 @@ import {
   GetCampaignsResponse,
   GetLikedCampaignsResponse,
   LikeCampaignResponse,
+  VerifyOfferResponse,
 } from "./campaign.response";
 
 export type GetLikedCampaigns = ({
@@ -40,3 +42,7 @@ export type GetBusinessCampaigns = ({
 }: GetBusinessCampaignsParams) => Promise<
   ActionResponse<GetBusinessCampaignsResponse>
 >;
+
+export type VerifyOffer = ({
+  payload,
+}: VerifyOfferParams) => Promise<ActionResponse<VerifyOfferResponse>>;

@@ -2,7 +2,7 @@ export type PaymentMethod = {
   brand: string | "visa";
   country: string | "FR";
   created: number;
-  default: string | "y";
+  default: "n" | "y";
   exp_month: number;
   exp_year: number;
   id: string;

@@ -87,7 +87,7 @@ const CampaignSection = ({ indvId, location }: Props) => {
   }
 
   return (
-    <section className="w-full max-w-[1550px] rounded-10 bg-white p-4 xs:w-11/12">
+    <section className="w-full !rounded-10 bg-white p-4">
       {/* <h1 className="title-7-medium mb-4 text-black-heading">{"My Offers"}</h1> */}
       <div className="space-y-4">
         {campaigns.length > 0 ? (
@@ -112,16 +112,6 @@ const CampaignSection = ({ indvId, location }: Props) => {
                   <Loader2 className="size-4 animate-spin" />
                   Loading more campaigns...
                 </div>
-              </div>
-            )}
-
-            {/* End of results indicator */}
-            {!hasNextPage && !isFetchingNextPage && (
-              <div className="py-8 text-center text-gray-500">
-                <p>You&apos;ve seen all saved campaigns!</p>
-                <p className="text-sm">
-                  Found {campaigns.length} campaigns total
-                </p>
               </div>
             )}
           </>
