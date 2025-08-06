@@ -1,4 +1,3 @@
-// types/select.ts
 import React from "react";
 
 export type SelectOption = {

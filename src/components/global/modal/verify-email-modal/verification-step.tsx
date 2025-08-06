@@ -40,8 +40,6 @@ const VerificationStep = ({
 }: Props) => {
   const { isActive, startTimer, timer } = useTimer(30);
 
-  console.log({ email });
-
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
   });

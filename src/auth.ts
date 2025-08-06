@@ -78,26 +78,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
   providers: [
     Google,
-    // Google({
-    //   clientId: process.env.AUTH_GOOGLE_ID,
-    //   clientSecret: process.env.AUTH_GOOGLE_SECRET,
-    //   authorization: {
-    //     params: {
-    //       scope:
-    //         "profile email https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/business.manage",
-    //       // Note: cookiePolicy is typically handled by NextAuth internally
-    //       // but if you need to pass it, you can add it here
-    //       cookie_policy: "single_host_origin",
-    //     },
-    //   },
-    // }),
     Credentials({
       async authorize(credentials) {
         const validatedFields = SignInSchema.safeParse(credentials);
-
         if (validatedFields.success) {
           const { email, password } = validatedFields.data;
-
           try {
             const {
               headers: signInHeaders,
@@ -134,7 +119,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             );
 
             if (!success || !parsedAccountResponse) return null;
-
             if (parsedAccountResponse.accountStatus === "DELETED") {
               return null;
             }
@@ -195,7 +179,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         });
         // user.email = session.user.email;
         // if (token?.user?.email) {
-        token.user.email = session.user.email;
+        (token.user as User).email = session.user.email;
         // }
         return {
           ...token,
@@ -267,71 +251,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           if (googleUser) {
             Object.assign(user, googleUser);
             return true;
-            // return `${ROUTES.SIGN_UP_COMPLETE}?email=${encodeURIComponent(user.email!)}&provider=${account.provider}`;
           } else {
-            // return `${ROUTES.SIGN_UP_COMPLETE}?email=${encodeURIComponent(user.email!)}&provider=${account.provider}`;
             return `${ROUTES.CALLBACK_AUTH}?status=user_not_found&email=${encodeURIComponent(user.email!)}&provider=${account.provider}`;
           }
         } catch (error) {
           handleError(error);
-          // return false;
           return `${ROUTES.CALLBACK_AUTH}?status=error`;
         }
       }
-
       return true;
     },
   },
 });
-
-/**
- * Takes a token, and returns a new token with updated
- * `accessToken` and `accessTokenExpires`. If an error occurs,
- * returns the old token and an error property
- */
-
-// async function refreshAccessToken(token: JWT) {
-//   console.log("Refreshing access token", token);
-//   try {
-//     const response = await fetch(
-//       `${process.env.NEXT_PUBLIC_API_GATEWAY_URL}/v1/token/generateFromRefreshToken`,
-//       {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//           "x-fyndr-auth-token": API_TOKEN,
-//         },
-//         body: JSON.stringify({
-//           refreshToken: token.refreshToken,
-//         }),
-//       }
-//     );
-
-//     // console.log(response);
-
-//     const newTokens = await response.json();
-
-//     // console.log(newTokens);
-
-//     if (!response.ok) {
-//       throw newTokens;
-//     }
-
-//     return {
-//       ...token,
-//       accessToken: newTokens.accessCode,
-//       refreshToken: newTokens.refreshToken ?? token.refreshToken, // Fall back to old refresh token
-//     };
-//   } catch (error) {
-//     console.log(error);
-
-//     // return {
-//     //   ...token,
-//     //   error: "RefreshAccessTokenError",
-//     // };
-//     return null;
-//   }
-// }
 
 async function refreshToken(token: JWT) {
   console.log("Refreshing access token", token);
@@ -348,7 +279,6 @@ async function refreshToken(token: JWT) {
   });
 
   if (!success || !data) {
-    // return token;
     return null;
   }
 

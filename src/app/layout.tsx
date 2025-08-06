@@ -9,12 +9,6 @@ import { Toaster } from "@/components/global/toast";
 import { ReactQueryProvider } from "@/provider/react-query-provider";
 import UserProvider from "@/provider/user-provider";
 
-// const inter = localFont({
-//   src: "./fonts/InterVF.ttf",
-//   variable: "--font-inter",
-//   weight: "100 200 300 400 500 700 800 900",
-// });
-
 const roboto = localFont({
   src: "./fonts/roboto.ttf",
   variable: "--font-roboto",
@@ -46,7 +40,6 @@ export default async function RootLayout({
           defer
         ></script>
       </head>
-      {/* <body className={`${inter.className} no-scrollbar antialiased`}> */}
       <body className={`${roboto.className} no-scrollbar antialiased`}>
         <SessionProvider session={session}>
           <ReactQueryProvider>

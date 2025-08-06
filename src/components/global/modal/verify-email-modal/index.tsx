@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 
 import { useUser } from "@/hooks/auth";
 
@@ -65,21 +65,14 @@ const VerifyEmailModal = ({ onVerify, trigger }: Props) => {
             email: newEmail,
           },
         });
-
-        console.log("Email updated successfully:", newEmail);
       } catch (error) {
         console.error("Failed to update email:", error);
-        // Reset state on error
         setIsEmailUpdated(false);
         setPendingEmail(null);
       }
     },
     [session?.user, update, updateUserWithEmail]
   );
-
-  useEffect(() => {
-    console.log({ session });
-  }, [session]);
 
   const handleNextStep = useCallback(() => {
     setStep(2);
@@ -99,7 +92,6 @@ const VerifyEmailModal = ({ onVerify, trigger }: Props) => {
   }, [isEmailUpdated, refetch]);
 
   const handlePasswordNext = useCallback(() => {
-    console.log("Password step completed");
     onVerify?.();
     setStep(4);
   }, [onVerify]);
@@ -120,7 +112,6 @@ const VerifyEmailModal = ({ onVerify, trigger }: Props) => {
   }
 
   if (error) {
-    console.error("User fetch error:", error);
     return <div>Error loading user data</div>;
   }
 

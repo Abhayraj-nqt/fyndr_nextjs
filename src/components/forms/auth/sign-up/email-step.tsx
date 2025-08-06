@@ -58,8 +58,6 @@ const EmailStep = ({ userType, onNextStep }: EmailStepProps) => {
         },
       });
 
-      console.log({ status, success, data, error });
-
       if (!data && (status === 200 || status === 404)) {
         if (userType === "business") {
           toast.success({

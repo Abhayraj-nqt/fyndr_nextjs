@@ -145,13 +145,6 @@ const ContactUsModal = ({ children }: Props) => {
             <FormField
               control={form.control}
               name="countryCode"
-              // rules={{
-              //   required: "",
-              //   pattern: {
-              //     value: /^\d{11}$/,
-              //     message: "",
-              //   },
-              // }}
               render={({ field }) => (
                 <FormItem className="flex w-1/4 items-center gap-2">
                   <FormLabel className="w-36 text-right">Phone: </FormLabel>

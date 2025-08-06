@@ -46,11 +46,6 @@ const PasswordStep = ({ email, onNext }: Props) => {
       await encryptPassword({ email, password })
     );
 
-    console.log({
-      email,
-      password,
-    });
-
     const { success, data, error } = await onResetPassword({
       payload: {
         email,

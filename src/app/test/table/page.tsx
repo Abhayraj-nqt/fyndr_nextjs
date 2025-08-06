@@ -23,9 +23,6 @@ const TestTable = async ({
   });
 
   const search = searchParamsCache.parse(params);
-
-  console.log({ search, params });
-
   const orderBy = search.sort.map((item) => (item.desc ? "DESC" : "ASC"));
 
   const promises = Promise.all([

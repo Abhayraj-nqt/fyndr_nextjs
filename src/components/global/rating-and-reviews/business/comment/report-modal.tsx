@@ -6,7 +6,6 @@ import { Modal } from "@/components/global/modal";
 import Stars from "@/components/global/ratings/stars";
 import toast from "@/components/global/toast";
 import { Textarea } from "@/components/ui/textarea";
-// import { getTimeStamp } from "@/lib/utils/date";
 import ROUTES from "@/constants/routes";
 import { Comment } from "@/types/business/business.types";
 
@@ -47,8 +46,6 @@ const ReportModal = ({ trigger, comment, bizId, bizName, qrCode }: Props) => {
           validatePath: ROUTES.OFFER_DETAILS(bizName, qrCode),
         },
       });
-
-      console.log({ success, data, error });
 
       if (!success) {
         toast.error({

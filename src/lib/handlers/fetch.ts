@@ -58,8 +58,6 @@ export async function fetchHandler<T>(
       signal: controller.signal,
     };
 
-    console.log("HEADERS: ", config.headers);
-
     const response = await fetch(url, config);
 
     clearTimeout(id);

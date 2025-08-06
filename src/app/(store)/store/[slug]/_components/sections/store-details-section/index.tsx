@@ -23,7 +23,6 @@ type WorkingHoursResult = {
 export const getClosingTime = (
   workingHours?: string | null
 ): WorkingHoursResult => {
-  // Early return for invalid input
   if (
     !workingHours ||
     typeof workingHours !== "string" ||
@@ -156,8 +155,6 @@ const StoreDetailsSection = ({
     parentLocation?.workingHours?.length > 5
       ? getClosingTime(parentLocation?.workingHours || null)
       : null;
-
-  console.log({ closingHourResult });
 
   return (
     <DefaultCard className="flex size-full flex-col p-0 sm:max-w-72 lg:min-w-96 lg:max-w-96">

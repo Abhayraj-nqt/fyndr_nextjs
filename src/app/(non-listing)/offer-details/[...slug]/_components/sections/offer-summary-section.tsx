@@ -94,7 +94,6 @@ const OfferSummarySection = () => {
     if (!cartItem) return;
     const appointment = cartItem.appointments[appointmentIndex];
     if (!appointment) return;
-    console.log("Edit appointment clicked", { appointmentIndex, appointment });
     const editPendingAction = (
       updatedAppointment?: OfferCartAppointmentSlot
     ) => {

@@ -44,15 +44,6 @@ const StoreDetails = async ({ searchParams, params }: RouteParams) => {
 
   const { bizId, storeId, categoryId } = extractRouteIds(routeParams);
 
-  // const bizId = 1000138;
-  // const storeId = 205;
-  // const categoryId = 210;
-  // const bizId = 1000389;
-  // const storeId = 512;
-  // const categoryId = 265;
-
-  console.log({ bizId, storeId, categoryId });
-
   const { success, data: store } = await onGetStoreDetails({
     params: {
       bizId,

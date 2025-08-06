@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -6,21 +6,11 @@ export async function GET(request: NextRequest) {
   const error = searchParams.get("error");
   const state = searchParams.get("state");
 
-  console.log("Calendar consent callback received:", {
-    code: code ? "present" : "missing",
-    error,
-    state,
-    origin: request.nextUrl.origin,
-    fullUrl: request.url,
-  });
-
   // Check if this is a redirect flow or popup flow
   const isPopupFlow = state === "calendar_consent";
   const isRedirectFlow = state?.startsWith("calendar_consent_");
 
   if (!isPopupFlow && !isRedirectFlow) {
-    console.error("Invalid state parameter:", state);
-
     if (isPopupFlow) {
       return new Response(
         `
@@ -48,8 +38,6 @@ export async function GET(request: NextRequest) {
   }
 
   if (error) {
-    console.error("OAuth error:", error);
-
     if (isPopupFlow) {
       return new Response(
         `
@@ -77,8 +65,6 @@ export async function GET(request: NextRequest) {
   }
 
   if (!code) {
-    console.error("No authorization code received");
-
     if (isPopupFlow) {
       return new Response(
         `
@@ -107,13 +93,6 @@ export async function GET(request: NextRequest) {
 
   try {
     const redirectUri = `${request.nextUrl.origin}/api/calendar/consent/callback`;
-    console.log("Token exchange parameters:", {
-      client_id: process.env.AUTH_GOOGLE_ID ? "present" : "missing",
-      client_secret: process.env.AUTH_GOOGLE_SECRET ? "present" : "missing",
-      code: code ? "present" : "missing",
-      redirect_uri: redirectUri,
-    });
-
     const tokenRequestBody = new URLSearchParams({
       client_id: process.env.AUTH_GOOGLE_ID!,
       client_secret: process.env.AUTH_GOOGLE_SECRET!,
@@ -121,8 +100,6 @@ export async function GET(request: NextRequest) {
       grant_type: "authorization_code",
       redirect_uri: redirectUri,
     });
-
-    console.log("Making token exchange request...");
 
     // Exchange code for tokens
     const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
@@ -133,16 +110,7 @@ export async function GET(request: NextRequest) {
       body: tokenRequestBody,
     });
 
-    console.log("Token response status:", tokenResponse.status);
-
     if (!tokenResponse.ok) {
-      const errorData = await tokenResponse.text();
-      console.error("Token exchange failed:", {
-        status: tokenResponse.status,
-        statusText: tokenResponse.statusText,
-        body: errorData,
-      });
-
       if (isPopupFlow) {
         return new Response(
           `
@@ -171,12 +139,6 @@ export async function GET(request: NextRequest) {
     }
 
     const tokens = await tokenResponse.json();
-    console.log("Token exchange successful:", {
-      hasAccessToken: !!tokens.access_token,
-      hasRefreshToken: !!tokens.refresh_token,
-      hasIdToken: !!tokens.id_token, // Check for id_token
-      scope: tokens.scope,
-    });
 
     if (isPopupFlow) {
       return new Response(
@@ -205,7 +167,7 @@ export async function GET(request: NextRequest) {
     } else {
       // For redirect flow, store tokens in session/cookie and redirect to success page
       // You might want to encrypt these tokens before storing
-      const response = Response.redirect(
+      const response = NextResponse.redirect(
         `${request.nextUrl.origin}/calendar-consent-success`
       );
 
@@ -228,8 +190,11 @@ export async function GET(request: NextRequest) {
 
       return response;
     }
-  } catch (error) {
-    console.error("Token exchange error:", error);
+  } catch (error: unknown) {
+    const errorMessage =
+      error && typeof error === "object" && "message" in error
+        ? (error as Error).message
+        : String(error);
 
     if (isPopupFlow) {
       return new Response(
@@ -239,7 +204,7 @@ export async function GET(request: NextRequest) {
             <script>
               window.opener.postMessage({
                 type: 'CALENDAR_CONSENT_ERROR',
-                error: 'Failed to obtain calendar access: ${error?.message}'
+                error: 'Failed to obtain calendar access: ${errorMessage}'
               }, window.location.origin);
               window.close();
             </script>

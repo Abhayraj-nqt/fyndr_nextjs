@@ -68,7 +68,6 @@ const CampaignsSection = ({
     status,
     error,
     refetch,
-    // isRefetching,
   } = useInfiniteCampaigns(params, payload);
 
   // Flatten campaigns from all pages - no duplicate filtering needed if API is correct

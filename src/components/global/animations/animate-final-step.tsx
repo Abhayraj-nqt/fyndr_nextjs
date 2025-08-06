@@ -34,7 +34,6 @@ const AnimateFinalStep = ({
         className
       )}
     >
-      {/* Animate layout changes inside this MotionDiv */}
       <MotionDiv
         layout
         className={cn(
@@ -44,8 +43,6 @@ const AnimateFinalStep = ({
         transition={{
           layout: {
             duration: 0.4,
-            // ease: [0.25, 0.46, 0.45, 0.94],
-            // ease: [1, 1, 1, 1],
           },
         }}
       >

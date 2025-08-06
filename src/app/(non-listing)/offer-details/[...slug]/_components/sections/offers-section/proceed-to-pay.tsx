@@ -24,8 +24,6 @@ const ProceedToPay = ({ onClick, disabled }: Props) => {
   }
 
   if (error) {
-    console.log("ProceedToPay -> ", { error });
-
     return <div>Error...</div>;
   }
 

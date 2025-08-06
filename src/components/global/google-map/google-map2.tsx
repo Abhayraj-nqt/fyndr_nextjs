@@ -107,13 +107,6 @@ const GoogleMap2: React.FC<GoogleMapProps> = ({
 
   // Limit markers for performance
   const limitedMarkers = useMemo(() => {
-    // if (markers.length <= maxMarkersToShow) return markers;
-
-    // Take first N markers or implement more sophisticated filtering
-    // console.warn(
-    //   `Too many markers (${markers.length}), showing first ${maxMarkersToShow}`
-    // );
-    // return markers.slice(0, maxMarkersToShow);
     return markers;
   }, [markers, maxMarkersToShow]);
 
@@ -186,7 +179,6 @@ const GoogleMap2: React.FC<GoogleMapProps> = ({
         clustererRef.current = new MarkerClusterer({
           map,
           markers: googleMarkers,
-          //   algorithm: new MarkerClusterer.GridAlgorithm({ maxDistance: 50000 }),
           algorithm: new GridAlgorithm({ maxDistance: 50000 }),
         });
       } catch (error) {

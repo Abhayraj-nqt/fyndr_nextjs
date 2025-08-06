@@ -45,6 +45,4 @@ const Input = ({
   );
 };
 
-// INPUT_PRIMARY: no-focus text-base font-normal py-[10px] px-3 placeholder border-none text-black-70 shadow-none outline-none disabled:bg-black-0.5 bg-white placeholder:text-black-40 dark:placeholder:text-black-40
-
 export default Input;

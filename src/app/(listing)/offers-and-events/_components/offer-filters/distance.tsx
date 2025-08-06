@@ -26,7 +26,7 @@ const Distance = ({ className, type = "desktop" }: Props) => {
 
   // Debounce the URL update to prevent multiple rapid calls
   const handleOrderByChange = useCallback(() => {
-    if (orderBy === currentOrder) return; // Prevent unnecessary updates
+    if (orderBy === currentOrder) return;
 
     const newUrl = formUrlQuery({
       params: searchParams.toString(),

@@ -37,7 +37,6 @@ const CampaignMarkerMap = () => {
   const user = session?.user;
   const indvId = session?.user?.id;
 
-  // Memoize location payload to prevent unnecessary re-renders
   const locationPayload = useMemo(() => {
     const location = { ...DEFAULT_LOCATION };
 
@@ -99,21 +98,10 @@ const CampaignMarkerMap = () => {
       campaignType: dealTypes,
       categories: categoryIds,
       fetchById: "none" as const,
-      // fetchByGoal:
-      //   searchParamsData.mode === "offline"
-      //     ? ("INSTORE" as const)
-      //     : ("ONLINE" as const),
       fetchByGoal: "INSTORE",
       locQRId: null,
     }),
-    [
-      indvId,
-      searchParamsData.dist,
-      // searchParamsData.mode,
-      locationPayload,
-      dealTypes,
-      categoryIds,
-    ]
+    [indvId, searchParamsData.dist, locationPayload, dealTypes, categoryIds]
   );
 
   const {
@@ -122,7 +110,6 @@ const CampaignMarkerMap = () => {
     isLoading,
   } = useCampaignMapMarkers(queryParams, queryPayload);
 
-  // Memoize marker data processing with performance optimization
   const markerData: MarkerData[] = useMemo(() => {
     if (!campaigns || campaigns.length === 0) return [];
 
@@ -158,13 +145,8 @@ const CampaignMarkerMap = () => {
       }
     }
 
-    console.log(
-      `Generated ${markers.length} markers from ${campaigns.length} campaigns`
-    );
     return markers;
   }, [campaigns]);
-
-  console.log({ markerData });
 
   // Show loading state for map
   if (isLoading) {

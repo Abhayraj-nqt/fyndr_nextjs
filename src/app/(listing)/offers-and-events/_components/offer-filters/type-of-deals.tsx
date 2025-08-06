@@ -38,7 +38,6 @@ const TypeOfDeals = () => {
 
     setSelectedDealTypes(newSelectedTypes);
 
-    // Use startTransition to prevent blocking UI updates
     startTransition(() => {
       let newUrl = "";
 
@@ -55,7 +54,6 @@ const TypeOfDeals = () => {
         });
       }
 
-      // Use replace instead of push to avoid history pollution
       router.replace(newUrl, { scroll: false });
     });
   };

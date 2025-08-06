@@ -6,7 +6,7 @@ import { FieldEventHandlers, FormFieldConfig } from "@/types/form-generator";
 export const createFormSchema = (fields: FormFieldConfig[]) => {
   const schema: Record<string, z.ZodTypeAny> = {};
 
-  fields.forEach((field) => {
+  fields.forEach((field: FormFieldConfig) => {
     if (field.validation) {
       schema[field.name] = field.validation;
     } else {
@@ -49,7 +49,7 @@ export const createFormSchema = (fields: FormFieldConfig[]) => {
           schema[field.name] = z.any();
           break;
         default:
-          schema[field.name] = z.any();
+          schema[(field as FormFieldConfig).name] = z.any();
       }
     }
 
