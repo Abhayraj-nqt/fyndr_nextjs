@@ -56,6 +56,16 @@ export const onAddLocation: AddLocationParams = async (payload) => {
   });
 };
 
+export const onUpdateLocationn: AddLocationParams = async (payload) => {
+
+  console.log(payload , "new payload");
+  const endpoint = `${API_BASE_URL}/identity/location`;
+  console.log("endAddLocation", payload, endpoint);
+  return _put(endpoint, payload, {
+    requireAuth: true,
+  });
+};
+
 export const onDeleteLocation: AddLocationParams = async (payload) => {
   const endpoint = `${API_BASE_URL}/identity/location`;
   return _delete(endpoint, payload, {

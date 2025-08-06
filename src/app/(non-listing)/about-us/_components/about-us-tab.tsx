@@ -22,7 +22,7 @@ const AboutUsTab = () => {
           <TabsList>
             <TabsTrigger
               value="business"
-              className="relative text-[3.5vw] font-normal text-[#7a8086]
+              className="title-4 relative  text-[#7a8086]
                after:absolute
                 after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-primary
                 after:transition-all after:duration-0 data-[state=active]:text-primary
@@ -34,7 +34,7 @@ const AboutUsTab = () => {
             </TabsTrigger>
             <TabsTrigger
               value="individual"
-              className="relative text-[3.5vw] font-normal text-[#7a8086] after:absolute after:bottom-0
+              className="title-4 relative  text-[#7a8086] after:absolute after:bottom-0
     after:left-0
     after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-0
     data-[state=active]:text-primary data-[state=active]:after:w-full sm:text-[2vw]

@@ -9,10 +9,6 @@ import handleError from "@/lib/handlers/error";
 import { _get, _post } from "@/lib/handlers/fetch";
 import { encryptPassword } from "@/lib/utils/auth";
 import {
-  AccountResponse,
-  RefreshTokenResponse,
-} from "@/types/api-response/auth.response";
-import {
   ConfirmIdentity,
   GenerateToken,
   GetAccount,
@@ -26,6 +22,11 @@ import {
 } from "@/types/auth/auth.action.types";
 import { SignOut } from "@/types/auth/auth.params";
 import { ErrorResponse } from "@/types/global";
+
+import {
+  AccountResponse,
+  RefreshTokenResponse,
+} from "@/types/api-response/auth.response";
 
 export const onSignInWithCredentials: SignInWithCredentials = async ({
   payload,
@@ -96,23 +97,16 @@ export const onGetAccount: GetAccount = async ({ payload }) => {
   }
 
   let headers = {};
-  let next;
 
   if (payload?.accessToken) {
     headers = {
       ...headers,
       Authorization: `Bearer ${payload.accessToken}`,
     };
-
-    next = {
-      revalidate: 500000,
-    };
   }
 
   return _post<AccountResponse>(endpoint, newPayload, {
     headers,
-    cache: "force-cache",
-    next,
   });
 };
 

@@ -39,9 +39,7 @@ const AboutUs = () => {
         ))}
       </section>
       <section className="bg-white pt-5 ">
-        <h1 className="text-center text-[1.5rem] font-semibold  leading-[42px]">
-          How to use Fyndr:
-        </h1>
+        <h1 className="title-2 text-center">Joining as a ?</h1>
         <AboutUsTab />
       </section>
     </main>

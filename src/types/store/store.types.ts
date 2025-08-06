@@ -39,3 +39,6 @@ export type BusinessDirectory = {
   likes: null | unknown;
   workingHours: string;
 };
+
+
+
