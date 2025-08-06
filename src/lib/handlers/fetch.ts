@@ -20,7 +20,7 @@ export async function fetchHandler<T>(
   options: FetchOptions = {}
 ): Promise<ActionResponse<T>> {
   const {
-    timeout = 10000,
+    timeout = 20000,
     headers: customHeaders = {},
     requireAuth = false,
     ...restOptions

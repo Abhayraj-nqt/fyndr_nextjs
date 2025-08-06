@@ -57,11 +57,11 @@ export type GetStoreResponse = {
     deliveryWithin: null | unknown;
     deliveryOptions: string | unknown;
     timeZone: null | unknown;
-    workingHours: null | unknown;
+    workingHours: null | string;
     distance: null | number | undefined;
     catalogueId: null | unknown;
     biz: null | unknown;
-    workingHoursAndSlots: null | unknown;
+    workingHoursAndSlots: null | string;
   };
   locId: number;
   locName: string;

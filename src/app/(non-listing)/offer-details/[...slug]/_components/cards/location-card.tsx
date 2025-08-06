@@ -54,7 +54,13 @@ const LocationCard = ({
       </div>
       <div className="">
         {location?.catalogueId && location.storeUrl !== null && !radio && (
-          <Button variant="primary" className="self-start" asChild>
+          <Button
+            variant="primary"
+            className="self-start"
+            asChild
+            stdHeight
+            stdWidth
+          >
             <Link href={ROUTES.STORE(location.storeUrl, location.locationId)}>
               <Store /> View Store
             </Link>

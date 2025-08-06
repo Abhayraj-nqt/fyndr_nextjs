@@ -25,7 +25,7 @@ const CommentCard = ({ comment, business, qrCode }: Props) => {
 
   return (
     <div className="relative flex flex-col gap-6 rounded-10 bg-primary-0.5 p-4">
-      <div className="flex w-fit flex-col gap-2">
+      <div className="flex w-fit flex-col">
         <Metric
           name={`${comment.user.firstName} ${comment.user.lastName}`}
           alt={`${comment.commentId}`}
@@ -34,7 +34,13 @@ const CommentCard = ({ comment, business, qrCode }: Props) => {
           title={`• ${formattedDate}`}
           textStyles="body-medium"
         />
-        <StarRating allowHalf outOf={5} rating={comment.rating} size={20} />
+        <StarRating
+          allowHalf
+          outOf={5}
+          rating={comment.rating}
+          size={20}
+          className="ml-9"
+        />
       </div>
       {comment.images && comment.images.length > 0 && (
         <div className="no-scrollbar flex gap-4 overflow-x-scroll">

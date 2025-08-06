@@ -3,6 +3,7 @@ import React from "react";
 
 import Button from "@/components/global/buttons";
 import ASSETS from "@/constants/assets";
+import { parseAmount } from "@/lib/utils/parser";
 import { StoreItem } from "@/types/store/store.types";
 
 import AddToCartModal from "./add-to-cart-modal";
@@ -29,7 +30,7 @@ const StoreItemCard = ({ storeItem }: Props) => {
       <div className="flex-between body-1 lg:heading-7 absolute bottom-0 w-full rounded-b-10 bg-black/80 p-4 text-white">
         <div className="flex flex-col gap-1">
           <h3>{title}</h3>
-          <div>${price}</div>
+          <div>${parseAmount(price)}</div>
         </div>
 
         <AddToCartModal

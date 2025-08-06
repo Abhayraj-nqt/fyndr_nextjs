@@ -25,7 +25,7 @@ const PaymentSection = () => {
   }, [items]);
 
   return (
-    <DefaultCard id="payment-section" className="w-full p-6">
+    <DefaultCard id="payment-section" className="w-full p-4 sm:p-6">
       <h2 className="heading-7-medium mb-2 text-secondary">Select Card</h2>
       <Payment
         total={calculations.grandTotal}

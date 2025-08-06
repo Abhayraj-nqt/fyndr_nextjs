@@ -2,8 +2,9 @@ import { Copy } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
-import CopyToClipboard from "@/components/global/copy-to-clipboard";
 import { cn } from "@/lib/utils";
+
+import CopyUrl from "../../copy-url";
 
 type Props = {
   imgURL: string;
@@ -22,11 +23,11 @@ const BannerImageSection = ({ imgURL, alt, className }: Props) => {
         className="w-full rounded-10"
       />
       <div className="absolute right-4 top-4">
-        <CopyToClipboard text="url">
-          <div className="rounded-full bg-black/30 p-4 text-white ">
-            <Copy size={30} />
+        <CopyUrl>
+          <div className="rounded-full bg-black/30 p-2 text-white md:p-4 ">
+            <Copy className="size-4 md:!size-7" />
           </div>
-        </CopyToClipboard>
+        </CopyUrl>
       </div>
     </div>
   );

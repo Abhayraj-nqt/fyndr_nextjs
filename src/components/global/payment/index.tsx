@@ -20,6 +20,7 @@ type Props = {
   isSubscriptionEnabled: boolean;
 };
 
+// TODO: Complete the component
 const Payment = ({ total, amount, tax, channel }: Props) => {
   const { user, isLoading, error } = useUser();
   const {
@@ -49,6 +50,8 @@ const Payment = ({ total, amount, tax, channel }: Props) => {
 
   const { email, indvid, qrid, pmethod: cards = [] } = user;
 
+  console.log({ selectedCard, email, indvid, qrid, total });
+
   const handleCardChange = (card: PaymentMethod) => {
     setSelectedCard(card);
   };
@@ -58,7 +61,6 @@ const Payment = ({ total, amount, tax, channel }: Props) => {
     tax;
 
   return (
-    // <div className="flex flex-col gap-4">
     <div className="grid grid-cols-7 gap-4">
       <div className="col-span-4">
         <CardPay cards={cards || []} onCardChange={handleCardChange} />
@@ -133,7 +135,7 @@ const Payment = ({ total, amount, tax, channel }: Props) => {
           </div>
         </div>
         <div className="flex-center w-full p-4">
-          <Button variant="primary" stdWidth>
+          <Button variant="primary" stdWidth stdHeight>
             Pay Now {"$"}
             {parseAmount(effectiveTotalAmount)}
           </Button>

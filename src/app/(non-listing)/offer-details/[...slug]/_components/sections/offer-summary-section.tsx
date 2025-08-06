@@ -104,7 +104,7 @@ const OfferSummarySection = () => {
   };
 
   return (
-    <DefaultCard className="w-full p-6">
+    <DefaultCard className="w-full p-4 sm:p-6">
       <h2 className="heading-7-medium mb-2 text-secondary">Offer Summary</h2>
       <div className="flex flex-col gap-4">
         {cartItems.map((item, index) => {

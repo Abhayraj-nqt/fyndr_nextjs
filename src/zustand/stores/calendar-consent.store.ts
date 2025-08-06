@@ -1,6 +1,6 @@
 // zustand/stores/calendar-consent.store.ts
 import { create } from "zustand";
-import { persist, devtools } from "zustand/middleware";
+import { devtools } from "zustand/middleware";
 
 interface CalendarTokens {
   accessToken: string;
@@ -27,63 +27,63 @@ interface CalendarConsentState {
 
 export const useCalendarConsentStore = create<CalendarConsentState>()(
   devtools(
-    persist(
-      (set, get) => ({
-        hasCalendarAccess: false,
-        tokens: null,
-        isConsentModalOpen: false,
-        isRequestingConsent: false,
+    // persist(
+    (set, get) => ({
+      hasCalendarAccess: false,
+      tokens: null,
+      isConsentModalOpen: false,
+      isRequestingConsent: false,
 
-        setCalendarTokens: (tokens) => {
-          set({
-            tokens,
-            hasCalendarAccess: true,
-            isConsentModalOpen: false,
-            isRequestingConsent: false,
-          });
-        },
+      setCalendarTokens: (tokens) => {
+        set({
+          tokens,
+          hasCalendarAccess: true,
+          isConsentModalOpen: false,
+          isRequestingConsent: false,
+        });
+      },
 
-        clearCalendarTokens: () => {
-          set({
-            tokens: null,
-            hasCalendarAccess: false,
-            isConsentModalOpen: false,
-            isRequestingConsent: false,
-          });
-        },
+      clearCalendarTokens: () => {
+        set({
+          tokens: null,
+          hasCalendarAccess: false,
+          isConsentModalOpen: false,
+          isRequestingConsent: false,
+        });
+      },
 
-        openConsentModal: () => {
-          set({ isConsentModalOpen: true });
-        },
+      openConsentModal: () => {
+        set({ isConsentModalOpen: true });
+      },
 
-        closeConsentModal: () => {
-          set({ isConsentModalOpen: false, isRequestingConsent: false });
-        },
+      closeConsentModal: () => {
+        set({ isConsentModalOpen: false, isRequestingConsent: false });
+      },
 
-        setRequestingConsent: (requesting) => {
-          set({ isRequestingConsent: requesting });
-        },
+      setRequestingConsent: (requesting) => {
+        set({ isRequestingConsent: requesting });
+      },
 
-        checkTokenValidity: () => {
-          const { tokens } = get();
-          if (!tokens) return false;
+      checkTokenValidity: () => {
+        const { tokens } = get();
+        if (!tokens) return false;
 
-          return Date.now() < tokens.expiresAt;
-        },
+        return Date.now() < tokens.expiresAt;
+      },
 
-        isCalendarAccessGranted: () => {
-          const { tokens, checkTokenValidity } = get();
-          return !!(tokens && checkTokenValidity());
-        },
-      }),
-      {
-        name: "calendar-consent-store",
-        partialize: (state) => ({
-          tokens: state.tokens,
-          hasCalendarAccess: state.hasCalendarAccess,
-        }),
-      }
-    ),
+      isCalendarAccessGranted: () => {
+        const { tokens, checkTokenValidity } = get();
+        return !!(tokens && checkTokenValidity());
+      },
+    }),
+    // {
+    //   name: "calendar-consent-store",
+    //   partialize: (state) => ({
+    //     tokens: state.tokens,
+    //     hasCalendarAccess: state.hasCalendarAccess,
+    //   }),
+    // }
+    // ),
     { name: "Calendar-Token-Store" }
   )
 );

@@ -35,21 +35,21 @@ const extractRouteIds = (params: {
 };
 
 const StoreDetails = async ({ searchParams, params }: RouteParams) => {
-  // const routeParams = (await params) as {
-  //   biz: string;
-  //   store: string;
-  //   category: string;
-  // };
-  // const { location: locationId } = await searchParams;
+  const routeParams = (await params) as {
+    biz: string;
+    store: string;
+    category: string;
+  };
+  const { location: locationId, query = "" } = await searchParams;
 
-  // const { bizId, storeId, categoryId } = extractRouteIds(routeParams);
+  const { bizId, storeId, categoryId } = extractRouteIds(routeParams);
 
   // const bizId = 1000138;
   // const storeId = 205;
   // const categoryId = 210;
-  const bizId = 1000389;
-  const storeId = 512;
-  const categoryId = 265;
+  // const bizId = 1000389;
+  // const storeId = 512;
+  // const categoryId = 265;
 
   console.log({ bizId, storeId, categoryId });
 
@@ -67,15 +67,30 @@ const StoreDetails = async ({ searchParams, params }: RouteParams) => {
     store.images?.[0]?.img_url || ASSETS.IMAGES.PLACEHOLDER.FYNDR;
 
   return (
-    <div className="my-10 flex flex-col items-center justify-center p-4">
-      <div className="flex w-full max-w-[1550px] flex-col gap-4">
-        <BannerSection imgURL={bannerImage} alt={store.name} />
+    <main className="my-10 flex flex-col items-center justify-center p-4">
+      <div className="flex w-full max-w-[1550px] flex-col gap-4 xl:w-11/12">
+        <BannerSection
+          imgURL={bannerImage}
+          alt={store.name}
+          locationId={Number(locationId)}
+          storeUrl={store.url}
+          bizId={bizId}
+          catalogueId={store.objid}
+          categoryId={categoryId}
+          storeName={store.name}
+        />
         <StoreItemSection
-          businessName="Hello"
+          businessName={store.name}
           storeItems={store.catalogueItems}
+          bizId={bizId}
+          categoryId={categoryId}
+          locationId={Number(locationId)}
+          storeId={store.objid}
+          storeUrl={store.url}
+          query={query}
         />
       </div>
-    </div>
+    </main>
   );
 };
 

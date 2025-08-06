@@ -11,7 +11,7 @@ const DescriptionSection = ({ desc }: Props) => {
   if (!desc) return null;
 
   return (
-    <DefaultCard className="w-full p-6">
+    <DefaultCard className="w-full p-4 sm:p-6">
       <h2 className="heading-7-medium mb-2 text-secondary">Details</h2>
       <HtmlContent htmlString={desc} className="body-3 text-black-90" />
     </DefaultCard>

@@ -1,17 +1,35 @@
 import { Copy } from "lucide-react";
 import Image from "next/image";
-import React from "react";
+import React, { Suspense } from "react";
 
-import CopyToClipboard from "@/components/global/copy-to-clipboard";
+import CopyUrl from "@/app/(store)/store/[slug]/_components/copy-url";
 import { cn } from "@/lib/utils";
+
+import CategoryInfo from "./category-info";
 
 type Props = {
   imgURL: string;
   alt: string;
   className?: string;
+  storeUrl: string;
+  locationId: number;
+  categoryId: number;
+  catalogueId: number;
+  bizId: number;
+  storeName: string;
 };
 
-const BannerSection = ({ imgURL, alt, className }: Props) => {
+const BannerSection = ({
+  imgURL,
+  alt,
+  className,
+  locationId,
+  storeUrl,
+  bizId,
+  catalogueId,
+  categoryId,
+  storeName,
+}: Props) => {
   return (
     <div className={cn(`relative`, className)}>
       <Image
@@ -19,15 +37,27 @@ const BannerSection = ({ imgURL, alt, className }: Props) => {
         alt={alt}
         height={500}
         width={500}
-        className="aspect-[2/1] max-h-[32rem] w-full rounded-10 object-cover"
+        className="aspect-[5/3] max-h-[36rem] w-full rounded-10 object-cover"
       />
       <div className="absolute inset-0 rounded-10 bg-black/50 opacity-80"></div>
-      <div className="absolute right-4 top-4">
-        <CopyToClipboard text="url">
-          <div className="rounded-full bg-black/30 p-4 text-white ">
-            <Copy size={30} />
+      <div className="absolute right-4 top-4 z-10">
+        <CopyUrl>
+          <div className="rounded-full bg-black/30 p-2 text-white md:p-4 ">
+            <Copy className="size-4 md:!size-7" />
           </div>
-        </CopyToClipboard>
+        </CopyUrl>
+      </div>
+      <div className="flex-center absolute inset-0 rounded-10 bg-transparent">
+        <Suspense fallback={"Loading..."}>
+          <CategoryInfo
+            bizId={bizId}
+            catalogueId={catalogueId}
+            categoryId={categoryId}
+            locationId={locationId}
+            storeName={storeName}
+            storeUrl={storeUrl}
+          />
+        </Suspense>
       </div>
     </div>
   );

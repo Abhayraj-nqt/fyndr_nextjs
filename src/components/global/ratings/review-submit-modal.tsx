@@ -203,9 +203,9 @@ const ReviewSubmitModal = ({
 
         <div className="flex flex-col gap-4">
           <div className="title-6-medium text-secondary">
-            Add Up to {MAX_IMAGES} Images
+            Add Up To {MAX_IMAGES} Images
           </div>
-          <div className="grid grid-cols-3 gap-4 rounded-10 border border-secondary-20 p-4">
+          <div className="grid grid-cols-2 gap-4 rounded-10 border border-secondary-20 p-4 sm:grid-cols-3">
             {Array.from({ length: MAX_IMAGES }, (_, index) =>
               renderImageUploader(index)
             )}

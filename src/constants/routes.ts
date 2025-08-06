@@ -18,6 +18,22 @@ const ROUTES = {
   OFFER_LISTING_CATEGORY: (category: string) => `/offer-listing/${category}`,
   STORE: (storeUrl: number | string, locId?: number | string) =>
     !locId ? `/store/${storeUrl}` : `/store/${storeUrl}?location=${locId}`,
+  STORE_ITEMS: ({
+    bizId,
+    categoryId,
+    locId,
+    storeId,
+    storeUrl,
+  }: {
+    bizId: number;
+    storeId: number;
+    categoryId: number;
+    locId?: number;
+    storeUrl: string;
+  }) =>
+    locId
+      ? `/store/${storeUrl}/${bizId}/${storeId}/${categoryId}?location=${locId}`
+      : `/store/${storeUrl}/${bizId}/${storeId}/${categoryId}`,
 
   // Legal routes
   LEGAL_TERMS: "/legal/terms",

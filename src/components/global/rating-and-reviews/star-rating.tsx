@@ -1,6 +1,6 @@
 "use client";
 
-import { Star, StarHalf } from "lucide-react";
+import { Star } from "lucide-react";
 import React, { useState, useMemo } from "react";
 
 type Props = {
@@ -102,7 +102,7 @@ const StarRating = ({
       isInteractiveAndEnabled ? "cursor-pointer" : ""
     } ${disabled ? "opacity-50" : ""}`;
 
-    // Half star with interactive areas
+    // Half star with custom implementation using clip-path
     if (starType === "half" && allowHalf) {
       return (
         <div
@@ -110,15 +110,23 @@ const StarRating = ({
           className={`relative inline-block ${baseClasses}`}
           data-testid={`star-${index}`}
         >
-          {/* Use the proper StarHalf icon */}
-          <StarHalf size={size} className="fill-yellow-400 text-yellow-400" />
+          {/* Background empty star */}
+          <Star size={size} className="fill-gray-300 text-gray-300" />
+
+          {/* Half-filled star overlay */}
+          <div
+            className="absolute inset-0 overflow-hidden"
+            style={{ clipPath: "inset(0 50% 0 0)" }}
+          >
+            <Star size={size} className="fill-yellow-400 text-yellow-400" />
+          </div>
 
           {/* Interactive overlays for half stars */}
           {isInteractiveAndEnabled && (
             <>
               {/* Left half - for half star rating */}
               <button
-                className="absolute inset-0 z-20 w-1/2 cursor-pointer border-0 bg-transparent p-0 outline-none"
+                className="absolute inset-0 z-20 w-1/2 cursor-pointer rounded-sm border-0 bg-transparent p-0 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1"
                 onMouseEnter={() => handleMouseEnter(index, true)}
                 onMouseLeave={handleMouseLeave}
                 onClick={(e) => {
@@ -134,7 +142,7 @@ const StarRating = ({
 
               {/* Right half - for full star rating */}
               <button
-                className="absolute inset-0 left-1/2 z-20 w-1/2 cursor-pointer border-0 bg-transparent p-0 outline-none"
+                className="absolute inset-0 left-1/2 z-20 w-1/2 cursor-pointer rounded-sm border-0 bg-transparent p-0 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1"
                 onMouseEnter={() => handleMouseEnter(index, false)}
                 onMouseLeave={handleMouseLeave}
                 onClick={(e) => {
@@ -158,7 +166,7 @@ const StarRating = ({
       return (
         <button
           key={index}
-          className={`${baseClasses} border-0 bg-transparent p-0 outline-none`}
+          className={`${baseClasses} rounded-sm border-0 bg-transparent p-0 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1`}
           onMouseEnter={() => handleMouseEnter(index, false)}
           onMouseLeave={handleMouseLeave}
           onClick={(e) => {

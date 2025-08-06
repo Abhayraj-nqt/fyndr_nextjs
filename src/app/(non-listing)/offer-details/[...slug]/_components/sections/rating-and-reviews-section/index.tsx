@@ -39,7 +39,9 @@ const RatingAndReviewsSection = async ({
   const session = await auth();
 
   return (
-    <DefaultCard className={cn("flex w-full flex-col gap-6 p-6", className)}>
+    <DefaultCard
+      className={cn("flex w-full flex-col gap-6 p-4 xs:p-6", className)}
+    >
       {showHeading && (
         <h2 className="heading-7-medium mb-2 text-secondary">
           Ratings & Reviews
@@ -48,16 +50,20 @@ const RatingAndReviewsSection = async ({
       <Suspense fallback={"Loading..."}>
         <BusinessRatings bizId={business.bizid} />
       </Suspense>
-      <div className="flex-between">
-        <div className="flex flex-col gap-1">
-          {/* <div className="heading-7">{business.bizName}</div>
+      <div className="xs:flex-between flex flex-col gap-4 xs:flex-row">
+        {/* <div className="flex flex-col gap-1"> */}
+        {/* <div className="heading-7">{business.bizName}</div>
           <Stars outOf={6} ratings={overallRating} /> */}
-        </div>
+        {/* </div> */}
         {session && business.bizid !== session?.user.bizid ? (
           <ReviewSubmitModal
             trigger={
-              <Button variant="primary-dark">
-                <PencilLine /> Write a review
+              <Button
+                variant="primary-dark"
+                stdHeight
+                className="w-full xs:w-fit"
+              >
+                <PencilLine /> Write A Review
               </Button>
             }
             bizId={business.bizid}
@@ -67,8 +73,28 @@ const RatingAndReviewsSection = async ({
         ) : (
           <></>
         )}
+
+        <div
+          className={`flex w-full items-center ${session && business.bizid !== session?.user.bizid ? "justify-end" : "flex-between"}  gap-4`}
+        >
+          <div className="w-full max-w-96">
+            <RatingSorter />
+          </div>
+          {showSeeAllComments && (
+            <AllReviewsModal
+              trigger={
+                <div className="body-1-medium cursor-pointer text-nowrap text-primary">
+                  See All
+                </div>
+              }
+              business={business}
+              page={page}
+              qrCode={qrCode}
+            />
+          )}
+        </div>
       </div>
-      <div className="flex-between gap-4">
+      {/* <div className="flex-between gap-4">
         <div className="w-full max-w-96">
           <RatingSorter />
         </div>
@@ -84,7 +110,7 @@ const RatingAndReviewsSection = async ({
             qrCode={qrCode}
           />
         )}
-      </div>
+      </div> */}
       <Suspense fallback={"Loading..."}>
         <Comments
           business={business}

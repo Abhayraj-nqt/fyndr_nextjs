@@ -124,7 +124,7 @@ const AddToCartModal = ({ trigger, storeItem }: Props) => {
             height={300}
             className="aspect-[2/1] w-full rounded-10"
           />
-          <div className="title-6-medium mt-2 text-black-80">
+          <div className="body-1-medium md:title-6-medium mt-2 text-black-80">
             Please choose from any available Variation or Add on
           </div>
           <div className="flex flex-col gap-2">

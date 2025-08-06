@@ -69,10 +69,12 @@ const DetailedRating = ({
     <div className="w-full">
       <div className={cn("grid grid-cols-5", className)}>
         <div className="col-span-1 content-center justify-self-end text-black-80">
-          <div className="text-center text-[64px] font-semibold leading-[100%]">
+          <div className="text-center text-[36px] font-semibold leading-[100%] xs:text-[46px] lg:text-[64px]">
             {overallRating.toFixed(1)}
           </div>
-          <div className="heading-6-bold text-center">Out of 5</div>
+          <div className="body-1-bold sm:heading-6-bold text-center">
+            Out of 5
+          </div>
         </div>
         <div className="col-span-1 justify-self-center">
           <Separator

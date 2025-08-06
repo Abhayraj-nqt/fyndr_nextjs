@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { useSearchParams } from "next/navigation";
@@ -22,24 +23,6 @@ const SignInRedirect = ({ entityRole }: Props) => {
     }
     window.location.href = url;
   };
-
-  // switch (entityRole) {
-  //   case "INDIVIDUAL_ADMIN":
-  //     hardRedirect(ROUTES.HOME);
-  //     break;
-  //   case "BIZ_ADMIN":
-  //     hardRedirect(ROUTES.BUSINESS_DASHBOARD);
-  //     break;
-  //   case "SUPER_ADMIN":
-  //     hardRedirect(ROUTES.ADMIN_DASHBOARD);
-  //     break;
-  //   case "FYNDR_SUPPORT":
-  //     hardRedirect(ROUTES.SUPPORT_DASHBOARD);
-  //     break;
-  //   default:
-  //     hardRedirect(ROUTES.HOME);
-  //     break;
-  // }
 
   useEffect(() => {
     const getRedirectUrl = () => {
