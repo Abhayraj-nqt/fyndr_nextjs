@@ -16,8 +16,6 @@ import Switch from "@/components/global/input/switch";
 import toast from "@/components/global/toast";
 import { Label } from "@/components/ui/label";
 
-// import NewSelect from "./_components/select/select";
-
 const InputTest = () => {
   const [selectedValue, setSelectedValue] = useState("");
   const [selectedValues, setSelectedValues] = useState<string[]>([]);

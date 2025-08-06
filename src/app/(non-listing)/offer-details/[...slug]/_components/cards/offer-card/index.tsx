@@ -37,8 +37,6 @@ const OfferCard = ({
   const offerSoldOut: boolean =
     !!offer?.offerLimit && !(remainingOffers && remainingOffers > 0);
 
-  console.log({ indvId, offerSoldOut, merchantId });
-
   return (
     <Card className="flex flex-col border-none bg-primary-0.5 shadow-none">
       <div className="flex flex-col gap-4 p-4 lg:flex-row">

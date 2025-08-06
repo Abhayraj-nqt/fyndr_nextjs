@@ -82,7 +82,6 @@ const ReviewSubmitModal = ({
         return;
       }
 
-      // Filter out undefined images and convert to the required format
       const reviewImages = images
         .filter((img): img is ImageUploaderOutput => img !== undefined)
         .map((img) => ({

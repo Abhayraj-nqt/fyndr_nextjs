@@ -12,12 +12,6 @@ const Store = async ({ searchParams, params }: RouteParams) => {
   const { slug: catalogueUrl } = (await params) as { slug: string };
   const { location: locationId, query = "" } = await searchParams;
 
-  // const catalogueUrl = "Tasty-bytes-512";
-  // const locationId = 493;
-  // const catalogueUrl = "scafe21";
-  // const locationId = 4
-  console.log({ catalogueUrl, locationId });
-
   const { success, data: store } = await onGetStore({
     params: {
       locationId: Number(locationId || -1),
@@ -25,8 +19,6 @@ const Store = async ({ searchParams, params }: RouteParams) => {
   });
 
   if (!success || !store) return;
-
-  console.log({ store });
 
   const parentLocation = store.parentLocation;
   const bannerImage =

@@ -22,28 +22,6 @@ const CategoryCard = ({ category }: Props) => {
         {category.name}
       </div>
     </div>
-
-    // <div className="group relative cursor-pointer overflow-hidden rounded-lg shadow-md transition-all duration-300 hover:scale-105 hover:shadow-xl">
-    //   <div className="relative aspect-[5/3]">
-    //     <Image
-    //       src={
-    //         category?.images?.[0]?.img_url || ASSETS.IMAGES.PLACEHOLDER.FYNDR
-    //       }
-    //       alt={category.name}
-    //       className="size-full object-cover transition-transform duration-300 group-hover:scale-110"
-    //       height={300}
-    //       width={350}
-    //     />
-    //     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80"></div>
-    //     <div className="absolute inset-x-0 bottom-0 p-4">
-    //       {/* <div className="absolute inset-x-0 bottom-0"> */}
-    //       <h3 className="text-center text-lg font-semibold text-white drop-shadow-lg">
-    //         {/* <h3 className="heading-6-medium bg-black/80 p-4 text-center text-white drop-shadow-lg"> */}
-    //         {category.name}
-    //       </h3>
-    //     </div>
-    //   </div>
-    // </div>
   );
 };
 

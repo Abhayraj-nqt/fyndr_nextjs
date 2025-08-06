@@ -38,8 +38,6 @@ const AddToCartModal = ({ trigger, storeItem }: Props) => {
     storeItem.item?.images?.[0]?.img_url || ASSETS.IMAGES.PLACEHOLDER.FYNDR;
   const itemName = storeItem.item.name;
 
-  console.log({ storeItem });
-
   const wholeModifiers = storeItem.catalogueModifiers.filter(
     (item) => item.modifier.modType === "whole"
   );

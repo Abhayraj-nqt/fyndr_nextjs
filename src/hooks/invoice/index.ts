@@ -35,13 +35,10 @@ export const useUserReviewOverViews = (bizId?: number) => {
   return useQuery({
     queryKey: ["reviewOverviews", bizId],
     queryFn: async () => {
-      console.log("bizID in review", bizId);
       if (!bizId) throw new Error("No bizId provided");
       const response = await fetchReviewsOverview({ bizId });
-
-      console.log("inside action  review ", response);
       return response.data;
     },
-    enabled: !!bizId, 
+    enabled: !!bizId,
   });
 };

@@ -42,7 +42,6 @@ const StarRating = ({
 }: Props) => {
   const [hoverRating, setHoverRating] = useState<number | null>(null);
 
-  // Clamp rating to valid range
   const clampedRating = Math.max(0, Math.min(rating, outOf));
   const displayRating = hoverRating !== null ? hoverRating : clampedRating;
 

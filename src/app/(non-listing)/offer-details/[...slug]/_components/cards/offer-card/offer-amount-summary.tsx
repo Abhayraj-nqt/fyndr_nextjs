@@ -13,8 +13,6 @@ const OfferAmountSummary = ({ offerId }: Props) => {
 
   const cartItem = getCartItem(offerId);
 
-  console.log("cartItem", cartItem);
-
   if (!cartItem) return null;
 
   return (

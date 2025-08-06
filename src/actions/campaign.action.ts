@@ -100,10 +100,7 @@ export const onGetLikedCampaigns: GetLikedCampaigns = async ({
 };
 
 export const onVerifyOffer: VerifyOffer = async ({ payload }) => {
-  console.log("onVerifyOffer called with payload: ", payload);
-
   const endpoint = `${API_BASE_URL}/invoice/verifyOffers`;
-
   return _post(endpoint, payload, {
     requireAuth: true,
   });

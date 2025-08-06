@@ -19,20 +19,6 @@ import OfferFilters from "../offers-and-events/_components/offer-filters";
 import CampaignsSection from "./_components/sections/campaigns-section";
 import ActionBarSection from "../offers-and-events/_components/sections/action-bar-section";
 
-// Memoize the dynamic import
-// const CampaignsSection = dynamic(
-//   () => import("./_components/sections/campaigns-section"),
-//   {
-//     loading: () => (
-//       <div className="grid gap-4 xl:grid-cols-2">
-//         {Array.from({ length: 6 }).map((_, i) => (
-//           <div key={i} className="h-48 animate-pulse rounded-lg bg-gray-200" />
-//         ))}
-//       </div>
-//     ),
-//   }
-// );
-
 const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
   const resolvedSearchParams = await searchParams;
   const {
@@ -47,7 +33,6 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
     locQrId = null,
   } = resolvedSearchParams;
 
-  // Build location
   const location = DEFAULT_LOCATION;
   const session = await auth();
   const user = session?.user;
@@ -101,7 +86,6 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
     locQRId: locQrId ? Number(locQrId) : null,
   };
 
-  // Create a stable query key
   const queryKey = ["campaigns", params, payload];
 
   // Create QueryClient and prefetch initial data
@@ -123,10 +107,6 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
         params,
         payload,
       });
-
-      // if (!success || error) {
-      //   return handleError(error);
-      // }
 
       if (success && data) {
         // Prefetch the query with initial data
@@ -154,7 +134,6 @@ const Offers = async ({ searchParams }: Pick<RouteParams, "searchParams">) => {
     }
   } catch (error) {
     handleError(error);
-    console.error("Error prefetching campaigns:", error);
   }
 
   return (

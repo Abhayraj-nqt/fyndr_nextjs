@@ -86,7 +86,7 @@ export const BusinessFormSchema = BaseUserSchema.omit({
       message: "Please enter a valid URL or leave empty",
     })
     .default(""),
-  tags: z.array(z.string()).default([]), // Array of strings
+  tags: z.array(z.string()).default([]),
   accountStatus: z.enum(["ACTIVE", "INACTIVE"]).default("ACTIVE").optional(),
   addressLine1: z.string().min(1, { message: "Business address is required." }),
 });

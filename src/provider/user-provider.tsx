@@ -52,14 +52,6 @@ export default function UserProvider({ children }: UserProviderProps) {
           const result = await queryClient.fetchQuery({
             queryKey: [USER_QUERY_KEY],
             queryFn: async () => {
-              console.log("USE USER HOOK getAccount payload -> ", {
-                payload: {
-                  email: session.user.email!,
-                  regMode: "classic",
-                  accessToken: session.accessToken!,
-                },
-              });
-
               const { success, data, error } = await onGetAccount({
                 payload: {
                   email: session.user.email!,
@@ -94,7 +86,6 @@ export default function UserProvider({ children }: UserProviderProps) {
     if (status === "authenticated") {
       prefetchUserData();
     } else if (status === "unauthenticated") {
-      // Clear user data when not authenticated
       clearUserData();
       queryClient.removeQueries({ queryKey: [USER_QUERY_KEY] });
       hasInitialized.current = false;

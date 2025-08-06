@@ -54,11 +54,9 @@ const SocialIcons = ({ campaign }: Props) => {
       objid: campaign?.indvCmpn?.objid || null,
     };
 
-    const { success, data } = await onLikeCampaign({
+    const { success } = await onLikeCampaign({
       payload,
     });
-
-    console.log({ success, payload, data });
 
     if (success) {
       router.refresh();

@@ -11,7 +11,7 @@ const PaymentInfoWrapper = () => {
   const { paymentOptionsVisible } = useOfferCartStore();
 
   if (!paymentOptionsVisible) {
-    return null; // Don't render anything if payment options are not visible
+    return null;
   }
 
   return (

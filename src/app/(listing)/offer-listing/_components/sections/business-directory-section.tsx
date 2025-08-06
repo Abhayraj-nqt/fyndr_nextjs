@@ -154,8 +154,6 @@ const BusinessDirectorySection = ({
     );
   }
 
-  console.log({ enhancedBusinessDirectory });
-
   return (
     <div className="flex w-full flex-col gap-4">
       {enhancedBusinessDirectory.length > 0 ? (

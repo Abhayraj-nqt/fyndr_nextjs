@@ -3,13 +3,10 @@
 import { Clock, Globe, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-// import { useSession } from "next-auth/react";
 import React from "react";
 
-// import { onLikeBusiness } from "@/actions/store.action";
 import Button from "@/components/global/buttons/index";
 import PhoneTo from "@/components/global/phone-to";
-// import toast from "@/components/global/toast";
 import WebsiteTo from "@/components/global/website-to";
 import {
   Card,
@@ -22,7 +19,6 @@ import {
 import ASSETS from "@/constants/assets";
 import ROUTES from "@/constants/routes";
 import { parseAddress } from "@/lib/utils/address";
-// import { LikeBusinessParams } from "@/types/store/store.params";
 import { EnhancedBusinessDirectory } from "@/types/store/store.types";
 
 import BusinessLocationMapModal from "./business-location-map-modal";
@@ -33,11 +29,7 @@ type Props = {
   refetchReviews?: () => void;
 };
 
-const BusinessDirectoryCard = ({
-  businessDirectory,
-  // refetchReviews,
-}: Props) => {
-  // const { data: session } = useSession();
+const BusinessDirectoryCard = ({ businessDirectory }: Props) => {
   const address = parseAddress(businessDirectory, {
     compactMode: true,
     includeDistance: true,
@@ -53,34 +45,6 @@ const BusinessDirectoryCard = ({
         );
 
   const canViewStore: boolean = !!businessDirectory?.catalogueId;
-  // const isLiked: boolean = businessDirectory?.liked === "yes";
-
-  // const handleLike = async () => {
-  //   if (!session || !session?.user) {
-  //     toast.error({
-  //       message: "Please sign-in to like this business.",
-  //     });
-  //     return;
-  //   }
-  //   const payload: LikeBusinessParams["payload"] = {
-  //     bizid: businessDirectory.bizid,
-  //     indvid: Number(session.user.id) || 0,
-  //   };
-
-  //   const { success, data, error } = await onLikeBusiness({ payload });
-
-  //   if (!success || !data) {
-  //     toast.error({
-  //       message:
-  //         error?.details?.message ||
-  //         "Failed to like the business. Please try again.",
-  //     });
-  //   } else {
-  //     if (refetchReviews) {
-  //       refetchReviews();
-  //     }
-  //   }
-  // };
 
   return (
     <>
@@ -148,23 +112,6 @@ const BusinessDirectoryCard = ({
               ) : (
                 <></>
               )}
-              {/* <div className="flex items-center justify-center gap-1">
-                <div className="flex" onClick={handleLike}>
-                  {isLiked ? (
-                    <Heart
-                      fill="#ef4444"
-                      strokeWidth={0}
-                      size={20}
-                      className="cursor-pointer"
-                    />
-                  ) : (
-                    <Heart size={20} className="cursor-pointer" />
-                  )}
-                </div>
-                {businessDirectory.bizDirLikes > 0 && (
-                  <p>{businessDirectory.bizDirLikes}</p>
-                )}
-              </div> */}
             </div>
           </CardContent>
           <CardFooter className="grid h-full grid-cols-1 content-end gap-4 p-0 lg:grid-cols-2">

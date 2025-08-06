@@ -60,17 +60,11 @@ type ModalWithActionsProps = {
   footerContent?: ReactNode;
 };
 
-/**
- * Reusable modal component built on shadcn/ui Dialog
- */
 export type ModalProps = BaseModalProps &
   Partial<TriggeredModalProps> &
   ModalWithTitleProps &
   ModalWithActionsProps;
 
-/**
- * Modal component with standardized header, content, and footer sections
- */
 export const Modal = forwardRef<HTMLDivElement, ModalProps>(
   (
     {
@@ -102,7 +96,6 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
     // Determine if we're using internal or external state
     const isOpen = open !== undefined ? open : isControlledOpen;
 
-    // Handle state changes in a centralized way
     const handleOpenChange = useCallback(
       (newOpen: boolean) => {
         if (open === undefined) {

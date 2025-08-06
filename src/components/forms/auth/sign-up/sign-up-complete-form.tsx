@@ -47,8 +47,6 @@ const SignUpCompleteForm = () => {
   };
 
   const handleAutoSignIn = async (email: string) => {
-    console.log("Inside handleAutoSignIn()");
-
     if (provider === "google") {
       await signIn("google", {
         redirectTo: ROUTES.CALLBACK_SIGN_IN,

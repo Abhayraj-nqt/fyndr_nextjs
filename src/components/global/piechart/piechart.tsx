@@ -20,10 +20,10 @@ const PieChartSection: React.FC<PieChartProps> = ({
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true); // Ensure rendering only happens on client
+    setMounted(true);
   }, []);
 
-  if (!mounted) return null; // Resolving hydration error
+  if (!mounted) return null;
   return (
     <PieChart width={250} height={250}>
       <Pie

@@ -22,7 +22,7 @@ const getCardIcon = (brand: string) => {
     case "discover":
       return "fab fa-cc-discover";
     default:
-      return "fas fa-credit-card"; // Default icon for unknown brands
+      return "fas fa-credit-card";
   }
 };
 
@@ -85,7 +85,6 @@ const CardPay = ({ cards = [], onCardChange, className }: Props) => {
                   <RadioGroupItem
                     value={card.id}
                     id={card.id}
-                    // className="peer sr-only"
                     className={`shadow-none ${isSelected ? "border-primary" : ""}`}
                   />
                 </Label>

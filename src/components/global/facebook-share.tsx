@@ -19,7 +19,6 @@ const FacebookShare = ({ url, title, children }: Props) => {
 
       const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&t=${encodedTitle}`;
 
-      // Open in popup window for better UX
       const popup = window.open(
         shareUrl,
         "facebook-share",

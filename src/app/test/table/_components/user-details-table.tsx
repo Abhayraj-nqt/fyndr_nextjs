@@ -34,11 +34,7 @@ const UserDetailsTable = ({ promises }: Props) => {
 
   if (!success || !data) return <div>Error</div>;
 
-  console.log({ data });
-
   const { count, users } = data.data;
-
-  console.log("this is users", users);
 
   const { table } = useDataTable({
     data: users || [],
