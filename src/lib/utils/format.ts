@@ -1,5 +1,3 @@
-import handleError from "../handlers/error";
-
 export function formatDate(
   date: Date | string | number | undefined,
   opts: Intl.DateTimeFormatOptions = {}
@@ -14,7 +12,6 @@ export function formatDate(
       ...opts,
     }).format(new Date(date));
   } catch (_err) {
-    handleError(_err);
-    return "";
+    console.log(_err);
   }
 }

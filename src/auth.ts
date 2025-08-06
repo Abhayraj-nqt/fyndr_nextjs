@@ -231,12 +231,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.accessToken = token.accessToken;
         session.user = token.user as AdapterUser & UserSession;
       }
-      console.log({ token });
 
-      console.log("SESSION IN SESSION CALLBACK -> ", {
-        sessionEmail: session.user.email,
-        tokenEmail: token.email,
-      });
       return session;
     },
 

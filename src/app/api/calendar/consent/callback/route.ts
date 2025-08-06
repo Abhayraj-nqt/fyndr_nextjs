@@ -38,6 +38,8 @@ export async function GET(request: NextRequest) {
   }
 
   if (error) {
+    console.error("OAuth error:", error);
+
     if (isPopupFlow) {
       return new Response(
         `
@@ -65,6 +67,7 @@ export async function GET(request: NextRequest) {
   }
 
   if (!code) {
+    console.error("No authorization code received");
     if (isPopupFlow) {
       return new Response(
         `
@@ -111,6 +114,13 @@ export async function GET(request: NextRequest) {
     });
 
     if (!tokenResponse.ok) {
+      const errorData = await tokenResponse.text();
+      console.error("Token exchange failed:", {
+        status: tokenResponse.status,
+        statusText: tokenResponse.statusText,
+        body: errorData,
+      });
+
       if (isPopupFlow) {
         return new Response(
           `
@@ -191,6 +201,7 @@ export async function GET(request: NextRequest) {
       return response;
     }
   } catch (error: unknown) {
+    console.error("Token exchange error:", error);
     const errorMessage =
       error && typeof error === "object" && "message" in error
         ? (error as Error).message
