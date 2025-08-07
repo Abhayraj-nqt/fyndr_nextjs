@@ -14,7 +14,7 @@ type FaqCategory = {
 
 export const useFaqCategories = (entityId: number) => {
   const [categories, setCategories] = useState<FaqCategory[]>([]);
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number| null >(
     null
   );
 
@@ -67,6 +67,7 @@ export const useFaqQA = (categoryId: number | null, searchStr = "") => {
         searchStr,
       }),
     // refetchOnWindowFocus: false,
+     enabled: !!categoryId,
   });
 
   const questions = data?.success ? data.data : [];

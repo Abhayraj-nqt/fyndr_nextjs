@@ -4,7 +4,7 @@ import { getActivePromos, getExpiredPromos } from "@/actions/admin.actions";
 import ContainerWrapper from "@/components/global/container-wrapper";
 import LocalSearch from "@/components/global/search/local-search";
 
-import ActiveBar from "./_components/activeBar";
+import ActiveBar from "./_components/active-bar";
 import Expiredpromos from "./_components/expiredpromos";
 
 const PromoCodes = async ({
@@ -14,7 +14,7 @@ const PromoCodes = async ({
 }) => {
   const search =
     typeof searchParams?.query === "string" ? searchParams.query : "";
-  const { success: activeSuccess, data: activeData } = await getActivePromos({
+  const { data: activeData } = await getActivePromos({
     search,
   });
   const { success: expiredSuccess, data: expiredData } = await getExpiredPromos(
