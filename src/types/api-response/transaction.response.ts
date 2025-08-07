@@ -211,7 +211,7 @@ export type fetchInvoice = {
   fulfiled: string;
 };
 
-export type fetchInvoiceResponse = {
+export type FetchInvoiceResponse = {
   count: number;
   invoices: fetchInvoice[];
   last: boolean;

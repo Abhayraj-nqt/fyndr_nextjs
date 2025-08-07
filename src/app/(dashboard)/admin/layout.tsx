@@ -9,9 +9,9 @@ import { ADMIN_MENU } from "@/constants/menu";
 
 const AdminLayout = async ({ children }: { children: ReactNode }) => {
    const session = await auth();
-   const businessName =  session?.user.name;
+   const adminName =  session?.user.name;
    const accountStatus = session?.user.accountStatus;
-   const SidebarHeader = businessName?.split(" ")[0];
+   const SidebarHeader = adminName?.split(" ")[0];
 
   return (
     <div className="flex min-h-screen flex-col">

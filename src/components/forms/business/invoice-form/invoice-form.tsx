@@ -8,7 +8,7 @@ import { z } from "zod";
 
 import {
   onCreateInvoice,
-  onGetInvoiceTaxDetails,
+  onGetTaxDetails,
   onUpdateInvoice,
 } from "@/actions/invoice.actions";
 import Button from "@/components/global/buttons";
@@ -117,7 +117,7 @@ const InvoiceForm = ({ edit, inv, onOpenChange }: InvoiceFormType) => {
       postalCode,
     };
 
-    const resp = await onGetInvoiceTaxDetails(payload);
+    const resp = await onGetTaxDetails(payload);
 
     setTaxRate(resp?.data?.taxRate);
     return resp?.data?.taxRate;

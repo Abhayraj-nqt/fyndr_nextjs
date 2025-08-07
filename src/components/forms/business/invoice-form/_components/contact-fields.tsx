@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 
-import { onGetCreateInvoiceDetails } from "@/actions/invoice.actions";
+import { onGetInvoiceUserDetails } from "@/actions/invoice.actions";
 import Input from "@/components/global/input";
 import {
   FormControl,
@@ -37,7 +37,7 @@ const ContactFields = ({ form, type ,setBuyerQRId}: ContactFildsProps) => {
   const handleVerify = async (payload: CreateInvoiceParams) => {
     const pay = payload.payload;
 
-    const res = await onGetCreateInvoiceDetails(pay);
+    const res = await onGetInvoiceUserDetails(pay);
     form.setValue("mobile", res.data?.phoneNumber);
     form.setValue("email", res.data?.email);
     form.setValue("firstName", res.data?.firstName);

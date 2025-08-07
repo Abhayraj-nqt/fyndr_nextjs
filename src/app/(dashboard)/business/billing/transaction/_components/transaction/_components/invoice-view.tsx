@@ -26,7 +26,7 @@ import {
 } from "@/types/api-response/transaction.response";
 
 import DisputeModal from "./dispute-modal";
-import GifteeDetails from "../../invoice-view/gifte-details";
+import GifteeDetails from "../../invoice-view/gift-details";
 import InvoiceBasicInfo from "../../invoice-view/invoice-basic-info";
 import Invoicetotal from "../../invoice-view/invoice-total";
 import Offersdetails from "../../invoice-view/offers-details";

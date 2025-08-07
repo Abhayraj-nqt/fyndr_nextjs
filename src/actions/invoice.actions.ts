@@ -48,7 +48,7 @@ export const onRaiseDispute: UpdateDisputeStatusProps = async (
   });
 };
 
-export const onGetCreateInvoiceDetails: GetCreateInvoiceDetails = async (
+export const onGetInvoiceUserDetails: GetCreateInvoiceDetails = async (
   payload
 ) => {
   const endpoint = `${API_BASE_URL}/identity/fetch/user-details`;
@@ -58,7 +58,7 @@ export const onGetCreateInvoiceDetails: GetCreateInvoiceDetails = async (
   });
 };
 
-export const onGetInvoiceTaxDetails: GetInvoiceTaxDetails = async (payload) => {
+export const onGetTaxDetails: GetInvoiceTaxDetails = async (payload) => {
   const endpoint = `${API_BASE_URL}/invoice/getTax`;
   return _post<GetInvoiceTaxResponse>(endpoint, payload, {
     requireAuth: true,

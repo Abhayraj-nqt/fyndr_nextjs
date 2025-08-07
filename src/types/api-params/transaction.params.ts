@@ -1,6 +1,6 @@
 import { TransactionOrdersResponse } from "../api-response/orders.response";
 import {
-  fetchInvoiceResponse,
+  FetchInvoiceResponse,
   invoiceDetailsResponse,
   InvoiceSummary,
 } from "../api-response/transaction.response";
@@ -18,14 +18,14 @@ export type GetReceivableProps = (payload: {
   days: number;
   channel?: string;
   status?: string;
-}) => Promise<ActionResponse<fetchInvoiceResponse>>;
+}) => Promise<ActionResponse<FetchInvoiceResponse>>;
 
 export type GetPayableProps = (payload: {
   criteria: "individual";
   buyerId: number;
   days: number;
   text?: string;
-}) => Promise<ActionResponse<fetchInvoiceResponse>>;
+}) => Promise<ActionResponse<FetchInvoiceResponse>>;
 
 
 export type GetInvoiceDetailProps = (payload : {
