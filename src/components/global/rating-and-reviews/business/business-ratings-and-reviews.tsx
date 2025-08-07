@@ -7,14 +7,20 @@ import DefaultCard from "@/components/global/cards/default-card";
 import BusinessRatings from "@/components/global/rating-and-reviews/business/business-rating";
 import Comments from "@/components/global/rating-and-reviews/business/comment/comments";
 import RatingSorter from "@/components/global/rating-and-reviews/business/rating-sorter";
-import ReviewSubmitModal from "@/components/global/ratings/review-submit-modal";
 import { cn } from "@/lib/utils";
-import { Campaign } from "@/types/campaign/campaign.types";
 
 import AllReviewsModal from "./all-reviews-modal";
+import CommentsSkeleton from "./comment/comments-skeleton";
+import ReviewSubmitModal from "./review-submit-modal";
+
+export type ReviewBusinessProps = {
+  bizid: number;
+  bizName: string;
+  mainLogo: string;
+};
 
 export type RatingsAndReviewsProps = {
-  business: Campaign["biz"];
+  business: ReviewBusinessProps;
   qrCode: string;
   sortBy: "RATING" | "CREATED_DT";
   orderBy: "ASC" | "DESC";
@@ -25,7 +31,7 @@ export type RatingsAndReviewsProps = {
   enableCommentPagination?: boolean;
 };
 
-const RatingAndReviewsSection = async ({
+const BusinessRatingsAndReviews = async ({
   business,
   qrCode,
   orderBy,
@@ -51,10 +57,6 @@ const RatingAndReviewsSection = async ({
         <BusinessRatings bizId={business.bizid} />
       </Suspense>
       <div className="xs:flex-between flex flex-col gap-4 xs:flex-row">
-        {/* <div className="flex flex-col gap-1"> */}
-        {/* <div className="heading-7">{business.bizName}</div>
-          <Stars outOf={6} ratings={overallRating} /> */}
-        {/* </div> */}
         {session && business.bizid !== session?.user.bizid ? (
           <ReviewSubmitModal
             trigger={
@@ -94,24 +96,11 @@ const RatingAndReviewsSection = async ({
           )}
         </div>
       </div>
-      {/* <div className="flex-between gap-4">
-        <div className="w-full max-w-96">
-          <RatingSorter />
-        </div>
-        {showSeeAllComments && (
-          <AllReviewsModal
-            trigger={
-              <div className="body-1-medium cursor-pointer text-primary">
-                See all
-              </div>
-            }
-            business={business}
-            page={page}
-            qrCode={qrCode}
-          />
-        )}
-      </div> */}
-      <Suspense fallback={"Loading..."}>
+      <Suspense
+        fallback={
+          <CommentsSkeleton enablePagination={enableCommentPagination} />
+        }
+      >
         <Comments
           business={business}
           orderBy={orderBy}
@@ -125,4 +114,4 @@ const RatingAndReviewsSection = async ({
   );
 };
 
-export default RatingAndReviewsSection;
+export default BusinessRatingsAndReviews;
