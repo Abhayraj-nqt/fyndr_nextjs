@@ -160,7 +160,6 @@ export const getchannelBought = (channel: ChannelOffer | string): string => {
 export const sumQuantities = (
   items: (Item | Offer)[] | undefined | null
 ): number => {
-  console.log("items", items);
   if (!items || !Array.isArray(items)) {
     return 0;
   }

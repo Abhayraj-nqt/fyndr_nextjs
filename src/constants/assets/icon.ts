@@ -55,7 +55,14 @@ const ICONS = {
   },
   // WALLET: {
 
-  // }
+  // },
+  TICK: {
+    FILLED_GREEN: `${PREFIX}/tick/filled-green-tick.svg`,
+  },
+  VOUCHER: {
+    BLUE: `${PREFIX}/voucher/voucher.svg`,
+    LIGHT_BLUE: `${PREFIX}/voucher/voucher.svg`,
+  },
 } as const;
 
 export default ICONS;

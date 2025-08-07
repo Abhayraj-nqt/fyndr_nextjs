@@ -20,7 +20,6 @@ const PromoCodes = async ({
   const { success: expiredSuccess, data: expiredData } = await getExpiredPromos(
     { search, pgStart: 1, pgSize: 10 }
   );
-  console.log("promo data expired", expiredData, expiredSuccess);
 
   return (
     <ContainerWrapper title="Promo codes">

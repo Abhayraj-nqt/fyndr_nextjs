@@ -50,7 +50,6 @@ export const onQrLogoUpload: QrLogoUploadParams = async (payload) => {
 
 export const onAddLocation: AddLocationParams = async (payload) => {
   const endpoint = `${API_BASE_URL}/identity/location`;
-  console.log("endAddLocation", payload, endpoint);
   return _post(endpoint, payload, {
     requireAuth: true,
   });

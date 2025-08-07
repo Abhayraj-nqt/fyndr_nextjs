@@ -6,21 +6,29 @@ import { signIn, signOut as authSignOut } from "@/auth";
 import toast from "@/components/global/toast";
 import { API_BASE_URL, API_GATEWAY_URL } from "@/environment";
 import handleError from "@/lib/handlers/error";
-import { _get, _post } from "@/lib/handlers/fetch";
+import { _get, _patch, _post, _put } from "@/lib/handlers/fetch";
 import { encryptPassword } from "@/lib/utils/auth";
 import {
   ConfirmIdentity,
   GenerateToken,
   GetAccount,
+  GetGooglePermission,
   RefreshToken,
+  ResetPassword,
+  SendEmailVerificationCode,
   SendMobileVerificationCode,
   SignIn,
   SignInWithCredentials,
   SignUp,
+  UpdateEmail,
   VerifyCode,
   VerifyMobile,
 } from "@/types/auth/auth.action.types";
 import { SignOut } from "@/types/auth/auth.params";
+import {
+  GetAccountResponse,
+  RefreshTokenResponse,
+} from "@/types/auth/auth.response";
 import { ErrorResponse } from "@/types/global";
 
 import {
@@ -59,6 +67,8 @@ export const onSignOut: SignOut = async () => {
 };
 
 export const onConfirmIdentity: ConfirmIdentity = async ({ payload }) => {
+  console.log("ConfirmIdentity -> ", payload);
+
   const endpoint = `${API_BASE_URL}/identity/confirmIdentity`;
   return _post(endpoint, payload);
 };
@@ -67,6 +77,15 @@ export const onSendMobileVerificationCode: SendMobileVerificationCode = async ({
   payload,
 }) => {
   const endpoint = `${API_BASE_URL}/identity/verify/sendVerificationCode?type=phone`;
+  return _post(endpoint, payload);
+};
+
+export const onSendEmailVerificationCode: SendEmailVerificationCode = async ({
+  payload,
+}) => {
+  console.log("SendEmailVerificationCode -> ", payload);
+
+  const endpoint = `${API_BASE_URL}/identity/token`;
   return _post(endpoint, payload);
 };
 
@@ -81,8 +100,39 @@ export const onVerifyCode: VerifyCode = async ({ params }) => {
   return _get(endpoint);
 };
 
+export const onUpdateEmail: UpdateEmail = async ({ params, payload }) => {
+  console.log("UPDATE EMAIL -> ", { payload });
+
+  const { indvId } = params;
+  const endpoint = `${API_BASE_URL}/identity/user/email/${indvId}`;
+
+  return _patch(endpoint, payload, {
+    requireAuth: true,
+  });
+};
+
+export const onGetGooglePermission: GetGooglePermission = async ({
+  payload,
+}) => {
+  const endpoint = `${API_BASE_URL}/appointment/googleCalendar/permission`;
+  const { googleAccessToken } = payload;
+
+  console.log("PAYLOAD: ", googleAccessToken);
+
+  return _get(endpoint, {
+    requireAuth: true,
+    headers: {
+      Accept: "*",
+      "Content-Type": "*",
+      google_access_auth_token: `${googleAccessToken}`,
+    },
+  });
+};
+
 export const onGetAccount: GetAccount = async ({ payload }) => {
   const endpoint = `${API_BASE_URL}/identity/account`;
+
+  // console.log("onGetAccount -> ", { payload });
 
   let newPayload: typeof payload = {
     email: payload.email,
@@ -97,17 +147,30 @@ export const onGetAccount: GetAccount = async ({ payload }) => {
   }
 
   let headers = {};
+  // let next;
 
   if (payload?.accessToken) {
     headers = {
       ...headers,
       Authorization: `Bearer ${payload.accessToken}`,
     };
+
+    // next = {
+    //   revalidate: 500000,
+    // };
   }
 
-  return _post<AccountResponse>(endpoint, newPayload, {
+  return _post<GetAccountResponse>(endpoint, newPayload, {
     headers,
+    // cache: "force-cache",
+    // next,
   });
+};
+
+export const onResetPassword: ResetPassword = async ({ payload }) => {
+  const endpoint = `${API_BASE_URL}/identity/resetPassword`;
+
+  return _put(endpoint, payload);
 };
 
 // !Don't use these functions other than auth.ts file

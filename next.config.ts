@@ -1,6 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "3mb",
+    },
+  },
+  staticPageGenerationTimeout: 300,
   serverExternalPackages: ["pino", "pino-pretty"],
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
@@ -12,6 +18,11 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "biz-logo.s3.us-west-1.amazonaws.com",
+        port: "",
+      },
+      {
+        protocol: "https",
+        hostname: "fyndr-comments-dev.s3.us-west-1.amazonaws.com",
         port: "",
       },
       { protocol: "https", hostname: "lh3.googleusercontent.com", port: "" },

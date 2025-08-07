@@ -9,3 +9,8 @@ export type GetWalletTransactionsResponse = {
   last: boolean;
   walletTransactionsList: WalletTransactionsProps[];
 };
+
+export type WalletVerifyResponse = {
+  isWalletActive: boolean;
+  fyndrCash?: number;
+};

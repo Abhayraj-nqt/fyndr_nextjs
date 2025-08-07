@@ -10,6 +10,7 @@ import React, { useState } from "react";
 
 import MailTo from "@/components/global/mail-to";
 import PhoneTo from "@/components/global/phone-to";
+import PlaceholderImage from "@/components/global/placeholder-image";
 import toast from "@/components/global/toast";
 import WebsiteTo from "@/components/global/website-to";
 import DownArrow from "@/components/icons/down-arrow";
@@ -21,14 +22,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import ASSETS from "@/constants/assets";
 import ROUTES from "@/constants/routes";
 import { HOST } from "@/environment";
-import { useOptimisticLike } from "@/hooks/campaigns";
+import { useOptimisticLike } from "@/hooks/campaigns/use-optimistic-like";
 import { parseAddress } from "@/lib/utils/address";
 import { Campaign } from "@/types/campaign/campaign.types";
 
 import SeeMoreSection from "./sections/see-more-section";
-import ASSETS from "@/constants/assets";
 
 type Props = {
   campaign: Campaign;
@@ -42,7 +43,6 @@ const CampaignCard = ({ campaign }: Props) => {
   const [seeMore, setSeeMore] = useState<boolean>(false);
   const { data: session } = useSession();
 
-  // Use the optimistic like hook
   const likeMutation = useOptimisticLike();
 
   const toggleSeeMore = () => setSeeMore((prev) => !prev);
@@ -57,7 +57,6 @@ const CampaignCard = ({ campaign }: Props) => {
       return;
     }
 
-    // Check current like status - if objid exists and isDeleted is false, it's liked
     const isCurrentlyLiked =
       campaign?.indvCmpn?.objid && campaign?.indvCmpn?.isDeleted === false;
 
@@ -106,7 +105,7 @@ const CampaignCard = ({ campaign }: Props) => {
           href={ROUTES.OFFER_DETAILS(campaign.biz.bizName, campaign.qrCode)}
           className="relative col-span-2 w-full"
         >
-          <Image
+          <PlaceholderImage
             src={
               campaign?.images && campaign?.images.length > 0
                 ? campaign?.images[0]?.img_url
@@ -163,9 +162,7 @@ const CampaignCard = ({ campaign }: Props) => {
             )}
 
             {campaign.cmpnUrl || campaign.biz.website ? (
-              <WebsiteTo
-                url={`https://${campaign.cmpnUrl || campaign.biz.website}`}
-              >
+              <WebsiteTo url={campaign.cmpnUrl || campaign.biz.website || ""}>
                 <Globe size={20} />
               </WebsiteTo>
             ) : (

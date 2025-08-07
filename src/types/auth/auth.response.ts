@@ -1,31 +1,34 @@
 import { Currency, CurrencySymbol } from "../global";
 import {
+  AccountStatus,
   Address,
+  BusinessWorkingHoursAndSlotsList,
   EntityRole,
   EntityType,
   Gender,
   Location,
   RegMode,
   Settings,
+  StripeAccountType,
+  Subscription,
+  Term,
 } from "./auth.types";
 import { PaymentMethod } from "../payment/payment.types";
 
-export type SignInResponse = any;
-
 export type GetAccountResponse = {
-  accountStatus: "ACTIVE" | "DELETED" | string;
+  accountStatus: AccountStatus;
   addonUrl: string | null;
   address: Address;
   bizName: null | string;
   bizType: null | string;
   bizid: null | number;
-  businessWorkingHoursAndSlotsList: null | unknown;
-  chargesEnabled: null | unknown;
+  businessWorkingHoursAndSlotsList: null | BusinessWorkingHoursAndSlotsList;
+  chargesEnabled: null | boolean;
   countryId: number;
   currency: Currency;
   currencySymbol: CurrencySymbol;
-  custid: null | string | unknown;
-  detailsSubmitted: null | unknown;
+  custid: null | string;
+  detailsSubmitted: null | boolean;
   deviceToken: null | string;
   displayName: string;
   email: string;
@@ -42,26 +45,26 @@ export type GetAccountResponse = {
   isSubscribedToFyndrPromoEmails: boolean;
   locations: null | Location[];
   mainLogo: null | string;
-  merchantAllowed: boolean;
-  merchantId: null | unknown;
-  payoutsEnabled: null | unknown;
+  merchantAllowed: null | boolean;
+  merchantId: null | string;
+  payoutsEnabled: null | boolean;
   pmethod: PaymentMethod[] | null;
-  promoCode: null | unknown;
-  qrLogo: string;
-  qrid: number | unknown;
-  referralCode: string | unknown;
+  promoCode: null | string;
+  qrLogo: null | string;
+  qrid: number;
+  referralCode: string;
   regMode: RegMode;
   setting: Settings[];
-  showBiz: null | unknown;
-  subscription: null | unknown;
+  showBiz: null | boolean;
+  subscription: null | Subscription;
   tags: null | string;
-  taxnbr: null | unknown;
-  term: null | unknown;
+  taxnbr: null | string;
+  term: null | Term;
   userTimeZone: string;
   website: string | null;
   yob: string | null;
-  stripeAccountType: string | "EXPRESS";
-
+  stripeAccountType: StripeAccountType;
+  isEmailVerified: boolean;
 };
 
 export type GenerateTokenResponse = {
@@ -71,9 +74,15 @@ export type GenerateTokenResponse = {
   email: string;
 };
 
+export type ResetPasswordResponse = {
+  entity: "IDENTITY" | unknown;
+  message: string;
+  statusCode: null | unknown;
+};
+
 export type RefreshTokenResponse = GenerateTokenResponse;
 
-export type SignInWithCredentialsResponse = any;
+export type SignInWithCredentialsResponse = null;
 
 export type SignUpResponse = GetAccountResponse;
 
@@ -91,6 +100,12 @@ export type SendMobileVerificationCodeResponse = {
   promocode: boolean;
 };
 
+export type SendEmailVerificationCodeResponse = {
+  entity: "TOKEN" | unknown;
+  message: string;
+  statusCode: null | unknown;
+};
+
 export type VerifyMobileResponse = {
   message: string;
   isPromocode: boolean;
@@ -101,4 +116,12 @@ export type VerifyCodeResponse = {
   message: string;
   promoCodeDetails: null | unknown;
   promocode: boolean;
+};
+
+export type UpdateEmailResponse = {
+  message: string;
+};
+
+export type GetGooglePermissionResponse = {
+  message: string;
 };

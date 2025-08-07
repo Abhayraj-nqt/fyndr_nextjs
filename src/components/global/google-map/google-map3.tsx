@@ -48,7 +48,7 @@ const defaultOptions: google.maps.MapOptions = {
   disableDefaultUI: false,
   zoomControl: true,
   streetViewControl: false,
-  mapTypeControl: false,
+  mapTypeControl: true,
   fullscreenControl: true,
   gestureHandling: "cooperative",
   tilt: 0,

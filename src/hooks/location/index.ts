@@ -200,18 +200,11 @@ export function useLocationSelector() {
         setInputWithoutFetch(formattedAddress);
         setSelectedLocation(formattedAddress);
         setCoordinates(currentCoordinates);
-
-        // const newUrl = `?lat=${currentCoordinates.lat}&lng=${currentCoordinates.lng}`;
-        // router.push(newUrl, { scroll: false });
-
         updateLocationParams(currentCoordinates.lat, currentCoordinates.lng);
       } else {
         // Set input without triggering prediction fetch
         setInputWithoutFetch("Current Location");
         setCoordinates(currentCoordinates);
-
-        // const newUrl = `?lat=${currentCoordinates.lat}&lng=${currentCoordinates.lng}`;
-        // router.push(newUrl, { scroll: false });
         updateLocationParams(currentCoordinates.lat, currentCoordinates.lng);
       }
     } catch (error) {
@@ -219,7 +212,6 @@ export function useLocationSelector() {
         error instanceof GeolocationPositionError &&
         error.code === error.PERMISSION_DENIED
       ) {
-        console.log("Location permission denied - user can try again");
         alert("Please enable location from your browser's settings");
       } else if (
         !(

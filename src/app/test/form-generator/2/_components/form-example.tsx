@@ -16,7 +16,6 @@ const ComprehensiveFormDemo: React.FC = () => {
     switchControlValue,
     handleModalState: () => {
       setIsModalOpen(true);
-      console.log("Custom ");
     },
   });
 

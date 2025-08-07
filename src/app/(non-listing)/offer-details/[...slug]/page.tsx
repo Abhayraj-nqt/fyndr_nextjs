@@ -4,18 +4,17 @@ import React from "react";
 import { onGetCampaignByQr } from "@/actions/campaign.action";
 import { auth } from "@/auth";
 import DefaultCard from "@/components/global/cards/default-card";
-import Stars from "@/components/global/ratings/stars";
-import { Separator } from "@/components/ui/separator";
 import { DEFAULT_LOCATION } from "@/constants";
 import { RouteParams } from "@/types/global";
 
-import CampaignCarousel from "./_components/campaign-carousel";
-import Description from "./_components/description";
-import NearestLocation from "./_components/nearest-locations";
-import Offers from "./_components/offers";
-import RatingsAndReviews from "./_components/ratings-and-reviews";
-import SocialIcons from "./_components/social-icons";
-import TermsAndConditions from "./_components/terms-and-conditions";
+import CampaignInfoSection from "./_components/sections/campaign-info-section";
+import NearestLocations from "./_components/sections/campaign-info-section/nearest-locations";
+import DescriptionSection from "./_components/sections/description-section";
+import OfferDetailsMap from "./_components/sections/offer-details-map";
+import OffersSection from "./_components/sections/offers-section";
+import RatingAndReviewsSection from "./_components/sections/rating-and-reviews-section";
+import RatingAndReviewModal from "./_components/sections/rating-and-reviews-section/rating-and-review-modal";
+import TermsAndConditionsSection from "./_components/sections/terms-and-conditions-section";
 
 type Props = {
   params: Promise<{ slug: string[] }>;
@@ -23,7 +22,13 @@ type Props = {
 
 const Offer = async ({ params, searchParams }: RouteParams & Props) => {
   const { slug } = await params;
-  const { lat, lng } = await searchParams;
+  const {
+    lat,
+    lng,
+    sortBy = "RATING",
+    orderBy = "DESC",
+    page = 1,
+  } = await searchParams;
 
   const locationPayload = DEFAULT_LOCATION;
 
@@ -46,26 +51,22 @@ const Offer = async ({ params, searchParams }: RouteParams & Props) => {
 
   const [, qrCode] = slug;
 
-  const { success, data } = await onGetCampaignByQr({
+  const { success, data: campaign } = await onGetCampaignByQr({
     params: {
       qrCode,
     },
     payload: locationPayload,
   });
 
-  if (!success || !data) return null;
-
-  console.log(data);
+  if (!success || !campaign) return null;
 
   const {
     images = [],
-    biz: { bizName },
-    isFeatured,
     cmpnOffers,
     description,
     finePrint: terms,
     cmpnLocs,
-  } = data;
+  } = campaign;
 
   const campaignImages =
     images?.map((item) => {
@@ -73,36 +74,59 @@ const Offer = async ({ params, searchParams }: RouteParams & Props) => {
     }) || [];
 
   return (
-    <main className="my-10 flex flex-col items-center justify-center p-4">
-      <div className="flex w-full flex-col gap-4 sm:flex-row xl:w-11/12">
-        <DefaultCard className="flex size-full flex-col p-0 sm:max-w-72 lg:min-w-96 lg:max-w-96">
-          <CampaignCarousel images={campaignImages} />
-          <div className="flex flex-col gap-4 p-4">
-            <h1 className="text-2xl font-medium text-secondary">{bizName}</h1>
-            <Stars outOf={5} ratings={4} />
-            {isFeatured && <div>Features</div>}
-            <SocialIcons />
-          </div>
-          <Separator className="hidden sm:block" />
-          <NearestLocation locations={cmpnLocs} className={`hidden sm:flex`} />
-        </DefaultCard>
+    <>
+      <main className="my-10 flex flex-col items-center justify-center p-4">
+        <div className="flex w-full max-w-[1550px] flex-col gap-4 sm:flex-row xl:w-11/12">
+          {/* Left section */}
+          <CampaignInfoSection campaign={campaign} />
 
-        <div className="flex w-full flex-col gap-4">
-          <Offers offers={cmpnOffers} />
-          <TermsAndConditions terms={terms} />
-          <Description desc={description} />
-          <DefaultCard>Map</DefaultCard>
-          <RatingsAndReviews />
-
-          <DefaultCard className="flex size-full p-4">
-            <NearestLocation
-              locations={cmpnLocs}
-              className={`flex sm:hidden`}
+          {/* Right section */}
+          <div className="flex w-full flex-col gap-4">
+            <OffersSection
+              campaignId={campaign.objid}
+              campaignName={campaign.title}
+              bizName={campaign.biz.bizName}
+              offers={cmpnOffers}
+              campaignImages={campaignImages}
+              campaignLocations={cmpnLocs}
+              merchantId={campaign.biz.merchantId}
+              campaignType={campaign.cmpnType}
             />
-          </DefaultCard>
+            <TermsAndConditionsSection terms={terms} />
+            <DescriptionSection desc={description} />
+            <OfferDetailsMap campaignLocations={campaign.cmpnLocs} />
+
+            <RatingAndReviewsSection
+              business={campaign.biz}
+              orderBy={orderBy as "ASC" | "DESC"}
+              sortBy={sortBy as "RATING" | "CREATED_DT"}
+              page={page !== undefined ? Number(page) : page}
+              qrCode={campaign.qrCode}
+            />
+
+            <DefaultCard className="flex size-full p-4 sm:hidden">
+              <NearestLocations
+                locations={cmpnLocs}
+                className={`flex sm:hidden`}
+              />
+            </DefaultCard>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+      <RatingAndReviewModal>
+        <RatingAndReviewsSection
+          business={campaign.biz}
+          qrCode={campaign.qrCode}
+          orderBy={orderBy as "ASC" | "DESC"}
+          sortBy={sortBy as "RATING" | "CREATED_DT"}
+          page={page !== undefined ? Number(page) : page}
+          showSeeAllComments={false}
+          className="p-0"
+          enableCommentPagination={true}
+          showHeading={false}
+        />
+      </RatingAndReviewModal>
+    </>
   );
 };
 

@@ -196,11 +196,6 @@ const ImageCropper = ({
           disabled: isCropping || !croppedAreaPixels,
           loading: isCropping,
         }}
-        // secondaryAction={{
-        //   label: "Cancel",
-        //   onClick: handleCropCancel,
-        //   disabled: isCropping,
-        // }}
         showCloseButton={!isCropping}
         closeOnOutsideClick={false}
         contentClassName="max-w-lg w-full"

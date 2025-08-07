@@ -1,3 +1,71 @@
+// Store -----------------------------------------------
+
+export type StoreImageProps = {
+  img_url: string;
+  index: number;
+};
+
+export type CatelogueCategoryImageProps = StoreImageProps & {
+  thumbnail_url: string;
+};
+
+export type StoreCategory = {
+  objid: number;
+  images: StoreImageProps[];
+  name: string;
+  description: string;
+  createDt: string;
+  updateDt: string;
+};
+
+export type CatalogueModifier = {
+  objid: number;
+  catitemId: null | unknown;
+  modifier: {
+    objid: number;
+    images: null | StoreImageProps[];
+    modType: "addon" | "whole";
+    modName: string;
+    description: string;
+    createDt: string;
+    updateDt: string;
+  };
+  price: number;
+};
+
+export type StoreItem = {
+  objid: number;
+  categoryId: number;
+  item: {
+    objid: number;
+    images: StoreImageProps[];
+    sku: string;
+    name: string;
+    unit: "kg" | string;
+    description: string;
+    stdTax: boolean;
+    taxPercent: number;
+    createDt: string;
+    updateDt: string;
+  };
+  price: number;
+  slno: number;
+  status: "active" | string;
+  availableFrom: string;
+  catalogueModifiers: CatalogueModifier[];
+};
+
+export type StoreCategory2 = {
+  objid: number;
+  bizid: number;
+  images: CatelogueCategoryImageProps[];
+  name: string;
+  description: string;
+  totalItems: number;
+};
+
+// ------------------------------------------------------
+
 export type BusinessWorkingHour = {
   Sunday?: string[];
   Monday?: string[];
@@ -6,6 +74,16 @@ export type BusinessWorkingHour = {
   Thursday?: string[];
   Friday?: string[];
   Saturday?: string[];
+};
+
+export type LocationOffer = {
+  locid: number;
+  activeCampaignCount: number;
+  cmpnImg: string;
+  title: string;
+  count: number;
+  objid: number;
+  cmpnQrCode: string;
 };
 
 export type BusinessDirectory = {
@@ -30,7 +108,7 @@ export type BusinessDirectory = {
 
   businessWorkingHours: BusinessWorkingHour;
 
-  catImg: null | unknown;
+  catImg: null | string;
   catalogueId: null | unknown;
   deliveryOptions: string;
   deliveryWithin: string;
@@ -40,5 +118,7 @@ export type BusinessDirectory = {
   workingHours: string;
 };
 
-
-
+export type EnhancedBusinessDirectory = BusinessDirectory & {
+  bizDirLikes: number;
+  locationOfferData: LocationOffer | null;
+};

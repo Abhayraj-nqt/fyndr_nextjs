@@ -5,3 +5,7 @@ export type GetWalletTransactionsParams = {
     pgSize: number;
   };
 };
+
+export type WalletVerifyParams = {
+  payload: { channel: "OFFERS" | string; totalAmount: string };
+};

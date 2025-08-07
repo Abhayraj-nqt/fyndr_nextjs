@@ -12,5 +12,5 @@ export const parseDiscount = (
 ) => {
   return discountType === "%"
     ? `${amount}% OFF`
-    : `${currencySymbol} ${parseAmount(amount)} OFF`;
+    : `${currencySymbol}${parseAmount(amount)} OFF`;
 };

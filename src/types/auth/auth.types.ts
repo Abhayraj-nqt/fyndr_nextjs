@@ -1,12 +1,14 @@
 export type RegMode = "classic" | "google" | "facebook" | "apple";
 export type Gender = null | "M" | "F" | "OT" | "ND";
 export type EntityRole =
+  | "INDIVIDUAL_ADMIN"
   | "BIZ_ADMIN"
   | "SUPER_ADMIN"
-  | "FYNDR_SUPPORT"
-  | "INDIVIDUAL_ADMIN";
-
-export type EntityType = string;
+  | "FYNDR_MANAGER"
+  | "FYNDR_SUPPORT";
+export type AccountStatus = "ACTIVE" | "INACTIVE" | "SUSPENDED" | "DELETED";
+export type EntityType = "FYNDR" | "INDIVIDUAL" | "BUSINESS";
+export type StripeAccountType = "STANDARD" | "EXPRESS" | "BOTH" | null;
 
 export type RouteAccess = {
   path: string;
@@ -32,7 +34,7 @@ export type Location = {
   state: string;
   city: string;
   postalCode: string;
-  parentLocation: null | unknown;
+  parentLocation: null | string;
   isCampaignBookingEnabled: boolean;
   isCatalogueBookingEnabled: boolean;
   locName: string;
@@ -40,7 +42,48 @@ export type Location = {
   qrCode: string;
   addressLine1: string;
   addressLine2: string;
-  catalogueName: null | unknown;
+  catalogueName: null | string;
+};
+
+export type Term = {
+  objid: null | number;
+  title: null | string;
+  status: null | string;
+  terms: null | string;
+  presentment: null | string;
+  consentStorage: null | string;
+  qrid: null | number;
+  remark: null | string;
+  startDt: null | string;
+  endDt: null | string;
+};
+
+export type Subscription = {
+  priceid: null;
+  indvid: null;
+  startDt: null | string;
+  endDt: null | string;
+  status: null | string;
+  priceType: null | string;
+  channel: null | string;
+  transactionId: null | string;
+  originalTransactionId: null | string;
+};
+
+export type BusinessWorkingHoursAndSlotsList = {
+  id: null | number;
+  locationId: null | number;
+  weekDay: null | string;
+  workingHourStartTime: null | unknown;
+  workingHourEndTime: null | unknown;
+  workingHoursAndSlotStatus: "ACTIVE" | "INACTIVE";
+  slotDurationInMin: null | number;
+  slotCapacity: null | number;
+  createdDt: null | unknown;
+  updatedDt: null | unknown;
+  slotCapacityUpdatedDt: null | unknown;
+  catalogueAppointmentType: "APPOINTMENT_PER_ITEM" | "APPOINTMENT_PER_CART";
+  isCampaignBookingEnabled: boolean;
 };
 
 export type BaseSignupPayload = {
@@ -82,10 +125,10 @@ export type BusinessSignUpPayload = BaseSignupPayload & {
 
 export type Settings = {
   name: string;
-  valNum: null | unknown;
-  valTxt: null | unknown;
-  descr: null | unknown;
+  valNum: null | number;
+  valTxt: null | string;
+  descr: null | string;
   userFor: string;
   objid: number;
-  valJson: any[];
+  valJson: unknown[];
 };

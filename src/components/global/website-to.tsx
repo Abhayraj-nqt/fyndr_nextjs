@@ -20,6 +20,8 @@ type Props = {
 const WebsiteTo = ({ children, url }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
 
+  const fullUrl = url.startsWith("http") ? url : `https://${url}`;
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger>{children}</PopoverTrigger>
@@ -34,7 +36,7 @@ const WebsiteTo = ({ children, url }: Props) => {
           </span>
         </p>
         <div className="flex w-full justify-end gap-1">
-          <Link target="_blank" href={url}>
+          <Link target="_blank" href={fullUrl}>
             <Button
               variant="primary"
               className="body-3 h-7 !rounded-5 px-2 py-1"

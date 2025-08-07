@@ -32,7 +32,6 @@ const OfferForm = ({ handleModalClose }: Props) => {
   const [, setUploadedFiles] = useState<ProcessedFileProps[]>([]);
 
   const handleFileUpload = (files: ProcessedFileProps[]) => {
-    console.log(files);
     setUploadedFiles(files);
   };
   const form = useForm<OfferFormValues>({

@@ -98,8 +98,6 @@ const BusinessDirectoryMap = () => {
     return markers;
   }, [bizDir]);
 
-  console.log({ bizDir, queryParams, queryPayload });
-
   // Show loading state for map
   if (isLoading) {
     return (

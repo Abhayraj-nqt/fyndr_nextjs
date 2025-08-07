@@ -36,10 +36,6 @@ const Bizcard: React.FC<BizCardProps> = ({
   reviewRatings,
 }) => {
   const isVoucherImage = vouchers?.some((item) => item.isVoucher);
-  console.log("addo", businessAddonUrl);
-  console.log("address", businessAddress);
-  console.log("website", businessWebsite);
-
   return (
     <div className="flex justify-between">
       <div className="flex flex-col ">

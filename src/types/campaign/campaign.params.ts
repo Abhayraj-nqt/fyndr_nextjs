@@ -48,14 +48,22 @@ export type GetCampaignsParams = {
     location: Coordinates;
     categories: number[];
     campaignType?: string[];
-    fetchById: string;
+    fetchById: "none" | "locQR";
     fetchByGoal: string;
-    locQRId?: null;
+    locQRId?: null | number;
   };
 };
 
 export type GetBusinessCampaignsParams = {
   params: {
     bizid: number;
+  };
+};
+
+export type VerifyOfferParams = {
+  payload: {
+    buyerEmail: string;
+    offerId: number;
+    userSelectQuanity: number;
   };
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock, Globe, Heart, MapPinned, Phone } from "lucide-react";
+import { Clock, Globe, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -16,16 +16,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import ASSETS from "@/constants/assets";
 import ROUTES from "@/constants/routes";
 import { parseAddress } from "@/lib/utils/address";
-import { BusinessDirectory } from "@/types/store/store.types";
+import { EnhancedBusinessDirectory } from "@/types/store/store.types";
 
 import BusinessLocationMapModal from "./business-location-map-modal";
 import WorkingHourModal from "./working-hour-modal";
-import ASSETS from "@/constants/assets";
 
 type Props = {
-  businessDirectory: BusinessDirectory;
+  businessDirectory: EnhancedBusinessDirectory;
+  refetchReviews?: () => void;
 };
 
 const BusinessDirectoryCard = ({ businessDirectory }: Props) => {
@@ -34,21 +35,28 @@ const BusinessDirectoryCard = ({ businessDirectory }: Props) => {
     includeDistance: true,
   }).formatted;
 
+  const viewStoreUrl: string = "";
+  const viewActiveOffersAndEventsUrl: string =
+    (businessDirectory.locationOfferData?.activeCampaignCount || 0) > 1
+      ? `${ROUTES.OFFERS_AND_EVENTS}/?locQrId=${businessDirectory.qrid}`
+      : ROUTES.OFFER_DETAILS(
+          businessDirectory.bizName,
+          businessDirectory.locationOfferData?.cmpnQrCode || ""
+        );
+
+  const canViewStore: boolean = !!businessDirectory?.catalogueId;
+
   return (
     <>
       <Card className="grid max-h-fit w-full grid-cols-1 flex-col gap-4 rounded-10 border border-secondary-20 p-4 shadow-none duration-100 lg:grid-cols-5 lg:gap-6">
-        <Link
-          href={ROUTES.OFFER_DETAILS(
-            businessDirectory.bizName,
-            businessDirectory.qrid.toString()
-          )}
-          className="lg:col-span-2"
-        >
+        <Link href={viewActiveOffersAndEventsUrl} className="lg:col-span-2">
           <Image
             src={
               businessDirectory?.mainLogo
                 ? businessDirectory.mainLogo
-                : ASSETS.IMAGES.PLACEHOLDER.FYNDR
+                : businessDirectory?.catImg
+                  ? businessDirectory.catImg
+                  : ASSETS.IMAGES.PLACEHOLDER.FYNDR
             }
             alt={`${businessDirectory.bizName} on Fyndr Now!`}
             width={400}
@@ -68,7 +76,7 @@ const BusinessDirectoryCard = ({ businessDirectory }: Props) => {
             <CardDescription className="body-1 text-black-60">
               {address}
             </CardDescription>
-            <div className="flex items-center gap-4 text-black-60">
+            <div className="mt-3 flex items-center gap-4 text-black-60">
               {businessDirectory?.phone ? (
                 <PhoneTo phone={businessDirectory.phone}>
                   <Phone size={20} className="cursor-pointer" />
@@ -77,7 +85,7 @@ const BusinessDirectoryCard = ({ businessDirectory }: Props) => {
                 <></>
               )}
               {businessDirectory?.website ? (
-                <WebsiteTo url={`https://${businessDirectory.website}`}>
+                <WebsiteTo url={businessDirectory.website}>
                   <Globe size={20} />
                 </WebsiteTo>
               ) : (
@@ -90,7 +98,7 @@ const BusinessDirectoryCard = ({ businessDirectory }: Props) => {
                     lat: businessDirectory.lat,
                     lng: businessDirectory.lng,
                   }}
-                  trigger={<MapPinned size={20} className="cursor-pointer" />}
+                  trigger={<MapPin size={20} className="cursor-pointer" />}
                   address={address}
                 />
               ) : (
@@ -104,18 +112,23 @@ const BusinessDirectoryCard = ({ businessDirectory }: Props) => {
               ) : (
                 <></>
               )}
-              <div className="flex items-center justify-center gap-1">
-                <Heart size={20} className="cursor-pointer" />
-                <p>1</p>
-              </div>
             </div>
           </CardContent>
-          <CardFooter className="grid grid-cols-1 gap-4 p-0 lg:grid-cols-2">
-            <Button variant="primary-outlined" stdHeight stdWidth>
-              {`View`} Active Offers & Events
+          <CardFooter className="grid h-full grid-cols-1 content-end gap-4 p-0 lg:grid-cols-2">
+            <Button variant="primary-outlined" stdHeight stdWidth asChild>
+              <Link href={viewActiveOffersAndEventsUrl}>
+                {businessDirectory.locationOfferData?.count} Active Offers &
+                Events
+              </Link>
             </Button>
-            <Button variant="primary" stdHeight stdWidth>
-              View Store
+            <Button
+              variant="primary"
+              stdHeight
+              stdWidth
+              disabled={!canViewStore}
+              asChild
+            >
+              <Link href={viewStoreUrl}>View Store</Link>
             </Button>
           </CardFooter>
         </div>

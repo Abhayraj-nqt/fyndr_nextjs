@@ -6,7 +6,6 @@ const path = require("path");
 const { glob } = require("glob");
 const pino = require("pino");
 
-// Create a logger specifically for this script
 const logger = pino({
   level: process.env.LOG_LEVEL || "info",
   transport: {
@@ -24,7 +23,7 @@ const logger = pino({
 });
 
 const CONFIG = {
-  maxLines: 250,
+  maxLines: 350,
   skipBlankLines: true,
   skipComments: true,
   includePatterns: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
@@ -37,12 +36,14 @@ const CONFIG = {
     "**/*.config.js",
     "**/*.config.ts",
     "**/*.config.mjs",
-    "components/ui/**/*",
+    "**/components/ui/**/*",
     "**/*.d.ts",
     "**/*.json",
     ".husky/**",
     ".git/**",
     "scripts/**", // Exclude scripts directory
+    "**/tests/**",
+    "**/playwright/**"
   ],
 };
 

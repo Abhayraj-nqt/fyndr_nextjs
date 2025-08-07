@@ -47,7 +47,7 @@ const BusinessDirectoryCardSkeleton = () => {
         </CardContent>
 
         {/* Action Buttons */}
-        <CardFooter className="grid grid-cols-1 gap-4 p-0 lg:grid-cols-2">
+        <CardFooter className="grid h-full grid-cols-1 content-end gap-4 p-0 lg:grid-cols-2">
           <Skeleton className="h-12 w-full rounded-10" />
           <Skeleton className="h-12 w-full rounded-10" />
         </CardFooter>

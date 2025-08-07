@@ -19,7 +19,7 @@ const PieChartSection: React.FC<PieChartProps> = ({ chartData, colors = ["#5196E
      const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true); // Ensure rendering only happens on client
+    setMounted(true);
   }, []);
 
   if (!mounted) return null; 
