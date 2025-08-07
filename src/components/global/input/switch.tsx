@@ -132,7 +132,7 @@ const Switch = React.forwardRef<
           className={cn(
             "absolute z-10 pointer-events-none block rounded-full bg-white ring-0 transition-transform duration-200 size-[27px] min-h-[27px] min-w-[27px]",
             "data-[state=checked]:shadow-switchChecked data-[state=unchecked]:shadow-switchUnchecked",
-            "left-0", // Always start from left-0
+            "left-0",
             thumbClassName
           )}
           style={{

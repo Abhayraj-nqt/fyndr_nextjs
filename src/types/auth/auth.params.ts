@@ -34,6 +34,13 @@ export type GenerateTokenParams = {
   };
 };
 
+export type ResetPasswordParams = {
+  payload: {
+    email: string;
+    pwd: string[];
+  };
+};
+
 export type SignInWithCredentialsParams = {
   payload: {
     email: string;
@@ -64,6 +71,12 @@ export type SendMobileVerificationCodeParams = {
   };
 };
 
+export type SendEmailVerificationCodeParams = {
+  payload: {
+    email: string;
+  };
+};
+
 export type VerifyMobileParams = {
   payload: {
     countryCode: string;
@@ -79,5 +92,20 @@ export type VerifyCodeParams = {
     code: string;
     countryId: number;
     codeType: "REGISTRATION" | string;
+  };
+};
+
+export type UpdateEmailParams = {
+  params: {
+    indvId: number;
+  };
+  payload: {
+    email: string;
+  };
+};
+
+export type GetGooglePermissionParams = {
+  payload: {
+    googleAccessToken: string;
   };
 };

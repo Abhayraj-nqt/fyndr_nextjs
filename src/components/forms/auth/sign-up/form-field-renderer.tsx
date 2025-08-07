@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { RotateCw } from "lucide-react";
 import React from "react";

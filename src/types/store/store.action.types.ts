@@ -3,14 +3,38 @@ import {
   GetBusinessDirectoryParams,
   GetLocationOfferReviewsParams,
   GetLocationOffersParams,
+  GetStoreCategoriesParams,
+  GetStoreDetailsParams,
+  GetStoreParams,
   LikeBusinessParams,
 } from "./store.params";
 import {
   GetBusinessDirectoryResponse,
   GetLocationOfferReviewsResponse,
   GetLocationOffersResponse,
+  GetStoreCategoriesResponse,
+  GetStoreDetailsResponse,
+  GetStoreResponse,
   LikeBusinessResponse,
 } from "./store.response";
+
+// ----------------------------------------------------------------------
+
+export type GetStore = ({
+  params,
+}: GetStoreParams) => Promise<ActionResponse<GetStoreResponse>>;
+
+export type GetStoreDetails = ({
+  params,
+}: GetStoreDetailsParams) => Promise<ActionResponse<GetStoreDetailsResponse>>;
+
+export type GetStoreCategories = ({
+  params,
+}: GetStoreCategoriesParams) => Promise<
+  ActionResponse<GetStoreCategoriesResponse>
+>;
+
+// ----------------------------------------------------------------------
 
 export type GetBusinessDirectory = ({
   params,

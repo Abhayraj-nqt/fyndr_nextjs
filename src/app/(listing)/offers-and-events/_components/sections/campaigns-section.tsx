@@ -7,7 +7,7 @@ import CampaignCard from "@/app/(listing)/offers-and-events/_components/campaign
 import Button from "@/components/global/buttons";
 import InfiniteScrollContainer from "@/components/global/infinite-scroll-container";
 import SkeletonRenderer from "@/components/global/skeleton-renderer";
-import { useInfiniteCampaigns } from "@/hooks/campaigns";
+import { useInfiniteCampaigns } from "@/hooks/campaigns/use-infinite-campaigns";
 import { GetCampaignsParams } from "@/types/campaign/campaign.params";
 import { Coordinates } from "@/types/global";
 
@@ -68,7 +68,6 @@ const CampaignsSection = ({
     status,
     error,
     refetch,
-    // isRefetching,
   } = useInfiniteCampaigns(params, payload);
 
   // Flatten campaigns from all pages - no duplicate filtering needed if API is correct

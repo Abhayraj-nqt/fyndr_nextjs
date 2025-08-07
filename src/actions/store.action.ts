@@ -6,8 +6,31 @@ import {
   GetBusinessDirectory,
   GetLocationOfferReviews,
   GetLocationOffers,
+  GetStore,
+  GetStoreCategories,
+  GetStoreDetails,
   LikeBusiness,
 } from "@/types/store/store.action.types";
+
+// Store actions ---------------------------------------------------
+
+export const onGetStore: GetStore = async ({ params }) => {
+  const { locationId } = params;
+  const endpoint = `${API_BASE_URL}/catalogue/categories/fetch_by_location/${locationId}`;
+  return _get(endpoint);
+};
+
+export const onGetStoreCategories: GetStoreCategories = async ({ params }) => {
+  const { bizId, catalogueId } = params;
+  const endpoint = `${API_BASE_URL}/catalogue/categories/fetch/${bizId}/${catalogueId}`;
+  return _get(endpoint);
+};
+
+export const onGetStoreDetails: GetStoreDetails = async ({ params }) => {
+  const { bizId, categoryId, catalogueId } = params;
+  const endpoint = `${API_BASE_URL}/catalogue/catalogue/fetch/${bizId}/${categoryId}/${catalogueId}`;
+  return _get(endpoint);
+};
 
 // Offer listing page actions -----------------------------------------------------------------------------------------------------------------------
 

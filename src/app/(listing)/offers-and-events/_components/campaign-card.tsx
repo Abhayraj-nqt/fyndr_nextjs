@@ -25,7 +25,7 @@ import {
 import ASSETS from "@/constants/assets";
 import ROUTES from "@/constants/routes";
 import { HOST } from "@/environment";
-import { useOptimisticLike } from "@/hooks/campaigns";
+import { useOptimisticLike } from "@/hooks/campaigns/use-optimistic-like";
 import { parseAddress } from "@/lib/utils/address";
 import { Campaign } from "@/types/campaign/campaign.types";
 
@@ -43,7 +43,6 @@ const CampaignCard = ({ campaign }: Props) => {
   const [seeMore, setSeeMore] = useState<boolean>(false);
   const { data: session } = useSession();
 
-  // Use the optimistic like hook
   const likeMutation = useOptimisticLike();
 
   const toggleSeeMore = () => setSeeMore((prev) => !prev);
@@ -58,7 +57,6 @@ const CampaignCard = ({ campaign }: Props) => {
       return;
     }
 
-    // Check current like status - if objid exists and isDeleted is false, it's liked
     const isCurrentlyLiked =
       campaign?.indvCmpn?.objid && campaign?.indvCmpn?.isDeleted === false;
 
@@ -118,17 +116,6 @@ const CampaignCard = ({ campaign }: Props) => {
             height={100}
             className="aspect-[2/1] size-full rounded-5 object-cover"
           />
-          {/* <Image
-            src={
-              campaign?.images && campaign?.images.length > 0
-                ? campaign?.images[0]?.img_url
-                : ASSETS.IMAGES.PLACEHOLDER.FYNDR
-            }
-            alt="img/alt"
-            width={200}
-            height={100}
-            className="aspect-[2/1] size-full rounded-5 object-cover"
-          /> */}
         </Link>
         <div className="col-span-3 flex flex-col gap-4">
           <Link
@@ -175,9 +162,7 @@ const CampaignCard = ({ campaign }: Props) => {
             )}
 
             {campaign.cmpnUrl || campaign.biz.website ? (
-              <WebsiteTo
-                url={`https://${campaign.cmpnUrl || campaign.biz.website}`}
-              >
+              <WebsiteTo url={campaign.cmpnUrl || campaign.biz.website || ""}>
                 <Globe size={20} />
               </WebsiteTo>
             ) : (

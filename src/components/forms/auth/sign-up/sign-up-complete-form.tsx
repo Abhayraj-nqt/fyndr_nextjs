@@ -11,7 +11,7 @@ import ROUTES from "@/constants/routes";
 import {
   BusinessSignUpPayload,
   IndividualSignUpPayload,
-} from "@/types/api-params/auth.params";
+} from "@/types/auth/auth.types";
 import { RegModeProps } from "@/types/global";
 import { useRegistrationStore } from "@/zustand/stores/registration.store";
 
@@ -47,8 +47,6 @@ const SignUpCompleteForm = () => {
   };
 
   const handleAutoSignIn = async (email: string) => {
-    console.log("Inside handleAutoSignIn()");
-
     if (provider === "google") {
       await signIn("google", {
         redirectTo: ROUTES.CALLBACK_SIGN_IN,

@@ -1,14 +1,22 @@
 import Image from "next/image";
 
+import { cn } from "@/lib/utils";
+
 import { Avatar, AvatarFallback } from "../ui/avatar";
 
 interface Props {
   name: string;
   imageUrl?: string | null;
   className?: string;
+  fallbackClassName?: string;
 }
 
-const UserAvatar = ({ name, imageUrl, className = "h-9 w-9" }: Props) => {
+const UserAvatar = ({
+  name,
+  imageUrl,
+  className = "h-9 w-9",
+  fallbackClassName,
+}: Props) => {
   const initials = name
     .split(" ")
     .map((word: string) => word[0])
@@ -29,7 +37,12 @@ const UserAvatar = ({ name, imageUrl, className = "h-9 w-9" }: Props) => {
             quality={100}
           />
         ) : (
-          <AvatarFallback className="flex w-full items-center justify-center bg-secondary font-semibold tracking-wider text-white">
+          <AvatarFallback
+            className={cn(
+              `flex w-full items-center justify-center bg-secondary tracking-wider text-white`,
+              fallbackClassName
+            )}
+          >
             {initials}
           </AvatarFallback>
         )}

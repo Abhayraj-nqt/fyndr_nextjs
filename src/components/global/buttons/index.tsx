@@ -1,5 +1,6 @@
 import { Button as ShadcnButton } from "@/components/ui/button";
 import type { ButtonProps as ShadcnButtonProps } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type CustomVariant =
   | "primary"
@@ -25,7 +26,7 @@ const Button = ({
       case "primary":
         return "bg-primary text-white hover:bg-primary hover:text-white";
       case "primary-outlined":
-        return "border border-primary text-primary bg-white hover:text-primary hover:border-primary hover:bg-white";
+        return "border border-primary text-primary bg-white hover:text-primary hover:border-primary hover:bg-white disabled:border-disabled disabled:text-white";
       case "primary-dark":
         return "bg-secondary text-white hover:bg-secondary hover:text-white";
       case "primary-dark-outlined":
@@ -38,7 +39,11 @@ const Button = ({
   return (
     <ShadcnButton
       {...rest}
-      className={`self-center !rounded-10 px-4 py-3 text-base font-normal shadow-none disabled:!cursor-not-allowed ${stdHeight ? "min-h-11" : ""} ${stdWidth ? "min-w-36" : ""} ${customClass} ${className ?? ""}`}
+      className={cn(
+        `self-center !rounded-10 px-4 py-3 text-base font-normal shadow-none disabled:!cursor-not-allowed disabled:!bg-disabled ${stdHeight ? "min-h-11" : ""} ${stdWidth ? "min-w-36" : ""}`,
+        customClass,
+        className
+      )}
     />
   );
 };

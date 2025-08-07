@@ -1,13 +1,13 @@
 import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
 
-import { AccountResponse } from "@/types/api-response/auth.response";
+import { GetAccountResponse } from "@/types/auth/auth.response";
 
 interface UserState {
-  userData: AccountResponse | null;
+  userData: GetAccountResponse | null;
   isLoading: boolean;
   error: Error | null;
-  setUserData: (data: AccountResponse | null) => void;
+  setUserData: (data: GetAccountResponse | null) => void;
   setLoading: (isLoading: boolean) => void;
   setError: (error: Error | null) => void;
   clearUserData: () => void;
@@ -30,6 +30,9 @@ export const useUserStore = create<UserState>()(
         // Only store the userData in localStorage, not the loading or error states
         partialize: (state) => ({ userData: state.userData }),
       }
-    )
+    ),
+    {
+      name: "user-storage",
+    }
   )
 );

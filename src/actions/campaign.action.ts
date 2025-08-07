@@ -12,6 +12,7 @@ import {
   GetCampaigns,
   GetLikedCampaigns,
   LikeCampaign,
+  VerifyOffer,
 } from "@/types/campaign/campaign.action.types";
 
 export const onGetCampaignByQr: GetCampaignByQr = async ({
@@ -23,8 +24,7 @@ export const onGetCampaignByQr: GetCampaignByQr = async ({
   const endpoint = `${API_BASE_URL}/campaign/v2/public/fetchByQR/${qrCode}?orderBy=${orderBy}&sortedBy=${sortedBy}`;
 
   return _post(endpoint, payload, {
-    requireAuth: true,
-    cache: "force-cache",
+    // cache: "force-cache",
   });
 };
 
@@ -111,6 +111,13 @@ export const onSaveCampaign: CreateCampaign = async (payload) => {
       requireAuth: true,
     });
   }
+  return _post(endpoint, payload, {
+    requireAuth: true,
+  });
+};
+
+export const onVerifyOffer: VerifyOffer = async ({ payload }) => {
+  const endpoint = `${API_BASE_URL}/invoice/verifyOffers`;
   return _post(endpoint, payload, {
     requireAuth: true,
   });
