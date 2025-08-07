@@ -4,7 +4,7 @@ import { Edit, Trash2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { QRCode } from "react-qrcode-logo";
 
-import { onAddLocation, onDeleteLocation } from "@/actions/others.action";
+import { onDeleteLocation } from "@/actions/others.action";
 import { Modal } from "@/components/global/modal";
 import QrCode from "@/components/icons/qr-code";
 import { useUser } from "@/hooks/auth";
@@ -42,106 +42,24 @@ const LocationManager = ({ children }: Props) => {
     console.log(user?.locations);
   }, [user?.locations]);
 
-  // useEffect(() => {
-  //   const locarionData = {
-  //     locName: "subhLoc",
-  //     ctryCode: "+1",
-  //     phone: "9145276354",
-  //     addressLine1: "Baker street 1A amrit",
-  //     addressLine2: "",
-  //     city: "Phoenix",
-  //     state: "AZ",
-  //     lat: 33.4482266,
-  //     lng: -112.0776781,
-  //     country: "US",
-  //     bizid: 1000389,
-  //     postalCode: "85001",
-  //     parentLocation: 493,
-  //     timeZone: null,
-  //     workingHours: "",
-  //     deliveryOptions: "",
-  //     deliveryWithin: null,
-  //     workingHoursAndSlots: {
-  //       workingHours: {
-  //         MONDAY: [],
-  //         TUESDAY: [],
-  //         WEDNESDAY: [],
-  //         THURSDAY: [],
-  //         FRIDAY: [],
-  //         SATURDAY: [],
-  //         SUNDAY: [],
-  //       },
-  //       slotDurationInMin: null,
-  //       slotCapacity: -1,
-  //       catalogueAppointmentType: null,
-  //       isCampaignBookingEnabled: false,
-  //     },
-  //   };
-
-  //   addLocation(locarionData);
-  // });
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
-  const addLocation = async (data) => {
-    const response = await onAddLocation({
-      locName: data?.locName,
-      ctryCode: data?.ctryCode,
-      phone: data?.phone,
-      addressLine1: data?.addressLine1,
-      addressLine2: data?.addressLine2,
-      city: data?.city,
-      state: data?.state,
-      lat: data?.lat,
-      lng: data?.lng,
-      country: data?.country,
-      bizid: data?.bizid,
-      postalCode: data?.postalCode,
-      parentLocation: data?.parentLocation,
-      timeZone: data?.timeZone,
-      workingHours: data?.workingHours,
-      deliveryOptions: data?.deliveryOptions,
-      deliveryWithin: data?.deliveryWithin,
-      workingHoursAndSlots: {
-        workingHours: {
-          MONDAY: [],
-          TUESDAY: [],
-          WEDNESDAY: [],
-          THURSDAY: [],
-          FRIDAY: [],
-          SATURDAY: [],
-          SUNDAY: [],
-        },
-        slotDurationInMin: data?.workingHoursAndSlots?.slotDurationInMin,
-        slotCapacity: data?.workingHoursAndSlots?.slotCapacity,
-        catalogueAppointmentType:
-          data?.workingHoursAndSlots?.catalogueAppointmentType,
-        isCampaignBookingEnabled:
-          data?.workingHoursAndSlots?.isCampaignBookingEnabled,
-      },
-    });
-
-    if (response.success) {
-      setLocations(response);
-    }
-  };
 
   const handleEdit = (id) => {
     console.log("Edit location:", id);
   };
 
   const handleDelete = async (location: Location) => {
-    console.log("Delete location:", location?.objid);
-
     if (window.confirm("Are you sure you want to delete this location?")) {
+      const bizid = user?.bizid ?? 0;
       const data = await onDeleteLocation({
         objid: location?.objid,
-        bizid: user?.bizid,
+        bizid,
       });
+
       console.log("data", data);
-      setLocations(locations?.filter((location) => location?.objid !== objid));
+      setLocations(locations?.filter((loc) => loc?.objid !== location?.objid));
     }
   };
 
@@ -189,7 +107,7 @@ const LocationManager = ({ children }: Props) => {
             </button>
           </div>
           <div className="rounded-lg border border-gray-100 bg-white p-8 shadow-sm">
-            <div className="text-center text-red-500">{error}</div>
+            <div className="text-center text-red-500">{error.message}</div>
           </div>
         </div>
       </div>
