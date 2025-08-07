@@ -17,7 +17,7 @@ type Props = {
 };
 
 const LocationManager = ({ children }: Props) => {
-  // const sanitizedQrPrefix = qrPrefix.endsWith('/') ? qrPrefix.slice(0, -1) : qrPrefix;
+
   const { isLoading, user, error } = useUser();
   const router = useRouter();
 
@@ -79,7 +79,7 @@ const LocationManager = ({ children }: Props) => {
             </button>
           </div>
           <div className="rounded-lg border border-gray-100 bg-white p-8 shadow-sm">
-            <div className="text-center text-red-500">{error}</div>
+            <div className="text-center text-red-500">{error.message}</div>
           </div>
         </div>
       </div>

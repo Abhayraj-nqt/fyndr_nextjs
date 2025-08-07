@@ -2,11 +2,7 @@
 
 import { API_BASE_URL } from "@/environment";
 import { _get } from "@/lib/handlers/fetch";
-
-import {
-  GetFaqCategories,
-  GetFaqQuestions,
-} from "@/types/api-params/about-us.params";
+import { GetFaqCategories, GetFaqQuestions } from "@/types/api-params/about-us.params";
 
 
 

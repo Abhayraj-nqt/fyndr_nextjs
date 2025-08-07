@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
@@ -112,7 +113,6 @@ const CreateLocationForm = ({
         useBusinessAddress: false,
       });
     }
-    console.log(locationInfo, "this is location info in useEffect");  
   }, [locationInfo]);
 
   const onSubmit: SubmitHandler<LocationFormData> = async (data) => {

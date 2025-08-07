@@ -25,7 +25,6 @@ import {
   GetInvoiceTaxResponse,
   InvoiceCreationResponse,
 } from "@/types/invoice/create-update-invoice/invoice.response";
-import { CreateInvoice } from "@/types/invoice/create-update-invoice/invoice.types";
 
 export const onGetDisputeReasons: GetDisputeReasonsProps = async () => {
   const endpoint = `${API_BASE_URL}/invoice/fetchDisputeReasons`;

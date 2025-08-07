@@ -58,7 +58,7 @@ export const useFaqCategories = (entityId: number) => {
   };
 };
 
-export const useFaqQA = (categoryId: number, searchStr = "") => {
+export const useFaqQA = (categoryId: number | null, searchStr = "") => {
   const { data, isLoading, isError, refetch} = useQuery({
     queryKey: ["faqQA", categoryId, searchStr],
     queryFn: () =>

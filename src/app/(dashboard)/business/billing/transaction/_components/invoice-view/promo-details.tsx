@@ -8,9 +8,9 @@ type InvoicePromodetailsProps = {
   title: string;
   promoChannels: string;
   duration: number | null;
-  startDate: string;
+  startDate: string |Date;
   userTimeZone: string | undefined;
-  endDate: string;
+  endDate: string |Date;
   invoiceDt: string;
 };
 

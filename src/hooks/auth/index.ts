@@ -1,12 +1,12 @@
+// src/hooks/useUser.ts
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
-import { useCallback, useMemo, useEffect } from "react";
 import { useCallback, useMemo, useEffect } from "react";
 
 import { onGetAccount } from "@/actions/auth.actions";
 import { GetAccountResponse } from "@/types/auth/auth.response";
-import { GetAccountResponse } from "@/types/auth/auth.response";
 import { useUserStore } from "@/zustand/stores/user.store";
+
 export const USER_QUERY_KEY = "userData";
 
 interface UseUserOptions {
@@ -41,11 +41,7 @@ export function useUser(options: UseUserOptions = {}) {
     error,
     refetch,
     isFetching,
-    isFetching,
   } = useQuery({
-    queryKey,
-    queryFn: async (): Promise<GetAccountResponse | null> => {
-      if (!queryEmail || !session?.accessToken) {
     queryKey,
     queryFn: async (): Promise<GetAccountResponse | null> => {
       if (!queryEmail || !session?.accessToken) {
@@ -53,36 +49,29 @@ export function useUser(options: UseUserOptions = {}) {
       }
 
       const { success, data, error } = await onGetAccount({
-      const { success, data, error } = await onGetAccount({
         payload: {
-          email: queryEmail,
           email: queryEmail,
           regMode: "classic",
           accessToken: session.accessToken,
         },
       });
+
       if (!success || !data) {
         throw new Error(error?.details?.message || "Failed to fetch user data");
-        throw new Error(error?.details?.message || "Failed to fetch user data");
       }
+
       return data;
     },
-    enabled: enabled && !!queryEmail && !!session?.accessToken,
     enabled: enabled && !!queryEmail && !!session?.accessToken,
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes
     retry: 2,
     refetchOnWindowFocus: false,
-    gcTime: 10 * 60 * 1000, // 10 minutes
-    retry: 2,
-    refetchOnWindowFocus: false,
   });
+
   // Sync React Query data with Zustand store
   // Only sync if it's the primary user data (not overridden email)
-  // Only sync if it's the primary user data (not overridden email)
   useEffect(() => {
-    if (syncWithStore && !overrideEmail && userData) {
-      setUserData(userData);
     if (syncWithStore && !overrideEmail && userData) {
       setUserData(userData);
     }

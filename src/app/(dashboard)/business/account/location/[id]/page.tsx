@@ -3,7 +3,7 @@ import React from "react";
 import { onUpdateLocation } from "@/actions/location.action";
 import ContainerWrapper from "@/components/global/container-wrapper";
 
-import CreateLocationForm from "../../../_components/location-form/location-form";
+import CreateLocationForm from "../../../../../../components/forms/business/location-form/location-form";
 
 interface EditLocationProps {
   params: {
@@ -16,13 +16,19 @@ const EditLocation = async ({ params }: EditLocationProps) => {
   if (!response.success) {
     return (
       <ContainerWrapper title="Edit Location">
-        <div className="text-red-500">{response.error?.message || "Failed to load location"}</div>
+        <div className="text-red-500">
+          {response.error?.message || "Failed to load location"}
+        </div>
       </ContainerWrapper>
     );
   }
-  return ( 
+  return (
     <ContainerWrapper title="Edit Location">
-      <CreateLocationForm objid={params.id} edit = {true} locationInfo={response.data}  />
+      <CreateLocationForm
+        objid={params.id}
+        edit={true}
+        locationInfo={response.data}
+      />
     </ContainerWrapper>
   );
 };

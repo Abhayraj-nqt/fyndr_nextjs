@@ -42,7 +42,7 @@ export type UpdateLocationPayload = AddLocationPayload & {
 };
 export type AddLocationParams = (payload: {
   locName: string;
-  objid?: number;
+  objid?: number ;
   ctryCode: string;
   phone: string;
   addressLine1: string;

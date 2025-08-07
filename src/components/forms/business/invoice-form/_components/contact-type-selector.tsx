@@ -1,5 +1,5 @@
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
-import React, { useState } from "react";
+import React from "react";
 import { UseFormReturn } from "react-hook-form";
 
 import {

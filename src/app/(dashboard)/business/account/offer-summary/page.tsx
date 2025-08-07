@@ -70,7 +70,6 @@ const OfferSummary = async ({
 
   return (
     <ContainerWrapper title="Offer Summary">
-      {/* Pie Chart Section */}
       <div className="flex justify-between gap-4 pb-6 pt-1 text-[14px] font-normal md:flex-row ">
         <div className="flex">
           <div className="mr-6 flex items-center justify-center rounded-10 bg-primary-0.5 p-6 shadow-[0px_4px_4px_0px_#0000001A]">
@@ -122,12 +121,10 @@ const OfferSummary = async ({
             placeholder="Search by voucher code, name & phone no."
             route={ROUTES.BUSINESS_ACCOUNT_OFFER_SUMMARY}
             icon={"/images/aboutus/home-search-icon.svg"}
-            className="flex-reverse"
           />
         </div>
       </div>
 
-      {/* Table Section */}
       <section className="mt-10">
         <OfferSummaryTable promises={promises} />
       </section>

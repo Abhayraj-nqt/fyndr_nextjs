@@ -1,4 +1,4 @@
-import InvoiceForm from "@/app/(dashboard)/business/_components/invoice-form/invoice-form";
+import InvoiceForm from "@/components/forms/business/invoice-form/invoice-form";
 import Invoicefooter from "@/components/global/invoice/invoice-footer";
 import { Modal } from "@/components/global/modal";
 import { fetchInvoice } from "@/types/api-response/transaction.response";

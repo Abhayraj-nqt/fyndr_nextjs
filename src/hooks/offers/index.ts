@@ -101,7 +101,7 @@ export const useVoucherUpdate = () => {
       };
     }
 
-    // Execute mutation
+  
     updateOfferRedeem(payload, {
       onSuccess: (res) => {
         if (res.success) {
@@ -114,7 +114,7 @@ export const useVoucherUpdate = () => {
           toast.error({ message: "Something went wrong" });
         }
       },
-      onError: (error: any) => {
+      onError: (error: Error) => {
         toast.error({
           message: error?.message || "Failed to update voucher",
         });

@@ -12,6 +12,7 @@ import {
   OfferResponse,
   PromoResponse,
 } from "@/types/api-response/transaction.response";
+import { CreateInvoiceDetails } from "@/types/invoice/create-update-invoice/invoice.types";
 
 import InvoicePromodetails from "./promo-details";
 import ShowQrModal from "./show-qr-modal";
@@ -23,13 +24,14 @@ type InvoiceBasicInfoProps = {
   gifteeDetails: GiftDetails | null;
   fulfiled?: string | null;
   status: string;
-  endDate?: string;
-  startDate?: string;
+  endDate?: Date | string;
+  startDate?: Date | string;
   invoiceDetails:
     | OfferResponse
     | CatalogResponse
     | PromoResponse
-    | CustomResponse;
+    | CustomResponse
+    | CreateInvoiceDetails;
   userTimeZone: string | undefined;
   invoiceDt: string;
   brand: string;
@@ -38,7 +40,7 @@ type InvoiceBasicInfoProps = {
   purchaseLoc: Address | null;
   type?: string | null;
   disputeStatus: string | null;
-  objid: number | null ;
+  objid: number | null;
 };
 
 const InvoiceBasicInfo = ({
@@ -63,7 +65,7 @@ const InvoiceBasicInfo = ({
 }: InvoiceBasicInfoProps) => {
   const [showQRCode, setShowQRCode] = useState<boolean>(false);
 
-  console.log(objid,"objid");
+  console.log(objid, "objid");
   return (
     <>
       <div>
@@ -108,19 +110,21 @@ const InvoiceBasicInfo = ({
                 </div>
               </>
             )}
-     
-         {startDate && endDate &&
-            <InvoicePromodetails
-              channel={channel}
-              title={(invoiceDetails as PromoResponse)?.title}
-              promoChannels={(invoiceDetails as PromoResponse)?.promo_channels}
-              duration={(invoiceDetails as PromoResponse)?.duration}
-              startDate={startDate}
-              endDate={endDate}
-              userTimeZone={userTimeZone}
-              invoiceDt={invoiceDt}
-            />
-          }
+
+            {startDate && endDate && (
+              <InvoicePromodetails
+                channel={channel}
+                title={(invoiceDetails as PromoResponse)?.title}
+                promoChannels={
+                  (invoiceDetails as PromoResponse)?.promo_channels
+                }
+                duration={(invoiceDetails as PromoResponse)?.duration}
+                startDate={startDate}
+                endDate={endDate}
+                userTimeZone={userTimeZone}
+                invoiceDt={invoiceDt}
+              />
+            )}
 
             <div className="mb-[8px] flex items-center justify-between">
               <span className="w-1/3 text-[14px] font-semibold leading-[20px] text-black-70">
@@ -255,14 +259,13 @@ const InvoiceBasicInfo = ({
           </div>
         </div>
       </div>
-      
-        <ShowQrModal
-          open={showQRCode}
-          onOpenChange={setShowQRCode}
-          objid={objid}
-          fulfiled={fulfiled}
-        />
-    
+
+      <ShowQrModal
+        open={showQRCode}
+        onOpenChange={setShowQRCode}
+        objid={objid}
+        fulfiled={fulfiled}
+      />
     </>
   );
 };

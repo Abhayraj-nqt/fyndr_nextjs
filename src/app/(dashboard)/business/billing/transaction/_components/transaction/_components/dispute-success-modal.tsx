@@ -34,7 +34,7 @@ const DisputeSuccessModal = ({
               alt="Success Tick"
               width={200}
               height={200}
-              className="size-[100px] ease-in animate-in zoom-in"
+              className="size-[100px] ease-in"
             />
           </motion.div>
         </div>

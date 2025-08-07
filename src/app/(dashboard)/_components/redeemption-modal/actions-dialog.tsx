@@ -22,7 +22,7 @@ interface ActionsDialogProps {
 
   onOpenChange: () => void;
   open: boolean;
-  type?: string;
+  type?: string | null;
   merchantId?: string;
   fname?: string;
   lname?: string;

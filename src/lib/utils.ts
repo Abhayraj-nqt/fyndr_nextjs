@@ -83,7 +83,7 @@ export type ChannelOffer =
   | "cmpn_promo"
   | "promo";
 
-export const getChannelName = (channel: ChannelOffer): string => {
+export const getChannelName = (channel: ChannelOffer | string): string => {
   switch (channel) {
     case "offers":
     case "offer_appointment":

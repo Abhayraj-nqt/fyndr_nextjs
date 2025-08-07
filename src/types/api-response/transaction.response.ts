@@ -207,6 +207,7 @@ export type fetchInvoice = {
   isDisputed: boolean;
   isVoucher: boolean;
   dueDate: string | null;
+  fulfiled: string;
 };
 
 export type fetchInvoiceResponse = {
@@ -352,3 +353,4 @@ export type invoiceDetailsResponse = {
   dueDate: string | null;
   campaignName: string | null;
 };
+

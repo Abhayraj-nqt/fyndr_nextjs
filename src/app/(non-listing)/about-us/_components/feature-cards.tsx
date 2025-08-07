@@ -13,7 +13,7 @@ interface Props {
   setHoveredIndex: (index: number | null) => void;
 }
 
-const FeatureCard = ({ imgURL, title, description, index ,className ="", isFirst,
+const FeatureCard = ({ imgURL, title, description, index , isFirst,
   hoveredIndex,
   setHoveredIndex,}: Props) => {
 const isHovered = hoveredIndex === index;

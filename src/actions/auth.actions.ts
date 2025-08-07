@@ -31,11 +31,6 @@ import {
 } from "@/types/auth/auth.response";
 import { ErrorResponse } from "@/types/global";
 
-import {
-  AccountResponse,
-  RefreshTokenResponse,
-} from "@/types/api-response/auth.response";
-
 export const onSignInWithCredentials: SignInWithCredentials = async ({
   payload,
 }) => {

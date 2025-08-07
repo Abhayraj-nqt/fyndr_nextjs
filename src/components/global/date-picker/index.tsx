@@ -26,7 +26,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
   onChange,
   placeholder = "Pick a date",
   className,
-  minDate,
 }) => {
 
    const handleDateChange = (date: Date | undefined) => {

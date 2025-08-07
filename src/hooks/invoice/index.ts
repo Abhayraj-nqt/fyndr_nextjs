@@ -9,7 +9,7 @@ import { RaiseDisputePayload } from "@/types/dispute-response";
 type InvoicePayload = Parameters<GetInvoiceDetailProps>[0];
 
 export const useInvoiceDetails = (
-  objid: number | null,
+  objid: number,
   bizid: number | null,
   indvid: number | null,
   type?: string | null

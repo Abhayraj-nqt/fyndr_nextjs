@@ -11,7 +11,7 @@ import {
 type RenderCatalogItems = {
   invoiceDetails: CatalogResponse | OfferResponse | InvoiceDetails;
   currencySymbol: string;
-  userTimeZone: string | null;
+  userTimeZone?: string | null;
 };
 
 const RenderCatalogItems = ({

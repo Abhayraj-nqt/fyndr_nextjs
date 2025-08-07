@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import dayjs from "dayjs";
@@ -15,10 +16,13 @@ import { ReviewOverviews } from "@/types/api-response/review.response";
 import {
   Address,
   Biz,
+  CatalogResponse,
   fetchInvoice,
   GiftDetails,
   InvoiceOffer,
   Offer,
+  OfferResponse,
+  PromoResponse,
 } from "@/types/api-response/transaction.response";
 
 import DisputeModal from "./dispute-modal";
@@ -36,28 +40,10 @@ type InvoiceViewProps = {
 dayjs.extend(utc);
 dayjs.extend(timezone);
 const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
-  const firstInvoice = inv?.[0];
-  // Destructure from props or wherever 'firstInvoice' comes from
-  const {
-    objid,
-    baseAmount,
-    taxAmount,
-    tipAmount,
-    invoiceDt,
-    fulfiled,
-    currencySymbol,
-    status,
-    invoiceDetails,
-    buyerFname,
-    buyerLname,
-    channel,
-  } = firstInvoice;
-
-  // 1. State hooks
   const [biz, setBiz] = useState<Biz | null>(null);
   const [billingAddress, setBillingAddress] = useState<Address | null>(null);
   const [brand, setBrand] = useState<string>("");
-  const [last4, setLast4] = useState<string>("");
+  // const [last4, setLast4] = useState<string>("");
   const [billingEmail, setBillingEmail] = useState<string>("");
   const [purchaseLoc, setPurchaseLoc] = useState<Address | null>(null);
   const [disputeStatus, setDisputeStatus] = useState<string | null>(null);
@@ -70,9 +56,9 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
   const [invoiceId, setInvoiceId] = useState<number | null>(null);
   const [reviewOverviews, setReviewOverviews] = useState<ReviewOverviews>();
   const [disputeOpen, setDisputeOpen] = useState<boolean>(false);
+  const firstInvoice = inv?.[0];
 
   const { user, isLoading: isUserLoading, error } = useUser();
-
   const bizid = user?.bizid ?? null;
   const indvid = user?.indvid ?? null;
   const userTimeZone = user?.userTimeZone;
@@ -81,9 +67,7 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
     data: invoiceDetailsResp,
     isLoading: isInvoiceLoading,
     refetch,
-  } = useInvoiceDetails(objid, bizid, indvid, type);
-
-  console.log("invoice details resp", invoiceDetailsResp);
+  } = useInvoiceDetails(firstInvoice?.objid ?? 0, bizid, indvid, type);
 
   useEffect(() => {
     if (!invoiceDetailsResp) return;
@@ -100,16 +84,14 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
     setPromoImage(invoiceDetailsResp?.fyndrLogo ?? "");
     setInvoiceId(invoiceDetailsResp?.invoiceId);
     setAppointment(
-      (invoiceDetailsResp.invoiceDetails?.offers as Offer[]) ?? null
+      (invoiceDetailsResp.invoiceDetails as OfferResponse)?.offers ?? null
     );
 
     if (invoiceDetailsResp.payments) {
       setBrand(invoiceDetailsResp.payments.cardBrand);
-      setLast4(invoiceDetailsResp.payments.cardLast4);
+      // setLast4(invoiceDetailsResp.payments.cardLast4);
     }
   }, [invoiceDetailsResp]);
-
-  console.log("this is vouchers", vouchers);
 
   const { data: reviewOverviewsresp } = useUserReviewOverViews(
     invoiceDetailsResp?.biz?.bizid
@@ -122,13 +104,36 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
     setBusinessId(reviewOverviewsresp?.bizId ?? null);
   }, [reviewOverviews]);
 
+  if (!firstInvoice) {
+    return <div>No invoice found</div>; // or any fallback
+  }
+  const {
+    objid,
+    baseAmount,
+    taxAmount,
+    tipAmount,
+    invoiceDt,
+    fulfiled,
+    currencySymbol,
+    status,
+    invoiceDetails,
+    buyerFname,
+    buyerLname,
+    channel,
+  } = firstInvoice;
+
+  console.log("invoice details resp", invoiceDetailsResp);
+
+  console.log("this is vouchers", vouchers);
+
   console.log("invoice : D", invoiceDetailsResp);
   const startDate =
-    invoiceDetails?.featured_start_date &&
-    new Date(invoiceDetails?.featured_start_date);
+    (invoiceDetails as PromoResponse)?.featured_start_date &&
+    new Date((invoiceDetails as PromoResponse).featured_start_date);
   const endDate =
-    invoiceDetails?.featured_end_date &&
-    new Date(invoiceDetails?.featured_end_date);
+    ((invoiceDetails as PromoResponse)?.featured_end_date ?? null)
+      ? new Date((invoiceDetails as PromoResponse).featured_end_date!)
+      : undefined;
 
   if (isUserLoading || isInvoiceLoading) return <div>Loading...</div>;
   if (error) return <div>Some error occurred</div>;
@@ -193,7 +198,7 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
           purchaseLoc={purchaseLoc}
           type={type}
           disputeStatus={disputeStatus}
-          objid={inv?.[0]?.objid}
+          objid={inv?.[0]?.objid ?? null}
         />
 
         {(channel === "catalog" || channel === "catalog_appointment") && (
@@ -208,9 +213,9 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
           <GifteeDetails giftDetails={gifteeDetails} />
         )}
 
-        {invoiceDetails.offers && (
+        {(invoiceDetails as OfferResponse).offers && (
           <Offersdetails
-            offersDetails={invoiceDetails.offers}
+            offersDetails={(invoiceDetails as OfferResponse).offers}
             channel={channel}
             vouchers={vouchers}
             appointments={appointment}
@@ -234,7 +239,7 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
             totalAmount={totalAmount}
             isBusiness={user?.isBusiness}
             type={type}
-            itemsDetails={invoiceDetails?.items || invoiceDetails?.offers}
+            itemsDetails={(invoiceDetails as CatalogResponse)?.items || (invoiceDetails as OfferResponse)?.offers}
             endDate={endDate}
           />
         </div>

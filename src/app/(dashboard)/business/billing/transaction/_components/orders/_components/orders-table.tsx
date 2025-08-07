@@ -28,13 +28,12 @@ const OrdersTable = ({ promises }: Props) => {
     React.useState<DataTableRowAction<OrdersResponse> | null>(null);
 
   const columns = React.useMemo(
-    () => getOrdersDetailsColoumn({ setRowAction, userTimeZone}),
+    () => getOrdersDetailsColoumn({ setRowAction, userTimeZone }),
     [userTimeZone]
   );
-  if (!success || !data) return <div>Error</div>;
 
-  const { count, orderDetails } = data;
-
+  const orderDetails = data?.orderDetails || [];
+  const count = data?.count || 0;
 
   const { table } = useDataTable({
     data: orderDetails || [],
@@ -44,6 +43,8 @@ const OrdersTable = ({ promises }: Props) => {
     shallow: false,
     clearOnDefault: true,
   });
+
+  if (!success || !data) return <div>Error</div>;
   return (
     <div>
       <DataTable table={table} />

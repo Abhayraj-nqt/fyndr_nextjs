@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { TabsList, TabsTrigger } from "@radix-ui/react-tabs";

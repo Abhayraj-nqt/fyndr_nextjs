@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 
 import Buttons from "@/components/global/buttons/invoice-buttons";
@@ -39,7 +40,7 @@ const PrintAction = ({
   const [biz, setBiz] = useState<Biz | null>(null);
   const [billingAddress, setBillingAddress] = useState<Address | null>(null);
   const [brand, setBrand] = useState<string>("");
-  const [last4, setLast4] = useState<string>("");
+  // const [last4, setLast4] = useState<string>("");
   const [billingEmail, setBillingEmail] = useState<string>("");
   const [purchaseLoc, setPurchaseLoc] = useState<Address | null>(null);
   const [disputeStatus, setDisputeStatus] = useState<string | null>(null);
@@ -59,7 +60,7 @@ const PrintAction = ({
   );
 
   const [currencySymbol, setCurrencySymbol] = useState<string>("");
-  const { user, isLoading: isUserLoading, error } = useUser();
+  const { user, isLoading: isUserLoading } = useUser();
 
   const bizid = user?.bizid ?? null;
   const indvid = user?.indvid ?? null;
@@ -97,7 +98,7 @@ const PrintAction = ({
     setCurrencySymbol(invoiceDetailsResp?.currencySymbol);
     if (invoiceDetailsResp.payments) {
       setBrand(invoiceDetailsResp.payments.cardBrand);
-      setLast4(invoiceDetailsResp.payments.cardLast4);
+      // setLast4(invoiceDetailsResp.payments.cardLast4);
     }
   }, [invoiceDetailsResp]);
 

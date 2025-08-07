@@ -26,7 +26,7 @@ dayjs.extend(customParseFormat);
 
 type OffersDetails = {
   offersDetails: Offer[];
-  channel: ChannelOffer;
+  channel: ChannelOffer | string;
   vouchers: InvoiceOffer[] | null;
   appointments: Offer[] | null;
   currencySymbol: string;
@@ -126,10 +126,13 @@ const Offersdetails: React.FC<OffersDetails> = ({
                     vhr?.appointment &&
                     vhr?.appointment[index] &&
                     Object.entries(vhr?.appointment[index]).map(
-                      ([appointmentDate, timeObj]: any, i) => {
-                        console.log(timeObj, "timeObj");
-                        console.log("startTime:", timeObj?.startTime);
-                        console.log("endTime:", timeObj?.endTime);
+                      (
+                        [appointmentDate, timeObj]: [
+                          string,
+                          Appointment[string],
+                        ],
+                        i
+                      ) => {
                         return (
                           <div key={`appointment-${i}`} className="w-full">
                             <div className="mb-2 flex justify-between">
@@ -228,7 +231,7 @@ const Offersdetails: React.FC<OffersDetails> = ({
                         </div>
                       )}
 
-                      {/* Fyndr Generated Voucher with Action */}
+
                       <div className="mb-2 flex justify-between">
                         <span className="text-[14px] font-semibold text-black-70">
                           Fyndr Generated Voucher ID:
@@ -244,7 +247,7 @@ const Offersdetails: React.FC<OffersDetails> = ({
                         >
                           <div className="body-3 text-primary">
                             {"objid" in vhr && vhr
-                              ? `VHR-${(vhr.objid + "").padStart(10, 0)}`
+                              ? `VHR-${(vhr.objid + "").padStart(10, "0")}`
                               : ""}
                           </div>
                         </Button>

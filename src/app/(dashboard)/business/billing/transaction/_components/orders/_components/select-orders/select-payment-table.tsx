@@ -83,7 +83,7 @@ const SelectPaymentTable = ({
     const params = {
       invoiceId,
     };
-    const { success, data, error } = await onUpdateOrdersPaymentStatus({
+    const { success, data} = await onUpdateOrdersPaymentStatus({
       params,
       payload,
     });

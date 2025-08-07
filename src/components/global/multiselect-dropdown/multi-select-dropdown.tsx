@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { X, Check } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -94,7 +95,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
           }}
           className={`flex min-h-[45px] cursor-text items-center overflow-hidden rounded-lg border bg-white p-3 text-sm ${className}`}
         >
-          <div className="scrollbar-hide no-scrollbar flex max-w-full shrink-0 items-center gap-2 overflow-x-auto">
+          <div className="no-scrollbar flex max-w-full shrink-0 items-center gap-2 overflow-x-auto">
             {selectedValues.map((val) => {
               const opt = options.find((o) => o.value === val);
               return (
@@ -138,7 +139,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
         onOpenAutoFocus={(e) => e.preventDefault()}
         onCloseAutoFocus={(e) => e.preventDefault()}
       >
-        <div className="scrollbar-hide flex max-h-60 flex-col gap-1 overflow-y-auto">
+        <div className="flex max-h-60 flex-col gap-1 overflow-y-auto">
           {filteredOptions.length > 0 ? (
             filteredOptions.map(({ value, label }) => (
               <div

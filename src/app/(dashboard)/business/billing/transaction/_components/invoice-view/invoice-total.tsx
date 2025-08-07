@@ -1,8 +1,5 @@
-import { RadioGroup } from "@radix-ui/react-menubar";
-import { RadioGroupItem } from "@radix-ui/react-radio-group";
 import React from "react";
 
-import { Label } from "@/components/ui/label";
 import {
   capitalize,
   ChannelOffer,
@@ -14,11 +11,13 @@ import {
   Item,
   Offer,
   OfferResponse,
+  PromoResponse,
 } from "@/types/api-response/transaction.response";
+import { CreateInvoiceDetails } from "@/types/invoice/create-update-invoice/invoice.types";
 
 type InvoiceTotalProps = {
   channel: ChannelOffer | string;
-  invoiceDetails: OfferResponse | CatalogResponse;
+  invoiceDetails: OfferResponse | CatalogResponse |PromoResponse | CreateInvoiceDetails;
   currencySymbol: string;
   baseAmount: number;
   taxAmount: number;
@@ -28,7 +27,7 @@ type InvoiceTotalProps = {
   isBusiness: boolean;
   type: string | null;
   itemsDetails: Offer[] | Item[];
-  endDate?: string;
+  endDate?: Date | string;
 };
 
 const Invoicetotal: React.FC<InvoiceTotalProps> = ({
@@ -40,12 +39,9 @@ const Invoicetotal: React.FC<InvoiceTotalProps> = ({
   fyndrCash,
   tipAmount,
   totalAmount,
-  isBusiness,
-  type,
   itemsDetails,
   endDate,
 }) => {
-  console.log(endDate, "end Daye");
   return (
     <>
       {!endDate && sumQuantities(itemsDetails) !== 0 && (
