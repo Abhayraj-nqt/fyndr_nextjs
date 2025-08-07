@@ -20,7 +20,11 @@ export const useFetchStoreLocation = (
     },
     onError: () => {
       toast.error({
-        message: "Could not fetch the store locations.",
+
+        message: "Something went wrong",
+        description: "Could not fetch the store locations.",
+       
+
       });
     },
   });
