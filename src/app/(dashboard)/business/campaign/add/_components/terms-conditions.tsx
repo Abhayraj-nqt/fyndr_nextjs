@@ -8,7 +8,7 @@ const TermsAndConditions = () => {
   const { campaignPayload, updateCampaignPayload } = useCampaignStore();
   return (
     <>
-      <DefaultCard className="m-4 min-h-[300px] w-full max-w-[900px] flex-col border-solid bg-white p-[23px] outline-black">
+      <DefaultCard className="m-4 min-h-[300px] w-full max-w-[900px] flex-col  border border-black-20  bg-white p-[23px]">
         <CustomEditor
           value={campaignPayload.finePrint || ""}
           onChange={(val) => updateCampaignPayload("finePrint", val)}

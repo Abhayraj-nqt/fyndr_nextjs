@@ -25,9 +25,9 @@ const ObjectiveCategory = () => {
     </>
   );
   const CampaignGoal = [
-    { label: "Maximize In-Store Sales", value: "instore" },
-    { label: "Maximize Online Sales", value: "online" },
-    { label: "Maximize In-Store & Online Sales", value: "all" },
+    { label: "Maximize Local Sales", value: "instore" },
+    { label: "Maximize Nationwide Sales", value: "online" },
+    { label: "Maximize Local & Nationwide Sales", value: "all" },
   ];
 
   const fetchCampaign = async () => {
@@ -45,7 +45,7 @@ const ObjectiveCategory = () => {
   }, []);
   return (
     <>
-      <DefaultCard className="flex-center m-4 min-h-[134px] w-full max-w-[772px] flex-col border-solid bg-white p-[23px] outline-black">
+      <DefaultCard className="flex-center m-4 min-h-[134px] w-full max-w-[772px] flex-col  border border-black-20 bg-white p-[23px]">
         <div className="flex flex-col gap-4">
           <div className="flex flex-row gap-6">
             <Select

@@ -36,6 +36,7 @@ const defaultValues: OfferFormValues = {
   voucherFileName: null,
   isVoucher: null,
   couponCode: null,
+  offerSold: "",
 };
 
 type Props = {
@@ -44,7 +45,7 @@ type Props = {
 
 const OfferForm = ({ handleModalClose }: Props) => {
   const { updateCampaignPayload } = useCampaignStore();
-  const [, setUploadedFiles] = useState<ProcessedFileProps[]>([]);
+  const [uploadedFiles, setUploadedFiles] = useState<ProcessedFileProps[]>([]);
 
   const handleFileUpload = (files: ProcessedFileProps[]) => {
     setUploadedFiles(files);
@@ -56,7 +57,9 @@ const OfferForm = ({ handleModalClose }: Props) => {
 
   const onSubmit = (data: OfferFormValues) => {
     console.log("Submitted Offer:", data);
-    updateCampaignPayload("offers", [data]);
+    const currentOffers =
+      useCampaignStore.getState().campaignPayload?.offers || [];
+    updateCampaignPayload("offers", [...currentOffers, data]);
     handleModalClose();
   };
 
@@ -73,6 +76,7 @@ const OfferForm = ({ handleModalClose }: Props) => {
             form={form}
             handleFileUpload={handleFileUpload}
             handleModalClose={handleModalClose}
+            uploadedFiles={uploadedFiles}
           />
         </form>
       </FormProvider>

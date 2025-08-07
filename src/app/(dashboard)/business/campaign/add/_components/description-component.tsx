@@ -23,11 +23,11 @@ const DescriptionForm = () => {
     updateCampaignPayload("startDt", today.toISOString());
     updateCampaignPayload("endDt", twoYearsLater.toISOString());
     updateCampaignPayload("cmpnUrl", null);
-  }, []);
+  }, [updateCampaignPayload]);
 
   return (
     <>
-      <DefaultCard className="m-4 w-full max-w-[772px] flex-col border-solid bg-white p-[23px] outline-black">
+      <DefaultCard className="m-4 w-full max-w-[772px] flex-col border border-black-20  bg-white p-[23px]">
         <div className="flex flex-col gap-6">
           <div className="flex">
             <Input

@@ -60,14 +60,14 @@ const LocationList = () => {
 
   return (
     <>
-      <DefaultCard className="no-scrollbar m-4 h-[533px] w-full max-w-[900px] flex-col overflow-scroll border-solid bg-white p-[23px] outline-black">
+      <DefaultCard className="no-scrollbar m-4 h-[533px] w-full max-w-[900px] flex-col overflow-scroll border border-black-20 bg-white p-[23px]">
         <div className="flex flex-row justify-between">
           <div className="flex items-center">
             <Checkbox
               checked={selectedLocationIds.length === allLocations.length}
               onCheckedChange={handleSelectAll}
             />
-            <Label className="ml-2">All Locations</Label>
+            <Label className="ml-2 text-black">All Locations</Label>
           </div>
           <div>
             <Button className="bg-primary font-roboto text-sm text-white hover:bg-primary">

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { UseFormReturn } from "react-hook-form";
 
 import Button from "@/components/global/buttons";
@@ -14,12 +15,14 @@ type Props = {
   form: UseFormReturn<OfferFormValues>;
   handleFileUpload: (files: ProcessedFileProps[]) => void;
   handleModalClose: () => void;
+  uploadedFiles: ProcessedFileProps[];
 };
 
 const OfferActionsButton = ({
   form,
   handleFileUpload,
   handleModalClose,
+  uploadedFiles,
 }: Props) => {
   return (
     <>
@@ -66,7 +69,35 @@ const OfferActionsButton = ({
                 <ImageUploader
                   maxFileSizeMB={5}
                   onImageUpload={handleFileUpload}
-                />
+                  className="border-dotted"
+                >
+                  {uploadedFiles.length > 0 ? (
+                    <div className="flex-center">
+                      {uploadedFiles.map((file, index) => (
+                        <Image
+                          key={index}
+                          src={file.base64Url}
+                          alt={`uploaded-${index}`}
+                          width={200}
+                          height={200}
+                          className="rounded-md object-cover shadow"
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="flex h-full flex-col items-center justify-center">
+                      <Image
+                        src="/icons/image-icon.svg"
+                        alt="imageUpload"
+                        width={50}
+                        height={50}
+                      />
+                      <p className="mt-4 text-center font-roboto text-sm font-normal text-black-50">
+                        Drag & Drop Or Click To Choose A File.
+                      </p>
+                    </div>
+                  )}
+                </ImageUploader>
               </FormControl>
             </div>
           </FormItem>

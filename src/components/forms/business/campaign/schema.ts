@@ -91,4 +91,5 @@ export const OfferSchema = z.object({
   voucherFileName: z.string().nullable().optional(),
   isVoucher: z.boolean().nullable().optional(),
   couponCode: z.string().optional().nullable(),
+  offerSold: z.string().optional().nullable(),
 });

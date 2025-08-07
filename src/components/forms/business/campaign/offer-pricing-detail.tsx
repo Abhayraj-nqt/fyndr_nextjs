@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 
 import Input from "@/components/global/input";
 import Switch from "@/components/global/input/switch";
+import toast from "@/components/global/toast";
 import {
   FormControl,
   FormField,
@@ -24,6 +25,37 @@ const OfferPricingDetails = ({ form }: Props) => {
   const [perUserLimitToggle, setPerUserLimitToggle] = useState(true);
   const [taxToggle, setTaxToggle] = useState(false);
   const [repurchaseToggle, setRepurchaseToggle] = useState(true);
+  const payload = form.watch();
+  const calcOfferPrice = (
+    rprice: number,
+    amt: number | string,
+    type: string
+  ) => {
+    const parsedAmt = parseFloat(amt as string);
+    const oPrice =
+      type === "%"
+        ? Math.round(rprice * (1 - parsedAmt / 100) * 100) / 100
+        : Math.round((rprice - parsedAmt) * 100) / 100;
+
+    if (!isNaN(oPrice)) {
+      form.setValue("offerPrice", oPrice);
+    }
+    if (oPrice < 0) {
+      toast.error({ message: "Offer Price can't be Negative" });
+    }
+  };
+
+  useEffect(() => {
+    if (payload.retailPrice && payload.retailPrice > 0) {
+      calcOfferPrice(
+        payload.retailPrice,
+        payload.amount,
+        payload.discountType || "%"
+      );
+    } else {
+      form.setValue("offerPrice", "");
+    }
+  }, [payload.retailPrice, payload.amount, payload.discountType]);
 
   return (
     <>
@@ -117,7 +149,6 @@ const OfferPricingDetails = ({ form }: Props) => {
                   label="Offer Price"
                   showRequired
                   disabled
-                  value={5}
                   className="bg-white"
                 />
               </FormControl>

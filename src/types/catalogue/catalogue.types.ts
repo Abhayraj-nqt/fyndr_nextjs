@@ -17,16 +17,7 @@ export type CatalogueItem = {
   url?: string;
 };
 
-export type catalogueListResponse = {
-  last: boolean;
-  catalogues: CatalogueItem[];
-};
-
-export type UpdateURLResponse = {
-  message: string;
-};
-
-export type storeBiz = {
+export type StoreBiz = {
   bizid: number;
   bizName: string;
   website: string;
@@ -46,7 +37,7 @@ export type storeBiz = {
   merchantId: string;
 };
 
-export type storeLocations = {
+export type StoreLocations = {
   objid: number;
   qrid: number;
   bizid: number;
@@ -76,11 +67,6 @@ export type storeLocations = {
   workingHoursAndSlots: any;
 };
 
-export type fetchLocationResponse = {
-  biz: storeBiz;
-  locations: storeLocations[];
-};
-
 export type images = {
   img_url: string;
   index: number;
@@ -96,12 +82,6 @@ export type StoreCategory = {
   createDt: string;
   updateDt: string;
 };
-
-export type StoreCategoryResponse = {
-  categories: StoreCategory[];
-  last: boolean;
-};
-
 export type StoreItem = {
   objid: number;
   images: images[];
@@ -114,12 +94,6 @@ export type StoreItem = {
   createDt: string;
   updateDt: string;
 };
-
-export type StoreItemResponse = {
-  items: StoreItem[];
-  last: boolean;
-};
-
 export type StoreModifier = {
   objid: number;
   images: images[];
@@ -128,15 +102,6 @@ export type StoreModifier = {
   description: string;
   createDt: string;
   updateDt: string;
-};
-
-export type StoreModifierResponse = {
-  modifiers: StoreModifier[];
-  last: boolean;
-};
-
-export type StoreModifierDelete = {
-  success: boolean;
 };
 
 export type UploadedImageData = {

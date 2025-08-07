@@ -43,7 +43,7 @@ const ImagesVidoesComponent = () => {
 
   return (
     <>
-      <DefaultCard className="m-4 h-[500px] min-h-[134px] w-full max-w-[772px] flex-col border-solid bg-white p-[23px] outline-black">
+      <DefaultCard className="m-4 h-[435px] min-h-[134px] w-full max-w-[772px] flex-col  border border-black-20  bg-white p-[23px]">
         <div className="flex flex-row gap-8">
           <div className="flex">
             <ImageUploader
@@ -51,8 +51,20 @@ const ImagesVidoesComponent = () => {
               onImageUpload={handleFileUpload}
               canUploadVideo={true}
               multiple={true}
-              className="h-[420px] w-auto"
-            />
+              className="h-[368px] w-[462px] border-dotted"
+            >
+              <div className="flex h-full flex-col items-center justify-center">
+                <Image
+                  src="/icons/image-icon.svg"
+                  alt="imageUpload"
+                  width={70}
+                  height={70}
+                />
+                <p className="mt-4 text-center font-roboto text-base font-normal text-black-60">
+                  Drag & drop an image here or click to browse
+                </p>
+              </div>
+            </ImageUploader>
           </div>
           <div>
             {uploadedFiles.map((item) => (
