@@ -7,11 +7,11 @@ import { ChangeEvent, useEffect, useState } from "react";
 import {
   onRedeemPromocode,
   onVerifyPromocode,
-} from "@/actions/promo-code.action";
+} from "@/actions/promocode.action";
+import Button from "@/components/global/buttons";
+import Input from "@/components/global/input";
 import { Modal } from "@/components/global/modal";
 import { toast } from "@/components/global/toast";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useUser } from "@/hooks/auth";
 import { VerifyPromocodeResponse } from "@/types/api-response/promocode.response";
@@ -130,23 +130,21 @@ const RedeemPromocodeDialog = ({ children }: Props) => {
         closeOnOutsideClick={false}
       >
         <div className="flex flex-col gap-4">
-          <div className="flex min-h-[45px] grow items-center gap-1 rounded-lg border border-secondary-20 bg-white px-2">
-            <Input
-              placeholder="Enter Promo Code"
-              value={promoCode}
-              onChange={handleChange}
-              className="no-focus paragraph-regular placeholder border-none text-black-30 shadow-none outline-none"
-            />
-          </div>
-
-          <div className="flex flex-row gap-2">
-            <Button className="btn-primary" onClick={handleVerify}>
+          <Input
+            placeholder="Enter Promo Code"
+            value={promoCode}
+            onChange={handleChange}
+          />
+          <div className="flex-center flex-row gap-2">
+            <Button variant="primary" stdHeight stdWidth onClick={handleVerify}>
               Verify
             </Button>
             <Button
               type="button"
-              className="btn-primary-outlined"
+              variant="primary-outlined"
               onClick={handleModalClose}
+              stdHeight
+              stdWidth
             >
               Cancel
             </Button>
