@@ -62,7 +62,6 @@ export const onSignOut: SignOut = async () => {
 };
 
 export const onConfirmIdentity: ConfirmIdentity = async ({ payload }) => {
-  console.log("ConfirmIdentity -> ", payload);
 
   const endpoint = `${API_BASE_URL}/identity/confirmIdentity`;
   return _post(endpoint, payload);

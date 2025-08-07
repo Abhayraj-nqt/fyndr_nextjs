@@ -1,3 +1,7 @@
+import { CreateInvoiceDetails } from "../invoice/create-update-invoice/invoice.types";
+import { Remarks } from "../offer-summary/offer-summary.types";
+
+
 export type InvoiceSummary = {
   totalAmountByInvoiceStatuses: {
     paid: number;
@@ -115,6 +119,12 @@ export type Mitem = {
   appointment?: Appointment[];
 };
 
+export type addonDetails = {
+  modName: string;
+  price: number;
+  objid: number;
+};
+
 export type Item = {
   catalogue_item_id: string;
   details: {
@@ -132,7 +142,7 @@ export type Item = {
     currency: string;
     instruction: string | null;
     wholeDetails: any;
-    addonDetails: any[];
+    addonDetails: addonDetails[];
     taxRate: number;
     tax: string;
   };
@@ -173,7 +183,7 @@ export type fetchInvoice = {
     | OfferResponse
     | CatalogResponse
     | PromoResponse
-    | CustomResponse;
+    | CreateInvoiceDetails;
   taxAmount: number;
   baseAmount: number;
   tipAmount: number;
@@ -198,14 +208,14 @@ export type fetchInvoice = {
   isDisputed: boolean;
   isVoucher: boolean;
   dueDate: string | null;
+  fulfiled: string;
 };
 
-export type fetchInvoiceResponse = {
+export type FetchInvoiceResponse = {
   count: number;
   invoices: fetchInvoice[];
   last: boolean;
 };
-
 
 export type InvoiceOfferDetail = {
   offer_id: number;
@@ -221,6 +231,7 @@ export type InvoiceOfferDetail = {
   row_tax: string;
   row_total: string;
   unit_tax: string;
+  appointment?: Appointment[];
 };
 
 export type InvoiceDetails = {
@@ -246,7 +257,7 @@ export type InvoiceOffer = {
   invoiceId: number;
   voucherCode: string;
   redeemptionStatus: string;
-  remarks: string | null;
+  remarks: Remarks[];
   paymentId: number;
   offerId: number;
   offerTitle: string;
@@ -261,7 +272,19 @@ export type InvoiceOffer = {
   fyndrCash: number;
   isVoucher: boolean;
   customVoucherCode: string | null;
+  appointments?: Appointment[] | null;
+  index: number;
+  qty: number;
+  currencySymbol: string;
 };
+
+export type EnrichedInvoiceOffer = InvoiceOffer & {
+  appointment?: Appointment[];
+  qty?: number;
+  index?: number;
+  currencySymbol?: string;
+};
+
 export type Biz = {
   bizid: number;
   bizName: string;
@@ -283,7 +306,6 @@ export type Biz = {
   expo_code: string | null;
 };
 
-
 export type Address = {
   addressLine1: string;
   addressLine2: string;
@@ -301,10 +323,9 @@ export type GiftDetails = {
   message: string;
 };
 
-
 export type invoiceDetailsResponse = {
   invoiceDt: string;
-  invoiceDetails: InvoiceDetails;
+  invoiceDetails: InvoiceDetails | CatalogResponse;
   taxAmount: number;
   baseAmount: number;
   discountAmount: number;
@@ -333,4 +354,3 @@ export type invoiceDetailsResponse = {
   dueDate: string | null;
   campaignName: string | null;
 };
-
