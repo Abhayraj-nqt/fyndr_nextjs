@@ -22,6 +22,39 @@ export type Appointment = {
   };
 };
 
+export type Biz = {
+  bizid: number;
+  bizName: string;
+  website: string | null;
+  mainLogo: string;
+  addonUrl: string | null;
+  phone: string;
+  addressLine1: string;
+  addressLine2: string;
+  city: string;
+  state: string;
+  country: string;
+  postalCode: string;
+  bizType: string;
+  lat: number;
+  lng: number;
+  showBiz: boolean;
+  country_code: string;
+  expo_code: string | null;
+};
+
+export type CatalogueAppointmentType =
+  | "APPOINTMENT_PER_ITEM"
+  | "APPOINTMENT_PER_CART";
+
+export interface workingHoursAndSlots {
+  workingHours: Record<string, string[]>;
+  slotDurationInMin: number;
+  slotCapacity: number;
+  catalogueAppointmentType: CatalogueAppointmentType;
+  isCampaignBookingEnabled: boolean;
+}
+
 export type Offer = {
   offer_id: number;
   offer_price: number;
@@ -102,8 +135,8 @@ export type ParentLocation = {
   workingHours: string;
   distance: string | null;
   catalogueId: string | null;
-  biz: any;
-  workingHoursAndSlots: any;
+  biz: Biz;
+  workingHoursAndSlots: workingHoursAndSlots;
 };
 
 export type Mitem = {
@@ -125,14 +158,14 @@ export type Item = {
     qty: number;
     total: number;
     unit: string;
-    whole: any | null;
-    addon: any[];
+    whole: unknown | null;
+    addon: unknown[];
     mitem: Mitem;
     currencySymbol: string;
     currency: string;
     instruction: string | null;
-    wholeDetails: any;
-    addonDetails: any[];
+    wholeDetails: unknown | null;
+    addonDetails: unknown[];
     taxRate: number;
     tax: string;
   };
@@ -206,7 +239,6 @@ export type fetchInvoiceResponse = {
   last: boolean;
 };
 
-
 export type InvoiceOfferDetail = {
   offer_id: number;
   offer_price: number;
@@ -262,27 +294,6 @@ export type InvoiceOffer = {
   isVoucher: boolean;
   customVoucherCode: string | null;
 };
-export type Biz = {
-  bizid: number;
-  bizName: string;
-  website: string | null;
-  mainLogo: string;
-  addonUrl: string | null;
-  phone: string;
-  addressLine1: string;
-  addressLine2: string;
-  city: string;
-  state: string;
-  country: string;
-  postalCode: string;
-  bizType: string;
-  lat: number;
-  lng: number;
-  showBiz: boolean;
-  country_code: string;
-  expo_code: string | null;
-};
-
 
 export type Address = {
   addressLine1: string;
@@ -300,7 +311,6 @@ export type GiftDetails = {
   countryCode: string;
   message: string;
 };
-
 
 export type invoiceDetailsResponse = {
   invoiceDt: string;
@@ -333,4 +343,3 @@ export type invoiceDetailsResponse = {
   dueDate: string | null;
   campaignName: string | null;
 };
-

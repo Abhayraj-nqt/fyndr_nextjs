@@ -78,6 +78,7 @@ const CustomEditor: React.FC<LexicalEditorProps> = ({
     return () => {
       document.removeEventListener("selectionchange", handleSelectionChange);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Format text commands
