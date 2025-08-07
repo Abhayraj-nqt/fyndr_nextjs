@@ -3,13 +3,13 @@ import React from "react";
 import { onGetComments } from "@/actions/business.action";
 import Pagination from "@/components/global/pagination";
 import { cn } from "@/lib/utils";
-import { Campaign } from "@/types/campaign/campaign.types";
 
 import CommentCard from "./comment-card";
+import { ReviewBusinessProps } from "../business-ratings-and-reviews";
 
 type Props = {
   sortBy: "RATING" | "CREATED_DT";
-  business: Campaign["biz"];
+  business: ReviewBusinessProps;
   orderBy: "ASC" | "DESC";
   enablePagination?: boolean;
   page?: number;
