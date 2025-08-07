@@ -8,11 +8,9 @@ import { _get, _post, _put } from "@/lib/handlers/fetch";
 import {
   GetDisputeReasonsProps,
   UpdateDisputeStatusProps,
-} from "@/types/api-params/dispute.params";
-import {
-  DisputeReasonResponse,
-  RaiseDisputeResponse,
-} from "@/types/api-response/dispute.response";
+} from "@/types/dispute/dispute.action.types";
+import { DisputeReasonResponse } from "@/types/dispute/dispute.response";
+import { RaiseDisputeResponse } from "@/types/dispute/dispute.types";
 import { ActionResponse } from "@/types/global";
 import {
   CreateInvoiceUser,
