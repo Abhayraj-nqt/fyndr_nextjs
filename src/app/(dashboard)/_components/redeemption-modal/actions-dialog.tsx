@@ -13,7 +13,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useVoucherUpdate } from "@/hooks/offers";
 import { statusList } from "@/lib/utils";
 import { InvoiceOffer } from "@/types/api-response/transaction.response";
-import { OfferPurchaseProps } from "@/types/offer-summary";
+import { OfferPurchaseProps } from "@/types/offer-summary/offer-summary.types"; 
 
 import RedeemRemarks from "./remarks";
 

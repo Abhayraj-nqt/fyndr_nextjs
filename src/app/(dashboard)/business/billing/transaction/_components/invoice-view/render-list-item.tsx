@@ -86,9 +86,6 @@ const RenderCatalogItems = ({
           </div>
           {(invoiceDetails as CatalogResponse).items.map((item, key) => {
             const appointments = item?.details?.mitem?.appointment || [];
-
-            console.log(appointments, "appointments");
-
             const scheduledQty = appointments.length;
             const remainingQty = item.details.qty - scheduledQty;
             return (
@@ -109,9 +106,6 @@ const RenderCatalogItems = ({
                 {appointments?.map((appoinObj, index) => {
                   const date = Object.keys(appoinObj)[0];
                   const data = appoinObj[date];
-
-                  console.log(data.objId, "obj data");
-                  console.log(item.details.mitem.objid, "item obj");
 
                   return (
                     <div key={index}>
@@ -170,7 +164,7 @@ const RenderCatalogItems = ({
                   })}
                 {item?.details?.instruction && (
                   <span className={`${INVOICE_TEXT} text-[]`}>
-                    3<span className={`${INVOICE_TEXT} text-[#8c8b8d]`}></span>
+                    <span className={`${INVOICE_TEXT} text-[#8c8b8d]`}></span>
                     {item?.details?.instruction}
                   </span>
                 )}

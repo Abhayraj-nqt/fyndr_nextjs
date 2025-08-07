@@ -155,8 +155,6 @@ export async function getCoordinates(params: {
 }) {
   const { addressLine1, addressLine2, city, state, country, postalCode } =
     params;
-
-    console.log(addressLine1 , "this is address");
  const fullAddress = [
     addressLine1,
     addressLine2,
@@ -169,7 +167,6 @@ export async function getCoordinates(params: {
     .filter(Boolean) 
     .join(", "); 
 
-    console.log(fullAddress , "this is full address");
 
   try {
     const response = await client.geocode({
@@ -201,7 +198,6 @@ export async function getCoordinates(params: {
           city = component.short_name;
       });
       
-      console.log(response , "this is the response after calling ")
       return {
         success: true,
         status: response.status,

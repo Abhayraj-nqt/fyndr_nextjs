@@ -2,13 +2,12 @@
 
 import { API_BASE_URL } from "@/environment";
 import { _get } from "@/lib/handlers/fetch";
-import { GetFaqCategories, GetFaqQuestions } from "@/types/api-params/about-us.params";
+import { GetFaqCategories, GetFaqQuestions } from "@/types/about-us/about-us.action.types";
 
 
 
 export const onGetFaqCategories: GetFaqCategories = async (params) => {
   const { entityId } = params;
-  console.log(entityId, "entity");
   const endpoint = `${API_BASE_URL}/identity/faq_category/${entityId}`;
 
   return _get(endpoint, {

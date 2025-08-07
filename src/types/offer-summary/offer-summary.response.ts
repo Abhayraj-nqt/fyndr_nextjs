@@ -1,4 +1,4 @@
-import { OfferPurchaseProps } from "../offer-summary/offer-summary.types";
+import { OfferPurchaseProps } from "./offer-summary.types";
 
 
 export type OfferSummaryResponse = {

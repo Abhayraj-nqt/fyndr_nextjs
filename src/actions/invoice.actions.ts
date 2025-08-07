@@ -43,8 +43,6 @@ export const onRaiseDispute: UpdateDisputeStatusProps = async (
 
   revalidatePath(ROUTES.BUSINESS_DASHBOARD);
 
-  console.log("Payload for raising dispute:", payload);
-
   return _post<RaiseDisputeResponse>(endpoint, payload, {
     requireAuth: true,
   });
@@ -53,7 +51,6 @@ export const onRaiseDispute: UpdateDisputeStatusProps = async (
 export const onGetCreateInvoiceDetails: GetCreateInvoiceDetails = async (
   payload
 ) => {
-  console.log(payload, "payload");
   const endpoint = `${API_BASE_URL}/identity/fetch/user-details`;
 
   return _post<CreateInvoiceResponse>(endpoint, payload, {
@@ -70,7 +67,6 @@ export const onGetInvoiceTaxDetails: GetInvoiceTaxDetails = async (payload) => {
 
 export const onCreateInvoice: CreateInvoiceUser = async (payload) => {
   const pay = payload.payload;
-  console.log(pay, "pay");
   const endpoint = `${API_BASE_URL}/invoice/create`;
   return _post<InvoiceCreationResponse>(endpoint, pay, {
     requireAuth: true,

@@ -30,7 +30,6 @@ interface Props {
 }
 
 const DashboardSidebar = ({ sidebarLinks, header, accountStatus }: Props) => {
-  console.log(accountStatus, "status");
 
   return (
     <Sidebar

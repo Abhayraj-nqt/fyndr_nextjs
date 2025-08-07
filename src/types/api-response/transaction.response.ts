@@ -1,5 +1,6 @@
 import { CreateInvoiceDetails } from "../invoice/create-update-invoice/invoice.types";
-import { Remarks } from "../offer-summary";
+import { Remarks } from "../offer-summary/offer-summary.types";
+
 
 export type InvoiceSummary = {
   totalAmountByInvoiceStatuses: {
@@ -353,4 +354,3 @@ export type invoiceDetailsResponse = {
   dueDate: string | null;
   campaignName: string | null;
 };
-

@@ -122,11 +122,6 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
     channel,
   } = firstInvoice;
 
-  console.log("invoice details resp", invoiceDetailsResp);
-
-  console.log("this is vouchers", vouchers);
-
-  console.log("invoice : D", invoiceDetailsResp);
   const startDate =
     (invoiceDetails as PromoResponse)?.featured_start_date &&
     new Date((invoiceDetails as PromoResponse).featured_start_date);

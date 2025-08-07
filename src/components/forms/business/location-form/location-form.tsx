@@ -43,9 +43,6 @@ const CreateLocationForm = ({
   objid,
   edit,
 }: CreateLocationFormParms) => {
-  console.log(locationInfo, "this is location info");
-
-  console.log(locationInfo?.postalCode, "post");
 
   const form = useForm<LocationFormData>({
     resolver: zodResolver(baseCreateLocationSchema),
@@ -116,7 +113,6 @@ const CreateLocationForm = ({
   }, [locationInfo]);
 
   const onSubmit: SubmitHandler<LocationFormData> = async (data) => {
-    console.log(data, "this data");
 
     const coordinates = await getCoordinates({
       addressLine1: data.addressLine1,
@@ -126,8 +122,6 @@ const CreateLocationForm = ({
       country: data.country,
       postalCode: data.postalCode,
     });
-
-    console.log(coordinates, "coordinates");
 
     const payload: AddLocationPayload = {
       addressLine1: data.addressLine1,

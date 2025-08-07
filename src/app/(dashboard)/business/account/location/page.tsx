@@ -39,7 +39,6 @@ const LocationManager = ({ children }: Props) => {
         objid: location?.objid,
         bizid: user?.bizid,
       });
-      console.log("data", data);
       setLocations(locations?.filter((location) => location?.objid !== objid));
     }
   };

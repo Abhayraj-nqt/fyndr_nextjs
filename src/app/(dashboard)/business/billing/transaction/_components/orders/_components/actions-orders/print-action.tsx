@@ -68,13 +68,8 @@ const PrintAction = ({
 
   const objid = row ? row.invoiceId : null;
 
-  console.log(objid, "objid");
-  console.log(indvid, "indcid");
   const { data: invoiceDetailsResp, isLoading: isInvoiceLoading } =
     useInvoiceDetails(objid, bizid, indvid, "receivable");
-
-  console.log("invoice details resp in orders", invoiceDetailsResp);
-  console.log("invocice details");
 
   useEffect(() => {
     if (!invoiceDetailsResp) return;
