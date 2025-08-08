@@ -25,8 +25,6 @@ const ActiveBar = ({ data }: Props) => {
             width={200}
             alt="Card image"
             className="h-48 w-full rounded-10 object-cover"
-            height={200}
-            width={200}
           />
           <CardContent className="flex flex-col justify-evenly p-4">
             <p className="text-sm" style={{ color: "#257cdb" }}>
