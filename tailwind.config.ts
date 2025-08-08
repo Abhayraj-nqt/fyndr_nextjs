@@ -100,6 +100,8 @@ export default {
       backgroundImage: {
         "offer-gradient":
           "linear-gradient(90deg, rgb(255, 218, 220) 0%, rgb(255, 255, 255) 100%, rgb(255, 255, 255) 100.01%)",
+        "status-green": "radial-gradient(#0bac18 60%, #0bac18 40%)",
+        "status-red": "radial-gradient(#ff2b27 60%, #ac0b0b 40%)",
       },
       screens: {
         xs: "420px",

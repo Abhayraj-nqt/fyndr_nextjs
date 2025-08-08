@@ -1,13 +1,18 @@
 import React, { ReactNode } from "react";
 
+import { auth } from "@/auth";
 import Footer from "@/components/global/navigation/footer";
 import Navbar from "@/components/global/navigation/navbar";
 import DashboardSidebar from "@/components/global/navigation/sidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider} from "@/components/ui/sidebar";
 import { BUSINESS_MENU } from "@/constants/menu";
 
-const BusinessLayout = ({ children }: { children: ReactNode }) => {
-  const SidebarHeader = <>Prachi</>;
+const BusinessLayout =  async ({ children }: { children: ReactNode }) => {
+ const session = await auth();
+ const businessName =  session?.user.name;
+ const accountStatus = session?.user.accountStatus;
+ const SidebarHeader = businessName?.split(" ")[0];
+
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -19,8 +24,8 @@ const BusinessLayout = ({ children }: { children: ReactNode }) => {
               <DashboardSidebar
                 header={SidebarHeader}
                 sidebarLinks={BUSINESS_MENU}
+                accountStatus = {accountStatus!}
               />
-              <SidebarTrigger />
               {children}
             </SidebarProvider>
           </div>
