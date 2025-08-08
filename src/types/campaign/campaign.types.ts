@@ -52,6 +52,8 @@ export type CampaignOffer = {
   isBookingEnabled: boolean;
   isVoucher: boolean;
   stdTax: boolean;
+  isNew?: boolean;
+  isUpdated?: boolean;
 
   offerLimit: number | null;
   offerPrice: number;
@@ -66,14 +68,14 @@ export type CampaignOffer = {
   status: OfferStatus;
   voucherFileName: string | null;
   validityPeriod: string;
-  campaignOfferStatus: string;
+  campaignOfferStatus?: string;
   couponCode: string | null;
   currency: Currency;
   currencySymbol: CurrencySymbol;
   discountType: DiscountType;
   displayOrder: number;
-  imageFilePath: string | null;
-  thumbnailFilePath: string | null;
+  imageFilePath?: string | null;
+  thumbnailFilePath?: string | null;
 };
 
 export type CampaignLocation = {
