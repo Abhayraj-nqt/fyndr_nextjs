@@ -17,9 +17,11 @@ const PromoCodes = async ({
   const { data: activeData } = await getActivePromos({
     search,
   });
-  const { success: expiredSuccess, data: expiredData } = await getExpiredPromos(
-    { search, pgStart: 1, pgSize: 10 }
-  );
+  const { data: expiredData } = await getExpiredPromos({
+    search,
+    pgStart: 1,
+    pgSize: 10,
+  });
 
   return (
     <ContainerWrapper title="Promo codes">
