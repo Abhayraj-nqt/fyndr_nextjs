@@ -3,11 +3,10 @@
 import Image from "next/image";
 import { ChangeEvent, useEffect, useState } from "react";
 
-
 import {
-  onRedeemPromocode,
   onVerifyPromocode,
-} from "@/actions/promocode.action";
+  onRedeemPromocode,
+} from "@/actions/promo-code.action";
 import Button from "@/components/global/buttons";
 import Input from "@/components/global/input";
 import { Modal } from "@/components/global/modal";
