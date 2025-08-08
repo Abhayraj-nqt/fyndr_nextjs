@@ -1,4 +1,4 @@
-import { ChevronRight} from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -30,7 +30,6 @@ interface Props {
 }
 
 const DashboardSidebar = ({ sidebarLinks, header, accountStatus }: Props) => {
-
   return (
     <Sidebar
       collapsible="icon"
@@ -94,7 +93,9 @@ const DashboardSidebar = ({ sidebarLinks, header, accountStatus }: Props) => {
                                 asChild
                               >
                                 <Link href={subRoute}>
-                                  {SubIcon && <SubIcon />}
+                                  {SubIcon && typeof SubIcon !== "string" && (
+                                    <SubIcon />
+                                  )}
                                   <span className="heading-7">{subLabel}</span>
                                 </Link>
                               </SidebarMenuButton>
