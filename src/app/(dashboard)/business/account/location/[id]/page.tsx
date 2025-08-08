@@ -5,13 +5,14 @@ import CreateLocationForm from "@/components/forms/business/location-form/locati
 import ContainerWrapper from "@/components/global/container-wrapper";
 
 interface EditLocationProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 const EditLocation = async ({ params }: EditLocationProps) => {
-  const response = await onUpdateLocation({ objid: Number(params.id) });
+  const { id } = await params;
+  const response = await onUpdateLocation({ objid: Number(id) });
   if (!response.success) {
     return (
       <ContainerWrapper title="Edit Location">
@@ -23,11 +24,7 @@ const EditLocation = async ({ params }: EditLocationProps) => {
   }
   return (
     <ContainerWrapper title="Edit Location">
-      <CreateLocationForm
-        objid={params.id}
-        edit={true}
-        locationInfo={response.data}
-      />
+      <CreateLocationForm objid={id} edit={true} locationInfo={response.data} />
     </ContainerWrapper>
   );
 };
