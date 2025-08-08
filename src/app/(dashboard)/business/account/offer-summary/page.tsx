@@ -15,7 +15,7 @@ import LocalSearch from "@/components/global/search/local-search";
 import ROUTES from "@/constants/routes";
 import { getSortingStateParser } from "@/lib/utils/table/parsers";
 import { RouteParams } from "@/types/global";
-import { OfferPurchaseProps } from "@/types/offer-summary";
+import { OfferPurchaseProps } from "@/types/offer-summary/offer-summary.types";
 
 import OfferSummaryTable from "./_components/offer-summary-table";
 
