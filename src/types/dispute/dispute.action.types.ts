@@ -1,5 +1,5 @@
+import { RaiseDisputePayload } from "../dispute-response";
 import { ActionResponse } from "../global";
-import { UpdateDisputeStatusPropsParams } from "./dispute.params";
 import { DisputeReasonResponse } from "./dispute.response";
 import { RaiseDisputeResponse } from "./dispute.types";
 
@@ -8,5 +8,6 @@ export type GetDisputeReasonsProps = () => Promise<
 >;
 
 export type UpdateDisputeStatusProps = (
-  props: UpdateDisputeStatusPropsParams
+  invoiceId: number,
+  payload: RaiseDisputePayload
 ) => Promise<ActionResponse<RaiseDisputeResponse>>;
