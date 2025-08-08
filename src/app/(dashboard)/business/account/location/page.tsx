@@ -12,12 +12,7 @@ import { Location } from "@/types/auth/auth.types";
 
 import CreateLocationButton from "./_components/create-location-button";
 
-type Props = {
-  children: React.ReactNode;
-};
-
-const LocationManager = ({ children }: Props) => {
-
+const LocationManager = () => {
   const { isLoading, user, error } = useUser();
   const router = useRouter();
 
@@ -32,14 +27,15 @@ const LocationManager = ({ children }: Props) => {
   };
 
   const handleDelete = async (location: Location) => {
-    console.log("Delete location:", location?.objid);
-
     if (window.confirm("Are you sure you want to delete this location?")) {
+      const bizid = user?.bizid ?? 0;
       const data = await onDeleteLocation({
         objid: location?.objid,
-        bizid: user?.bizid,
+        bizid,
       });
-      setLocations(locations?.filter((location) => location?.objid !== objid));
+
+      console.log("data", data);
+      setLocations(locations?.filter((loc) => loc?.objid !== location?.objid));
     }
   };
 
