@@ -9,7 +9,7 @@ import Campaigns from "./_components";
 const CampaignCenter = async () => {
   const session = await auth();
   const bizid = session?.user?.bizid;
-  if (!bizid) throw new Error("BizId is required");
+  if (!bizid) return null;
 
   const { success, data } = await onGetBusinessCampaigns({ params: { bizid } });
   if (!success || !data) return null;
