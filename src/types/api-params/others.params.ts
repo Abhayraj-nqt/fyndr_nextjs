@@ -35,14 +35,9 @@ export type QrLogoUploadParams = (payload: {
   qrLogo: string;
 }) => Promise<ActionResponse<BusinessLogo>>;
 
-export type AddLocationPayload = Parameters<AddLocationParams>[0];
-
-export type UpdateLocationPayload = AddLocationPayload & {
-  objid: number | string; 
-};
 export type AddLocationParams = (payload: {
   locName: string;
-  objid?: number ;
+  objid?: number;
   ctryCode: string;
   phone: string;
   addressLine1: string;
@@ -75,6 +70,12 @@ export type AddLocationParams = (payload: {
     isCampaignBookingEnabled: boolean;
   };
 }) => Promise<ActionResponse<AddLocation>>;
+
+export type AddLocationPayload = Parameters<AddLocationParams>[0];
+
+export type UpdateLocationPayload = AddLocationPayload & {
+  objid: number | string;
+};
 
 export type DeleteLocationParams = (payload: {
   objid: number;

@@ -13,7 +13,6 @@ export const useInvoiceDetails = (
   bizid: number | null,
   indvid: number | null,
   type?: string | null
-
 ) => {
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["invoiceDetails", objid, type, bizid],
@@ -31,7 +30,7 @@ export const useInvoiceDetails = (
       }
 
       const { success, data } = await onGetInvoiceDetails(payload);
-      
+
       if (!success) throw new Error("Failed to fetch invoice details");
       return data;
     },
