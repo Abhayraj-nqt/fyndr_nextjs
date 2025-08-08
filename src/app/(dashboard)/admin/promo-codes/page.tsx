@@ -14,12 +14,14 @@ const PromoCodes = async ({
 }) => {
   const search =
     typeof searchParams?.query === "string" ? searchParams.query : "";
-  const { success: activeSuccess, data: activeData } = await getActivePromos({
+  const { data: activeData } = await getActivePromos({
     search,
   });
-  const { success: expiredSuccess, data: expiredData } = await getExpiredPromos(
-    { search, pgStart: 1, pgSize: 10 }
-  );
+  const { data: expiredData } = await getExpiredPromos({
+    search,
+    pgStart: 1,
+    pgSize: 10,
+  });
 
   return (
     <ContainerWrapper title="Promo codes">
