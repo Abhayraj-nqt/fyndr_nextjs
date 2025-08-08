@@ -3,17 +3,17 @@ import React from "react";
 import { getActivePromos, getExpiredPromos } from "@/actions/admin.actions";
 import ContainerWrapper from "@/components/global/container-wrapper";
 import LocalSearch from "@/components/global/search/local-search";
+import { RouteParams } from "@/types/global";
 
 import ActiveBar from "./_components/active-bar";
 import Expiredpromos from "./_components/expiredpromos";
 
 const PromoCodes = async ({
   searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) => {
-  const search =
-    typeof searchParams?.query === "string" ? searchParams.query : "";
+}: Pick<RouteParams, "searchParams">) => {
+  const params = await searchParams;
+  const search = params?.query || "";
+
   const { data: activeData } = await getActivePromos({
     search,
   });
