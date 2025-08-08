@@ -68,7 +68,7 @@ const Download = () => {
                   Save Big
                 </span>
               </div>
-              <div className="title-8 ml-10">
+              <div className="body-1 ml-10">
                 <span className="text-base font-normal text-gray-700">
                   Save up to 70% on local services, events, and activities with
                   exclusive offers and discounts.

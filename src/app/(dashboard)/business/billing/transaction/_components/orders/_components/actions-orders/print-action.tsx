@@ -9,7 +9,6 @@ import { Modal } from "@/components/global/modal";
 import { useUser } from "@/hooks/auth";
 import { useInvoiceDetails, useUserReviewOverViews } from "@/hooks/invoice";
 import { parseAddress } from "@/lib/utils";
-import { ReviewOverviews } from "@/types/api-response/review.response";
 import {
   Address,
   Biz,
@@ -17,6 +16,7 @@ import {
   GiftDetails,
   InvoiceOffer,
 } from "@/types/api-response/transaction.response";
+import { ReviewOverviews } from "@/types/review/review.response";
 
 import InvoiceBasicInfo from "../../../invoice-view/invoice-basic-info";
 import Invoicetotal from "../../../invoice-view/invoice-total";
@@ -66,15 +66,10 @@ const PrintAction = ({
   const indvid = user?.indvid ?? null;
   const userTimeZone = user?.userTimeZone;
 
-  const objid = row ? row.invoiceId : null;
+  const objid = row ? row.invoiceId : 0;
 
-  console.log(objid, "objid");
-  console.log(indvid, "indcid");
   const { data: invoiceDetailsResp, isLoading: isInvoiceLoading } =
     useInvoiceDetails(objid, bizid, indvid, "receivable");
-
-  console.log("invoice details resp in orders", invoiceDetailsResp);
-  console.log("invocice details");
 
   useEffect(() => {
     if (!invoiceDetailsResp) return;

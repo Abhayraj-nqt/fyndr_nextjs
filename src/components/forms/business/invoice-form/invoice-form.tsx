@@ -8,7 +8,7 @@ import { z } from "zod";
 
 import {
   onCreateInvoice,
-  onGetInvoiceTaxDetails,
+  onGetTaxDetails,
   onUpdateInvoice,
 } from "@/actions/invoice.actions";
 import Button from "@/components/global/buttons";
@@ -43,7 +43,6 @@ type InvoiceFormType = {
 
 const InvoiceForm = ({ edit, inv, onOpenChange }: InvoiceFormType) => {
   const { user } = useUser();
-  console.log(user, "yser");
   const bizName = user?.bizName;
   const postalCode = user?.address.postalCode;
   const country = user?.address.country;
@@ -111,7 +110,6 @@ const InvoiceForm = ({ edit, inv, onOpenChange }: InvoiceFormType) => {
   const router = useRouter();
 
   const getTaxRate = async () => {
-    console.log("inside get tax");
     if (taxRate) return taxRate;
 
     const payload = {
@@ -119,12 +117,9 @@ const InvoiceForm = ({ edit, inv, onOpenChange }: InvoiceFormType) => {
       postalCode,
     };
 
-    const resp = await onGetInvoiceTaxDetails(payload);
-    console.log("this is resp", resp);
+    const resp = await onGetTaxDetails(payload);
 
     setTaxRate(resp?.data?.taxRate);
-
-    console.log(resp?.data?.taxRate, "taxrate");
     return resp?.data?.taxRate;
   };
 
@@ -154,8 +149,6 @@ const InvoiceForm = ({ edit, inv, onOpenChange }: InvoiceFormType) => {
   const sendInvoice: SubmitHandler<z.infer<typeof InvoiceFormSchema>> = async (
     data
   ) => {
-    console.log("inside sendInvoice", data);
-
     setLoading(true);
 
     const email = data.email || invoice?.buyerEmail;
@@ -188,9 +181,6 @@ const InvoiceForm = ({ edit, inv, onOpenChange }: InvoiceFormType) => {
     if (buyerQRId) {
       payload.buyerQRId = buyerQRId;
     }
-
-    console.log("Form submitied");
-    console.log(payload, "payload");
     if (uploadedFiles.length > 0) {
       (payload.invoiceDetails as CreateInvoiceDetails).img =
         uploadedFiles[0]?.base64;
@@ -227,7 +217,6 @@ const InvoiceForm = ({ edit, inv, onOpenChange }: InvoiceFormType) => {
   };
 
   const cancelInvoice = async () => {
-    console.log("inside cancelInvoice");
     if (!invoice) {
       toast.error({ message: "No invoice found to cancel" });
       return;
@@ -240,8 +229,6 @@ const InvoiceForm = ({ edit, inv, onOpenChange }: InvoiceFormType) => {
         status: "cancelled",
         totalAmount: total,
       };
-
-      console.log("Cancel Payload:", cancelPayload);
       const res = await onUpdateInvoice({ payload: cancelPayload });
 
       if (res.success) {
@@ -264,7 +251,6 @@ const InvoiceForm = ({ edit, inv, onOpenChange }: InvoiceFormType) => {
       <form
         onSubmit={form.handleSubmit(
           (data) => {
-            console.log("Form is valid, calling sendInvoice");
             sendInvoice(data);
           },
           (errors) => {

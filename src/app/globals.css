@@ -91,9 +91,7 @@ body {
   .title-7 {
     @apply font-normal text-[18px] leading-[100%] tracking-[0%] !important;
   }
-  .title-8 {
-    @apply font-normal text-[16px] leading-[100%] tracking-[0%] !important;
-  }
+ 
 
   .title-1-medium {
     @apply font-medium text-[42px] leading-[100%] tracking-[0%] !important;
@@ -116,9 +114,7 @@ body {
   .title-7-medium {
     @apply font-medium text-[18px] leading-[100%] tracking-[0%] !important;
   }
-   .title-8-medium {
-    @apply font-medium text-[16px] leading-[100%] tracking-[0%] !important;
-  }
+
 
 
   .title-1-bold {

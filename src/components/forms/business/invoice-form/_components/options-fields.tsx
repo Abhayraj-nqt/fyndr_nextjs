@@ -42,7 +42,6 @@ const OptionsFields = ({
   edit,
 }: OptionsFildsProps) => {
   const handleFileUpload = (files: ImageUploaderOutput[]) => {
-    console.log(files);
     setUploadedFiles(files);
   };
 

@@ -1,12 +1,10 @@
-import {
-  FaqCategoriesResponse,
-  FaqQuestionResponse,
-} from "../api-response/aboutus.response";
+
 import { ActionResponse } from "../global";
 import {
   GetFaqCategoriesParams,
   GetFaqQuestionsParams,
 } from "./about-us.params";
+import { FaqCategoriesResponse, FaqQuestionResponse } from "./about-us.response";
 
 export type GetFaqCategories = ({
   params,

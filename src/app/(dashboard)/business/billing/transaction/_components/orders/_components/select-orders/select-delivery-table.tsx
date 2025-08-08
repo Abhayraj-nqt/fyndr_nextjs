@@ -46,9 +46,6 @@ const SelectDeliveryTable = ({ data, invoiceId }: SelectDeliveryTableProps) => {
     const params = {
       invoiceId,
     };
-
-    console.log(payload, "payload");
-    console.log(params, "params");
     const { success, data} = await onUpdateOrdersDeliveryStatus({
       params,
       payload,

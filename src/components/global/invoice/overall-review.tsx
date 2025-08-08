@@ -1,9 +1,7 @@
 "use client";
 import React, { useState } from "react";
 
-import ReviewModal from "@/app/(dashboard)/_components/review-modal/review-modal";
-import { ReviewOverviews } from "@/types/api-response/review.response";
-
+import { ReviewOverviews } from "@/types/review/review.response";
 
 import Stars from "../ratings/stars";
 
@@ -18,14 +16,12 @@ type OverallReviewResponse = {
 };
 
 const Overallreview: React.FC<OverallReviewResponse> = ({
-
   reviewsOverview,
   rating,
   text,
   totalRatings,
-
 }) => {
-  const [reviewModal, setReviewModal] = useState<boolean>(false);
+  const [, setReviewModal] = useState<boolean>(false);
   const handleViewReviews = () => {
     setReviewModal(true);
   };
@@ -53,10 +49,7 @@ const Overallreview: React.FC<OverallReviewResponse> = ({
         )}
       </div>
 
-      <ReviewModal 
-       open = {reviewModal}
-       onOpenChange={setReviewModal}
-      />
+      {/* <ReviewModal open={reviewModal} onOpenChange={setReviewModal} /> */}
     </>
   );
 };

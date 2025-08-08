@@ -12,7 +12,6 @@ import Overallreview from "@/components/global/invoice/overall-review";
 import { useUser } from "@/hooks/auth";
 import { useInvoiceDetails, useUserReviewOverViews } from "@/hooks/invoice";
 import { getTotal, parseAddress } from "@/lib/utils";
-import { ReviewOverviews } from "@/types/api-response/review.response";
 import {
   Address,
   Biz,
@@ -24,9 +23,10 @@ import {
   OfferResponse,
   PromoResponse,
 } from "@/types/api-response/transaction.response";
+import { ReviewOverviews } from "@/types/review/review.response";
 
 import DisputeModal from "./dispute-modal";
-import GifteeDetails from "../../invoice-view/gifte-details";
+import GifteeDetails from "../../invoice-view/gift-details";
 import InvoiceBasicInfo from "../../invoice-view/invoice-basic-info";
 import Invoicetotal from "../../invoice-view/invoice-total";
 import Offersdetails from "../../invoice-view/offers-details";
@@ -122,11 +122,6 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
     channel,
   } = firstInvoice;
 
-  console.log("invoice details resp", invoiceDetailsResp);
-
-  console.log("this is vouchers", vouchers);
-
-  console.log("invoice : D", invoiceDetailsResp);
   const startDate =
     (invoiceDetails as PromoResponse)?.featured_start_date &&
     new Date((invoiceDetails as PromoResponse).featured_start_date);
@@ -239,7 +234,10 @@ const Invoiceview: React.FC<InvoiceViewProps> = ({ inv, type }) => {
             totalAmount={totalAmount}
             isBusiness={user?.isBusiness}
             type={type}
-            itemsDetails={(invoiceDetails as CatalogResponse)?.items || (invoiceDetails as OfferResponse)?.offers}
+            itemsDetails={
+              (invoiceDetails as CatalogResponse)?.items ||
+              (invoiceDetails as OfferResponse)?.offers
+            }
             endDate={endDate}
           />
         </div>

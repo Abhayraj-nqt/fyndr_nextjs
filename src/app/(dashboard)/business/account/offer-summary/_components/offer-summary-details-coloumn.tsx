@@ -90,7 +90,6 @@ export function getOfferSummaryDetailsColoumn({
       ),
       cell: ({ row }) => (
         <>
-          {console.log("invoice dt", row.original.invoiceDt)}
           <div>
             {row.original.invoiceDt
               ? dayjs(row.original.invoiceDt).format("MMMM D, YYYY")

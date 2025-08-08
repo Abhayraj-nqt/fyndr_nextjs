@@ -1,9 +1,8 @@
 import React from "react";
 
 import { onUpdateLocation } from "@/actions/location.action";
+import CreateLocationForm from "@/components/forms/business/location-form/location-form";
 import ContainerWrapper from "@/components/global/container-wrapper";
-
-import CreateLocationForm from "../../../../../../components/forms/business/location-form/location-form";
 
 interface EditLocationProps {
   params: {

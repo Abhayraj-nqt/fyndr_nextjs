@@ -10,7 +10,7 @@ import {
   GetReceivableProps,
 } from "@/types/api-params/transaction.params";
 import {
-  fetchInvoiceResponse,
+  FetchInvoiceResponse,
   invoiceDetailsResponse,
   InvoiceSummary,
 } from "@/types/api-response/transaction.response";
@@ -26,7 +26,7 @@ export const getInvoiceSummary: GetInvoiceSummaryProps = async (payload) => {
 export const fetchReceivables: GetReceivableProps = async (payload) => {
   const endpoint = `${API_BASE_URL}/invoice/v2/fetch?pgStart=0&pgSize=500`;
 
-  return _post<fetchInvoiceResponse>(endpoint, payload, {
+  return _post<FetchInvoiceResponse>(endpoint, payload, {
     requireAuth: true,
   });
 };
@@ -34,7 +34,7 @@ export const fetchReceivables: GetReceivableProps = async (payload) => {
 export const fetchPayables: GetPayableProps = async (payload) => {
   const endpoint = `${API_BASE_URL}/invoice/v2/fetch?pgStart=0&pgSize=500`;
 
-  return _post<fetchInvoiceResponse>(endpoint, payload, {
+  return _post<FetchInvoiceResponse>(endpoint, payload, {
     requireAuth: true,
   });
 };
@@ -42,7 +42,6 @@ export const fetchPayables: GetPayableProps = async (payload) => {
 
 export const onGetInvoiceDetails :  GetInvoiceDetailProps =  async (payload) => {
 
-  console.log("get invoice payload", payload);
    
     const endpoint = `${API_BASE_URL}/invoice/v2/details`;
 

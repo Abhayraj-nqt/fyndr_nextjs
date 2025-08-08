@@ -65,7 +65,6 @@ const InvoiceBasicInfo = ({
 }: InvoiceBasicInfoProps) => {
   const [showQRCode, setShowQRCode] = useState<boolean>(false);
 
-  console.log(objid, "objid");
   return (
     <>
       <div>

@@ -2,11 +2,12 @@ import React, { Suspense } from "react";
 
 import { Modal } from "@/components/global/modal";
 import Comments from "@/components/global/rating-and-reviews/business/comment/comments";
-import { Campaign } from "@/types/campaign/campaign.types";
+
+import { ReviewBusinessProps } from "./business-ratings-and-reviews";
 
 type Props = {
   trigger: React.ReactNode;
-  business: Campaign["biz"];
+  business: ReviewBusinessProps;
   page: number;
   qrCode: string;
 };

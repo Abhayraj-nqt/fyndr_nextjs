@@ -52,7 +52,6 @@ export const onUpdateOfferRedeemption: UpdateOfferRedeemption = async (
 ) => {
   const endpoint = `${API_BASE_URL}/invoice/voucher/update`;
 
-  console.log("this is payload", payload);
   revalidatePath(ROUTES.BUSINESS_ACCOUNT_OFFER_SUMMARY);
   return _post<OfferPurchaseProps>(endpoint, payload, {
     requireAuth: true,
