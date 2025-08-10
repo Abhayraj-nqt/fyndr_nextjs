@@ -4,9 +4,9 @@ import { onUpdateOfferRedeemption } from "@/actions/offer-summary.actions";
 import toast from "@/components/global/toast";
 import { InvoiceOffer } from "@/types/api-response/transaction.response";
 import {
-  OfferPurchaseProps,
   OfferSummaryRedemption,
-} from "@/types/offer-summary";
+  OfferPurchaseProps,
+} from "@/types/offer-summary/offer-summary.types";
 
 export const useOfferRedeemption = () => {
   return useMutation({
@@ -101,7 +101,6 @@ export const useVoucherUpdate = () => {
       };
     }
 
-  
     updateOfferRedeem(payload, {
       onSuccess: (res) => {
         if (res.success) {

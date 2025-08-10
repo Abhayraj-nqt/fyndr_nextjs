@@ -17,7 +17,11 @@ import { CreateInvoiceDetails } from "@/types/invoice/create-update-invoice/invo
 
 type InvoiceTotalProps = {
   channel: ChannelOffer | string;
-  invoiceDetails: OfferResponse | CatalogResponse |PromoResponse | CreateInvoiceDetails;
+  invoiceDetails:
+    | OfferResponse
+    | CatalogResponse
+    | PromoResponse
+    | CreateInvoiceDetails;
   currencySymbol: string;
   baseAmount: number;
   taxAmount: number;
@@ -54,7 +58,7 @@ const Invoicetotal: React.FC<InvoiceTotalProps> = ({
             {sumQuantities(
               invoiceDetails && "offers" in invoiceDetails
                 ? invoiceDetails.offers
-                : (invoiceDetails?.items ?? [])
+                : ((invoiceDetails as CatalogResponse)?.items ?? [])
             )}
           </span>
         </div>
