@@ -35,7 +35,7 @@ const ContactFields = ({ form, type ,setBuyerQRId}: ContactFildsProps) => {
   );
 
   const handleVerify = async (payload: CreateInvoiceParams) => {
-    const pay = payload.payload;
+    const pay = payload;
 
     const res = await onGetInvoiceUserDetails(pay);
     form.setValue("mobile", res.data?.phoneNumber);
@@ -71,9 +71,9 @@ const ContactFields = ({ form, type ,setBuyerQRId}: ContactFildsProps) => {
                       !form.formState.errors.email
                     ) {
                       handleVerify({
-                        payload: {
+                       
                           email: e.target.value,
-                        },
+                      
                       });
                     }
                   }}
@@ -116,10 +116,10 @@ const ContactFields = ({ form, type ,setBuyerQRId}: ContactFildsProps) => {
                         !form.formState.errors.mobile
                       ) {
                         handleVerify({
-                          payload: {
+                      
                             countryCode: ctryCode,
                             phoneNumber: e.target.value,
-                          },
+                          
                         });
                       }
                     }}

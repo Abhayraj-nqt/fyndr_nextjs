@@ -65,7 +65,7 @@ const RenderCatalogItems = ({
               <div className="mb-2 flex justify-between" key={index}>
                 <span className={INVOICE_TEXT}>
                   {item.details.mitem.name}
-                  {item.details.wholeDetails.modName
+                  {item.details.wholeDetails && item.details.wholeDetails.modName
                     ? `(${item.details.wholeDetails.modName})`
                     : ""}
                   {`${" "}(X ${Number(item.details.qty).toFixed(2)})`}
@@ -93,7 +93,7 @@ const RenderCatalogItems = ({
                 <div className="mb-2 flex justify-between">
                   <span className={INVOICE_TEXT}>
                     {item.details.mitem.name}
-                    {item.details.wholeDetails.modName
+                    {item.details.wholeDetails && item.details.wholeDetails.modName
                       ? `(${item.details.wholeDetails.modName})`
                       : ""}
                     {` (X ${Number(item.details.qty).toFixed(2)})`}
