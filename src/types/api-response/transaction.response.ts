@@ -173,7 +173,7 @@ export type Item = {
     currencySymbol: string;
     currency: string;
     instruction: string | null;
-    wholeDetails: unknown | null;
+    wholeDetails: { modName?: string } | null;
     addonDetails: addonDetails[];
     taxRate: number;
     tax: string;

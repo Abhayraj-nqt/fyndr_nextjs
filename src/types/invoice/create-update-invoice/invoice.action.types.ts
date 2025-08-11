@@ -7,9 +7,9 @@ import {
   InvoiceCreationResponse,
 } from "./invoice.response";
 
-export type GetCreateInvoiceDetails = ({
-  payload,
-}: CreateInvoiceParams) => Promise<ActionResponse<CreateInvoiceResponse>>;
+export type GetCreateInvoiceDetails = (
+  payload: CreateInvoiceParams
+) => Promise<ActionResponse<CreateInvoiceResponse>>;
 
 export type GetInvoiceTaxDetails = (
   payload: GetInvoiceTaxParams

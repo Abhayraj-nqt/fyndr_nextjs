@@ -7,18 +7,18 @@ import {
 import { CreateInvoiceDetails } from "./invoice.types";
 
 export type CreateInvoiceParams = {
-  payload: {
+
     countryCode?: string;
     phoneNumber?: string;
     email?: string;
-  };
+
 };
 
 export type GetInvoiceTaxParams = {
-  payload: {
-    country: string;
-    postalCode: string;
-  };
+
+    country: string | undefined;
+    postalCode: string | undefined;
+  
 };
 
 export type InvoiceCreationParams = {

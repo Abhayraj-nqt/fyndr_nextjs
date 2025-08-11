@@ -29,7 +29,7 @@ const AdminLayout = async ({ children }: { children: ReactNode }) => {
           <main className="flex min-h-0 flex-col">
             <SidebarProvider>
               <DashboardSidebar
-                header={<div>{firstName}</div>}
+                header={<div> Welcome {firstName}</div>}
                 sidebarLinks={ADMIN_MENU}
                 accountStatus={accountStatus}
               />
