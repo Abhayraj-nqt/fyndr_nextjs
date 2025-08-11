@@ -1,6 +1,6 @@
 import React from "react";
 
-import { onGetStore } from "@/actions/store.action";
+import { onGetStore, onGetStoreLocations } from "@/actions/store.action";
 import BusinessRatingsAndReviews from "@/components/global/rating-and-reviews/business/business-ratings-and-reviews";
 import RatingAndReviewModal from "@/components/global/rating-and-reviews/business/rating-and-review-modal";
 import ASSETS from "@/constants/assets";
@@ -9,6 +9,7 @@ import { RouteParams } from "@/types/global";
 import BannerImageSection from "./_components/sections/banner-image-section";
 import CategorySection from "./_components/sections/category-section";
 import StoreDetailsSection from "./_components/sections/store-details-section";
+import StoreLocationsModal from "./_components/store-locations-modal";
 
 const Store = async ({ searchParams, params }: RouteParams) => {
   const { slug: catalogueUrl } = (await params) as { slug: string };
@@ -19,6 +20,18 @@ const Store = async ({ searchParams, params }: RouteParams) => {
     orderBy = "DESC",
     page = 1,
   } = await searchParams;
+
+  if (!locationId) {
+    const { success, data } = await onGetStoreLocations({
+      params: {
+        storeUrl: catalogueUrl,
+      },
+    });
+
+    if (!success || !data) return null;
+
+    return <StoreLocationsModal locations={data.locations} />;
+  }
 
   const { success, data: store } = await onGetStore({
     params: {

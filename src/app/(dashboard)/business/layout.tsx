@@ -27,7 +27,7 @@ const BusinessLayout = async ({ children }: { children: ReactNode }) => {
           <div className="flex min-h-0 flex-col">
             <SidebarProvider>
               <DashboardSidebar
-                header={<div className="w-full">{firstName}</div>}
+                header={<div className="w-full">Welcome {firstName}</div>}
                 sidebarLinks={BUSINESS_MENU}
                 accountStatus={accountStatus!}
               />

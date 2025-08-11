@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import React from "react";
 
-import { onGetStoreDetails } from "@/actions/store.action";
+import { onGetStore, onGetStoreDetails } from "@/actions/store.action";
 import ASSETS from "@/constants/assets";
 import { RouteParams } from "@/types/global";
 
@@ -43,19 +43,48 @@ const StoreDetails = async ({ searchParams, params }: RouteParams) => {
   const { location: locationId, query = "" } = await searchParams;
 
   const { bizId, storeId, categoryId } = extractRouteIds(routeParams);
+  if (!locationId) return notFound();
 
-  const { success, data: store } = await onGetStoreDetails({
-    params: {
-      bizId,
-      catalogueId: storeId,
-      categoryId,
-    },
-  });
+  // const { success, data: store } = await onGetStoreDetails({
+  //   params: {
+  //     bizId,
+  //     catalogueId: storeId,
+  //     categoryId,
+  //   },
+  // });
+
+  // const { success: storeSuccess, data: storeData } = await onGetStore({
+  //   params: {
+  //     locationId: Number(locationId),
+  //   },
+  // });
+
+  const [storeDetailsAPIData, storeAPIata] = await Promise.all([
+    onGetStoreDetails({
+      params: {
+        bizId,
+        catalogueId: storeId,
+        categoryId,
+      },
+    }),
+    onGetStore({
+      params: {
+        locationId: Number(locationId),
+      },
+    }),
+  ]);
+
+  const { success, data: store } = storeDetailsAPIData;
+  const { success: storeSuccess, data: storeData } = storeAPIata;
 
   if (!success || !store) return null;
+  if (!storeSuccess || !storeData) return null;
 
   const bannerImage =
     store.images?.[0]?.img_url || ASSETS.IMAGES.PLACEHOLDER.FYNDR;
+
+  const storeAppointmentType = storeData.catalogueAppointmentType;
+  const storeBookingEnabled = storeData.catalogBookingEnabled;
 
   return (
     <main className="my-10 flex flex-col items-center justify-center p-4">
@@ -79,6 +108,8 @@ const StoreDetails = async ({ searchParams, params }: RouteParams) => {
           storeId={store.objid}
           storeUrl={store.url}
           query={query}
+          appointmentType={storeAppointmentType}
+          bookingEnabled={storeBookingEnabled}
         />
       </div>
     </main>
