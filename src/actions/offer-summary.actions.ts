@@ -8,7 +8,7 @@ import {
   GetOfferSummaryParams,
   UpdateOfferRedeemption,
 } from "@/types/api-params/offer-summary.params";
-import { OfferPurchaseProps } from "@/types/offer-summary";
+import { OfferPurchaseProps } from "@/types/offer-summary/offer-summary.types";
 
 export const onGetOfferSummary: GetOfferSummaryParams = async (params) => {
   const {
