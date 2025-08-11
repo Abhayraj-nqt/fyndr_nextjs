@@ -41,7 +41,7 @@ const DashboardSidebar = ({ sidebarLinks, header, accountStatus }: Props) => {
           <div className="flex flex-col gap-2 pl-6 group-data-[collapsible=icon]:pl-3 ">
             <div className="flex justify-between group-data-[collapsible=icon]:flex-col  group-data-[collapsible=icon]:pl-1.5">
               <SidebarMenuItem className="text-[18px] font-medium leading-[27px] tracking-normal group-data-[collapsible=icon]:text-[16px] group-data-[collapsible=icon]:font-medium ">
-                Welcome {header}
+               {header}
               </SidebarMenuItem>
               <SidebarTrigger />
             </div>
