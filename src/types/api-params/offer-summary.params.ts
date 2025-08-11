@@ -1,6 +1,9 @@
 import { OfferSummaryResponse } from "../api-response/offer-summary.response";
 import { ActionResponse } from "../global";
-import { OfferPurchaseProps, OfferSummaryRedemption } from "../offer-summary";
+import {
+  OfferPurchaseProps,
+  OfferSummaryRedemption,
+} from "../offer-summary/offer-summary.types";
 
 export type GetOfferSummaryParams = (params: {
   bizid: number | unknown;
