@@ -6,7 +6,7 @@ import { useSlotBooking } from "@/hooks/appointment/use-slot-booking";
 import { cn } from "@/lib/utils";
 import { AppointmentSlot } from "@/types/appointment/appointment.types";
 import { ValueLabelProps } from "@/types/global";
-import { OfferCartAppointmentSlot } from "@/types/zustand/offer-cart-store.types";
+import { AppointmentSlotPayload } from "@/types/invoice/invoice.types";
 
 import Button from "../buttons";
 import TimeSlotCard from "./time-slot-card";
@@ -27,7 +27,7 @@ type Props = {
   }) => void;
   onDateChange?: (date: Date) => void;
   onScheduleLater?: () => void;
-  onNext?: (appointment: OfferCartAppointmentSlot) => void;
+  onNext?: (appointment: AppointmentSlotPayload) => void;
   slotAvailabilityAdjuster?: (
     slots: AppointmentSlot[],
     selectedDate: Date
@@ -142,7 +142,7 @@ const SlotBooking = ({
 
     const date = state.selectedDate.toISOString().split("T")[0]; // This gives you "2025-07-29" format
 
-    const payload: OfferCartAppointmentSlot = {
+    const payload: AppointmentSlotPayload = {
       [date]: {
         bookingDay: weekday,
         startTime: state.selectedSlot?.startTime,

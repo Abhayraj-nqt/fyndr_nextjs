@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
   staticPageGenerationTimeout: 300,
   serverExternalPackages: ["pino", "pino-pretty"],
   // eslint: { ignoreDuringBuilds: true },
-  typescript: { ignoreBuildErrors: true },
+  // typescript: { ignoreBuildErrors: true },
   images: {
     remotePatterns: [
       {
