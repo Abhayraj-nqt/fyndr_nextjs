@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
+import { DiscountType } from "@/types/global";
 
 const TIPS = [
   {
@@ -23,7 +24,7 @@ const TIPS = [
 ];
 
 type Props = {
-  onSelect: (value: number) => void;
+  onSelect: (value: number, type: DiscountType) => void;
 };
 
 const TipSelector = ({ onSelect }: Props) => {
@@ -33,11 +34,11 @@ const TipSelector = ({ onSelect }: Props) => {
   const handleTipChange = (tip: string, type: "input" | "radio") => {
     if (type === "radio") {
       setSelectedTip(tip);
-      onSelect(Number(tip));
+      onSelect(Number(tip), "%");
     } else {
       const value = Math.max(0, Number(tip)).toString();
       setInputValue(value);
-      onSelect(Number(value));
+      onSelect(Number(value), "flat");
     }
   };
 

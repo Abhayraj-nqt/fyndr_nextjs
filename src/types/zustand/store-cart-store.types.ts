@@ -5,9 +5,11 @@ import { StoreItem } from "../store/store.types";
 export type StoreCartItem = {
   itemId: number;
   qty: number;
-  amount: number;
-  tax: number;
-  total: number;
+  price: number;
+  modifiers: {
+    whole: StoreItem["catalogueModifiers"];
+    addon: StoreItem["catalogueModifiers"];
+  };
   storeItem: StoreItem;
   itemLevelAppointments: AppointmentSlotPayload[];
 };
@@ -19,8 +21,11 @@ export type StoreCartState = {
   locationId: number | null;
 
   storeId: number | null;
-  storeUrl: number | null;
+  storeUrl: string | null;
   storeName: string | null;
+
+  country: string | null;
+  postalCode: string | null;
 
   appointmentType: GetStoreResponse["catalogueAppointmentType"] | null;
   cartLevelAppointments: AppointmentSlotPayload[];
@@ -28,13 +33,34 @@ export type StoreCartState = {
 
 export type StoreCartAction = {
   addCartItem: (item: StoreCartItem) => void;
-  removeCartItem: (itemId: number) => void;
+  removeCartItem: (itemId: number, index: number) => void;
   clearCart: () => void;
 
   getItemQty: (itemId: number) => number;
-  getTotalAmount: () => number;
   getCartItem: (itemId: number) => StoreCartItem | null;
   getLocationId: () => number | null;
+
+  setCartData: ({
+    bizId,
+    bizName,
+    locationId,
+    storeId,
+    storeName,
+    storeUrl,
+    appointmentType,
+    country,
+    postalCode,
+  }: {
+    bizId: number;
+    storeId: number;
+    locationId: number;
+    storeUrl: string;
+    bizName: string;
+    storeName: string;
+    appointmentType: GetStoreResponse["catalogueAppointmentType"];
+    country: string;
+    postalCode: string;
+  }) => void;
 };
 
 export type StoreCartStore = StoreCartState & StoreCartAction;

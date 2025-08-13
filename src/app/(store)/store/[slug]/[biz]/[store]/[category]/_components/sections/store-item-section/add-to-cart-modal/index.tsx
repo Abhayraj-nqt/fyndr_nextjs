@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 
-import { onGetTax } from "@/actions/invoice.action";
 import { Modal } from "@/components/global/modal";
 import toast from "@/components/global/toast";
 import { Textarea } from "@/components/ui/textarea";
@@ -25,6 +24,8 @@ type Props = {
   storeItem: StoreItem;
   appointmentType: GetStoreResponse["catalogueAppointmentType"];
   bookingEnabled: GetStoreResponse["catalogBookingEnabled"];
+  country: string;
+  postalCode: string;
 };
 
 const wholeUnits = ["each", "set", "box", "pair"];
@@ -36,6 +37,7 @@ const AddToCartModal = ({
   bookingEnabled,
 }: Props) => {
   const { addCartItem } = useStoreCartStore();
+
   const [selectedWholeModifierId, setSelectedWholeModifierId] =
     useState<string>("");
   const [selectedAddonModifierIds, setSelectedAddonModifierIds] = useState<
@@ -101,7 +103,7 @@ const AddToCartModal = ({
   };
 
   const handleIncrement = () => {
-    if (!isWholeUnit) {
+    if (isWholeUnit) {
       setQty((prev) => prev + 1);
     } else {
       setQty((prev) => Math.round((prev + 0.1) * 100) / 100);
@@ -110,55 +112,68 @@ const AddToCartModal = ({
 
   const handleDecrement = () => {
     if (qty <= 1) return;
-    if (!isWholeUnit) {
+    if (isWholeUnit) {
       setQty((prev) => prev - 1);
     } else {
       setQty((prev) => Math.round((prev - 0.1) * 100) / 100);
     }
   };
 
-  const handleAddToCart = async () => {
+  const handleAddToCart = async (
+    mode: "NO_APPOINTMENT" | "APPOINTMENT_PER_ITEM" | "APPOINTMENT_PER_CART"
+  ) => {
     if (qty < 1) {
       toast.error({
         message: "Please increase quantity.",
       });
     }
 
-    const tax = await calculateTax();
-    if (tax === -1) {
-      toast.error({
-        message: "Filed to get tax details.",
-      });
-      return;
-    }
+    // const { success, data } = await onGetTax({
+    //   payload: {
+    //     country,
+    //     postalCode,
+    //   },
+    // });
 
-    const total = qty * storeItem.price + tax;
+    // if (!success || !data) {
+    //   toast.error({
+    //     message: "Failed to get tax details, please try again later.",
+    //   });
+    //   return;
+    // }
+
+    // const taxRate = data.taxRate;
+    // const totalPrice = calculateTotalPrice();
+    // const totalTax = totalPrice * taxRate;
+    // const totalAmount = totalPrice + totalTax;
+
+    const selectedAddonModifiers = addonModifiers.filter((item) =>
+      selectedAddonModifierIds.includes(item.modifier.objid.toString())
+    );
+
+    const selectedWholeModifiers = selectedWholeModifierId
+      ? wholeModifiers.filter(
+          (item) => item.modifier.objid.toString() === selectedWholeModifierId
+        )
+      : [];
+
+    const itemLevelAppointments = mode !== "APPOINTMENT_PER_ITEM" ? [] : [];
 
     addCartItem({
       itemId: storeItem.objid,
-      itemLevelAppointments: [],
-      amount: storeItem.price,
+      itemLevelAppointments,
+      price: storeItem.price,
       qty,
-      tax,
-      total,
       storeItem,
-    });
-  };
-
-  const calculateTax = async (): Promise<number> => {
-    const { success, data } = await onGetTax({
-      payload: {
-        country: "US",
-        postalCode: "85001",
+      modifiers: {
+        addon: selectedAddonModifiers,
+        whole: selectedWholeModifiers,
       },
     });
 
-    if (!success || !data) {
-      return -1;
-    }
-
-    const tax = data.taxRate * qty;
-    return tax;
+    toast.success({
+      message: "Item is added to cart.",
+    });
   };
 
   const renderModalActions = () => {

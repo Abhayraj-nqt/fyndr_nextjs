@@ -4,13 +4,18 @@ import React from "react";
 
 import Button from "@/components/global/buttons";
 import { Textarea } from "@/components/ui/textarea";
+import { useStoreCartStore } from "@/zustand/stores/business-store/store-cart-store";
 
 import DeliveryDateAndTimePicker from "../../delivery-date-and-time-picker";
 
 const CartActionSection = () => {
+  const { appointmentType } = useStoreCartStore();
+
   return (
     <div className="flex flex-col gap-6 p-4">
-      <DeliveryDateAndTimePicker />
+      {appointmentType === "APPOINTMENT_PER_CART" && (
+        <DeliveryDateAndTimePicker />
+      )}
       <Textarea
         placeholder="Special Instruction (Optional)"
         className="no-focus placeholder min-h-20 !rounded-10 border border-secondary-20 text-black-70 shadow-none"

@@ -1,83 +1,109 @@
 import { create } from "zustand";
-import { devtools } from "zustand/middleware";
+import { devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 
+import { StoreItem } from "@/types/store/store.types";
 import { StoreCartStore } from "@/types/zustand/store-cart-store.types";
 
 export const useStoreCartStore = create<StoreCartStore>()(
   devtools(
-    immer((set, get) => ({
-      items: [],
-      bizId: null,
-      bizName: null,
-      locationId: null,
-      storeId: null,
-      storeName: null,
-      storeUrl: null,
+    persist(
+      immer((set, get) => ({
+        items: [],
+        bizId: null,
+        bizName: null,
+        locationId: null,
+        storeId: null,
+        storeName: null,
+        storeUrl: null,
 
-      appointmentType: null,
-      cartLevelAppointments: [],
+        appointmentType: null,
+        cartLevelAppointments: [],
 
-      addCartItem(item) {
-        set((state) => {
-          const existingItemIndex = state.items.findIndex(
-            (cartItem) => cartItem.itemId === item.itemId
-          );
+        country: null,
+        postalCode: null,
 
-          if (existingItemIndex >= 0) {
-            const existingItem = state.items[existingItemIndex];
-            state.items[existingItemIndex] = {
-              ...item,
-              storeItem: item.storeItem,
-              itemLevelAppointments: existingItem.itemLevelAppointments || [],
+        addCartItem(item) {
+          set((state) => {
+            const sameIds = (
+              arrA: StoreItem["catalogueModifiers"],
+              arrB: StoreItem["catalogueModifiers"]
+            ) => {
+              if (arrA.length !== arrB.length) return false;
+              const idsA = arrA.map((m) => m.modifier.objid).sort();
+              const idsB = arrB.map((m) => m.modifier.objid).sort();
+              return idsA.every((id, idx) => id === idsB[idx]);
             };
-            if (
-              item.itemLevelAppointments &&
-              item.itemLevelAppointments.length > 0
-            ) {
-              const newAppointment = item.itemLevelAppointments[0];
-              const existingAppointments =
-                state.items[existingItemIndex].itemLevelAppointments || [];
-              state.items[existingItemIndex].itemLevelAppointments = [
-                ...existingAppointments,
-                newAppointment,
-              ];
+
+            const existingItemIndex = state.items.findIndex(
+              (cartItem) =>
+                cartItem.itemId === item.itemId &&
+                sameIds(cartItem.modifiers.addon, item.modifiers.addon) &&
+                sameIds(cartItem.modifiers.whole, item.modifiers.whole)
+            );
+
+            if (existingItemIndex >= 0) {
+              state.items[existingItemIndex].qty += item.qty ?? 1;
+            } else {
+              state.items.push({
+                ...item,
+                itemLevelAppointments: item.itemLevelAppointments || [],
+              });
             }
-          } else {
-            state.items.push({
-              ...item,
-              storeItem: item.storeItem,
-              itemLevelAppointments: item.itemLevelAppointments || [], // Ensure appointments is always an array
-            });
-          }
-        });
-      },
-      removeCartItem(itemId) {
-        set((state) => {
-          state.items = state.items.filter((item) => item.itemId !== itemId);
-        });
-      },
-      clearCart() {
-        set((state) => {
-          state.items = [];
-        });
-      },
-      getItemQty(itemId) {
-        const item = get().items.find((item) => item.itemId === itemId);
-        return item?.qty || 0;
-      },
-      getTotalAmount() {
-        return get().items.reduce((total, item) => total + item.total, 0);
-      },
-      getCartItem(itemId) {
-        return get().items.find((item) => item.itemId === itemId) || null;
-      },
-      getLocationId() {
-        return get().locationId;
-      },
-    })),
+          });
+        },
+        removeCartItem(itemId, index) {
+          set((state) => {
+            state.items = state.items.filter(
+              (item, i) => !(item.itemId === itemId && i === index)
+            );
+          });
+        },
+        clearCart() {
+          set((state) => {
+            state.items = [];
+          });
+        },
+        getItemQty(itemId) {
+          const item = get().items.find((item) => item.itemId === itemId);
+          return item?.qty || 0;
+        },
+        getCartItem(itemId) {
+          return get().items.find((item) => item.itemId === itemId) || null;
+        },
+        getLocationId() {
+          return get().locationId;
+        },
+        setCartData({
+          bizId,
+          bizName,
+          locationId,
+          storeId,
+          storeName,
+          storeUrl,
+          appointmentType,
+          country,
+          postalCode,
+        }) {
+          set((state) => {
+            state.bizId = bizId;
+            state.bizName = bizName;
+            state.locationId = locationId;
+            state.storeId = storeId;
+            state.storeName = storeName;
+            state.storeUrl = storeUrl;
+            state.appointmentType = appointmentType;
+            state.country = country;
+            state.postalCode = postalCode;
+          });
+        },
+      })),
+      {
+        name: "store-cart",
+      }
+    ),
     {
-      name: "store-cart-store",
+      name: "store-cart",
     }
   )
 );
