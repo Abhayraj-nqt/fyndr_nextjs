@@ -35,7 +35,7 @@ const nextConfig: NextConfig = {
     ],
   },
   logging: { fetches: { fullUrl: true } },
-  output: "standalone",
+  // output: "standalone",
 };
 
 export default nextConfig;
