@@ -61,7 +61,6 @@ export default function Buttons({
           btn2 && (
             <Button
               onClick={onClick2}
-              variant="outline"
               className="h-[46px] w-full rounded-10 border border-[#ED0C10] bg-white px-4 py-2 text-[16px] text-[#ED0C10] hover:border-[#ED0C10] hover:bg-white hover:text-[#ED0C10]"
             >
               {btn2}

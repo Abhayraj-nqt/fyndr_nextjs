@@ -231,7 +231,6 @@ const Offersdetails: React.FC<OffersDetails> = ({
                         </div>
                       )}
 
-
                       <div className="mb-2 flex justify-between">
                         <span className="text-[14px] font-semibold text-black-70">
                           Fyndr Generated Voucher ID:
@@ -275,7 +274,7 @@ const Offersdetails: React.FC<OffersDetails> = ({
       <ActionsDialog
         open={redeemOpen}
         onOpenChange={() => setRedeemOpen(false)}
-        type={type}
+        type={type ?? undefined}
         row={selectedVoucher}
         title="Redeem Voucher"
         currencySymbol={currencySymbol}

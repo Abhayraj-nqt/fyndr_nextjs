@@ -9,7 +9,7 @@ import { DataTable } from "@/components/global/data-table/data-table";
 import { useUser } from "@/hooks/auth";
 import { useDataTable } from "@/hooks/use-data-table";
 import { DataTableRowAction } from "@/types/data-table";
-import { OfferPurchaseProps } from "@/types/offer-summary";
+import { OfferPurchaseProps } from "@/types/offer-summary/offer-summary.types";
 
 import { getOfferSummaryDetailsColoumn } from "./offer-summary-details-coloumn";
 import ActionsDialog from "../../../../_components/redeemption-modal/actions-dialog";

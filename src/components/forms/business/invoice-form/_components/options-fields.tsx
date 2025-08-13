@@ -85,7 +85,7 @@ const OptionsFields = ({
             <div className="flex items-center gap-[14px]">
               <FormControl>
                 <Checkbox
-                  checked={field.value}
+                  checked={field.value ?? false}
                   onCheckedChange={(checked) => {
                     field.onChange(checked);
                     handleChangeAmount();

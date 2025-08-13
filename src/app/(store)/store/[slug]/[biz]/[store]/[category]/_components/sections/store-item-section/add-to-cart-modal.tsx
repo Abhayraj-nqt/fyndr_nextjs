@@ -2,6 +2,7 @@
 
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState } from "react";
 
 import Button from "@/components/global/buttons";
@@ -11,7 +12,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import ASSETS from "@/constants/assets";
+import ROUTES from "@/constants/routes";
 import { parseAmount } from "@/lib/utils/parser";
+import { GetStoreResponse } from "@/types/store/store.response";
 import { StoreItem } from "@/types/store/store.types";
 
 import ItemCard from "./item-card";
@@ -20,17 +23,25 @@ import StoreQtySelector from "./store-qty-selector";
 type Props = {
   trigger: React.ReactNode;
   storeItem: StoreItem;
+  appointmentType: GetStoreResponse["catalogueAppointmentType"];
+  bookingEnabled: GetStoreResponse["catalogBookingEnabled"];
 };
 
 const wholeUnits = ["each", "set", "box", "pair"];
 
-const AddToCartModal = ({ trigger, storeItem }: Props) => {
+const AddToCartModal = ({
+  trigger,
+  storeItem,
+  appointmentType,
+  bookingEnabled,
+}: Props) => {
   const [selectedWholeModifierId, setSelectedWholeModifierId] =
     useState<string>("");
   const [selectedAddonModifierIds, setSelectedAddonModifierIds] = useState<
     string[]
   >([]);
   const [qty, setQty] = useState<number>(1);
+  const [scheduledForLater, setScheduledForLater] = useState<boolean>(false);
 
   const isWholeUnit: boolean = wholeUnits.includes(storeItem.item.unit);
 
@@ -248,14 +259,32 @@ const AddToCartModal = ({ trigger, storeItem }: Props) => {
           />
         </div>
       </div>
-      <div className="flex-between gap-4 border-t border-secondary-20 p-4">
-        <Button variant="primary" stdHeight stdWidth>
-          Checkout
-        </Button>
-        <Button variant="primary-outlined" stdHeight stdWidth>
-          <ShoppingCart size={20} className="!size-5" /> Add to cart
-        </Button>
-      </div>
+      {bookingEnabled &&
+      appointmentType !== "APPOINTMENT_PER_CART" &&
+      !scheduledForLater ? (
+        <div className="flex-between gap-4 border-t border-secondary-20 p-4">
+          <Button
+            variant="primary"
+            stdHeight
+            stdWidth
+            onClick={() => setScheduledForLater(true)}
+          >
+            Schedule for later
+          </Button>
+          <Button variant="primary-outlined" stdHeight stdWidth>
+            <ShoppingCart size={20} className="!size-5" /> Book an appointment
+          </Button>
+        </div>
+      ) : (
+        <div className="flex-between gap-4 border-t border-secondary-20 p-4">
+          <Button variant="primary" stdHeight stdWidth asChild>
+            <Link href={ROUTES.STORE_CART}>Checkout</Link>
+          </Button>
+          <Button variant="primary-outlined" stdHeight stdWidth>
+            <ShoppingCart size={20} className="!size-5" /> Add to cart
+          </Button>
+        </div>
+      )}
     </Modal>
   );
 };
