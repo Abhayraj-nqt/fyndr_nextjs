@@ -29,7 +29,7 @@ const DefaultDataFiller = ({
   country,
   postalCode,
 }: Props) => {
-  const { setCartData } = useStoreCartStore();
+  const { setCartData, setShowCartItemsDeleteButton } = useStoreCartStore();
 
   React.useEffect(() => {
     setCartData({
@@ -43,6 +43,7 @@ const DefaultDataFiller = ({
       country,
       postalCode,
     });
+    setShowCartItemsDeleteButton(false);
   }, [bizId, bizName, locationId, storeId, storeName, appointmentType]);
 
   return null;

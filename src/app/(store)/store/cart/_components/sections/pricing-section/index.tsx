@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React from "react";
 
 import { onGetTax } from "@/actions/invoice.action";
 import { parseAmount } from "@/lib/utils/parser";
@@ -41,8 +41,8 @@ const calculateTotalPrice = (items: StoreCartItem[]) => {
 };
 
 const PricingSection = () => {
-  const { items, postalCode, country } = useStoreCartStore();
-  const [tipAmount, setTipAmount] = useState<number>(0);
+  const { items, postalCode, country, tipConfig, setTipConfig, getTipAmount } =
+    useStoreCartStore();
 
   const { data, isLoading } = useQuery({
     queryKey: ["get-tax", postalCode, country],
@@ -51,6 +51,8 @@ const PricingSection = () => {
         payload: { country: country || "", postalCode: postalCode || "" },
       }),
   });
+
+  if (items.length === 0) return null;
 
   if (isLoading) {
     return <div className="flex-center w-full">Loading...</div>;
@@ -65,23 +67,21 @@ const PricingSection = () => {
   }
 
   const handleTip = (value: number, type: DiscountType) => {
-    if (type === "flat") {
-      setTipAmount(value);
-    } else {
-      const tip = (totalPrice * value) / 100;
-      setTipAmount(tip);
-    }
+    setTipConfig(value, type);
   };
 
   const totalPrice = calculateTotalPrice(items);
   const taxRate = data.data.taxRate;
   const totalTax = totalPrice * taxRate;
+
+  // Calculate tip amount dynamically based on current total price
+  const tipAmount = getTipAmount(totalPrice);
   const totalPayableAmount = totalPrice + totalTax + tipAmount;
 
   return (
     <div className="flex flex-col ">
       <div className="flex-between w-full gap-4 border-b border-secondary-20">
-        <div className="heading-6 flex w-full flex-col gap-4 p-4">
+        <div className="heading-6 flex w-full flex-col gap-4 p-4 px-5">
           <div className="flex-between">
             <div>Total Price</div>
             <div>${parseAmount(totalPrice)}</div>
@@ -92,19 +92,20 @@ const PricingSection = () => {
           </div>
           <div className="flex-between">
             <div className="flex-between gap-4">
-              Add Tip: <TipSelector onSelect={handleTip} />
+              Add Tip:{" "}
+              <TipSelector onSelect={handleTip} tipConfig={tipConfig} />
             </div>
             <div>${parseAmount(tipAmount)}</div>
           </div>
         </div>
-        <div className="h-4 w-[41px]"></div>
+        {/* <div className="h-4 w-[41px]"></div> */}
       </div>
       <div className="flex-between gap-4 border-b border-secondary-20">
-        <div className="flex-between heading-6 w-full p-4">
+        <div className="flex-between heading-6 w-full p-4 px-5">
           <div>Total Payable Amount</div>
           <div>${parseAmount(totalPayableAmount)}</div>
         </div>
-        <div className="h-4 w-[41px]"></div>
+        {/* <div className="h-4 w-[41px]"></div> */}
       </div>
     </div>
   );

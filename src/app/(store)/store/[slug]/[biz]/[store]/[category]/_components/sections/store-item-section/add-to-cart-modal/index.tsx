@@ -7,6 +7,7 @@ import toast from "@/components/global/toast";
 import { Textarea } from "@/components/ui/textarea";
 import ASSETS from "@/constants/assets";
 import { parseAmount } from "@/lib/utils/parser";
+import { AppointmentSlotPayload } from "@/types/invoice/invoice.types";
 import { GetStoreResponse } from "@/types/store/store.response";
 import { StoreItem } from "@/types/store/store.types";
 import { useStoreCartStore } from "@/zustand/stores/business-store/store-cart-store";
@@ -120,32 +121,14 @@ const AddToCartModal = ({
   };
 
   const handleAddToCart = async (
-    mode: "NO_APPOINTMENT" | "APPOINTMENT_PER_ITEM" | "APPOINTMENT_PER_CART"
+    mode: "NO_APPOINTMENT" | "APPOINTMENT_PER_ITEM" | "APPOINTMENT_PER_CART",
+    appointment?: AppointmentSlotPayload
   ) => {
     if (qty < 1) {
       toast.error({
         message: "Please increase quantity.",
       });
     }
-
-    // const { success, data } = await onGetTax({
-    //   payload: {
-    //     country,
-    //     postalCode,
-    //   },
-    // });
-
-    // if (!success || !data) {
-    //   toast.error({
-    //     message: "Failed to get tax details, please try again later.",
-    //   });
-    //   return;
-    // }
-
-    // const taxRate = data.taxRate;
-    // const totalPrice = calculateTotalPrice();
-    // const totalTax = totalPrice * taxRate;
-    // const totalAmount = totalPrice + totalTax;
 
     const selectedAddonModifiers = addonModifiers.filter((item) =>
       selectedAddonModifierIds.includes(item.modifier.objid.toString())
@@ -156,6 +139,30 @@ const AddToCartModal = ({
           (item) => item.modifier.objid.toString() === selectedWholeModifierId
         )
       : [];
+
+    if (mode === "APPOINTMENT_PER_ITEM" && appointment) {
+      const itemLevelAppointments = [];
+      for (let i = 1; i <= qty; i++) {
+        itemLevelAppointments.push(appointment);
+      }
+      addCartItem({
+        itemId: storeItem.objid,
+        itemLevelAppointments,
+        price: storeItem.price,
+        qty,
+        storeItem,
+        modifiers: {
+          addon: selectedAddonModifiers,
+          whole: selectedWholeModifiers,
+        },
+      });
+
+      toast.success({
+        message: "Item is added to cart.",
+      });
+
+      return;
+    }
 
     const itemLevelAppointments = mode !== "APPOINTMENT_PER_ITEM" ? [] : [];
 
@@ -182,7 +189,12 @@ const AddToCartModal = ({
     } else if (appointmentType === "APPOINTMENT_PER_CART") {
       return <AppointmentPerCart onAddToCart={handleAddToCart} />;
     } else if (appointmentType === "APPOINTMENT_PER_ITEM") {
-      return <AppointmentPerItem onScheduleForLater={() => {}} />;
+      return (
+        <AppointmentPerItem
+          onAddToCart={handleAddToCart}
+          itemId={storeItem.objid}
+        />
+      );
     }
 
     return null;

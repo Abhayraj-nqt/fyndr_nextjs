@@ -5,7 +5,9 @@ import React from "react";
 import { useStoreCartStore } from "@/zustand/stores/business-store/store-cart-store";
 
 const HeadingSection = () => {
-  const { bizName } = useStoreCartStore();
+  const { bizName, items } = useStoreCartStore();
+
+  if (items.length === 0) return null;
 
   return (
     <div className="flex w-full flex-col">
@@ -16,7 +18,7 @@ const HeadingSection = () => {
         <div className="heading-6-medium w-full p-4 text-center">
           Overview Order
         </div>
-        <div className="h-4 w-[41px]"></div>
+        {/* <div className="h-4 w-[41px]"></div> */}
       </div>
     </div>
   );

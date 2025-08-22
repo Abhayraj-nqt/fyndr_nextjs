@@ -33,6 +33,7 @@ type Props = {
     selectedDate: Date
   ) => AppointmentSlot[];
   footer?: React.ReactNode;
+  showHeader?: boolean;
 };
 
 const SlotBooking = ({
@@ -48,6 +49,7 @@ const SlotBooking = ({
   onNext,
   slotAvailabilityAdjuster,
   footer,
+  showHeader = true,
 }: Props) => {
   const {
     state,
@@ -231,18 +233,22 @@ const SlotBooking = ({
         className
       )}
     >
-      <div className="md:flex-between flex flex-col gap-4 p-4 md:flex-row">
-        <div className="heading-7-medium">{title}</div>
-        <Select
-          options={locations}
-          value={state.selectedLocationId}
-          onValueChange={handleLocationChange}
-          className="max-w-96"
-          placeholder="Select location"
-        />
-      </div>
+      {showHeader && (
+        <div className="md:flex-between flex flex-col gap-4 p-4 md:flex-row">
+          <div className="heading-7-medium">{title}</div>
+          <Select
+            options={locations}
+            value={state.selectedLocationId}
+            onValueChange={handleLocationChange}
+            className="max-w-96"
+            placeholder="Select location"
+          />
+        </div>
+      )}
 
-      <div className="grid grid-cols-1 gap-4 border-y border-secondary-20 p-4 md:grid-cols-[auto_1fr] md:gap-0 md:p-0">
+      <div
+        className={`grid grid-cols-1 gap-4 ${showHeader ? "border-y" : "border-b"} border-secondary-20 p-4 md:grid-cols-[auto_1fr] md:gap-0 md:p-0`}
+      >
         <div className="md:flex-center flex md:border-r md:border-secondary-20 md:p-4">
           <DatePicker
             date={state.selectedDate}

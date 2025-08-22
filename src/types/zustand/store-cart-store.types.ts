@@ -1,3 +1,4 @@
+import { DiscountType } from "../global";
 import { AppointmentSlotPayload } from "../invoice/invoice.types";
 import { GetStoreResponse } from "../store/store.response";
 import { StoreItem } from "../store/store.types";
@@ -14,6 +15,11 @@ export type StoreCartItem = {
   itemLevelAppointments: AppointmentSlotPayload[];
 };
 
+export type TipConfig = {
+  value: number;
+  type: DiscountType;
+} | null;
+
 export type StoreCartState = {
   items: StoreCartItem[];
   bizId: number | null;
@@ -27,8 +33,19 @@ export type StoreCartState = {
   country: string | null;
   postalCode: string | null;
 
+  tipConfig: TipConfig;
+  showCartItemsDeleteButton: boolean;
+
   appointmentType: GetStoreResponse["catalogueAppointmentType"] | null;
   cartLevelAppointments: AppointmentSlotPayload[];
+
+  appointmentModalState: {
+    isOpen: boolean;
+    editMode: {
+      isEditing: boolean;
+      originalAppointment: AppointmentSlotPayload | null;
+    };
+  };
 };
 
 export type StoreCartAction = {
@@ -36,9 +53,17 @@ export type StoreCartAction = {
   removeCartItem: (itemId: number, index: number) => void;
   clearCart: () => void;
 
+  // QUANTITY UPDATE METHODS
+  updateItemQuantity: (index: number, newQty: number) => void;
+  incrementItemQuantity: (index: number) => void;
+  decrementItemQuantity: (index: number) => void;
+
+  getQuantityStep: (index: number) => number;
   getItemQty: (itemId: number) => number;
   getCartItem: (itemId: number) => StoreCartItem | null;
   getLocationId: () => number | null;
+
+  removeLastItemLevelAppointment: (index: number) => void;
 
   setCartData: ({
     bizId,
@@ -61,6 +86,17 @@ export type StoreCartAction = {
     country: string;
     postalCode: string;
   }) => void;
+
+  setCartLevelAppointments: (appointment: AppointmentSlotPayload) => void;
+  setShowCartItemsDeleteButton: (value: boolean) => void;
+
+  // Updated tip methods
+  setTipConfig: (value: number, type: DiscountType) => void;
+  clearTip: () => void;
+  getTipAmount: (totalPrice: number) => number;
+
+  openAppointmentModal: () => void;
+  closeAppointmentModal: () => void;
 };
 
 export type StoreCartStore = StoreCartState & StoreCartAction;
