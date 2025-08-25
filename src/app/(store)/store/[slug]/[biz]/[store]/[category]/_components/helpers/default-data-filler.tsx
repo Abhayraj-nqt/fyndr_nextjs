@@ -29,9 +29,27 @@ const DefaultDataFiller = ({
   country,
   postalCode,
 }: Props) => {
-  const { setCartData, setShowCartItemsDeleteButton } = useStoreCartStore();
+  const {
+    setCartData,
+    setShowCartItemsDeleteButton,
+    clearCart,
+    bizId: currentBizId,
+    locationId: currentLocationId,
+  } = useStoreCartStore();
 
   React.useEffect(() => {
+    // Check if we're switching to a different business or location
+    const isDifferentBusiness = currentBizId !== null && currentBizId !== bizId;
+    const isDifferentLocation =
+      currentLocationId !== null && currentLocationId !== locationId;
+
+    // Clear cart if switching businesses or locations
+    if (isDifferentBusiness || isDifferentLocation) {
+      // if (isDifferentBusiness) {
+      clearCart();
+    }
+
+    // Set the new cart data
     setCartData({
       bizId,
       bizName,
@@ -43,8 +61,21 @@ const DefaultDataFiller = ({
       country,
       postalCode,
     });
+
     setShowCartItemsDeleteButton(false);
-  }, [bizId, bizName, locationId, storeId, storeName, appointmentType]);
+  }, [
+    bizId,
+    bizName,
+    locationId,
+    storeId,
+    storeName,
+    storeUrl,
+    appointmentType,
+    country,
+    postalCode,
+    currentBizId,
+    currentLocationId,
+  ]);
 
   return null;
 };

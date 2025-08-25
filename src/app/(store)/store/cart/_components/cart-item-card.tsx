@@ -102,10 +102,17 @@ const CartItemCard = ({ storeCartItem, index, appointments }: Props) => {
     return null;
   }
 
+  const actualAppointments = appointments.filter((appointment) => {
+    const startTime = Object.values(appointment)[0].startTime;
+    const endTime = Object.values(appointment)[0].endTime;
+
+    return startTime && endTime;
+  });
+
   return (
     <div
       className={`flex w-full flex-col rounded-10 ${
-        appointments.length > 0 ? "border border-secondary-20" : ""
+        actualAppointments.length > 0 ? "border border-secondary-20" : ""
       }`}
     >
       {/* Main Cart Item */}
@@ -244,20 +251,20 @@ const CartItemCard = ({ storeCartItem, index, appointments }: Props) => {
               </div>
             </div>
 
-            {appointments.length > 0 && (
+            {actualAppointments.length > 0 && (
               <div className="flex gap-2">
-                {appointments.length === 1 ? (
+                {actualAppointments.length === 1 ? (
                   <div className="flex gap-4">
-                    <AppointmentInfoCard appointment={appointments[0]} />
+                    <AppointmentInfoCard appointment={actualAppointments[0]} />
                   </div>
                 ) : (
                   <AllAppointmentsModal
                     trigger={
                       <div className="body-1-medium cursor-pointer px-5 py-4 text-primary underline">
-                        {appointments.length} Appointments
+                        {actualAppointments.length} Appointments
                       </div>
                     }
-                    appointments={appointments}
+                    appointments={actualAppointments}
                   />
                 )}
               </div>

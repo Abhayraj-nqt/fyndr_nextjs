@@ -36,7 +36,7 @@ const ModifierSection = ({
   return (
     <div className="flex flex-col gap-6">
       {wholeModifiers.length > 0 && (
-        <div className="border-t border-secondary-20">
+        <div className="border-t border-secondary-20 px-4">
           <div className="flex-between text-secondary">
             <div className="body-1-medium py-5">Whole</div>
             {selectedWholeModifierId && (
@@ -82,7 +82,7 @@ const ModifierSection = ({
         </div>
       )}
       {addonModifiers.length > 0 && (
-        <div className="border-t border-secondary-20">
+        <div className="border-t border-secondary-20 px-4">
           <div className="body-1-medium py-5 text-secondary">Add-ons</div>
           <div className="flex flex-col gap-2">
             {addonModifiers.map((item) => {
