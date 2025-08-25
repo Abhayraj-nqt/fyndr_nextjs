@@ -4,6 +4,7 @@ import DefaultCard from "@/components/global/cards/default-card";
 
 import CartActionSection from "./_components/sections/cart-action-section";
 import CartItemSection from "./_components/sections/cart-item-section";
+import EmptyCart from "./_components/sections/empty-cart";
 import HeadingSection from "./_components/sections/heading-section";
 import PricingSection from "./_components/sections/pricing-section";
 
@@ -16,6 +17,7 @@ const StoreCart = () => {
           <CartItemSection />
           <PricingSection />
           <CartActionSection />
+          <EmptyCart />
         </DefaultCard>
       </div>
     </main>

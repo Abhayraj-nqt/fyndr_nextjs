@@ -1,10 +1,9 @@
 "use client";
 
-import { Minus, Plus } from "lucide-react";
+import { CircleMinus, CirclePlus } from "lucide-react";
 import React from "react";
 
-import Button from "@/components/global/buttons";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
 
 type Props = {
   qty: number;
@@ -12,40 +11,64 @@ type Props = {
   onDecrement: () => void;
   setQty: (newQty: number) => void;
   min?: number;
+  step?: number;
 };
 
 const StoreCartQtySelector = ({
   qty,
-  setQty,
+  // setQty,
   onDecrement,
   onIncrement,
-  min = 1,
+  // min = 1,
+  step = 1,
 }: Props) => {
-  const handleQtyChange = (newQty: number) => {
-    setQty(Math.max(newQty, min));
+  // const handleQtyChange = (rawValue: string) => {
+  //   let newValue = Number(rawValue);
+
+  //   // Prevent decimals if step = 1
+  //   if (step === 1) {
+  //     newValue = Math.floor(newValue); // force integer
+  //   }
+
+  //   if (!isNaN(newValue)) {
+  //     setQty(Math.max(newValue, min));
+  //   }
+  // };
+
+  // Format display value based on step
+  const formatDisplayValue = (value: number) => {
+    return step === 1 ? value.toString() : value.toFixed(1);
   };
+
   return (
-    <div className="relative flex gap-3">
-      <Button
+    <div className="flex-center relative gap-2">
+      <CircleMinus
         onClick={onDecrement}
-        disabled={qty <= 1}
-        className="size-6 !rounded-full border-2 border-black-heading bg-transparent p-0 hover:bg-transparent"
-      >
-        <Minus size={18} className="text-black-heading" />
-      </Button>
-      <Input
+        className="size-5 cursor-pointer text-black-heading"
+      />
+
+      {/* <Input
         type="number"
         min={min}
-        value={qty}
-        onChange={(e) => handleQtyChange(Number(e.target.value))}
+        step={step}
+        value={formatDisplayValue(qty)}
+        onChange={(e) => handleQtyChange(e.target.value)}
+        onKeyDown={(e) => {
+          if (step === 1 && e.key === ".") {
+            e.preventDefault();
+          }
+        }}
         className="hide-input-arrow no-focus placeholder body-1 h-[33px] w-[52px] border-y border-secondary-20 bg-white text-black-70 shadow-none"
-      />
-      <Button
+      /> */}
+
+      <div className="flex-center no-focus placeholder body-1 h-[33px] w-[52px] rounded-5 border border-secondary-20 bg-white text-black-70 shadow-none">
+        {formatDisplayValue(qty)}
+      </div>
+
+      <CirclePlus
         onClick={onIncrement}
-        className="size-6 !rounded-full border-2 border-black-heading bg-transparent p-0 hover:bg-transparent"
-      >
-        <Plus size={18} className="text-black-heading" />
-      </Button>
+        className="size-5 cursor-pointer text-black-heading"
+      />
     </div>
   );
 };

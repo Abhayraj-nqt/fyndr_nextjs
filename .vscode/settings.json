@@ -36,5 +36,9 @@
         "**/.next": true,
         "**/node_modules": true,
         "next-env.d.ts": true,
+    },
+    "sonarlint.connectedMode.project": {
+        "connectionId": "http-localhost-9000",
+        "projectKey": "fyndr-nextjs"
     }
 }
