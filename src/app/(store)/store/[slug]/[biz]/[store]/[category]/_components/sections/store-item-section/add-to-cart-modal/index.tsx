@@ -8,6 +8,7 @@ import { Modal } from "@/components/global/modal";
 import toast from "@/components/global/toast";
 import { Textarea } from "@/components/ui/textarea";
 import ASSETS from "@/constants/assets";
+import { formatDate } from "@/lib/utils/date";
 import { parseAmount } from "@/lib/utils/parser";
 import { AppointmentSlot } from "@/types/appointment/appointment.types";
 import { AppointmentSlotPayload } from "@/types/invoice/invoice.types";
@@ -40,7 +41,12 @@ const AddToCartModal = ({
   appointmentType,
   bookingEnabled,
 }: Props) => {
-  const { addCartItem, bizName, locationId } = useStoreCartStore();
+  const {
+    addCartItem,
+    bizName,
+    locationId,
+    setInstructions: setInstructionsInStore,
+  } = useStoreCartStore();
 
   const [view, setView] = useState<"APPOINTMENT_VIEW" | "ITEM_INFO_VIEW">(
     "ITEM_INFO_VIEW"
@@ -55,6 +61,7 @@ const AddToCartModal = ({
   const [selectedAddonModifierIds, setSelectedAddonModifierIds] = useState<
     string[]
   >([]);
+  const [instructions, setInstructions] = useState<string>("");
   const [qty, setQty] = useState<number>(1);
 
   const isWholeUnit: boolean = wholeUnits.includes(storeItem.item.unit);
@@ -182,6 +189,8 @@ const AddToCartModal = ({
         },
       });
 
+      setInstructionsInStore(instructions);
+
       toast.success({
         message: "Item is added to cart.",
       });
@@ -202,6 +211,8 @@ const AddToCartModal = ({
         whole: selectedWholeModifiers,
       },
     });
+
+    setInstructionsInStore(instructions);
 
     toast.success({
       message: "Item is added to cart.",
@@ -235,18 +246,41 @@ const AddToCartModal = ({
     slots: AppointmentSlot[],
     selectedDate: Date
   ) => {
-    const selectedDateStr = selectedDate.toISOString().split("T")[0];
+    const selectedDateStr = formatDate(selectedDate, "yyyy-MM-dd");
+    console.log({ selectedDateStr });
 
     // Count how many times each slot is already selected for this date
     const slotUsageCount: { [key: string]: number } = {};
 
+    // First, collect all selected slot keys to avoid double counting
+    const selectedSlotKeys = new Set<string>();
+
+    // Count from selectedAppointments (current modal selections)
     selectedAppointments.forEach((appointment) => {
       const appointmentDate = Object.keys(appointment)[0];
       if (appointmentDate === selectedDateStr) {
         const slotData = appointment[appointmentDate];
         const slotKey = `${slotData.startTime}-${slotData.endTime}`;
+        selectedSlotKeys.add(slotKey);
         slotUsageCount[slotKey] = (slotUsageCount[slotKey] || 0) + 1;
       }
+    });
+
+    // Count from store cart item-level appointments (exclude already selected slots)
+    const { items } = useStoreCartStore.getState();
+    items.forEach((cartItem) => {
+      cartItem.itemLevelAppointments.forEach((appointment) => {
+        const appointmentDate = Object.keys(appointment)[0];
+        if (appointmentDate === selectedDateStr) {
+          const slotData = appointment[appointmentDate];
+          const slotKey = `${slotData.startTime}-${slotData.endTime}`;
+
+          // Only count if this slot is not already in selectedAppointments
+          if (!selectedSlotKeys.has(slotKey)) {
+            slotUsageCount[slotKey] = (slotUsageCount[slotKey] || 0) + 1;
+          }
+        }
+      });
     });
 
     // Adjust slot availability
@@ -289,7 +323,9 @@ const AddToCartModal = ({
             <div className="px-4">
               <Textarea
                 placeholder="Instructions: spice level, order for, include, exclude"
-                className="no-focus placeholder min-h-20 !rounded-10 border border-secondary-20 text-black-70 shadow-none"
+                className="no-focus placeholder custom-scrollbar max-h-20 min-h-20 !rounded-10 border border-secondary-20 text-black-70 shadow-none"
+                value={instructions}
+                onChange={(e) => setInstructions(e.target.value ?? "")}
               />
             </div>
             <div className="flex-between px-4 pb-4 text-black-80">

@@ -6,6 +6,7 @@ import React from "react";
 import { MotionDiv } from "@/components/global/animations/motion-elements";
 import { useStoreCartStore } from "@/zustand/stores/business-store/store-cart-store";
 
+import StoreCartAppointmentModal from "./store-cart-appointment-modal";
 import CartItemCard from "../../cart-item-card";
 
 const CartItemSection = () => {
@@ -91,6 +92,8 @@ const CartItemSection = () => {
           })}
         </div>
       </div>
+
+      <StoreCartAppointmentModal />
     </>
   );
 };

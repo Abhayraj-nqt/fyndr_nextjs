@@ -5,6 +5,7 @@ import React, { useEffect, useMemo } from "react";
 
 import { useSlotBooking } from "@/hooks/appointment/use-slot-booking";
 import { cn } from "@/lib/utils";
+import { formatDate as dateFormatter } from "@/lib/utils/date";
 import { AppointmentSlot } from "@/types/appointment/appointment.types";
 import { ValueLabelProps } from "@/types/global";
 import { AppointmentSlotPayload } from "@/types/invoice/invoice.types";
@@ -23,7 +24,6 @@ type Props = {
   objId: number;
   locations?: ValueLabelProps[];
   defaultLocationId?: string;
-  // onSlotSelect?: (slot: AppointmentSlot | null) => void;
   onSlotSelect?: (slot: AppointmentSlotPayload | null) => void;
   onLocationChange?: (params: {
     locationId: string;
@@ -38,6 +38,7 @@ type Props = {
   ) => AppointmentSlot[];
   footer?: React.ReactNode;
   showHeader?: boolean;
+  showLocationSelector?: boolean;
   hideActions?: boolean;
   compactCalender?: boolean;
 };
@@ -58,6 +59,7 @@ const SlotBooking = ({
   slotAvailabilityAdjuster,
   footer,
   showHeader = true,
+  showLocationSelector = true,
   hideActions = false,
   compactCalender = false,
 }: Props) => {
@@ -93,7 +95,7 @@ const SlotBooking = ({
 
   // Handle external callbacks
   useEffect(() => {
-    const date = state.selectedDate.toISOString().split("T")[0]; // This gives you "2025-07-29" format
+    const date = dateFormatter(state.selectedDate, "yyyy-MM-dd");
 
     const payload: AppointmentSlotPayload = {
       [date]: {
@@ -107,14 +109,7 @@ const SlotBooking = ({
 
     onSlotSelect?.(payload);
     // }, [state.selectedSlot, onSlotSelect]);
-  }, [
-    state.selectedSlot,
-    // onSlotSelect,
-    // state.selectedDate,
-    // state.selectedLocationId,
-    // weekday,
-    // objId,
-  ]);
+  }, [state.selectedSlot]);
   useEffect(() => {
     onDateChange?.(state.selectedDate);
   }, [state.selectedDate, onDateChange]);
@@ -172,7 +167,7 @@ const SlotBooking = ({
       return;
     }
 
-    const date = state.selectedDate.toISOString().split("T")[0]; // This gives you "2025-07-29" format
+    const date = dateFormatter(state.selectedDate, "yyyy-MM-dd");
 
     const payload: AppointmentSlotPayload = {
       [date]: {
@@ -275,13 +270,15 @@ const SlotBooking = ({
       {showHeader && (
         <div className="md:flex-between flex flex-col gap-4 p-4 md:flex-row">
           <div className="heading-7-medium">{title}</div>
-          <Select
-            options={locations}
-            value={state.selectedLocationId}
-            onValueChange={handleLocationChange}
-            className="max-w-96"
-            placeholder="Select location"
-          />
+          {showLocationSelector && (
+            <Select
+              options={locations}
+              value={state.selectedLocationId}
+              onValueChange={handleLocationChange}
+              className="max-w-96"
+              placeholder="Select location"
+            />
+          )}
         </div>
       )}
 

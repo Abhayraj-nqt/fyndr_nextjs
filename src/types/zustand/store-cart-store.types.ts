@@ -39,11 +39,19 @@ export type StoreCartState = {
   appointmentType: GetStoreResponse["catalogueAppointmentType"] | null;
   cartLevelAppointments: AppointmentSlotPayload[];
 
+  instructions: string;
+
   appointmentModalState: {
     isOpen: boolean;
     editMode: {
       isEditing: boolean;
       originalAppointment: AppointmentSlotPayload | null;
+      itemIndex?: number;
+      appointmentIndex?: number;
+    };
+    pendingIncrement: {
+      isActive: boolean;
+      itemIndex: number | null;
     };
   };
 };
@@ -57,6 +65,20 @@ export type StoreCartAction = {
   updateItemQuantity: (index: number, newQty: number) => void;
   incrementItemQuantity: (index: number) => void;
   decrementItemQuantity: (index: number) => void;
+
+  // NEW PENDING INCREMENT METHODS
+  startPendingIncrement: (index: number) => void;
+  completePendingIncrement: (appointment: AppointmentSlotPayload) => void;
+  cancelPendingIncrement: () => void;
+
+  // NEW EDIT APPOINTMENT METHODS
+  startEditingAppointment: (
+    itemIndex: number,
+    appointmentIndex: number,
+    originalAppointment: AppointmentSlotPayload
+  ) => void;
+  completeAppointmentEdit: (newAppointment: AppointmentSlotPayload) => void;
+  cancelAppointmentEdit: () => void;
 
   getQuantityStep: (index: number) => number;
   getItemQty: (itemId: number) => number;
@@ -97,6 +119,8 @@ export type StoreCartAction = {
 
   openAppointmentModal: () => void;
   closeAppointmentModal: () => void;
+
+  setInstructions: (value: string) => void;
 };
 
 export type StoreCartStore = StoreCartState & StoreCartAction;

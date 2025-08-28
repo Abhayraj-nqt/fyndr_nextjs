@@ -31,6 +31,8 @@ const AppointmentConsentModal = ({
 
       await requestCalendarConsent({
         onSuccess: (tokens) => {
+          console.log({ tokens });
+
           const expiresAt = Date.now() + (tokens?.expiresIn || 3600) * 1000;
           setCalendarTokens({
             accessToken: tokens.accessToken,
@@ -39,7 +41,6 @@ const AppointmentConsentModal = ({
             scope: "calendar",
           });
 
-          // Close modal and proceed with calendar integration
           onConfirm(tokens.accessToken);
           setIsRequestingConsent(false);
         },

@@ -8,7 +8,9 @@ import AppointmentConsentModal from "@/components/global/appointment/appointment
 import SlotBooking from "@/components/global/appointment/slot-booking";
 import { Modal } from "@/components/global/modal";
 import toast from "@/components/global/toast";
+import { formatDate } from "@/lib/utils/date";
 import { AppointmentSlotPayload } from "@/types/invoice/invoice.types";
+import { OfferCartAppointmentSlot } from "@/types/zustand/offer-cart-store.types";
 import { useStoreCartStore } from "@/zustand/stores/business-store/store-cart-store";
 import { useCalendarConsentStore } from "@/zustand/stores/calendar-consent.store";
 
@@ -21,8 +23,8 @@ const DeliveryDateAndTimePicker = () => {
     appointmentModalState,
     openAppointmentModal,
     closeAppointmentModal,
+    appointmentType,
   } = useStoreCartStore();
-  // const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [selectedAppointment, setSelectedAppointment] =
     useState<AppointmentSlotPayload>();
   const [appointmentConsentModalOpen, setAppointmentConsentModalOpen] =
@@ -39,13 +41,23 @@ const DeliveryDateAndTimePicker = () => {
         setAppointmentConsentModalOpen(true);
         return;
       }
-      handleCalendarCancel();
-      // setModalOpen(false);
+      setCartLevelAppointments(appointment);
+      setAppointmentConsentModalOpen(false);
       closeAppointmentModal();
     }
   };
   const handleScheduleLater = () => {
-    // setModalOpen(false);
+    const date = formatDate(new Date(), "yyyy-MM-dd");
+    const scheduleForLaterObj: OfferCartAppointmentSlot = {
+      [date]: {
+        startTime: "",
+        endTime: "",
+        bookingDay: "",
+        locId: NaN,
+        objId: NaN,
+      },
+    };
+    setCartLevelAppointments(scheduleForLaterObj);
     closeAppointmentModal();
   };
 
@@ -86,9 +98,10 @@ const DeliveryDateAndTimePicker = () => {
   };
 
   const handleCalendarCancel = () => {
+    console.log("handleCalendarCancel: ", { selectedAppointment });
+
     if (selectedAppointment) {
       setCartLevelAppointments(selectedAppointment);
-      // setModalOpen(false);
       closeAppointmentModal();
     }
     setAppointmentConsentModalOpen(false);
@@ -109,7 +122,6 @@ const DeliveryDateAndTimePicker = () => {
         <div>Delivery Date & Time: </div>
         <div
           className="flex-between heading-6 cursor-pointer gap-4"
-          // onClick={() => setModalOpen(true)}
           onClick={openAppointmentModal}
         >
           <CalendarDays size={24} className="text-primary" />
@@ -117,7 +129,10 @@ const DeliveryDateAndTimePicker = () => {
       </div>
       <Modal
         title={bizName}
-        open={appointmentModalState.isOpen}
+        open={
+          appointmentModalState.isOpen &&
+          appointmentType === "APPOINTMENT_PER_CART"
+        }
         onOpenChange={handleAppointmentModalChange}
         closeOnOutsideClick={false}
         contentClassName="!max-w-screen-xl"
@@ -129,7 +144,6 @@ const DeliveryDateAndTimePicker = () => {
           showHeader={false}
           onNext={handleNext}
           onScheduleLater={handleScheduleLater}
-          // slotAvailabilityAdjuster={}
           footer={
             isTokenValid ? (
               <div className="body-3 rounded-b-[9px] border-t border-secondary-20 bg-yellow-300 p-4 py-2">

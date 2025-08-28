@@ -25,16 +25,17 @@ const CartActionSection = () => {
       {appointmentType === "APPOINTMENT_PER_CART" && (
         <div className="flex flex-col gap-4">
           <DeliveryDateAndTimePicker />
-          {cartLevelAppointments.length > 0 && (
-            <div className="flex flex-col gap-4">
-              <AppointmentInfoCard
-                appointment={cartLevelAppointments[0]}
-                onEdit={openAppointmentModal}
-                className="p-0"
-                editClassName="text-secondary"
-              />
-            </div>
-          )}
+          {cartLevelAppointments.length > 0 &&
+            Object.values(cartLevelAppointments[0])[0].startTime && (
+              <div className="flex flex-col gap-4">
+                <AppointmentInfoCard
+                  appointment={cartLevelAppointments[0]}
+                  onEdit={openAppointmentModal}
+                  className="p-0"
+                  editClassName="text-secondary"
+                />
+              </div>
+            )}
         </div>
       )}
 

@@ -30,6 +30,8 @@ const CartItemCard = ({ storeCartItem, index, appointments }: Props) => {
     getQuantityStep,
     showCartItemsDeleteButton,
     removeCartItem,
+    startPendingIncrement,
+    appointmentType,
   } = useStoreCartStore();
 
   const { startTimer, isActive, timer } = useTimer(5);
@@ -50,7 +52,11 @@ const CartItemCard = ({ storeCartItem, index, appointments }: Props) => {
   };
 
   const handleIncrement = () => {
-    incrementItemQuantity(index);
+    if (appointmentType !== "APPOINTMENT_PER_ITEM") {
+      incrementItemQuantity(index);
+      return;
+    }
+    startPendingIncrement(index);
   };
 
   const handleDecrement = () => {
@@ -60,7 +66,6 @@ const CartItemCard = ({ storeCartItem, index, appointments }: Props) => {
   const handleRemoveCartItem = () => {
     setIsDeleting(true);
 
-    // After slide out animation, show undo timer
     setTimeout(() => {
       setShowUndo(true);
       startTimer();
@@ -115,7 +120,6 @@ const CartItemCard = ({ storeCartItem, index, appointments }: Props) => {
         actualAppointments.length > 0 ? "border border-secondary-20" : ""
       }`}
     >
-      {/* Main Cart Item */}
       <AnimatePresence mode="wait">
         {!showUndo ? (
           <MotionDiv
@@ -265,6 +269,7 @@ const CartItemCard = ({ storeCartItem, index, appointments }: Props) => {
                       </div>
                     }
                     appointments={actualAppointments}
+                    itemIndex={index}
                   />
                 )}
               </div>

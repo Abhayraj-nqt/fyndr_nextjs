@@ -6,37 +6,13 @@ import { WHOLE_UNITS } from "@/constants";
 import { StoreItem } from "@/types/store/store.types";
 import { StoreCartStore } from "@/types/zustand/store-cart-store.types";
 
+import { storeCartDefaultState } from "./store-cart-default-states";
+
 export const useStoreCartStore = create<StoreCartStore>()(
   devtools(
     persist(
       immer((set, get) => ({
-        items: [],
-        bizId: null,
-        bizName: null,
-        locationId: null,
-        storeId: null,
-        storeName: null,
-        storeUrl: null,
-
-        appointmentType: null,
-        cartLevelAppointments: [],
-
-        country: null,
-        postalCode: null,
-
-        // Store tip configuration instead of amount
-        tipConfig: null,
-
-        appointmentModalState: {
-          isOpen: false,
-          editMode: {
-            isEditing: false,
-            originalAppointment: null,
-          },
-        },
-
-        showCartItemsDeleteButton: false,
-
+        ...storeCartDefaultState,
         addCartItem(item) {
           set((state) => {
             const sameIds = (
@@ -86,13 +62,17 @@ export const useStoreCartStore = create<StoreCartStore>()(
         clearCart() {
           set((state) => {
             state.items = [];
-            state.tipConfig = null; // Clear tip when cart is cleared
+            state.tipConfig = null;
             state.cartLevelAppointments = [];
             state.appointmentModalState = {
               isOpen: false,
               editMode: {
                 isEditing: false,
                 originalAppointment: null,
+              },
+              pendingIncrement: {
+                isActive: false,
+                itemIndex: null,
               },
             };
             state.showCartItemsDeleteButton = false;
@@ -127,7 +107,7 @@ export const useStoreCartStore = create<StoreCartStore>()(
                 state.items[index].qty += 1;
               } else {
                 state.items[index].qty =
-                  Math.round((state.items[index].qty + 0.1) * 100) / 100; // To avoid floating point issues
+                  Math.round((state.items[index].qty + 0.1) * 100) / 100;
               }
             }
           });
@@ -139,17 +119,69 @@ export const useStoreCartStore = create<StoreCartStore>()(
                 state.items[index].storeItem.item.unit.toLowerCase()
               );
 
+              // First remove the appointment if it's appointment per item
+              if (state.appointmentType === "APPOINTMENT_PER_ITEM") {
+                if (state.items[index].itemLevelAppointments.length > 0) {
+                  state.items[index].itemLevelAppointments.pop();
+                }
+              }
+
+              // Then decrement the quantity
               if (isWholeUnit) {
                 state.items[index].qty -= 1;
               } else {
                 state.items[index].qty =
-                  Math.round((state.items[index].qty - 0.1) * 100) / 100; // To avoid floating point issues
-              }
-
-              if (state.appointmentType === "APPOINTMENT_PER_ITEM") {
-                state.removeLastItemLevelAppointment(index);
+                  Math.round((state.items[index].qty - 0.1) * 100) / 100;
               }
             }
+          });
+        },
+
+        startPendingIncrement(index) {
+          set((state) => {
+            state.appointmentModalState.pendingIncrement = {
+              isActive: true,
+              itemIndex: index,
+            };
+            state.appointmentModalState.isOpen = true;
+          });
+        },
+
+        completePendingIncrement(appointment) {
+          set((state) => {
+            const { itemIndex } = state.appointmentModalState.pendingIncrement;
+
+            if (itemIndex !== null && state.items[itemIndex]) {
+              // Increment the quantity
+              const isWholeUnit: boolean = WHOLE_UNITS.includes(
+                state.items[itemIndex].storeItem.item.unit.toLowerCase()
+              );
+
+              if (isWholeUnit) {
+                state.items[itemIndex].qty += 1;
+              } else {
+                state.items[itemIndex].qty =
+                  Math.round((state.items[itemIndex].qty + 0.1) * 100) / 100;
+              }
+
+              state.items[itemIndex].itemLevelAppointments.push(appointment);
+            }
+
+            state.appointmentModalState.pendingIncrement = {
+              isActive: false,
+              itemIndex: null,
+            };
+            state.appointmentModalState.isOpen = false;
+          });
+        },
+
+        cancelPendingIncrement() {
+          set((state) => {
+            state.appointmentModalState.pendingIncrement = {
+              isActive: false,
+              itemIndex: null,
+            };
+            state.appointmentModalState.isOpen = false;
           });
         },
 
@@ -193,7 +225,6 @@ export const useStoreCartStore = create<StoreCartStore>()(
           });
         },
 
-        // Updated tip methods
         setTipConfig(value, type) {
           set((state) => {
             state.tipConfig = { value, type };
@@ -211,6 +242,7 @@ export const useStoreCartStore = create<StoreCartStore>()(
             state.tipConfig = null;
           });
         },
+
         getTipAmount(totalPrice) {
           const { tipConfig } = get();
           if (!tipConfig) return 0;
@@ -225,6 +257,11 @@ export const useStoreCartStore = create<StoreCartStore>()(
         closeAppointmentModal() {
           set((state) => {
             state.appointmentModalState.isOpen = false;
+            // Also cancel any pending increment
+            state.appointmentModalState.pendingIncrement = {
+              isActive: false,
+              itemIndex: null,
+            };
           });
         },
         openAppointmentModal() {
@@ -241,6 +278,91 @@ export const useStoreCartStore = create<StoreCartStore>()(
             ) {
               state.items[index].itemLevelAppointments.pop();
             }
+          });
+        },
+
+        startEditingAppointment(
+          itemIndex,
+          appointmentIndex,
+          originalAppointment
+        ) {
+          set((state) => {
+            state.appointmentModalState = {
+              isOpen: true,
+              editMode: {
+                isEditing: true,
+                originalAppointment,
+                itemIndex,
+                appointmentIndex,
+              },
+              pendingIncrement: {
+                isActive: false,
+                itemIndex: null,
+              },
+            };
+          });
+        },
+
+        completeAppointmentEdit(newAppointment) {
+          set((state) => {
+            const { editMode } = state.appointmentModalState;
+
+            if (
+              editMode.isEditing &&
+              editMode.itemIndex !== undefined &&
+              editMode.appointmentIndex !== undefined
+            ) {
+              const itemIndex = editMode.itemIndex;
+              const appointmentIndex = editMode.appointmentIndex;
+
+              // Replace the appointment at the specific index
+              if (
+                state.items[itemIndex] &&
+                state.items[itemIndex].itemLevelAppointments[appointmentIndex]
+              ) {
+                state.items[itemIndex].itemLevelAppointments[appointmentIndex] =
+                  newAppointment;
+              }
+            }
+
+            // Reset appointment modal state
+            state.appointmentModalState = {
+              isOpen: false,
+              editMode: {
+                isEditing: false,
+                originalAppointment: null,
+                itemIndex: undefined,
+                appointmentIndex: undefined,
+              },
+              pendingIncrement: {
+                isActive: false,
+                itemIndex: null,
+              },
+            };
+          });
+        },
+
+        cancelAppointmentEdit() {
+          set((state) => {
+            state.appointmentModalState = {
+              isOpen: false,
+              editMode: {
+                isEditing: false,
+                originalAppointment: null,
+                itemIndex: undefined,
+                appointmentIndex: undefined,
+              },
+              pendingIncrement: {
+                isActive: false,
+                itemIndex: null,
+              },
+            };
+          });
+        },
+
+        setInstructions(value) {
+          set((state) => {
+            state.instructions = value;
           });
         },
       })),

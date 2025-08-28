@@ -17,6 +17,7 @@ import Button from "@/components/global/buttons";
 import Indicator from "@/components/global/indicator";
 import toast from "@/components/global/toast";
 import ROUTES from "@/constants/routes";
+import { formatDate } from "@/lib/utils/date";
 import { AppointmentSlotPayload } from "@/types/invoice/invoice.types";
 import { useCalendarConsentStore } from "@/zustand/stores/calendar-consent.store";
 
@@ -82,7 +83,7 @@ const AppointmentPerItem = ({
   const handleScheduleLater = () => {
     const scheduleForLaterAppointments: AppointmentSlotPayload[] = [];
     for (let i = 0; i < qty; i++) {
-      const date = new Date().toISOString().split("T")[0];
+      const date = formatDate(new Date(), "yyyy-MM-dd");
       const scheduleForLaterObj: AppointmentSlotPayload = {
         [date]: {
           startTime: "",
@@ -130,9 +131,6 @@ const AppointmentPerItem = ({
     if (pendingAppointment) {
       setSelectedAppointments((prev) => [...prev, pendingAppointment]);
       setPendingAppointment(null);
-      // toast.success({
-      //   message: `Appointment ${selectedAppointments.length + 1} of ${qty} selected`,
-      // });
     }
     setAppointmentConsentModalOpen(false);
   };
@@ -141,9 +139,6 @@ const AppointmentPerItem = ({
     if (pendingAppointment) {
       setSelectedAppointments((prev) => [...prev, pendingAppointment]);
       setPendingAppointment(null);
-      // toast.success({
-      //   message: `Appointment ${selectedAppointments.length + 1} of ${qty} selected`,
-      // });
     }
     setAppointmentConsentModalOpen(false);
   };
@@ -173,15 +168,8 @@ const AppointmentPerItem = ({
       setAppointmentConsentModalOpen(true);
     } else {
       setSelectedAppointments((prev) => [...prev, selectedAppointment]);
-      // toast.success({
-      //   message: `Appointment ${selectedAppointments.length + 1} of ${qty} selected`,
-      // });
     }
   };
-
-  // const getCurrentAppointmentNumber = () => {
-  //   return selectedAppointments.length + 1;
-  // };
 
   const hasSelectedAllAppointments = () => {
     return selectedAppointments.length >= qty;
@@ -226,7 +214,6 @@ const AppointmentPerItem = ({
             )
           ) : (
             <Button variant="primary" stdHeight stdWidth onClick={handleNext}>
-              {/* Next ({getCurrentAppointmentNumber()}/{qty}) */}
               Next
             </Button>
           )}

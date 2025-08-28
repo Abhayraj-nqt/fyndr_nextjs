@@ -4,15 +4,26 @@ import React from "react";
 
 import { Modal } from "@/components/global/modal";
 import { AppointmentSlotPayload } from "@/types/invoice/invoice.types";
+import { useStoreCartStore } from "@/zustand/stores/business-store/store-cart-store";
 
 import AppointmentInfoCard from "../../appointment-info-card";
 
 type Props = {
   trigger: React.ReactNode;
   appointments: AppointmentSlotPayload[];
+  itemIndex: number;
 };
 
-const AllAppointmentsModal = ({ appointments, trigger }: Props) => {
+const AllAppointmentsModal = ({ appointments, trigger, itemIndex }: Props) => {
+  const { startEditingAppointment } = useStoreCartStore();
+
+  const handleEditAppointment = (
+    appointmentIndex: number,
+    appointment: AppointmentSlotPayload
+  ) => {
+    startEditingAppointment(itemIndex, appointmentIndex, appointment);
+  };
+
   return (
     <Modal
       trigger={trigger}
@@ -31,7 +42,7 @@ const AllAppointmentsModal = ({ appointments, trigger }: Props) => {
               dateClassName="col-span-4"
               timeClassName="col-span-5"
               editClassName="col-span-1 flex justify-end text-secondary"
-              onEdit={() => {}}
+              onEdit={() => handleEditAppointment(i, appointment)}
             />
           ))
         ) : (
