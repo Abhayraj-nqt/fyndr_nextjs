@@ -26,7 +26,7 @@ const CommentsSkeleton = ({
       </div>
 
       {enablePagination && (
-        <div className="fixed inset-x-0 bottom-0 rounded-b-10 bg-white p-4 shadow-pagination">
+        <div className="absolute inset-x-0 bottom-0 rounded-b-10 bg-white p-4 shadow-pagination">
           {/* Pagination skeleton */}
           <div className="flex-center gap-2">
             {/* Previous button */}

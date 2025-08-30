@@ -56,19 +56,19 @@ const AppointmentInfoCard = ({
   return (
     <div
       className={cn(
-        "flex min-h-16 w-fit items-center gap-4 rounded-10 px-5 py-3 text-black-heading",
+        "flex min-h-16 w-fit items-center gap-2 sm:gap-4 rounded-10 px-5 py-3 text-black-heading",
         className
       )}
     >
       <div
-        className={`flex-center h-[46px] min-w-[100px] rounded-10 border border-secondary-20 bg-white px-12 py-[10px] ${dateClassName}`}
+        className={`flex-center h-[46px] min-w-[100px] rounded-10 border border-secondary-20 bg-white px-2 py-[10px] sm:px-12 ${dateClassName}`}
       >
-        <span className="body-1 text-black-70">{formattedDate}</span>
+        <span className="body-3 sm:body-1 text-black-70">{formattedDate}</span>
       </div>
       <div
         className={`flex-center h-[46px] rounded-10 border border-secondary-20 bg-white px-12 py-[10px] ${timeClassName}`}
       >
-        <span className="body-1 text-black-70">{timeRange}</span>
+        <span className="body-3 sm:body-1 text-black-70">{timeRange}</span>
       </div>
       {onEdit && (
         <PencilLine

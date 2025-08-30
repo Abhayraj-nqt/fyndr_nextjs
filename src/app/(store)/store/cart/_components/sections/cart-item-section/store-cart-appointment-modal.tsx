@@ -26,6 +26,7 @@ const StoreCartAppointmentModal = () => {
     cancelAppointmentEdit,
     items,
     appointmentType,
+    storeName,
   } = useStoreCartStore();
 
   const { checkTokenValidity } = useCalendarConsentStore();
@@ -207,10 +208,11 @@ const StoreCartAppointmentModal = () => {
         onOpenChange={handleAppointmentModalChange}
         closeOnOutsideClick={false}
         contentClassName="!max-w-screen-xl"
+        bodyClassName="!p-0"
       >
-        <div className="no-scrollbar relative max-h-[80vh] overflow-y-scroll">
+        <div className="no-scrollbar relative">
           <SlotBooking
-            title={`Appointment booking for ${appointmentModalState.pendingIncrement.isActive ? "quantity increment" : "offerName"}`}
+            title={`Appointment booking for: ${storeName}`}
             objId={selectedItemId}
             onNext={handleNext}
             onScheduleLater={handleScheduleLater}
@@ -228,6 +230,7 @@ const StoreCartAppointmentModal = () => {
                 <></>
               )
             }
+            className="border-none"
           />
         </div>
       </Modal>

@@ -75,7 +75,7 @@ const TipSelector = ({ onSelect, tipConfig }: Props) => {
             <div key={tip.value} className={`relative`}>
               <Label htmlFor={tip.value} className={cn()}>
                 <div
-                  className={`flex-center body-1 h-[40px] w-[78px] cursor-pointer ${i === 0 ? "rounded-l-[4px]" : ""} ${isSelected ? "bg-primary text-white" : "bg-white"}`}
+                  className={`flex-center body-1 h-[40px] w-[54px] cursor-pointer sm:w-[78px] ${i === 0 ? "rounded-l-[4px]" : ""} ${isSelected ? "bg-primary text-white" : "bg-white"}`}
                 >
                   {tip.label}
                 </div>
@@ -99,7 +99,7 @@ const TipSelector = ({ onSelect, tipConfig }: Props) => {
             value={inputValue}
             type="number"
             onChange={(e) => handleTipChange(e.target.value, "input")}
-            onFocus={() => setSelectedTip("")}
+            onFocus={() => handleTipChange("0", "input")}
             className="no-focus body-1 hide-input-arrow h-[40px] max-w-16 rounded-[4px] border-none bg-white px-1 py-[10px] font-normal shadow-none outline-none placeholder:border-none disabled:bg-black-0.5"
           />
         </div>

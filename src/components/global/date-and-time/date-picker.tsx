@@ -37,6 +37,7 @@ type Props = {
   formatters?: Partial<Formatters> | undefined;
   components?: Partial<CustomComponents>;
   compact?: boolean;
+  iconClassName?: string;
 };
 
 export function DatePicker({
@@ -54,6 +55,7 @@ export function DatePicker({
   formatters,
   components,
   compact = false,
+  iconClassName,
 }: Props) {
   const [open, setOpen] = React.useState(false);
   // const [localDate, setLocalDate] = React.useState<Date | undefined>(date);
@@ -62,7 +64,12 @@ export function DatePicker({
     return (
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <CalendarDays className="!size-6 cursor-pointer text-black-heading" />
+          <CalendarDays
+            className={cn(
+              `!size-6 cursor-pointer text-black-heading`,
+              iconClassName
+            )}
+          />
         </PopoverTrigger>
         <PopoverContent className="w-auto overflow-hidden p-0" align="start">
           <Calendar

@@ -251,10 +251,11 @@ const OfferAppointmentModal = ({ campaignId, campaignLocations }: Props) => {
         closeOnOutsideClick={false}
         onCloseIconClick={handleCancel}
         contentClassName="!max-w-screen-xl"
+        bodyClassName="!p-0"
       >
-        <div className="no-scrollbar relative max-h-[80vh] overflow-y-scroll">
+        <div className="no-scrollbar relative ">
           <SlotBooking
-            title={`Appointment booking for ${offerName}`}
+            title={`Appointment booking for: ${offerName}`}
             objId={selectedOfferId}
             onNext={handleNext}
             onLocationChange={handleLocationChange}
@@ -273,6 +274,7 @@ const OfferAppointmentModal = ({ campaignId, campaignLocations }: Props) => {
                 <></>
               )
             }
+            className="border-none"
           />
         </div>
       </Modal>

@@ -23,7 +23,7 @@ const AppointmentPerCart = ({ onAddToCart }: Props) => {
   };
 
   return (
-    <div className="flex-between gap-4 border-t border-secondary-20 p-4">
+    <div className="flex-between relative z-20 gap-4 rounded-b-10 border-t border-secondary-20 bg-white p-4">
       {items.length > 0 ? (
         <Button variant="primary" stdHeight stdWidth asChild>
           <Link href={ROUTES.STORE_CART}>Checkout</Link>

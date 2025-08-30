@@ -117,11 +117,11 @@ const DeliveryDateAndTimePicker = () => {
   };
 
   return (
-    <div className="heading-6 flex">
+    <div className="heading-7 sm:heading-6 flex">
       <div className="flex gap-4">
         <div>Delivery Date & Time: </div>
         <div
-          className="flex-between heading-6 cursor-pointer gap-4"
+          className="flex-between heading-7 sm:heading-6 cursor-pointer gap-4"
           onClick={openAppointmentModal}
         >
           <CalendarDays size={24} className="text-primary" />
@@ -136,14 +136,16 @@ const DeliveryDateAndTimePicker = () => {
         onOpenChange={handleAppointmentModalChange}
         closeOnOutsideClick={false}
         contentClassName="!max-w-screen-xl"
+        bodyClassName="!p-0"
       >
         <SlotBooking
           objId={-1}
-          title={storeName || ""}
+          title={`Appointment booking for: ${storeName}` || ""}
           defaultLocationId={`${locationId}`}
-          showHeader={false}
+          showLocationSelector={false}
           onNext={handleNext}
           onScheduleLater={handleScheduleLater}
+          className="border-none"
           footer={
             isTokenValid ? (
               <div className="body-3 rounded-b-[9px] border-t border-secondary-20 bg-yellow-300 p-4 py-2">

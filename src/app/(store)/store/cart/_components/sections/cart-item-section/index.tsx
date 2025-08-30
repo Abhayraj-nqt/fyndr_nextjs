@@ -27,7 +27,7 @@ const CartItemSection = () => {
     <>
       <div className="flex flex-col gap-4 border-b border-secondary-20 p-4">
         <div className="flex-between relative">
-          <div className="heading-6-medium grid w-full grid-cols-8 px-5">
+          <div className="heading-7-medium sm:heading-6-medium grid w-full grid-cols-8 px-5">
             <div className="col-span-3">Product</div>
             <div className="flex-center col-span-2">Quantity</div>
             <div className="col-span-3 flex place-content-end items-center">
@@ -70,7 +70,7 @@ const CartItemSection = () => {
           </MotionDiv>
         </div>
 
-        <div className="flex flex-col gap-4 overflow-x-hidden">
+        <div className="flex flex-col gap-4">
           {items.map((item, i) => {
             const appointments =
               appointmentType === "APPOINTMENT_PER_ITEM"

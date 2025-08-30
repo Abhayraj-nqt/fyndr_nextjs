@@ -21,6 +21,8 @@ import { formatDate } from "@/lib/utils/date";
 import { AppointmentSlotPayload } from "@/types/invoice/invoice.types";
 import { useCalendarConsentStore } from "@/zustand/stores/calendar-consent.store";
 
+// import AddedToCartAnimation from "./added-to-cart-animation";
+
 type Props = {
   onAddToCart: (
     mode: "APPOINTMENT_PER_ITEM",
@@ -47,6 +49,7 @@ const AppointmentPerItem = ({
   selectedAppointments,
   setSelectedAppointments,
 }: Props) => {
+  // const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
   const [transition, startTransition] = useTransition();
   const [scheduledForLater, setScheduledForLater] = useState<boolean>(false);
   const [appointmentConsentModalOpen, setAppointmentConsentModalOpen] =
@@ -78,6 +81,7 @@ const AppointmentPerItem = ({
       onAddToCart("APPOINTMENT_PER_ITEM", selectedAppointments);
     });
     setCurrentSessionAddedToCart(true);
+    // setShowSuccessAnimation(true);
   };
 
   const handleScheduleLater = () => {
@@ -176,12 +180,17 @@ const AppointmentPerItem = ({
   };
 
   if (currentView === "APPOINTMENT_VIEW") {
+    const isTokenValid = checkTokenValidity();
     return (
       <>
-        <div className="flex-between gap-4 border-t border-secondary-20 p-4">
-          <div className="flex items-center gap-2">
+        {/* <AddedToCartAnimation
+          show={showSuccessAnimation}
+          onAnimationComplete={() => setShowSuccessAnimation(false)}
+        /> */}
+        <div className="flex-between relative z-20 flex-col gap-4 rounded-b-10 border-t border-secondary-20 bg-white p-4 xs:flex-row">
+          <div className="body-3 flex items-center gap-2 text-black-60">
             <div className="flex items-center gap-2">
-              <Indicator className="bg-indicator-green-90" />
+              <Indicator className="bg-custom-green-2nd" />
               <div>Selected</div>
             </div>
             <div className="flex items-center gap-2">
@@ -218,6 +227,13 @@ const AppointmentPerItem = ({
             </Button>
           )}
         </div>
+        {isTokenValid && (
+          <div className="body-5 rounded-b-[9px] border-t border-secondary-20 bg-yellow-300 p-4 py-2">
+            The Google Calendar permission to create events has been enabled.
+            Now, all selected appointment slots will be automatically added to
+            calendar.
+          </div>
+        )}
         <AppointmentConsentModal
           isOpen={appointmentConsentModalOpen}
           onConfirm={handleCalendarConfirm}
@@ -279,13 +295,6 @@ const AppointmentPerItem = ({
             </>
           )}
         </div>
-        {/* {isTokenValid && (
-          <div className="body-5 rounded-b-[9px] border-t border-secondary-20 bg-yellow-300 p-4 py-2">
-            The Google Calendar permission to create events has been enabled.
-            Now, all selected appointment slots will be automatically added to
-            calendar.
-          </div>
-        )} */}
       </div>
       <AppointmentConsentModal
         isOpen={appointmentConsentModalOpen}

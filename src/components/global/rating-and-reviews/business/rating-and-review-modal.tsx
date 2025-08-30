@@ -31,7 +31,7 @@ const RatingAndReviewModal = ({ children }: Props) => {
       title={<div>Ratings & Reviews</div>}
       open={open}
       width="820px"
-      bodyClassName="max-h-[80vh] overflow-y-scroll no-scrollbar"
+      bodyClassName="max-h-[80vh] overflow-y-scroll no-scrollbar !p-0 rounded-10"
       onOpenChange={handleModalChange}
     >
       {children}

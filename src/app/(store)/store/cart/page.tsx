@@ -10,7 +10,7 @@ import PricingSection from "./_components/sections/pricing-section";
 
 const StoreCart = () => {
   return (
-    <main className="my-10 flex flex-col items-center justify-center p-4">
+    <main className="my-10 flex flex-col items-center justify-center xs:p-4">
       <div className="flex w-full max-w-[1550px] flex-col gap-4 sm:flex-row xl:w-11/12">
         <DefaultCard className="flex w-full flex-col p-0 text-black-heading">
           <HeadingSection />

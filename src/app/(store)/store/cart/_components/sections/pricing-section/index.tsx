@@ -81,7 +81,7 @@ const PricingSection = () => {
   return (
     <div className="flex flex-col ">
       <div className="flex-between w-full gap-4 border-b border-secondary-20">
-        <div className="heading-6 flex w-full flex-col gap-4 p-4 px-5">
+        <div className="heading-7 sm:heading-6 flex w-full flex-col gap-4 p-4 px-5">
           <div className="flex-between">
             <div>Total Price</div>
             <div>${parseAmount(totalPrice)}</div>
@@ -90,18 +90,20 @@ const PricingSection = () => {
             <div>Tax</div>
             <div>${parseAmount(totalTax)}</div>
           </div>
-          <div className="flex-between">
-            <div className="flex-between gap-4">
+          <div className="flex-between relative">
+            <div className="sm:flex-between flex flex-col gap-4 sm:flex-row">
               Add Tip:{" "}
               <TipSelector onSelect={handleTip} tipConfig={tipConfig} />
             </div>
-            <div>${parseAmount(tipAmount)}</div>
+            <div className="absolute right-0 self-start sm:static sm:self-center">
+              ${parseAmount(tipAmount)}
+            </div>
           </div>
         </div>
         {/* <div className="h-4 w-[41px]"></div> */}
       </div>
       <div className="flex-between gap-4 border-b border-secondary-20">
-        <div className="flex-between heading-6 w-full p-4 px-5">
+        <div className="flex-between heading-7 sm:heading-6 w-full p-4 px-5">
           <div>Total Payable Amount</div>
           <div>${parseAmount(totalPayableAmount)}</div>
         </div>

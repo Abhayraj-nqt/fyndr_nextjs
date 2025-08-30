@@ -16,6 +16,7 @@ import { GetStoreResponse } from "@/types/store/store.response";
 import { StoreItem } from "@/types/store/store.types";
 import { useStoreCartStore } from "@/zustand/stores/business-store/store-cart-store";
 
+import AddedToCartAnimation from "./added-to-cart-animation";
 import AppointmentPerCart from "./appointment-per-cart";
 import AppointmentPerItem from "./appointment-per-item";
 import ItemCard from "./item-card";
@@ -48,6 +49,7 @@ const AddToCartModal = ({
     setInstructions: setInstructionsInStore,
   } = useStoreCartStore();
 
+  const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
   const [view, setView] = useState<"APPOINTMENT_VIEW" | "ITEM_INFO_VIEW">(
     "ITEM_INFO_VIEW"
   );
@@ -87,8 +89,6 @@ const AddToCartModal = ({
 
   useEffect(() => {
     // Reset appointments if qty is reduced
-    console.log("MODAL -> ", { selectedAppointments });
-
     if (selectedAppointments.length > qty) {
       setSelectedAppointments(selectedAppointments.slice(0, qty));
     }
@@ -190,11 +190,7 @@ const AddToCartModal = ({
       });
 
       setInstructionsInStore(instructions);
-
-      toast.success({
-        message: "Item is added to cart.",
-      });
-
+      setShowSuccessAnimation(true);
       return;
     }
 
@@ -213,10 +209,7 @@ const AddToCartModal = ({
     });
 
     setInstructionsInStore(instructions);
-
-    toast.success({
-      message: "Item is added to cart.",
-    });
+    setShowSuccessAnimation(true);
   };
 
   const renderModalActions = () => {
@@ -367,8 +360,6 @@ const AddToCartModal = ({
               slotAvailabilityAdjuster={adjustSlotAvailability}
               compactCalender
               className="rounded-none border-x-0 border-b-0"
-              slotContainerClassName="grid sm:grid-cols-2"
-              timeSlotClassName="w-full xs:w-full sm:w-full md:w-full lg-w-full xl:w-full"
             />
           </div>
         );
@@ -383,6 +374,7 @@ const AddToCartModal = ({
       trigger={trigger}
       closeOnOutsideClick={false}
       bodyClassName="!p-0"
+      width="510px"
     >
       <div className="no-scrollbar flex max-h-[80vh] flex-col overflow-y-scroll">
         <ItemInfoSection
@@ -395,9 +387,14 @@ const AddToCartModal = ({
         />
         {renderView()}
       </div>
-      {renderModalActions()}
+      <div className="relative">
+        <AddedToCartAnimation
+          show={showSuccessAnimation}
+          onAnimationComplete={() => setShowSuccessAnimation(false)}
+        />
+        {renderModalActions()}
+      </div>
     </Modal>
   );
 };
-
 export default AddToCartModal;

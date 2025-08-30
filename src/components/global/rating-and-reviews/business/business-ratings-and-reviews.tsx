@@ -46,7 +46,7 @@ const BusinessRatingsAndReviews = async ({
 
   return (
     <DefaultCard
-      className={cn("flex w-full flex-col gap-6 p-4 xs:p-6", className)}
+      className={cn("flex w-full flex-col gap-6 !p-4 xs:p-6", className)}
     >
       {showHeading && (
         <h2 className="heading-7-medium mb-2 text-secondary">

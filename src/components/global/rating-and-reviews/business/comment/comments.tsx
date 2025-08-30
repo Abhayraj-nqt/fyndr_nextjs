@@ -14,6 +14,7 @@ type Props = {
   enablePagination?: boolean;
   page?: number;
   qrCode: string;
+  className?: string;
 };
 
 const Comments = async ({
@@ -23,6 +24,7 @@ const Comments = async ({
   enablePagination = false,
   page = 1,
   qrCode,
+  className,
 }: Props) => {
   const { success, data } = await onGetComments({
     params: {
@@ -39,11 +41,11 @@ const Comments = async ({
   const comments = data.comments;
 
   return (
-    <div className="relative flex w-full flex-col gap-4">
+    <div className={cn("flex w-full flex-col gap-4", className)}>
       <div
         className={cn(
           "flex w-full flex-col gap-4",
-          enablePagination ? "pb-16" : ""
+          enablePagination ? "pb-20" : ""
         )}
       >
         {comments.map((comment) => (
@@ -63,7 +65,7 @@ const Comments = async ({
             page={Number(page)}
             showRowSelector={false}
             pageSize={10}
-            className="fixed inset-x-0 bottom-0 rounded-b-10 bg-white p-4 shadow-pagination"
+            className="absolute inset-x-0 bottom-0 rounded-b-10 bg-white p-4 shadow-pagination"
           />
         </>
       ) : (

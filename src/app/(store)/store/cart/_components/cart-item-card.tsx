@@ -100,7 +100,9 @@ const CartItemCard = ({ storeCartItem, index, appointments }: Props) => {
   const step = getQuantityStep(index);
 
   const totalPrice = parseAmount(
-    itemPrice + wholeModifiers.reduce((acc, mod) => acc + mod.price, 0)
+    itemPrice +
+      wholeModifiers.reduce((acc, mod) => acc + mod.price, 0) +
+      addonModifiers.reduce((acc, mod) => acc + mod.price, 0)
   );
 
   if (isRemoved) {
@@ -166,12 +168,15 @@ const CartItemCard = ({ storeCartItem, index, appointments }: Props) => {
                 )}
               </AnimatePresence>
 
-              <div className="heading-6 relative grid w-full grid-cols-8 gap-4 rounded-10 bg-primary-0.5 text-black-heading">
+              <div className="heading-7 sm:heading-6 relative grid w-full grid-cols-8 gap-4 rounded-10 bg-primary-0.5 text-black-heading">
                 <div className="col-span-3 flex flex-col gap-2 py-4 pl-5">
                   <div className="flex flex-row gap-2">
                     <div>{name}</div>
                     {wholeModifiers.length > 0 && (
-                      <div>({wholeModifiers[0].modifier.modName})</div>
+                      <div>
+                        ({wholeModifiers[0].modifier.modName} - $
+                        {wholeModifiers[0].price})
+                      </div>
                     )}
                   </div>
                   {addonModifiers.length > 0 && (
@@ -297,7 +302,7 @@ const CartItemCard = ({ storeCartItem, index, appointments }: Props) => {
                 duration={300}
                 size={58}
                 strokeWidth={3}
-                labelClassName="heading-6 text-secondary"
+                labelClassName="heading-7 sm:heading-6 text-secondary"
                 renderLabel={() => `${timer}`}
                 progressClassName="stroke-secondary"
               />
